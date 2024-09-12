@@ -1,0 +1,1 @@
+.operate{width:100%;display:flex;justify-content:center;margin-top:100rpx}.count{text-align:center;margin-top:3rpx;font-size:50rpx;font-weight:800}.u-list{max-height:600rpx!important}.title{padding:20rpx 30rpx 10rpx 30rpx;font-weight:600}

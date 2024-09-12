@@ -1,0 +1,7 @@
+{
+  "name": "thing_add",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
