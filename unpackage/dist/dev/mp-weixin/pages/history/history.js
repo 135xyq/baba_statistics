@@ -104,6 +104,12 @@ try {
     uTabs: function () {
       return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 246))
     },
+    uAvatar: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-avatar/u-avatar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-avatar/u-avatar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-avatar/u-avatar.vue */ 214))
+    },
+    uEmpty: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-empty/u-empty.vue */ 368))
+    },
   }
 } catch (e) {
   if (
@@ -126,6 +132,15 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 = _vm.dataList.length
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        g0: g0,
+      },
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -189,6 +204,12 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -221,7 +242,8 @@ var _default = {
                 uni.showLoading({
                   title: '加载中...'
                 });
-                _context.next = 3;
+                _this.dataList = [];
+                _context.next = 4;
                 return uniCloud.callFunction({
                   name: "get_total_list",
                   data: {
@@ -231,9 +253,9 @@ var _default = {
                     _this.dataList = res.result.data;
                   }
                 });
-              case 3:
-                uni.hideLoading();
               case 4:
+                uni.hideLoading();
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -242,6 +264,7 @@ var _default = {
       }))();
     },
     onDetail: function onDetail(item) {
+      console.log(item);
       uni.navigateTo({
         url: "/pages/listDetail/listDetail?nickName=".concat(item.nickName, "&openid=").concat(item.openid)
       });

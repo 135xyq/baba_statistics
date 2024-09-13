@@ -66,6 +66,11 @@
 .list-item__name {
   width: calc(100% / 3);
   text-align: center;
+  display: flex;
+  align-items: center;
+}
+.list-item__name__text {
+  margin-left: 10rpx;
 }
 .list-item__count {
   width: calc(100% / 3);

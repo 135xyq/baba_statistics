@@ -7,13 +7,17 @@ async function getThingCountWithNickName() {
   const users = await db.collection('user')
     .field({
       openid: true,
-      nickName: true
+      nickName: true,
+      avatarUrl: true
     })
     .get();
 
   const userMap = {};
   users.data.forEach(user => {
-    userMap[user.openid] = user.nickName;
+    userMap[user.openid] = {
+      nickName: user.nickName,
+      avatarUrl: user.avatarUrl
+    };
   });
 
   // Step 2: 在 thing 表中统计每个 openid 的数量
@@ -32,7 +36,8 @@ async function getThingCountWithNickName() {
   const result = things.data.map(item => ({
     openid: item._id,
     count: item.count,
-    nickName: userMap[item._id] || 'Unknown' // 如果没有对应的 nickName，使用 'Unknown'
+    nickName: userMap[item._id].nickName || 'Unknown' ,// 如果没有对应的 nickName，使用 'Unknown'
+    avatarUrl: userMap[item._id].avatarUrl || '' // 如果没有对应的 nickName，使用 'Unknown'
   }));
 
   return result;
@@ -65,20 +70,25 @@ async function getMonthlyThingCountWithNickName(startTime,endTime) {
     })
     .field({
       openid: true,
-      nickName: true
+      nickName: true,
+      avatarUrl: true
     })
     .get();
 
   const userMap = {};
   userDocs.data.forEach(user => {
-    userMap[user.openid] = user.nickName;
+    userMap[user.openid] = {
+      nickName: user.nickName,
+      avatarUrl: user.avatarUrl
+    };
   });
 
   // Step 3: 将统计结果与 nickName 对应
   const result = thingStats.data.map(item => ({
     openid: item._id,
     count: item.count,
-    nickName: userMap[item._id] || 'Unknown' // 如果没有对应的 nickName，使用 'Unknown'
+    nickName: userMap[item._id].nickName || 'Unknown' ,// 如果没有对应的 nickName，使用 'Unknown'
+    avatarUrl: userMap[item._id].avatarUrl || '' // 如果没有对应的 nickName，使用 'Unknown'
   }));
 
   return result;

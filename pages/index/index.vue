@@ -6,9 +6,9 @@
     <view class="count">你总共拉了<span style="color: red">{{total}}</span>次粑粑了！</view>
     <view class="list" v-if="dataList.length > 0">
       <view class="title">今日拉粑粑的记录：</view>
-      <u-list>
+      <u-list >
         <u-list-item v-for="(item, index) in dataList" :key="index">
-          <u-cell :title="`第${index + 1}次拉粑粑`" :value="formateDate(item.time)"></u-cell>
+          <u-cell :title="`第${index + 1}次拉粑粑`" :value="formateDate(item.time)" @click="onDelete(item)"></u-cell>
         </u-list-item>
       </u-list>
     </view>
@@ -31,7 +31,7 @@
       if (this.$store.state.userInfo?.userInfo?.openid) {
         const state = this.$store.state.userInfo?.userInfo
         this.openid = state.openid
-        if(this.openid) {
+        if (this.openid) {
           this.getTotal()
           this.getTodayList()
         }
@@ -66,20 +66,19 @@
           }
         })
       },
-      /**
-       * 新增
-       */
-      onAdd() {
+      onDelete(item) {
         uni.showModal({
           title: '提示',
-          content: '你已经是拉屎大王了，确定还要拉粑粑吗？',
-          success: (res) =>{
+          content: '你是不是想要偷偷删除拉屎记录？拉屎大王还想耍赖？',
+          cancelText: '不是哒',
+          confirmText: '就耍赖',
+          success: (res) => {
             if (res.confirm) {
-              if(!this.openid) {
+              if (!this.openid) {
                 if (this.$store.state.userInfo?.userInfo?.openid) {
                   const state = this.$store.state.userInfo?.userInfo
                   this.openid = state.openid
-                  if(this.openid) {
+                  if (this.openid) {
                     this.getTotal()
                     this.getTodayList()
                   }
@@ -88,7 +87,55 @@
                     url: '/pages/login/login'
                   })
                 }
-              }else{
+              } else {
+                uniCloud.callFunction({
+                  name: "delete_thing",
+                  data: item,
+                  success: (res) => {
+                    this.getTotal()
+                    this.getTodayList()
+                    uni.showToast({
+                      title: `你差点就成为拉屎之王了，可惜了`,
+                      icon: 'none',
+                      duration: 2000
+                    });
+                  }
+                })
+              }
+
+            } else if (res.cancel) {
+              uni.showToast({
+                title: '你真是个诚实的拉屎大王!',
+                icon: 'none',
+                duration: 2000
+              });
+            }
+          },
+        });
+      },
+      /**
+       * 新增
+       */
+      onAdd() {
+        uni.showModal({
+          title: '提示',
+          content: '你已经是拉屎大王了，确定还要拉粑粑吗？',
+          success: (res) => {
+            if (res.confirm) {
+              if (!this.openid) {
+                if (this.$store.state.userInfo?.userInfo?.openid) {
+                  const state = this.$store.state.userInfo?.userInfo
+                  this.openid = state.openid
+                  if (this.openid) {
+                    this.getTotal()
+                    this.getTodayList()
+                  }
+                } else {
+                  uni.switchTab({
+                    url: '/pages/login/login'
+                  })
+                }
+              } else {
                 uniCloud.callFunction({
                   name: "thing_add",
                   data: {
@@ -105,7 +152,7 @@
                   }
                 })
               }
-              
+
             } else if (res.cancel) {
               uni.showToast({
                 title: '差点让你成为拉屎大王!',

@@ -267,14 +267,13 @@ var _default = {
         }
       });
     },
-    /**
-     * 新增
-     */
-    onAdd: function onAdd() {
+    onDelete: function onDelete(item) {
       var _this3 = this;
       uni.showModal({
         title: '提示',
-        content: '你已经是拉屎大王了，确定还要拉粑粑吗？',
+        content: '你是不是想要偷偷删除拉屎记录？拉屎大王还想耍赖？',
+        cancelText: '不是哒',
+        confirmText: '就耍赖',
         success: function success(res) {
           if (res.confirm) {
             if (!_this3.openid) {
@@ -294,13 +293,63 @@ var _default = {
               }
             } else {
               uniCloud.callFunction({
-                name: "thing_add",
-                data: {
-                  openid: _this3.openid
-                },
+                name: "delete_thing",
+                data: item,
                 success: function success(res) {
                   _this3.getTotal();
                   _this3.getTodayList();
+                  uni.showToast({
+                    title: "\u4F60\u5DEE\u70B9\u5C31\u6210\u4E3A\u62C9\u5C4E\u4E4B\u738B\u4E86\uFF0C\u53EF\u60DC\u4E86",
+                    icon: 'none',
+                    duration: 2000
+                  });
+                }
+              });
+            }
+          } else if (res.cancel) {
+            uni.showToast({
+              title: '你真是个诚实的拉屎大王!',
+              icon: 'none',
+              duration: 2000
+            });
+          }
+        }
+      });
+    },
+    /**
+     * 新增
+     */
+    onAdd: function onAdd() {
+      var _this4 = this;
+      uni.showModal({
+        title: '提示',
+        content: '你已经是拉屎大王了，确定还要拉粑粑吗？',
+        success: function success(res) {
+          if (res.confirm) {
+            if (!_this4.openid) {
+              var _this4$$store$state$u, _this4$$store$state$u2;
+              if ((_this4$$store$state$u = _this4.$store.state.userInfo) !== null && _this4$$store$state$u !== void 0 && (_this4$$store$state$u2 = _this4$$store$state$u.userInfo) !== null && _this4$$store$state$u2 !== void 0 && _this4$$store$state$u2.openid) {
+                var _this4$$store$state$u3;
+                var state = (_this4$$store$state$u3 = _this4.$store.state.userInfo) === null || _this4$$store$state$u3 === void 0 ? void 0 : _this4$$store$state$u3.userInfo;
+                _this4.openid = state.openid;
+                if (_this4.openid) {
+                  _this4.getTotal();
+                  _this4.getTodayList();
+                }
+              } else {
+                uni.switchTab({
+                  url: '/pages/login/login'
+                });
+              }
+            } else {
+              uniCloud.callFunction({
+                name: "thing_add",
+                data: {
+                  openid: _this4.openid
+                },
+                success: function success(res) {
+                  _this4.getTotal();
+                  _this4.getTodayList();
                   uni.showToast({
                     title: "\u4F60\u771F\u662F\u62C9\u5C4E\u5927\u738B,\u4F60\u4ECA\u5929\u5DF2\u7ECF\u62C9\u4E86".concat(res.result.data, "\u6B21\u7C91\u7C91\u4E86\uFF01"),
                     icon: 'none',
