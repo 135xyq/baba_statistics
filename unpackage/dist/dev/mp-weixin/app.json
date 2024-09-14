@@ -1,10 +1,12 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/eat/eat",
     "pages/history/history",
     "pages/login/login",
     "pages/set/set",
-    "pages/listDetail/listDetail"
+    "pages/listDetail/listDetail",
+    "pages/eatSet/eatSet"
   ],
   "subPackages": [],
   "window": {
@@ -15,7 +17,7 @@
   },
   "tabBar": {
     "color": "#7A7E83",
-    "selectedColor": "#ff5500",
+    "selectedColor": "#d81e06",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [
@@ -23,13 +25,19 @@
         "pagePath": "pages/index/index",
         "iconPath": "static/img/home.png",
         "selectedIconPath": "static/img/home-active.png",
-        "text": "首页"
+        "text": "粑粑记录"
       },
       {
         "pagePath": "pages/history/history",
         "iconPath": "static/img/read.png",
         "selectedIconPath": "static/img/read-active.png",
         "text": "排行榜"
+      },
+      {
+        "pagePath": "pages/eat/eat",
+        "iconPath": "static/img/eat.png",
+        "selectedIconPath": "static/img/eat-active.png",
+        "text": "吃饭选择"
       },
       {
         "pagePath": "pages/login/login",

@@ -1,0 +1,7 @@
+{
+  "name": "lucky_edit",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

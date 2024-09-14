@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "首页",
-  "enablePullDownRefresh": true,
+  "enablePullDownRefresh": false,
   "usingComponents": {
     "u-avatar": "/uni_modules/uview-ui/components/u-avatar/u-avatar",
     "u-list": "/uni_modules/uview-ui/components/u-list/u-list",

@@ -1,0 +1,11 @@
+
+.choose.data-v-0e249f38 {
+  margin-top: 20rpx;
+}
+.set.data-v-0e249f38 {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 40rpx;
+  margin-top: 80rpx;
+}
+
