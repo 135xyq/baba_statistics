@@ -1,0 +1,7 @@
+{
+  "name": "get_thing_week_chart",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

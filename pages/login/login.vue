@@ -22,7 +22,11 @@
         </view>
       </view>
       <button type="primary" @click="logout" class="login-button">退出登录</button>
+      <view class="charts">
+        <calendar :openid="openId"></calendar>
+      </view>
     </view>
+
   </view>
 </template>
 
@@ -175,9 +179,9 @@
                 "userInfo/clearUserInfo");
               this.isLogin = false
               this.userInfo = {
-                  avatar: avatarUrl,
-                  nickName: ''
-                } //用户信息
+                avatar: avatarUrl,
+                nickName: ''
+              } //用户信息
             } else if (res.cancel) {}
           }
         });
@@ -206,7 +210,7 @@
     width: 70vw;
     font-size: 20px;
     position: absolute;
-    top: 400rpx;
+    top: 850rpx;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -241,5 +245,9 @@
       }
     }
 
+
+    .charts {
+      margin-top: 30rpx;
+    }
   }
 </style>
