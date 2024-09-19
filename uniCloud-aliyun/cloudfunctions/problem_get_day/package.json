@@ -1,0 +1,7 @@
+{
+  "name": "problem_get_day",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

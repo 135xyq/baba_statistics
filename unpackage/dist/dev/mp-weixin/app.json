@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/problem/problem",
     "pages/index/index",
     "pages/eat/eat",
     "pages/history/history",
@@ -9,7 +10,8 @@
     "pages/eatSet/eatSet",
     "pages/addMessage/addMessage",
     "pages/chartsPage/chartsPage",
-    "pages/historyPage/historyPage"
+    "pages/historyPage/historyPage",
+    "pages/addProblem/addProblem"
   ],
   "subPackages": [],
   "window": {
@@ -35,6 +37,12 @@
         "iconPath": "static/img/read.png",
         "selectedIconPath": "static/img/read-active.png",
         "text": "排行榜"
+      },
+      {
+        "pagePath": "pages/problem/problem",
+        "iconPath": "static/img/problem.png",
+        "selectedIconPath": "static/img/problem-active.png",
+        "text": "做题记录"
       },
       {
         "pagePath": "pages/eat/eat",

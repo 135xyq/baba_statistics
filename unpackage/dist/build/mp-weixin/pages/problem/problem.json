@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "做题记录",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-calendar": "/uni_modules/uni-calendar/components/uni-calendar/uni-calendar",
+    "uni-fab": "/uni_modules/uni-fab/components/uni-fab/uni-fab",
+    "uni-card": "/uni_modules/uni-card/components/uni-card/uni-card"
+  }
+}

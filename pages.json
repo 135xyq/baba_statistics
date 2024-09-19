@@ -1,108 +1,127 @@
 {
-  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-   {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarTitleText": "首页",
-        "enablePullDownRefresh": false
-      }
-    }, {
-      "path": "pages/eat/eat",
-      "style": {
-        "navigationBarTitleText": "吃饭选择器",
-        "enablePullDownRefresh": false
-      }
-    }, {
-      "path": "pages/history/history",
-      "style": {
-        "navigationBarTitleText": "排行榜",
-        "enablePullDownRefresh": false
-      }
-    }, {
-      "path": "pages/login/login",
-      "style": {
-        "navigationBarTitleText": "个人中心",
-        "enablePullDownRefresh": false
-      }
-    },
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/problem/problem",
+			"style": {
+				"navigationBarTitleText": "做题记录",
+				"enablePullDownRefresh": false
+			}
+		
+		},{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/eat/eat",
+			"style": {
+				"navigationBarTitleText": "吃饭选择器",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/history/history",
+			"style": {
+				"navigationBarTitleText": "排行榜",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"enablePullDownRefresh": false
+			}
+		},
 
-    {
-      "path": "pages/set/set",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/listDetail/listDetail",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/eatSet/eatSet",
-      "style": {
-        "navigationBarTitleText": "设置",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/addMessage/addMessage",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/chartsPage/chartsPage",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false,
-        "mp-weixin": {
-          "pageOrientation": "landscape"
-        }
-      }
-    },{
-      "path" : "pages/historyPage/historyPage",
-      "style" : 
-      {
-        "navigationBarTitleText" : "拉粑粑历史记录",
-        "enablePullDownRefresh" : false
-      }
-    }
-  ],
-  "globalStyle": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
-  },
-  "tabBar": {
-    "color": "#7A7E83",
-    "selectedColor": "#d81e06",
-    "borderStyle": "black",
-    "backgroundColor": "#ffffff",
-    "list": [{
-      "pagePath": "pages/index/index",
-      "iconPath": "static/img/home.png",
-      "selectedIconPath": "static/img/home-active.png",
-      "text": "粑粑记录"
-    }, {
-      "pagePath": "pages/history/history",
-      "iconPath": "static/img/read.png",
-      "selectedIconPath": "static/img/read-active.png",
-      "text": "排行榜"
-    }, {
-      "pagePath": "pages/eat/eat",
-      "iconPath": "static/img/eat.png",
-      "selectedIconPath": "static/img/eat-active.png",
-      "text": "吃饭选择"
-    }, {
-      "pagePath": "pages/login/login",
-      "iconPath": "static/img/my.png",
-      "selectedIconPath": "static/img/my-active.png",
-      "text": "个人中心"
-    }]
-  }
+		{
+			"path": "pages/set/set",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/listDetail/listDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/eatSet/eatSet",
+			"style": {
+				"navigationBarTitleText": "设置",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/addMessage/addMessage",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/chartsPage/chartsPage",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"mp-weixin": {
+					"pageOrientation": "landscape"
+				}
+			}
+		}, {
+			"path": "pages/historyPage/historyPage",
+			"style": {
+				"navigationBarTitleText": "拉粑粑历史记录",
+				"enablePullDownRefresh": false
+			}
+		},{
+		    "path" : "pages/addProblem/addProblem",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "添加做题记录",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#d81e06",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/img/home.png",
+			"selectedIconPath": "static/img/home-active.png",
+			"text": "粑粑记录"
+		}, {
+			"pagePath": "pages/history/history",
+			"iconPath": "static/img/read.png",
+			"selectedIconPath": "static/img/read-active.png",
+			"text": "排行榜"
+		}, {
+			"pagePath": "pages/problem/problem",
+			"iconPath": "static/img/problem.png",
+			"selectedIconPath": "static/img/problem-active.png",
+			"text": "做题记录"
+		}, {
+			"pagePath": "pages/eat/eat",
+			"iconPath": "static/img/eat.png",
+			"selectedIconPath": "static/img/eat-active.png",
+			"text": "吃饭选择"
+		}, {
+			"pagePath": "pages/login/login",
+			"iconPath": "static/img/my.png",
+			"selectedIconPath": "static/img/my-active.png",
+			"text": "个人中心"
+		}]
+	}
 }

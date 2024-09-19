@@ -9,15 +9,28 @@ exports.main = async (event, context) => {
   const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
   const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
   
-  const data = await collection.where({
-    openid : event.openid,
-    time: dbCmd.gte(startOfDay.getTime()).and(dbCmd.lte(endOfDay.getTime()))
-  } ).get()
+const result = await db.collection('problem')
+  .aggregate()
+  .match({
+    time: {
+      $gte: startOfDay,
+      $lt: endOfDay
+    },
+				openid: event.openid
+  })
+  .group({
+    _id: null,
+    totalNumber: { $sum: "$totalNumber" },
+    errorNumber: { $sum: "$errorNumber" }
+  })
+  .end();
+  
+console.log(result);
 
 	//返回数据给客户端
 	return {
 		code:0,
 		mag:'获取成功！',
-		data:data.data,
+		data:result,
 	}
 };
