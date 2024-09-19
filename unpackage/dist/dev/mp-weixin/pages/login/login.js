@@ -107,8 +107,8 @@ try {
     uAvatar: function () {
       return Promise.all(/*! import() | uni_modules/uview-ui/components/u-avatar/u-avatar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-avatar/u-avatar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-avatar/u-avatar.vue */ 232))
     },
-    calendar: function () {
-      return __webpack_require__.e(/*! import() | components/calendar/calendar */ "components/calendar/calendar").then(__webpack_require__.bind(null, /*! @/components/calendar/calendar.vue */ 298))
+    uniIcons: function () {
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 583))
     },
   }
 } catch (e) {
@@ -361,6 +361,16 @@ var _default = {
             }; //用户信息
           } else if (res.cancel) {}
         }
+      });
+    },
+    onHandleToChartsPage: function onHandleToChartsPage() {
+      uni.navigateTo({
+        url: '/pages/chartsPage/chartsPage'
+      });
+    },
+    onHandleToHistoryPage: function onHandleToHistoryPage() {
+      uni.navigateTo({
+        url: '/pages/historyPage/historyPage'
       });
     }
   }

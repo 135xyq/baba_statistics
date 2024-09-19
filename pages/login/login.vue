@@ -21,10 +21,20 @@
           </view>
         </view>
       </view>
-      <button type="primary" @click="logout" class="login-button">退出登录</button>
-      <view class="charts">
-        <calendar :openid="openId"></calendar>
+      <view class="content">
+      	<!-- 最近七天变化趋势 -->
+      	<view class="history item" @click="onHandleToChartsPage">
+      		<view class="select-item">最近七天变化趋势</view>
+      		<uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
+      	</view>
+      	<!-- 拉粑粑历史记录 -->
+      	<view class="chat item" @click="onHandleToHistoryPage">
+      		<view class="select-item chat-item">拉粑粑历史记录</view>
+      		<uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
+      		
+      	</view>
       </view>
+      <!-- <button type="primary" @click="logout" class="login-button">退出登录</button> -->
     </view>
 
   </view>
@@ -186,6 +196,16 @@
           }
         });
 
+      },
+      onHandleToChartsPage(){
+      	uni.navigateTo({
+      		url: '/pages/chartsPage/chartsPage',
+      	})
+      },
+      onHandleToHistoryPage() {
+        uni.navigateTo({
+        	url: '/pages/historyPage/historyPage',
+        })
       }
     },
   }
@@ -248,6 +268,20 @@
 
     .charts {
       margin-top: 30rpx;
+    }
+    
+    .content {
+    	margin-top: 30px;
+    	/* padding-left: 20px; */
+    }
+    
+    .item {
+    	height: 100rpx;
+    	line-height: 100rpx;
+    	width: 100%;
+    	display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #dfdfdf;
     }
   }
 </style>

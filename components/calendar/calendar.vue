@@ -99,6 +99,6 @@ export default {
   /* 请根据实际需求修改父元素尺寸，组件自动识别宽高 */
   .charts-box {
     width: 100%;
-    height: 500rpx;
+    height: 90%;
   }
 </style>

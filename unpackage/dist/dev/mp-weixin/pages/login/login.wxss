@@ -71,4 +71,16 @@
 .wx-logined .charts {
   margin-top: 30rpx;
 }
+.wx-logined .content {
+  margin-top: 30px;
+  /* padding-left: 20px; */
+}
+.wx-logined .item {
+  height: 100rpx;
+  line-height: 100rpx;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #dfdfdf;
+}
 

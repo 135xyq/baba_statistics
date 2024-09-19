@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "拉粑粑历史记录",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-calendar": "/uni_modules/uni-calendar/components/uni-calendar/uni-calendar",
+    "u-list": "/uni_modules/uview-ui/components/u-list/u-list",
+    "u-list-item": "/uni_modules/uview-ui/components/u-list-item/u-list-item",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell"
+  }
+}

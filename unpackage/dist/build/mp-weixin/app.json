@@ -6,7 +6,10 @@
     "pages/login/login",
     "pages/set/set",
     "pages/listDetail/listDetail",
-    "pages/eatSet/eatSet"
+    "pages/eatSet/eatSet",
+    "pages/addMessage/addMessage",
+    "pages/chartsPage/chartsPage",
+    "pages/historyPage/historyPage"
   ],
   "subPackages": [],
   "window": {

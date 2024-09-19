@@ -1,12 +1,12 @@
 {
   "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-    {
+   {
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
         "enablePullDownRefresh": false
       }
-    },{
+    }, {
       "path": "pages/eat/eat",
       "style": {
         "navigationBarTitleText": "吃饭选择器",
@@ -41,10 +41,33 @@
       }
     },
     {
-      "path" : "pages/eatSet/eatSet",
+      "path": "pages/eatSet/eatSet",
+      "style": {
+        "navigationBarTitleText": "设置",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/addMessage/addMessage",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/chartsPage/chartsPage",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false,
+        "mp-weixin": {
+          "pageOrientation": "landscape"
+        }
+      }
+    },{
+      "path" : "pages/historyPage/historyPage",
       "style" : 
       {
-        "navigationBarTitleText" : "设置",
+        "navigationBarTitleText" : "拉粑粑历史记录",
         "enablePullDownRefresh" : false
       }
     }
