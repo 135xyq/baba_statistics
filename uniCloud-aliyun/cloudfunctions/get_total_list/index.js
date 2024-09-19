@@ -28,7 +28,8 @@ async function getThingCountWithNickName() {
       count: db.command.aggregate.sum(1)
     })
     .sort({
-      count: -1 // 按照数量降序排序
+      count: -1, // 按照数量降序排序
+      nickName: 1,
     })
     .end();
 
@@ -57,7 +58,8 @@ async function getMonthlyThingCountWithNickName(startTime,endTime) {
       count: db.command.aggregate.sum(1)
     })
     .sort({
-      count: -1 // 按数量降序排序
+      count: -1, // 按数量降序排序
+      nickName: 1,
     })
     .end();
 

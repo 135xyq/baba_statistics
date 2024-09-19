@@ -6,7 +6,7 @@ const db = uniCloud.database();
 exports.main = async (event, context) => {
 	//event为客户端上传的参数
 	const {_id} = event;
-	let res = await db.collection("lucky").doc(_id).remove()
+	let res = await db.collection("thing").doc(_id).remove()
 	//返回数据给客户端
 	return {
 		code:0,
