@@ -24,7 +24,7 @@
       <view class="content">
       	<!-- 最近七天变化趋势 -->
       	<view class="history item" @click="onHandleToChartsPage">
-      		<view class="select-item">最近七天变化趋势</view>
+      		<view class="select-item">拉粑粑最近30天变化趋势</view>
       		<uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
       	</view>
       	<!-- 拉粑粑历史记录 -->
@@ -33,6 +33,12 @@
       		<uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
       		
       	</view>
+		<!-- 做题分析 -->
+		<view class="chat item" @click="onHandleToProblemChartPage">
+			<view class="select-item chat-item">做题分析（正确率统计）</view>
+			<uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
+			
+		</view>
       </view>
       <!-- <button type="primary" @click="logout" class="login-button">退出登录</button> -->
     </view>
@@ -206,7 +212,12 @@
         uni.navigateTo({
         	url: '/pages/historyPage/historyPage',
         })
-      }
+      },
+	  onHandleToProblemChartPage() {
+		  uni.navigateTo({
+		  	url: '/pages/problemMonthChart/problemMonthChart'
+		  })
+	  }
     },
   }
 </script>

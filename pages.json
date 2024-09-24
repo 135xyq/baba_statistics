@@ -1,13 +1,6 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/problem/problem",
-			"style": {
-				"navigationBarTitleText": "做题记录",
-				"enablePullDownRefresh": false
-			}
-		
-		},{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -23,12 +16,6 @@
 			"path": "pages/history/history",
 			"style": {
 				"navigationBarTitleText": "排行榜",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "个人中心",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -64,7 +51,7 @@
 		{
 			"path": "pages/chartsPage/chartsPage",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "最近30天统计",
 				"enablePullDownRefresh": false,
 				"mp-weixin": {
 					"pageOrientation": "landscape"
@@ -76,7 +63,8 @@
 				"navigationBarTitleText": "拉粑粑历史记录",
 				"enablePullDownRefresh": false
 			}
-		},{
+		},
+		{
 		    "path" : "pages/addProblem/addProblem",
 		    "style" :                                                                                    
 		    {
@@ -84,7 +72,32 @@
 		        "enablePullDownRefresh": false
 		    }
 		    
+		},{
+		    "path" : "pages/problemMonthChart/problemMonthChart",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "最近一个月做题统计",
+		        "enablePullDownRefresh": false,
+				"mp-weixin": {
+					"pageOrientation": "landscape"
+				}
+		    }
+		    
+		},{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"enablePullDownRefresh": false
+			}
+		},{
+			"path": "pages/problem/problem",
+			"style": {
+				"navigationBarTitleText": "做题记录",
+				"enablePullDownRefresh": false
+			}
+		
 		}
+        
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -3,11 +3,13 @@ const _ = db.command;
 
 exports.main = async (event, context) => {
 	const {
-		openid
+		openid,
+		date,
 	} = event; // 从事件中获取openid
 	const currentDate = new Date();
-	const year = currentDate.getFullYear();
-	const month = currentDate.getMonth() + 1; // 月份从 0 开始
+
+	const year = date.year
+	const month = date.month
 
 	// 获取当前月的第一天和最后一天
 	const firstDay = new Date(year, month - 1, 1).getTime();
@@ -58,8 +60,8 @@ exports.main = async (event, context) => {
 	result.data.forEach(item => {
 		dailyCount[item._id] = {
 			count: item.count,
-			totalNumber:item.totalNumber,
-			errorNumber:item.errorNumber
+			totalNumber: item.totalNumber,
+			errorNumber: item.errorNumber
 		};
 	});
 

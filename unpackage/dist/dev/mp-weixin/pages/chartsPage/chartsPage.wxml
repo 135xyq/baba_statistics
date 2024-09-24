@@ -1,1 +1,1 @@
-<view><calendar vue-id="4baab600-1" openid="{{openId}}" bind:__l="__l"></calendar></view>
+<view class="charts-box data-v-726474c6"><qiun-data-charts vue-id="4baab600-1" type="line" opts="{{opts}}" chartData="{{chartData}}" class="data-v-726474c6" bind:__l="__l"></qiun-data-charts></view>

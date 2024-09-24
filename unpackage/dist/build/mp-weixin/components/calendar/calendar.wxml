@@ -1,1 +1,0 @@
-<view class="charts-box data-v-ddb5473c"><qiun-data-charts vue-id="43dcc9c2-1" type="line" opts="{{opts}}" chartData="{{chartData}}" class="data-v-ddb5473c" bind:__l="__l"></qiun-data-charts></view>

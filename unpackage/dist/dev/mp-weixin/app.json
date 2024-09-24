@@ -1,17 +1,18 @@
 {
   "pages": [
-    "pages/problem/problem",
     "pages/index/index",
     "pages/eat/eat",
     "pages/history/history",
-    "pages/login/login",
     "pages/set/set",
     "pages/listDetail/listDetail",
     "pages/eatSet/eatSet",
     "pages/addMessage/addMessage",
     "pages/chartsPage/chartsPage",
     "pages/historyPage/historyPage",
-    "pages/addProblem/addProblem"
+    "pages/addProblem/addProblem",
+    "pages/problemMonthChart/problemMonthChart",
+    "pages/login/login",
+    "pages/problem/problem"
   ],
   "subPackages": [],
   "window": {

@@ -1,0 +1,7 @@
+{
+  "name": "problem_month_chart",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

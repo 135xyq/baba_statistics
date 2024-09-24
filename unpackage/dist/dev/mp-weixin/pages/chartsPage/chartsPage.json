@@ -1,8 +1,8 @@
 {
-  "navigationBarTitleText": "",
+  "navigationBarTitleText": "最近30天统计",
   "enablePullDownRefresh": false,
   "pageOrientation": "landscape",
   "usingComponents": {
-    "calendar": "/components/calendar/calendar"
+    "qiun-data-charts": "/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts"
   }
 }

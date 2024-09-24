@@ -8,7 +8,7 @@ exports.main = async (event, context) => {
   const now = new Date();
   // const oneWeekAgo = new Date(now);
   // oneWeekAgo.setDate(now.getDate() - 7);
-  const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000; // 计算一周前的时间戳
+  const oneWeekAgo = Date.now() - 30 * 24 * 60 * 60 * 1000; // 计算一周前的时间戳
 
   const result = await db.collection('thing')
     .aggregate()

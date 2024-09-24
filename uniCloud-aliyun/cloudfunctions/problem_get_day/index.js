@@ -9,10 +9,13 @@ exports.main = async (event, context) => {
   const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
   const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
   
+  console.log(event.date,startOfDay, endOfDay,startOfDay.getTime(),endOfDay.getTime());
   const data = await collection.where({
     openid : event.openid,
     time: dbCmd.gte(startOfDay.getTime()).and(dbCmd.lte(endOfDay.getTime()))
   } ).get()
+  
+  console.log(data);
 
 	//返回数据给客户端
 	return {

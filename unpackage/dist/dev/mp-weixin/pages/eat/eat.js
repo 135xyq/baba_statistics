@@ -102,7 +102,7 @@ var components
 try {
   components = {
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 286))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 306))
     },
   }
 } catch (e) {
@@ -176,7 +176,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var LuckyWheel = function LuckyWheel() {
   Promise.all(/*! require.ensure | components/@lucky-canvas/uni/lucky-wheel */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/@lucky-canvas/uni/lucky-wheel")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/@lucky-canvas/uni/lucky-wheel */ 295));
+    return resolve(__webpack_require__(/*! @/components/@lucky-canvas/uni/lucky-wheel */ 315));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
