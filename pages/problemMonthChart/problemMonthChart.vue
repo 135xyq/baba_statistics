@@ -1,7 +1,8 @@
 <template>
 	<view>
 		<view class="date">
-			<picker fields='month' mode="date" :value="date" start="2024-09-01" end="2099-12-31" @change="bindDateChange">
+			<picker fields='month' mode="date" :value="date" start="2024-09-01" end="2099-12-31"
+				@change="bindDateChange">
 				<view class="date-text">{{date}}</view>
 			</picker>
 		</view>
@@ -42,7 +43,7 @@
 					color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4",
 						"#ea7ccc"
 					],
-					padding: [15, 10, 0, 15],
+					padding: [20, 10, 20, 15],
 					enableScroll: false,
 					legend: {},
 					xAxis: {
@@ -56,7 +57,8 @@
 						data: [{
 							min: 0,
 							max: 100,
-							title: '正确率（%）'
+							title: '正确率（%）',
+							titleOffsetY: -10
 						}]
 					},
 					extra: {
@@ -73,13 +75,13 @@
 			if (this.$store.state.userInfo?.userInfo?.openid) {
 				const state = this.$store.state.userInfo?.userInfo
 				this.openId = state.openid
-			}else{
+			} else {
 				uni.navigateBack()
 			}
 			const now = new Date()
-			const  year = now.getFullYear()
-			const month  = now.getMonth() +1
-			this.date =  year + '-' + (month < 10 ? '0' + month : month) 
+			const year = now.getFullYear()
+			const month = now.getMonth() + 1
+			this.date = year + '-' + (month < 10 ? '0' + month : month)
 		},
 		onReady() {
 			// this.getServerData();
@@ -129,7 +131,7 @@
 							categories,
 							series
 						}
-						console.log(series,categories);
+						console.log(series, categories);
 					}
 				})
 			}
@@ -138,16 +140,18 @@
 </script>
 
 <style scoped>
-	.date{
+	.date {
 		width: 100%;
 	}
-	.date-text{
+
+	.date-text {
 		margin-top: 10rpx;
 		font-size: 20px;
 		padding-left: 5rpx;
 		font-weight: 700;
 		color: #d81e06;
 	}
+
 	/* 请根据实际需求修改父元素尺寸，组件自动识别宽高 */
 	.charts-box {
 		width: 100%;

@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<uni-calendar class="uni-calendar--hook" :selected="selected" @change="onChange" />
+		<uni-calendar :date="date" @monthSwitch="monthSwitch" class="uni-calendar--hook" :selected="selected"
+			@change="onChange" />
 		<view class="list">
 			<u-list>
 				<u-list-item v-for="(item, index) in dataList" :key="index">
@@ -19,11 +20,16 @@
 	export default {
 		data() {
 			return {
+				date: formateDate(new Date().getTime()),
+				monthDate: {
+					year: (new Date()).getFullYear(),
+					month: (new Date()).getMonth() + 1
+				},
 				selected: [],
 				openId: '',
 				dataList: []
 			}
-		},
+		},		
 		onShow() {
 			if (this.$store.state.userInfo?.userInfo?.openid) {
 				const state = this.$store.state.userInfo?.userInfo
@@ -37,6 +43,12 @@
 
 		methods: {
 			formateTime,
+			monthSwitch(date) {
+				this.monthDate = {
+					...date
+				}
+				this.getDayList()
+			},
 			onChange(time) {
 				console.log(time);
 				uniCloud.callFunction({
@@ -67,7 +79,8 @@
 				uniCloud.callFunction({
 					name: "get_month_thing",
 					data: {
-						openid: this.openId
+						openid: this.openId,
+						date:this.monthDate
 					},
 					success: (res) => {
 						const data = res.result.data
