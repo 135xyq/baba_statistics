@@ -17457,6 +17457,12 @@ var _default = {
       "navigationBarTitleText": "做题记录",
       "enablePullDownRefresh": false
     }
+  }, {
+    "path": "pages/timeCount/timeCount",
+    "style": {
+      "navigationBarTitleText": "计时器",
+      "enablePullDownRefresh": false
+    }
   }],
   "globalStyle": {
     "navigationBarTextStyle": "black",

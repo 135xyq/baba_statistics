@@ -12,7 +12,8 @@
     "pages/addProblem/addProblem",
     "pages/problemMonthChart/problemMonthChart",
     "pages/login/login",
-    "pages/problem/problem"
+    "pages/problem/problem",
+    "pages/timeCount/timeCount"
   ],
   "subPackages": [],
   "window": {

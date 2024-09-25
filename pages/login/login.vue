@@ -39,6 +39,12 @@
 			<uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
 			
 		</view>
+		<!-- 计时器 -->
+		<view class="chat item" @click="onHandleToTimeCountPage">
+			<view class="select-item chat-item">计时器</view>
+			<uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
+			
+		</view>
       </view>
       <!-- <button type="primary" @click="logout" class="login-button">退出登录</button> -->
     </view>
@@ -216,6 +222,11 @@
 	  onHandleToProblemChartPage() {
 		  uni.navigateTo({
 		  	url: '/pages/problemMonthChart/problemMonthChart'
+		  })
+	  },
+	  onHandleToTimeCountPage() {
+		  uni.navigateTo({
+		  	url: '/pages/timeCount/timeCount'
 		  })
 	  }
     },

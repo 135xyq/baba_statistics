@@ -377,6 +377,11 @@ var _default = {
       uni.navigateTo({
         url: '/pages/problemMonthChart/problemMonthChart'
       });
+    },
+    onHandleToTimeCountPage: function onHandleToTimeCountPage() {
+      uni.navigateTo({
+        url: '/pages/timeCount/timeCount'
+      });
     }
   }
 };
