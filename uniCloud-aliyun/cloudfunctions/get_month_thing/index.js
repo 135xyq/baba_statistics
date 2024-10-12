@@ -11,7 +11,9 @@ exports.main = async (event, context) => {
 	const month = date.month
 	// 获取当前月的第一天和最后一天
 	const firstDay = new Date(year, month - 1, 1).getTime();
-	const lastDay = new Date(year, month, 0).getTime();
+	const lastDay = new Date(year, month, 0, 23,59,59,999).getTime();
+	
+	console.log(lastDay);
 
 	const result = await db.collection('thing')
 		.aggregate()
