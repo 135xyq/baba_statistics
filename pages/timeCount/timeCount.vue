@@ -18,9 +18,11 @@
 	export default {
 		data() {
 			return {
+				startTime: '',
 				seconds: 0, // 秒
 				minutes: 0, // 分
 				hours: 0, // 时
+				tempCount: 0,
 				intervalId: null, // 用于保存定时器ID
 				isRunning: false // 判断秒表是否在运行
 			};
@@ -35,8 +37,9 @@
 			startStopwatch() {
 				if (!this.isRunning) {
 					this.isRunning = true;
+					this.startTime =  new Date().getTime()
 					this.intervalId = setInterval(() => {
-						this.seconds++;
+						this.seconds = this.tempCount +  Math.floor((new Date().getTime() - this.startTime) / 1000)
 						if (this.seconds >= 60) {
 							this.seconds = 0;
 							this.minutes++;
@@ -45,7 +48,7 @@
 							this.minutes = 0;
 							this.hours++;
 						}
-					}, 1000); // 每秒更新一次
+					}, 500); // 每秒更新一次
 				}
 			},
 
@@ -53,6 +56,7 @@
 			pauseStopwatch() {
 				if (this.isRunning) {
 					clearInterval(this.intervalId);
+					this.tempCount = this.seconds
 					this.isRunning = false;
 				}
 			},
@@ -60,9 +64,11 @@
 			// 重置秒表
 			resetStopwatch() {
 				clearInterval(this.intervalId);
+				this.startTime = ''
 				this.seconds = 0;
 				this.minutes = 0;
 				this.hours = 0;
+				this.tempCount = 0
 				this.isRunning = false;
 			}
 		}
