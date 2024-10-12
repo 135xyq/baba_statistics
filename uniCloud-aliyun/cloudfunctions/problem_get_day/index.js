@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
   const data = await collection.where({
     openid : event.openid,
     time: dbCmd.gte(startOfDay.getTime()).and(dbCmd.lte(endOfDay.getTime()))
-  } ).get()
+  } ).orderBy('time','asc').get()
   
   console.log(data);
 

@@ -1,0 +1,32 @@
+
+.stopwatch-container.data-v-1650d568 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+.time-display.data-v-1650d568 {
+	font-size: 48px;
+	margin-bottom: 20px;
+}
+.buttons.data-v-1650d568 {
+	display: flex;
+	justify-content: center;
+}
+.buttons button.data-v-1650d568 {
+	margin: 10px;
+	padding: 5px 20px;
+	font-size: 18px;
+	border: none;
+	border-radius: 5px;
+	background-color: #42b983;
+	color: white;
+}
+.buttons .cancle.data-v-1650d568{
+	background-color: #ccc;
+}
+.buttons .stop.data-v-1650d568{
+	background-color: #d81e06;
+}
+

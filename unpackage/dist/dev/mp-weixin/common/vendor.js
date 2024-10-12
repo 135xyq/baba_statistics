@@ -9486,11096 +9486,7 @@ internalMixin(Vue);
 
 
 /***/ }),
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    if(typeof renderjs.beforeCreate === 'function'){
-			renderjs.beforeCreate = [renderjs.beforeCreate]
-		}
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 33 */
-/*!**********************************************!*\
-  !*** E:/code/baba_statistics/store/index.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 34));
-var _userInfo = _interopRequireDefault(__webpack_require__(/*! ./userInfo.js */ 35));
-_vue.default.use(_vuex.default);
-var _default = new _vuex.default.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {
-    userInfo: _userInfo.default
-  }
-});
-exports.default = _default;
-
-/***/ }),
-/* 34 */
-/*!**************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vuex3/dist/vuex.common.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/*!
- * vuex v3.6.2
- * (c) 2021 Evan You
- * @license MIT
- */
-
-
-function applyMixin (Vue) {
-  var version = Number(Vue.version.split('.')[0]);
-
-  if (version >= 2) {
-    Vue.mixin({ beforeCreate: vuexInit });
-  } else {
-    // override init and inject vuex init procedure
-    // for 1.x backwards compatibility.
-    var _init = Vue.prototype._init;
-    Vue.prototype._init = function (options) {
-      if ( options === void 0 ) options = {};
-
-      options.init = options.init
-        ? [vuexInit].concat(options.init)
-        : vuexInit;
-      _init.call(this, options);
-    };
-  }
-
-  /**
-   * Vuex init hook, injected into each instances init hooks list.
-   */
-
-  function vuexInit () {
-    var options = this.$options;
-    // store injection
-    if (options.store) {
-      this.$store = typeof options.store === 'function'
-        ? options.store()
-        : options.store;
-    } else if (options.parent && options.parent.$store) {
-      this.$store = options.parent.$store;
-    }
-  }
-}
-
-var target = typeof window !== 'undefined'
-  ? window
-  : typeof global !== 'undefined'
-    ? global
-    : {};
-var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
-
-function devtoolPlugin (store) {
-  if (!devtoolHook) { return }
-
-  store._devtoolHook = devtoolHook;
-
-  devtoolHook.emit('vuex:init', store);
-
-  devtoolHook.on('vuex:travel-to-state', function (targetState) {
-    store.replaceState(targetState);
-  });
-
-  store.subscribe(function (mutation, state) {
-    devtoolHook.emit('vuex:mutation', mutation, state);
-  }, { prepend: true });
-
-  store.subscribeAction(function (action, state) {
-    devtoolHook.emit('vuex:action', action, state);
-  }, { prepend: true });
-}
-
-/**
- * Get the first item that pass the test
- * by second argument function
- *
- * @param {Array} list
- * @param {Function} f
- * @return {*}
- */
-function find (list, f) {
-  return list.filter(f)[0]
-}
-
-/**
- * Deep copy the given object considering circular structure.
- * This function caches all nested objects and its copies.
- * If it detects circular structure, use cached copy to avoid infinite loop.
- *
- * @param {*} obj
- * @param {Array<Object>} cache
- * @return {*}
- */
-function deepCopy (obj, cache) {
-  if ( cache === void 0 ) cache = [];
-
-  // just return if obj is immutable value
-  if (obj === null || typeof obj !== 'object') {
-    return obj
-  }
-
-  // if obj is hit, it is in circular structure
-  var hit = find(cache, function (c) { return c.original === obj; });
-  if (hit) {
-    return hit.copy
-  }
-
-  var copy = Array.isArray(obj) ? [] : {};
-  // put the copy into cache at first
-  // because we want to refer it in recursive deepCopy
-  cache.push({
-    original: obj,
-    copy: copy
-  });
-
-  Object.keys(obj).forEach(function (key) {
-    copy[key] = deepCopy(obj[key], cache);
-  });
-
-  return copy
-}
-
-/**
- * forEach for object
- */
-function forEachValue (obj, fn) {
-  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
-}
-
-function isObject (obj) {
-  return obj !== null && typeof obj === 'object'
-}
-
-function isPromise (val) {
-  return val && typeof val.then === 'function'
-}
-
-function assert (condition, msg) {
-  if (!condition) { throw new Error(("[vuex] " + msg)) }
-}
-
-function partial (fn, arg) {
-  return function () {
-    return fn(arg)
-  }
-}
-
-// Base data struct for store's module, package with some attribute and method
-var Module = function Module (rawModule, runtime) {
-  this.runtime = runtime;
-  // Store some children item
-  this._children = Object.create(null);
-  // Store the origin module object which passed by programmer
-  this._rawModule = rawModule;
-  var rawState = rawModule.state;
-
-  // Store the origin module's state
-  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
-};
-
-var prototypeAccessors = { namespaced: { configurable: true } };
-
-prototypeAccessors.namespaced.get = function () {
-  return !!this._rawModule.namespaced
-};
-
-Module.prototype.addChild = function addChild (key, module) {
-  this._children[key] = module;
-};
-
-Module.prototype.removeChild = function removeChild (key) {
-  delete this._children[key];
-};
-
-Module.prototype.getChild = function getChild (key) {
-  return this._children[key]
-};
-
-Module.prototype.hasChild = function hasChild (key) {
-  return key in this._children
-};
-
-Module.prototype.update = function update (rawModule) {
-  this._rawModule.namespaced = rawModule.namespaced;
-  if (rawModule.actions) {
-    this._rawModule.actions = rawModule.actions;
-  }
-  if (rawModule.mutations) {
-    this._rawModule.mutations = rawModule.mutations;
-  }
-  if (rawModule.getters) {
-    this._rawModule.getters = rawModule.getters;
-  }
-};
-
-Module.prototype.forEachChild = function forEachChild (fn) {
-  forEachValue(this._children, fn);
-};
-
-Module.prototype.forEachGetter = function forEachGetter (fn) {
-  if (this._rawModule.getters) {
-    forEachValue(this._rawModule.getters, fn);
-  }
-};
-
-Module.prototype.forEachAction = function forEachAction (fn) {
-  if (this._rawModule.actions) {
-    forEachValue(this._rawModule.actions, fn);
-  }
-};
-
-Module.prototype.forEachMutation = function forEachMutation (fn) {
-  if (this._rawModule.mutations) {
-    forEachValue(this._rawModule.mutations, fn);
-  }
-};
-
-Object.defineProperties( Module.prototype, prototypeAccessors );
-
-var ModuleCollection = function ModuleCollection (rawRootModule) {
-  // register root module (Vuex.Store options)
-  this.register([], rawRootModule, false);
-};
-
-ModuleCollection.prototype.get = function get (path) {
-  return path.reduce(function (module, key) {
-    return module.getChild(key)
-  }, this.root)
-};
-
-ModuleCollection.prototype.getNamespace = function getNamespace (path) {
-  var module = this.root;
-  return path.reduce(function (namespace, key) {
-    module = module.getChild(key);
-    return namespace + (module.namespaced ? key + '/' : '')
-  }, '')
-};
-
-ModuleCollection.prototype.update = function update$1 (rawRootModule) {
-  update([], this.root, rawRootModule);
-};
-
-ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
-    var this$1 = this;
-    if ( runtime === void 0 ) runtime = true;
-
-  if ((true)) {
-    assertRawModule(path, rawModule);
-  }
-
-  var newModule = new Module(rawModule, runtime);
-  if (path.length === 0) {
-    this.root = newModule;
-  } else {
-    var parent = this.get(path.slice(0, -1));
-    parent.addChild(path[path.length - 1], newModule);
-  }
-
-  // register nested modules
-  if (rawModule.modules) {
-    forEachValue(rawModule.modules, function (rawChildModule, key) {
-      this$1.register(path.concat(key), rawChildModule, runtime);
-    });
-  }
-};
-
-ModuleCollection.prototype.unregister = function unregister (path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
-  var child = parent.getChild(key);
-
-  if (!child) {
-    if ((true)) {
-      console.warn(
-        "[vuex] trying to unregister module '" + key + "', which is " +
-        "not registered"
-      );
-    }
-    return
-  }
-
-  if (!child.runtime) {
-    return
-  }
-
-  parent.removeChild(key);
-};
-
-ModuleCollection.prototype.isRegistered = function isRegistered (path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
-
-  if (parent) {
-    return parent.hasChild(key)
-  }
-
-  return false
-};
-
-function update (path, targetModule, newModule) {
-  if ((true)) {
-    assertRawModule(path, newModule);
-  }
-
-  // update target module
-  targetModule.update(newModule);
-
-  // update nested modules
-  if (newModule.modules) {
-    for (var key in newModule.modules) {
-      if (!targetModule.getChild(key)) {
-        if ((true)) {
-          console.warn(
-            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
-            'manual reload is needed'
-          );
-        }
-        return
-      }
-      update(
-        path.concat(key),
-        targetModule.getChild(key),
-        newModule.modules[key]
-      );
-    }
-  }
-}
-
-var functionAssert = {
-  assert: function (value) { return typeof value === 'function'; },
-  expected: 'function'
-};
-
-var objectAssert = {
-  assert: function (value) { return typeof value === 'function' ||
-    (typeof value === 'object' && typeof value.handler === 'function'); },
-  expected: 'function or object with "handler" function'
-};
-
-var assertTypes = {
-  getters: functionAssert,
-  mutations: functionAssert,
-  actions: objectAssert
-};
-
-function assertRawModule (path, rawModule) {
-  Object.keys(assertTypes).forEach(function (key) {
-    if (!rawModule[key]) { return }
-
-    var assertOptions = assertTypes[key];
-
-    forEachValue(rawModule[key], function (value, type) {
-      assert(
-        assertOptions.assert(value),
-        makeAssertionMessage(path, key, type, value, assertOptions.expected)
-      );
-    });
-  });
-}
-
-function makeAssertionMessage (path, key, type, value, expected) {
-  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
-  if (path.length > 0) {
-    buf += " in module \"" + (path.join('.')) + "\"";
-  }
-  buf += " is " + (JSON.stringify(value)) + ".";
-  return buf
-}
-
-var Vue; // bind on install
-
-var Store = function Store (options) {
-  var this$1 = this;
-  if ( options === void 0 ) options = {};
-
-  // Auto install if it is not done yet and `window` has `Vue`.
-  // To allow users to avoid auto-installation in some cases,
-  // this code should be placed here. See #731
-  if (!Vue && typeof window !== 'undefined' && window.Vue) {
-    install(window.Vue);
-  }
-
-  if ((true)) {
-    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
-    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
-    assert(this instanceof Store, "store must be called with the new operator.");
-  }
-
-  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
-  var strict = options.strict; if ( strict === void 0 ) strict = false;
-
-  // store internal state
-  this._committing = false;
-  this._actions = Object.create(null);
-  this._actionSubscribers = [];
-  this._mutations = Object.create(null);
-  this._wrappedGetters = Object.create(null);
-  this._modules = new ModuleCollection(options);
-  this._modulesNamespaceMap = Object.create(null);
-  this._subscribers = [];
-  this._watcherVM = new Vue();
-  this._makeLocalGettersCache = Object.create(null);
-
-  // bind commit and dispatch to self
-  var store = this;
-  var ref = this;
-  var dispatch = ref.dispatch;
-  var commit = ref.commit;
-  this.dispatch = function boundDispatch (type, payload) {
-    return dispatch.call(store, type, payload)
-  };
-  this.commit = function boundCommit (type, payload, options) {
-    return commit.call(store, type, payload, options)
-  };
-
-  // strict mode
-  this.strict = strict;
-
-  var state = this._modules.root.state;
-
-  // init root module.
-  // this also recursively registers all sub-modules
-  // and collects all module getters inside this._wrappedGetters
-  installModule(this, state, [], this._modules.root);
-
-  // initialize the store vm, which is responsible for the reactivity
-  // (also registers _wrappedGetters as computed properties)
-  resetStoreVM(this, state);
-
-  // apply plugins
-  plugins.forEach(function (plugin) { return plugin(this$1); });
-
-  var useDevtools = options.devtools !== undefined ? options.devtools : Vue.config.devtools;
-  if (useDevtools) {
-    devtoolPlugin(this);
-  }
-};
-
-var prototypeAccessors$1 = { state: { configurable: true } };
-
-prototypeAccessors$1.state.get = function () {
-  return this._vm._data.$$state
-};
-
-prototypeAccessors$1.state.set = function (v) {
-  if ((true)) {
-    assert(false, "use store.replaceState() to explicit replace store state.");
-  }
-};
-
-Store.prototype.commit = function commit (_type, _payload, _options) {
-    var this$1 = this;
-
-  // check object-style commit
-  var ref = unifyObjectStyle(_type, _payload, _options);
-    var type = ref.type;
-    var payload = ref.payload;
-    var options = ref.options;
-
-  var mutation = { type: type, payload: payload };
-  var entry = this._mutations[type];
-  if (!entry) {
-    if ((true)) {
-      console.error(("[vuex] unknown mutation type: " + type));
-    }
-    return
-  }
-  this._withCommit(function () {
-    entry.forEach(function commitIterator (handler) {
-      handler(payload);
-    });
-  });
-
-  this._subscribers
-    .slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
-    .forEach(function (sub) { return sub(mutation, this$1.state); });
-
-  if (
-    ( true) &&
-    options && options.silent
-  ) {
-    console.warn(
-      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
-      'Use the filter functionality in the vue-devtools'
-    );
-  }
-};
-
-Store.prototype.dispatch = function dispatch (_type, _payload) {
-    var this$1 = this;
-
-  // check object-style dispatch
-  var ref = unifyObjectStyle(_type, _payload);
-    var type = ref.type;
-    var payload = ref.payload;
-
-  var action = { type: type, payload: payload };
-  var entry = this._actions[type];
-  if (!entry) {
-    if ((true)) {
-      console.error(("[vuex] unknown action type: " + type));
-    }
-    return
-  }
-
-  try {
-    this._actionSubscribers
-      .slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
-      .filter(function (sub) { return sub.before; })
-      .forEach(function (sub) { return sub.before(action, this$1.state); });
-  } catch (e) {
-    if ((true)) {
-      console.warn("[vuex] error in before action subscribers: ");
-      console.error(e);
-    }
-  }
-
-  var result = entry.length > 1
-    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
-    : entry[0](payload);
-
-  return new Promise(function (resolve, reject) {
-    result.then(function (res) {
-      try {
-        this$1._actionSubscribers
-          .filter(function (sub) { return sub.after; })
-          .forEach(function (sub) { return sub.after(action, this$1.state); });
-      } catch (e) {
-        if ((true)) {
-          console.warn("[vuex] error in after action subscribers: ");
-          console.error(e);
-        }
-      }
-      resolve(res);
-    }, function (error) {
-      try {
-        this$1._actionSubscribers
-          .filter(function (sub) { return sub.error; })
-          .forEach(function (sub) { return sub.error(action, this$1.state, error); });
-      } catch (e) {
-        if ((true)) {
-          console.warn("[vuex] error in error action subscribers: ");
-          console.error(e);
-        }
-      }
-      reject(error);
-    });
-  })
-};
-
-Store.prototype.subscribe = function subscribe (fn, options) {
-  return genericSubscribe(fn, this._subscribers, options)
-};
-
-Store.prototype.subscribeAction = function subscribeAction (fn, options) {
-  var subs = typeof fn === 'function' ? { before: fn } : fn;
-  return genericSubscribe(subs, this._actionSubscribers, options)
-};
-
-Store.prototype.watch = function watch (getter, cb, options) {
-    var this$1 = this;
-
-  if ((true)) {
-    assert(typeof getter === 'function', "store.watch only accepts a function.");
-  }
-  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
-};
-
-Store.prototype.replaceState = function replaceState (state) {
-    var this$1 = this;
-
-  this._withCommit(function () {
-    this$1._vm._data.$$state = state;
-  });
-};
-
-Store.prototype.registerModule = function registerModule (path, rawModule, options) {
-    if ( options === void 0 ) options = {};
-
-  if (typeof path === 'string') { path = [path]; }
-
-  if ((true)) {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-    assert(path.length > 0, 'cannot register the root module by using registerModule.');
-  }
-
-  this._modules.register(path, rawModule);
-  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
-  // reset store to update getters...
-  resetStoreVM(this, this.state);
-};
-
-Store.prototype.unregisterModule = function unregisterModule (path) {
-    var this$1 = this;
-
-  if (typeof path === 'string') { path = [path]; }
-
-  if ((true)) {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-  }
-
-  this._modules.unregister(path);
-  this._withCommit(function () {
-    var parentState = getNestedState(this$1.state, path.slice(0, -1));
-    Vue.delete(parentState, path[path.length - 1]);
-  });
-  resetStore(this);
-};
-
-Store.prototype.hasModule = function hasModule (path) {
-  if (typeof path === 'string') { path = [path]; }
-
-  if ((true)) {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-  }
-
-  return this._modules.isRegistered(path)
-};
-
-Store.prototype[[104,111,116,85,112,100,97,116,101].map(function (item) {return String.fromCharCode(item)}).join('')] = function (newOptions) {
-  this._modules.update(newOptions);
-  resetStore(this, true);
-};
-
-Store.prototype._withCommit = function _withCommit (fn) {
-  var committing = this._committing;
-  this._committing = true;
-  fn();
-  this._committing = committing;
-};
-
-Object.defineProperties( Store.prototype, prototypeAccessors$1 );
-
-function genericSubscribe (fn, subs, options) {
-  if (subs.indexOf(fn) < 0) {
-    options && options.prepend
-      ? subs.unshift(fn)
-      : subs.push(fn);
-  }
-  return function () {
-    var i = subs.indexOf(fn);
-    if (i > -1) {
-      subs.splice(i, 1);
-    }
-  }
-}
-
-function resetStore (store, hot) {
-  store._actions = Object.create(null);
-  store._mutations = Object.create(null);
-  store._wrappedGetters = Object.create(null);
-  store._modulesNamespaceMap = Object.create(null);
-  var state = store.state;
-  // init all modules
-  installModule(store, state, [], store._modules.root, true);
-  // reset vm
-  resetStoreVM(store, state, hot);
-}
-
-function resetStoreVM (store, state, hot) {
-  var oldVm = store._vm;
-
-  // bind store public getters
-  store.getters = {};
-  // reset local getters cache
-  store._makeLocalGettersCache = Object.create(null);
-  var wrappedGetters = store._wrappedGetters;
-  var computed = {};
-  forEachValue(wrappedGetters, function (fn, key) {
-    // use computed to leverage its lazy-caching mechanism
-    // direct inline function use will lead to closure preserving oldVm.
-    // using partial to return function with only arguments preserved in closure environment.
-    computed[key] = partial(fn, store);
-    Object.defineProperty(store.getters, key, {
-      get: function () { return store._vm[key]; },
-      enumerable: true // for local getters
-    });
-  });
-
-  // use a Vue instance to store the state tree
-  // suppress warnings just in case the user has added
-  // some funky global mixins
-  var silent = Vue.config.silent;
-  Vue.config.silent = true;
-  store._vm = new Vue({
-    data: {
-      $$state: state
-    },
-    computed: computed
-  });
-  Vue.config.silent = silent;
-
-  // enable strict mode for new vm
-  if (store.strict) {
-    enableStrictMode(store);
-  }
-
-  if (oldVm) {
-    if (hot) {
-      // dispatch changes in all subscribed watchers
-      // to force getter re-evaluation for hot reloading.
-      store._withCommit(function () {
-        oldVm._data.$$state = null;
-      });
-    }
-    Vue.nextTick(function () { return oldVm.$destroy(); });
-  }
-}
-
-function installModule (store, rootState, path, module, hot) {
-  var isRoot = !path.length;
-  var namespace = store._modules.getNamespace(path);
-
-  // register in namespace map
-  if (module.namespaced) {
-    if (store._modulesNamespaceMap[namespace] && ("development" !== 'production')) {
-      console.error(("[vuex] duplicate namespace " + namespace + " for the namespaced module " + (path.join('/'))));
-    }
-    store._modulesNamespaceMap[namespace] = module;
-  }
-
-  // set state
-  if (!isRoot && !hot) {
-    var parentState = getNestedState(rootState, path.slice(0, -1));
-    var moduleName = path[path.length - 1];
-    store._withCommit(function () {
-      if ((true)) {
-        if (moduleName in parentState) {
-          console.warn(
-            ("[vuex] state field \"" + moduleName + "\" was overridden by a module with the same name at \"" + (path.join('.')) + "\"")
-          );
-        }
-      }
-      Vue.set(parentState, moduleName, module.state);
-    });
-  }
-
-  var local = module.context = makeLocalContext(store, namespace, path);
-
-  module.forEachMutation(function (mutation, key) {
-    var namespacedType = namespace + key;
-    registerMutation(store, namespacedType, mutation, local);
-  });
-
-  module.forEachAction(function (action, key) {
-    var type = action.root ? key : namespace + key;
-    var handler = action.handler || action;
-    registerAction(store, type, handler, local);
-  });
-
-  module.forEachGetter(function (getter, key) {
-    var namespacedType = namespace + key;
-    registerGetter(store, namespacedType, getter, local);
-  });
-
-  module.forEachChild(function (child, key) {
-    installModule(store, rootState, path.concat(key), child, hot);
-  });
-}
-
-/**
- * make localized dispatch, commit, getters and state
- * if there is no namespace, just use root ones
- */
-function makeLocalContext (store, namespace, path) {
-  var noNamespace = namespace === '';
-
-  var local = {
-    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
-      var args = unifyObjectStyle(_type, _payload, _options);
-      var payload = args.payload;
-      var options = args.options;
-      var type = args.type;
-
-      if (!options || !options.root) {
-        type = namespace + type;
-        if (( true) && !store._actions[type]) {
-          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
-          return
-        }
-      }
-
-      return store.dispatch(type, payload)
-    },
-
-    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
-      var args = unifyObjectStyle(_type, _payload, _options);
-      var payload = args.payload;
-      var options = args.options;
-      var type = args.type;
-
-      if (!options || !options.root) {
-        type = namespace + type;
-        if (( true) && !store._mutations[type]) {
-          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
-          return
-        }
-      }
-
-      store.commit(type, payload, options);
-    }
-  };
-
-  // getters and state object must be gotten lazily
-  // because they will be changed by vm update
-  Object.defineProperties(local, {
-    getters: {
-      get: noNamespace
-        ? function () { return store.getters; }
-        : function () { return makeLocalGetters(store, namespace); }
-    },
-    state: {
-      get: function () { return getNestedState(store.state, path); }
-    }
-  });
-
-  return local
-}
-
-function makeLocalGetters (store, namespace) {
-  if (!store._makeLocalGettersCache[namespace]) {
-    var gettersProxy = {};
-    var splitPos = namespace.length;
-    Object.keys(store.getters).forEach(function (type) {
-      // skip if the target getter is not match this namespace
-      if (type.slice(0, splitPos) !== namespace) { return }
-
-      // extract local getter type
-      var localType = type.slice(splitPos);
-
-      // Add a port to the getters proxy.
-      // Define as getter property because
-      // we do not want to evaluate the getters in this time.
-      Object.defineProperty(gettersProxy, localType, {
-        get: function () { return store.getters[type]; },
-        enumerable: true
-      });
-    });
-    store._makeLocalGettersCache[namespace] = gettersProxy;
-  }
-
-  return store._makeLocalGettersCache[namespace]
-}
-
-function registerMutation (store, type, handler, local) {
-  var entry = store._mutations[type] || (store._mutations[type] = []);
-  entry.push(function wrappedMutationHandler (payload) {
-    handler.call(store, local.state, payload);
-  });
-}
-
-function registerAction (store, type, handler, local) {
-  var entry = store._actions[type] || (store._actions[type] = []);
-  entry.push(function wrappedActionHandler (payload) {
-    var res = handler.call(store, {
-      dispatch: local.dispatch,
-      commit: local.commit,
-      getters: local.getters,
-      state: local.state,
-      rootGetters: store.getters,
-      rootState: store.state
-    }, payload);
-    if (!isPromise(res)) {
-      res = Promise.resolve(res);
-    }
-    if (store._devtoolHook) {
-      return res.catch(function (err) {
-        store._devtoolHook.emit('vuex:error', err);
-        throw err
-      })
-    } else {
-      return res
-    }
-  });
-}
-
-function registerGetter (store, type, rawGetter, local) {
-  if (store._wrappedGetters[type]) {
-    if ((true)) {
-      console.error(("[vuex] duplicate getter key: " + type));
-    }
-    return
-  }
-  store._wrappedGetters[type] = function wrappedGetter (store) {
-    return rawGetter(
-      local.state, // local state
-      local.getters, // local getters
-      store.state, // root state
-      store.getters // root getters
-    )
-  };
-}
-
-function enableStrictMode (store) {
-  store._vm.$watch(function () { return this._data.$$state }, function () {
-    if ((true)) {
-      assert(store._committing, "do not mutate vuex store state outside mutation handlers.");
-    }
-  }, { deep: true, sync: true });
-}
-
-function getNestedState (state, path) {
-  return path.reduce(function (state, key) { return state[key]; }, state)
-}
-
-function unifyObjectStyle (type, payload, options) {
-  if (isObject(type) && type.type) {
-    options = payload;
-    payload = type;
-    type = type.type;
-  }
-
-  if ((true)) {
-    assert(typeof type === 'string', ("expects string as the type, but found " + (typeof type) + "."));
-  }
-
-  return { type: type, payload: payload, options: options }
-}
-
-function install (_Vue) {
-  if (Vue && _Vue === Vue) {
-    if ((true)) {
-      console.error(
-        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
-      );
-    }
-    return
-  }
-  Vue = _Vue;
-  applyMixin(Vue);
-}
-
-/**
- * Reduce the code which written in Vue.js for getting the state.
- * @param {String} [namespace] - Module's namespace
- * @param {Object|Array} states # Object's item can be a function which accept state and getters for param, you can do something for state and getters in it.
- * @param {Object}
- */
-var mapState = normalizeNamespace(function (namespace, states) {
-  var res = {};
-  if (( true) && !isValidMap(states)) {
-    console.error('[vuex] mapState: mapper parameter must be either an Array or an Object');
-  }
-  normalizeMap(states).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedState () {
-      var state = this.$store.state;
-      var getters = this.$store.getters;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
-        if (!module) {
-          return
-        }
-        state = module.context.state;
-        getters = module.context.getters;
-      }
-      return typeof val === 'function'
-        ? val.call(this, state, getters)
-        : state[val]
-    };
-    // mark vuex getter for devtools
-    res[key].vuex = true;
-  });
-  return res
-});
-
-/**
- * Reduce the code which written in Vue.js for committing the mutation
- * @param {String} [namespace] - Module's namespace
- * @param {Object|Array} mutations # Object's item can be a function which accept `commit` function as the first param, it can accept another params. You can commit mutation and do any other things in this function. specially, You need to pass anthor params from the mapped function.
- * @return {Object}
- */
-var mapMutations = normalizeNamespace(function (namespace, mutations) {
-  var res = {};
-  if (( true) && !isValidMap(mutations)) {
-    console.error('[vuex] mapMutations: mapper parameter must be either an Array or an Object');
-  }
-  normalizeMap(mutations).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedMutation () {
-      var args = [], len = arguments.length;
-      while ( len-- ) args[ len ] = arguments[ len ];
-
-      // Get the commit method from store
-      var commit = this.$store.commit;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
-        if (!module) {
-          return
-        }
-        commit = module.context.commit;
-      }
-      return typeof val === 'function'
-        ? val.apply(this, [commit].concat(args))
-        : commit.apply(this.$store, [val].concat(args))
-    };
-  });
-  return res
-});
-
-/**
- * Reduce the code which written in Vue.js for getting the getters
- * @param {String} [namespace] - Module's namespace
- * @param {Object|Array} getters
- * @return {Object}
- */
-var mapGetters = normalizeNamespace(function (namespace, getters) {
-  var res = {};
-  if (( true) && !isValidMap(getters)) {
-    console.error('[vuex] mapGetters: mapper parameter must be either an Array or an Object');
-  }
-  normalizeMap(getters).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    // The namespace has been mutated by normalizeNamespace
-    val = namespace + val;
-    res[key] = function mappedGetter () {
-      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
-        return
-      }
-      if (( true) && !(val in this.$store.getters)) {
-        console.error(("[vuex] unknown getter: " + val));
-        return
-      }
-      return this.$store.getters[val]
-    };
-    // mark vuex getter for devtools
-    res[key].vuex = true;
-  });
-  return res
-});
-
-/**
- * Reduce the code which written in Vue.js for dispatch the action
- * @param {String} [namespace] - Module's namespace
- * @param {Object|Array} actions # Object's item can be a function which accept `dispatch` function as the first param, it can accept anthor params. You can dispatch action and do any other things in this function. specially, You need to pass anthor params from the mapped function.
- * @return {Object}
- */
-var mapActions = normalizeNamespace(function (namespace, actions) {
-  var res = {};
-  if (( true) && !isValidMap(actions)) {
-    console.error('[vuex] mapActions: mapper parameter must be either an Array or an Object');
-  }
-  normalizeMap(actions).forEach(function (ref) {
-    var key = ref.key;
-    var val = ref.val;
-
-    res[key] = function mappedAction () {
-      var args = [], len = arguments.length;
-      while ( len-- ) args[ len ] = arguments[ len ];
-
-      // get dispatch function from store
-      var dispatch = this.$store.dispatch;
-      if (namespace) {
-        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
-        if (!module) {
-          return
-        }
-        dispatch = module.context.dispatch;
-      }
-      return typeof val === 'function'
-        ? val.apply(this, [dispatch].concat(args))
-        : dispatch.apply(this.$store, [val].concat(args))
-    };
-  });
-  return res
-});
-
-/**
- * Rebinding namespace param for mapXXX function in special scoped, and return them by simple object
- * @param {String} namespace
- * @return {Object}
- */
-var createNamespacedHelpers = function (namespace) { return ({
-  mapState: mapState.bind(null, namespace),
-  mapGetters: mapGetters.bind(null, namespace),
-  mapMutations: mapMutations.bind(null, namespace),
-  mapActions: mapActions.bind(null, namespace)
-}); };
-
-/**
- * Normalize the map
- * normalizeMap([1, 2, 3]) => [ { key: 1, val: 1 }, { key: 2, val: 2 }, { key: 3, val: 3 } ]
- * normalizeMap({a: 1, b: 2, c: 3}) => [ { key: 'a', val: 1 }, { key: 'b', val: 2 }, { key: 'c', val: 3 } ]
- * @param {Array|Object} map
- * @return {Object}
- */
-function normalizeMap (map) {
-  if (!isValidMap(map)) {
-    return []
-  }
-  return Array.isArray(map)
-    ? map.map(function (key) { return ({ key: key, val: key }); })
-    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
-}
-
-/**
- * Validate whether given map is valid or not
- * @param {*} map
- * @return {Boolean}
- */
-function isValidMap (map) {
-  return Array.isArray(map) || isObject(map)
-}
-
-/**
- * Return a function expect two param contains namespace and map. it will normalize the namespace and then the param's function will handle the new namespace and the map.
- * @param {Function} fn
- * @return {Function}
- */
-function normalizeNamespace (fn) {
-  return function (namespace, map) {
-    if (typeof namespace !== 'string') {
-      map = namespace;
-      namespace = '';
-    } else if (namespace.charAt(namespace.length - 1) !== '/') {
-      namespace += '/';
-    }
-    return fn(namespace, map)
-  }
-}
-
-/**
- * Search a special module from store by namespace. if module not exist, print error message.
- * @param {Object} store
- * @param {String} helper
- * @param {String} namespace
- * @return {Object}
- */
-function getModuleByNamespace (store, helper, namespace) {
-  var module = store._modulesNamespaceMap[namespace];
-  if (( true) && !module) {
-    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
-  }
-  return module
-}
-
-// Credits: borrowed code from fcomb/redux-logger
-
-function createLogger (ref) {
-  if ( ref === void 0 ) ref = {};
-  var collapsed = ref.collapsed; if ( collapsed === void 0 ) collapsed = true;
-  var filter = ref.filter; if ( filter === void 0 ) filter = function (mutation, stateBefore, stateAfter) { return true; };
-  var transformer = ref.transformer; if ( transformer === void 0 ) transformer = function (state) { return state; };
-  var mutationTransformer = ref.mutationTransformer; if ( mutationTransformer === void 0 ) mutationTransformer = function (mut) { return mut; };
-  var actionFilter = ref.actionFilter; if ( actionFilter === void 0 ) actionFilter = function (action, state) { return true; };
-  var actionTransformer = ref.actionTransformer; if ( actionTransformer === void 0 ) actionTransformer = function (act) { return act; };
-  var logMutations = ref.logMutations; if ( logMutations === void 0 ) logMutations = true;
-  var logActions = ref.logActions; if ( logActions === void 0 ) logActions = true;
-  var logger = ref.logger; if ( logger === void 0 ) logger = console;
-
-  return function (store) {
-    var prevState = deepCopy(store.state);
-
-    if (typeof logger === 'undefined') {
-      return
-    }
-
-    if (logMutations) {
-      store.subscribe(function (mutation, state) {
-        var nextState = deepCopy(state);
-
-        if (filter(mutation, prevState, nextState)) {
-          var formattedTime = getFormattedTime();
-          var formattedMutation = mutationTransformer(mutation);
-          var message = "mutation " + (mutation.type) + formattedTime;
-
-          startMessage(logger, message, collapsed);
-          logger.log('%c prev state', 'color: #9E9E9E; font-weight: bold', transformer(prevState));
-          logger.log('%c mutation', 'color: #03A9F4; font-weight: bold', formattedMutation);
-          logger.log('%c next state', 'color: #4CAF50; font-weight: bold', transformer(nextState));
-          endMessage(logger);
-        }
-
-        prevState = nextState;
-      });
-    }
-
-    if (logActions) {
-      store.subscribeAction(function (action, state) {
-        if (actionFilter(action, state)) {
-          var formattedTime = getFormattedTime();
-          var formattedAction = actionTransformer(action);
-          var message = "action " + (action.type) + formattedTime;
-
-          startMessage(logger, message, collapsed);
-          logger.log('%c action', 'color: #03A9F4; font-weight: bold', formattedAction);
-          endMessage(logger);
-        }
-      });
-    }
-  }
-}
-
-function startMessage (logger, message, collapsed) {
-  var startMessage = collapsed
-    ? logger.groupCollapsed
-    : logger.group;
-
-  // render
-  try {
-    startMessage.call(logger, message);
-  } catch (e) {
-    logger.log(message);
-  }
-}
-
-function endMessage (logger) {
-  try {
-    logger.groupEnd();
-  } catch (e) {
-    logger.log('—— log end ——');
-  }
-}
-
-function getFormattedTime () {
-  var time = new Date();
-  return (" @ " + (pad(time.getHours(), 2)) + ":" + (pad(time.getMinutes(), 2)) + ":" + (pad(time.getSeconds(), 2)) + "." + (pad(time.getMilliseconds(), 3)))
-}
-
-function repeat (str, times) {
-  return (new Array(times + 1)).join(str)
-}
-
-function pad (num, maxLength) {
-  return repeat('0', maxLength - num.toString().length) + num
-}
-
-var index_cjs = {
-  Store: Store,
-  install: install,
-  version: '3.6.2',
-  mapState: mapState,
-  mapMutations: mapMutations,
-  mapGetters: mapGetters,
-  mapActions: mapActions,
-  createNamespacedHelpers: createNamespacedHelpers,
-  createLogger: createLogger
-};
-
-module.exports = index_cjs;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
-
-/***/ }),
-/* 35 */
-/*!*************************************************!*\
-  !*** E:/code/baba_statistics/store/userInfo.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  namespaced: true,
-  state: {
-    userInfo: uni.getStorageSync('userInfo') || null
-  },
-  mutations: {
-    updateUserInfo: function updateUserInfo(state, userInfo) {
-      state.userInfo = userInfo;
-    },
-    clearUserInfo: function clearUserInfo(state) {
-      state.userInfo = {};
-    }
-  },
-  actions: {
-    updateUserInfo: function updateUserInfo(_ref, userInfo) {
-      var commit = _ref.commit;
-      uni.setStorageSync('userInfo', userInfo);
-      commit("updateUserInfo", userInfo);
-    },
-    clearUserInfo: function clearUserInfo(_ref2) {
-      var commit = _ref2.commit;
-      uni.removeStorage({
-        key: 'userInfo'
-      });
-      commit("clearUserInfo");
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 36 */
-/*!*************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/index.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 37));
-var _mpMixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mpMixin.js */ 38));
-var _luchRequest = _interopRequireDefault(__webpack_require__(/*! ./libs/luch-request */ 39));
-var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/util/route.js */ 57));
-var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 61));
-var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 62));
-var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 63));
-var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 64));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./libs/function/index.js */ 65));
-var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 68));
-var _props = _interopRequireDefault(__webpack_require__(/*! ./libs/config/props.js */ 69));
-var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 159));
-var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/config/color.js */ 117));
-var _platform = _interopRequireDefault(__webpack_require__(/*! ./libs/function/platform */ 160));
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-// 看到此报错，是因为没有配置vue.config.js的【transpileDependencies】，详见：https://www.uviewui.com/components/npmSetting.html#_5-cli模式额外配置
-var pleaseSetTranspileDependencies = {},
-  babelTest = pleaseSetTranspileDependencies === null || pleaseSetTranspileDependencies === void 0 ? void 0 : pleaseSetTranspileDependencies.test;
-
-// 引入全局mixin
-
-var $u = _objectSpread(_objectSpread({
-  route: _route.default,
-  date: _index.default.timeFormat,
-  // 另名date
-  colorGradient: _colorGradient.default.colorGradient,
-  hexToRgb: _colorGradient.default.hexToRgb,
-  rgbToHex: _colorGradient.default.rgbToHex,
-  colorToRgba: _colorGradient.default.colorToRgba,
-  test: _test.default,
-  type: ['primary', 'success', 'error', 'warning', 'info'],
-  http: new _luchRequest.default(),
-  config: _config.default,
-  // uView配置信息相关，比如版本号
-  zIndex: _zIndex.default,
-  debounce: _debounce.default,
-  throttle: _throttle.default,
-  mixin: _mixin.default,
-  mpMixin: _mpMixin.default,
-  props: _props.default
-}, _index.default), {}, {
-  color: _color.default,
-  platform: _platform.default
-});
-
-// $u挂载到uni对象上
-uni.$u = $u;
-var install = function install(Vue) {
-  // 时间格式化，同时两个名称，date和timeFormat
-  Vue.filter('timeFormat', function (timestamp, format) {
-    return uni.$u.timeFormat(timestamp, format);
-  });
-  Vue.filter('date', function (timestamp, format) {
-    return uni.$u.timeFormat(timestamp, format);
-  });
-  // 将多久以前的方法，注入到全局过滤器
-  Vue.filter('timeFrom', function (timestamp, format) {
-    return uni.$u.timeFrom(timestamp, format);
-  });
-  // 同时挂载到uni和Vue.prototype中
-
-  // 只有vue，挂载到Vue.prototype才有意义，因为nvue中全局Vue.prototype和Vue.mixin是无效的
-  Vue.prototype.$u = $u;
-  Vue.mixin(_mixin.default);
-};
-var _default = {
-  install: install
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 37 */
-/*!************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/mixin.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
-  // 定义每个组件都可能需要用到的外部样式以及类名
-  props: {
-    // 每个组件都有的父组件传递的样式，可以为字符串或者对象形式
-    customStyle: {
-      type: [Object, String],
-      default: function _default() {
-        return {};
-      }
-    },
-    customClass: {
-      type: String,
-      default: ''
-    },
-    // 跳转的页面路径
-    url: {
-      type: String,
-      default: ''
-    },
-    // 页面跳转的类型
-    linkType: {
-      type: String,
-      default: 'navigateTo'
-    }
-  },
-  data: function data() {
-    return {};
-  },
-  onLoad: function onLoad() {
-    // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
-    this.$u.getRect = this.$uGetRect;
-  },
-  created: function created() {
-    // 组件当中，只有created声明周期，为了能在组件使用，故也在created中将方法挂载到$u
-    this.$u.getRect = this.$uGetRect;
-  },
-  computed: {
-    // 在2.x版本中，将会把$u挂载到uni对象下，导致在模板中无法使用uni.$u.xxx形式
-    // 所以这里通过computed计算属性将其附加到this.$u上，就可以在模板或者js中使用uni.$u.xxx
-    // 只在nvue环境通过此方式引入完整的$u，其他平台会出现性能问题，非nvue则按需引入（主要原因是props过大）
-    $u: function $u() {
-      // 在非nvue端，移除props，http，mixin等对象，避免在小程序setData时数据过大影响性能
-      return uni.$u.deepMerge(uni.$u, {
-        props: undefined,
-        http: undefined,
-        mixin: undefined
-      });
-    },
-    /**
-     * 生成bem规则类名
-     * 由于微信小程序，H5，nvue之间绑定class的差异，无法通过:class="[bem()]"的形式进行同用
-     * 故采用如下折中做法，最后返回的是数组（一般平台）或字符串（支付宝和字节跳动平台），类似['a', 'b', 'c']或'a b c'的形式
-     * @param {String} name 组件名称
-     * @param {Array} fixed 一直会存在的类名
-     * @param {Array} change 会根据变量值为true或者false而出现或者隐藏的类名
-     * @returns {Array|string}
-     */
-    bem: function bem() {
-      return function (name, fixed, change) {
-        var _this = this;
-        // 类名前缀
-        var prefix = "u-".concat(name, "--");
-        var classes = {};
-        if (fixed) {
-          fixed.map(function (item) {
-            // 这里的类名，会一直存在
-            classes[prefix + _this[item]] = true;
-          });
-        }
-        if (change) {
-          change.map(function (item) {
-            // 这里的类名，会根据this[item]的值为true或者false，而进行添加或者移除某一个类
-            _this[item] ? classes[prefix + item] = _this[item] : delete classes[prefix + item];
-          });
-        }
-        return Object.keys(classes);
-        // 支付宝，头条小程序无法动态绑定一个数组类名，否则解析出来的结果会带有","，而导致失效
-      };
-    }
-  },
-
-  methods: {
-    // 跳转某一个页面
-    openPage: function openPage() {
-      var urlKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'url';
-      var url = this[urlKey];
-      if (url) {
-        // 执行类似uni.navigateTo的方法
-        uni[this.linkType]({
-          url: url
-        });
-      }
-    },
-    // 查询节点信息
-    // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
-    // 解决办法为在组件根部再套一个没有任何作用的view元素
-    $uGetRect: function $uGetRect(selector, all) {
-      var _this2 = this;
-      return new Promise(function (resolve) {
-        uni.createSelectorQuery().in(_this2)[all ? 'selectAll' : 'select'](selector).boundingClientRect(function (rect) {
-          if (all && Array.isArray(rect) && rect.length) {
-            resolve(rect);
-          }
-          if (!all && rect) {
-            resolve(rect);
-          }
-        }).exec();
-      });
-    },
-    getParentData: function getParentData() {
-      var _this3 = this;
-      var parentName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      // 避免在created中去定义parent变量
-      if (!this.parent) this.parent = {};
-      // 这里的本质原理是，通过获取父组件实例(也即类似u-radio的父组件u-radio-group的this)
-      // 将父组件this中对应的参数，赋值给本组件(u-radio的this)的parentData对象中对应的属性
-      // 之所以需要这么做，是因为所有端中，头条小程序不支持通过this.parent.xxx去监听父组件参数的变化
-      // 此处并不会自动更新子组件的数据，而是依赖父组件u-radio-group去监听data的变化，手动调用更新子组件的方法去重新获取
-      this.parent = uni.$u.$parent.call(this, parentName);
-      if (this.parent.children) {
-        // 如果父组件的children不存在本组件的实例，才将本实例添加到父组件的children中
-        this.parent.children.indexOf(this) === -1 && this.parent.children.push(this);
-      }
-      if (this.parent && this.parentData) {
-        // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
-        Object.keys(this.parentData).map(function (key) {
-          _this3.parentData[key] = _this3.parent[key];
-        });
-      }
-    },
-    // 阻止事件冒泡
-    preventEvent: function preventEvent(e) {
-      e && typeof e.stopPropagation === 'function' && e.stopPropagation();
-    },
-    // 空操作
-    noop: function noop(e) {
-      this.preventEvent(e);
-    }
-  },
-  onReachBottom: function onReachBottom() {
-    uni.$emit('uOnReachBottom');
-  },
-  beforeDestroy: function beforeDestroy() {
-    var _this4 = this;
-    // 判断当前页面是否存在parent和chldren，一般在checkbox和checkbox-group父子联动的场景会有此情况
-    // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
-    if (this.parent && uni.$u.test.array(this.parent.children)) {
-      // 组件销毁时，移除父组件中的children数组中对应的实例
-      var childrenList = this.parent.children;
-      childrenList.map(function (child, index) {
-        // 如果相等，则移除
-        if (child === _this4) {
-          childrenList.splice(index, 1);
-        }
-      });
-    }
-  }
-};
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 38 */
-/*!**************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/mpMixin.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  // 将自定义节点设置成虚拟的，更加接近Vue组件的表现，能更好的使用flex属性
-  options: {
-    virtualHost: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 39 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/index.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _Request = _interopRequireDefault(__webpack_require__(/*! ./core/Request */ 40));
-var _default = _Request.default;
-exports.default = _default;
-
-/***/ }),
-/* 40 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/Request.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
-var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _dispatchRequest = _interopRequireDefault(__webpack_require__(/*! ./dispatchRequest */ 41));
-var _InterceptorManager = _interopRequireDefault(__webpack_require__(/*! ./InterceptorManager */ 49));
-var _mergeConfig = _interopRequireDefault(__webpack_require__(/*! ./mergeConfig */ 50));
-var _defaults = _interopRequireDefault(__webpack_require__(/*! ./defaults */ 51));
-var _utils = __webpack_require__(/*! ../utils */ 44);
-var _clone = _interopRequireDefault(__webpack_require__(/*! ../utils/clone */ 52));
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var Request = /*#__PURE__*/function () {
-  /**
-  * @param {Object} arg - 全局配置
-  * @param {String} arg.baseURL - 全局根路径
-  * @param {Object} arg.header - 全局header
-  * @param {String} arg.method = [GET|POST|PUT|DELETE|CONNECT|HEAD|OPTIONS|TRACE] - 全局默认请求方式
-  * @param {String} arg.dataType = [json] - 全局默认的dataType
-  * @param {String} arg.responseType = [text|arraybuffer] - 全局默认的responseType。支付宝小程序不支持
-  * @param {Object} arg.custom - 全局默认的自定义参数
-  * @param {Number} arg.timeout - 全局默认的超时时间，单位 ms。默认60000。H5(HBuilderX 2.9.9+)、APP(HBuilderX 2.9.9+)、微信小程序（2.10.0）、支付宝小程序
-  * @param {Boolean} arg.sslVerify - 全局默认的是否验证 ssl 证书。默认true.仅App安卓端支持（HBuilderX 2.3.3+）
-  * @param {Boolean} arg.withCredentials - 全局默认的跨域请求时是否携带凭证（cookies）。默认false。仅H5支持（HBuilderX 2.6.15+）
-  * @param {Boolean} arg.firstIpv4 - 全DNS解析时优先使用ipv4。默认false。仅 App-Android 支持 (HBuilderX 2.8.0+)
-  * @param {Function(statusCode):Boolean} arg.validateStatus - 全局默认的自定义验证器。默认statusCode >= 200 && statusCode < 300
-  */
-  function Request() {
-    var arg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    (0, _classCallCheck2.default)(this, Request);
-    if (!(0, _utils.isPlainObject)(arg)) {
-      arg = {};
-      console.warn('设置全局参数必须接收一个Object');
-    }
-    this.config = (0, _clone.default)(_objectSpread(_objectSpread({}, _defaults.default), arg));
-    this.interceptors = {
-      request: new _InterceptorManager.default(),
-      response: new _InterceptorManager.default()
-    };
-  }
-
-  /**
-  * @Function
-  * @param {Request~setConfigCallback} f - 设置全局默认配置
-  */
-  (0, _createClass2.default)(Request, [{
-    key: "setConfig",
-    value: function setConfig(f) {
-      this.config = f(this.config);
-    }
-  }, {
-    key: "middleware",
-    value: function middleware(config) {
-      config = (0, _mergeConfig.default)(this.config, config);
-      var chain = [_dispatchRequest.default, undefined];
-      var promise = Promise.resolve(config);
-      this.interceptors.request.forEach(function (interceptor) {
-        chain.unshift(interceptor.fulfilled, interceptor.rejected);
-      });
-      this.interceptors.response.forEach(function (interceptor) {
-        chain.push(interceptor.fulfilled, interceptor.rejected);
-      });
-      while (chain.length) {
-        promise = promise.then(chain.shift(), chain.shift());
-      }
-      return promise;
-    }
-
-    /**
-    * @Function
-    * @param {Object} config - 请求配置项
-    * @prop {String} options.url - 请求路径
-    * @prop {Object} options.data - 请求参数
-    * @prop {Object} [options.responseType = config.responseType] [text|arraybuffer] - 响应的数据类型
-    * @prop {Object} [options.dataType = config.dataType] - 如果设为 json，会尝试对返回的数据做一次 JSON.parse
-    * @prop {Object} [options.header = config.header] - 请求header
-    * @prop {Object} [options.method = config.method] - 请求方法
-    * @returns {Promise<unknown>}
-    */
-  }, {
-    key: "request",
-    value: function request() {
-      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      return this.middleware(config);
-    }
-  }, {
-    key: "get",
-    value: function get(url) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      return this.middleware(_objectSpread({
-        url: url,
-        method: 'GET'
-      }, options));
-    }
-  }, {
-    key: "post",
-    value: function post(url, data) {
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.middleware(_objectSpread({
-        url: url,
-        data: data,
-        method: 'POST'
-      }, options));
-    }
-  }, {
-    key: "put",
-    value: function put(url, data) {
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.middleware(_objectSpread({
-        url: url,
-        data: data,
-        method: 'PUT'
-      }, options));
-    }
-  }, {
-    key: "delete",
-    value: function _delete(url, data) {
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.middleware(_objectSpread({
-        url: url,
-        data: data,
-        method: 'DELETE'
-      }, options));
-    }
-  }, {
-    key: "connect",
-    value: function connect(url, data) {
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.middleware(_objectSpread({
-        url: url,
-        data: data,
-        method: 'CONNECT'
-      }, options));
-    }
-  }, {
-    key: "head",
-    value: function head(url, data) {
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.middleware(_objectSpread({
-        url: url,
-        data: data,
-        method: 'HEAD'
-      }, options));
-    }
-  }, {
-    key: "options",
-    value: function options(url, data) {
-      var _options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.middleware(_objectSpread({
-        url: url,
-        data: data,
-        method: 'OPTIONS'
-      }, _options));
-    }
-  }, {
-    key: "trace",
-    value: function trace(url, data) {
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.middleware(_objectSpread({
-        url: url,
-        data: data,
-        method: 'TRACE'
-      }, options));
-    }
-  }, {
-    key: "upload",
-    value: function upload(url) {
-      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      config.url = url;
-      config.method = 'UPLOAD';
-      return this.middleware(config);
-    }
-  }, {
-    key: "download",
-    value: function download(url) {
-      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      config.url = url;
-      config.method = 'DOWNLOAD';
-      return this.middleware(config);
-    }
-  }]);
-  return Request;
-}();
-/**
- * setConfig回调
- * @return {Object} - 返回操作后的config
- * @callback Request~setConfigCallback
- * @param {Object} config - 全局默认config
- */
-exports.default = Request;
-
-/***/ }),
-/* 41 */
-/*!**********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/dispatchRequest.js ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _index = _interopRequireDefault(__webpack_require__(/*! ../adapters/index */ 42));
-var _default = function _default(config) {
-  return (0, _index.default)(config);
-};
-exports.default = _default;
-
-/***/ }),
-/* 42 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/adapters/index.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _buildURL = _interopRequireDefault(__webpack_require__(/*! ../helpers/buildURL */ 43));
-var _buildFullPath = _interopRequireDefault(__webpack_require__(/*! ../core/buildFullPath */ 45));
-var _settle = _interopRequireDefault(__webpack_require__(/*! ../core/settle */ 48));
-var _utils = __webpack_require__(/*! ../utils */ 44);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-/**
- * 返回可选值存在的配置
- * @param {Array} keys - 可选值数组
- * @param {Object} config2 - 配置
- * @return {{}} - 存在的配置项
- */
-var mergeKeys = function mergeKeys(keys, config2) {
-  var config = {};
-  keys.forEach(function (prop) {
-    if (!(0, _utils.isUndefined)(config2[prop])) {
-      config[prop] = config2[prop];
-    }
-  });
-  return config;
-};
-var _default = function _default(config) {
-  return new Promise(function (resolve, reject) {
-    var fullPath = (0, _buildURL.default)((0, _buildFullPath.default)(config.baseURL, config.url), config.params);
-    var _config = {
-      url: fullPath,
-      header: config.header,
-      complete: function complete(response) {
-        config.fullPath = fullPath;
-        response.config = config;
-        try {
-          // 对可能字符串不是json 的情况容错
-          if (typeof response.data === 'string') {
-            response.data = JSON.parse(response.data);
-          }
-          // eslint-disable-next-line no-empty
-        } catch (e) {}
-        (0, _settle.default)(resolve, reject, response);
-      }
-    };
-    var requestTask;
-    if (config.method === 'UPLOAD') {
-      delete _config.header['content-type'];
-      delete _config.header['Content-Type'];
-      var otherConfig = {
-        filePath: config.filePath,
-        name: config.name
-      };
-      var optionalKeys = ['formData'];
-      requestTask = uni.uploadFile(_objectSpread(_objectSpread(_objectSpread({}, _config), otherConfig), mergeKeys(optionalKeys, config)));
-    } else if (config.method === 'DOWNLOAD') {
-      requestTask = uni.downloadFile(_config);
-    } else {
-      var _optionalKeys = ['data', 'method', 'timeout', 'dataType', 'responseType'];
-      requestTask = uni.request(_objectSpread(_objectSpread({}, _config), mergeKeys(_optionalKeys, config)));
-    }
-    if (config.getTask) {
-      config.getTask(requestTask, config);
-    }
-  });
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 43 */
-/*!******************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/buildURL.js ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ 13);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = buildURL;
-var utils = _interopRequireWildcard(__webpack_require__(/*! ../utils */ 44));
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function encode(val) {
-  return encodeURIComponent(val).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
-}
-
-/**
- * Build a URL by appending params to the end
- *
- * @param {string} url The base of the url (e.g., http://www.google.com)
- * @param {object} [params] The params to be appended
- * @returns {string} The formatted url
- */
-function buildURL(url, params) {
-  /* eslint no-param-reassign:0 */
-  if (!params) {
-    return url;
-  }
-  var serializedParams;
-  if (utils.isURLSearchParams(params)) {
-    serializedParams = params.toString();
-  } else {
-    var parts = [];
-    utils.forEach(params, function (val, key) {
-      if (val === null || typeof val === 'undefined') {
-        return;
-      }
-      if (utils.isArray(val)) {
-        key = "".concat(key, "[]");
-      } else {
-        val = [val];
-      }
-      utils.forEach(val, function (v) {
-        if (utils.isDate(v)) {
-          v = v.toISOString();
-        } else if (utils.isObject(v)) {
-          v = JSON.stringify(v);
-        }
-        parts.push("".concat(encode(key), "=").concat(encode(v)));
-      });
-    });
-    serializedParams = parts.join('&');
-  }
-  if (serializedParams) {
-    var hashmarkIndex = url.indexOf('#');
-    if (hashmarkIndex !== -1) {
-      url = url.slice(0, hashmarkIndex);
-    }
-    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-  }
-  return url;
-}
-
-/***/ }),
-/* 44 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/utils.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// utils is a library of generic helper functions non-specific to axios
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.deepMerge = deepMerge;
-exports.forEach = forEach;
-exports.isArray = isArray;
-exports.isBoolean = isBoolean;
-exports.isDate = isDate;
-exports.isObject = isObject;
-exports.isPlainObject = isPlainObject;
-exports.isURLSearchParams = isURLSearchParams;
-exports.isUndefined = isUndefined;
-var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
-var toString = Object.prototype.toString;
-
-/**
- * Determine if a value is an Array
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Array, otherwise false
- */
-function isArray(val) {
-  return toString.call(val) === '[object Array]';
-}
-
-/**
- * Determine if a value is an Object
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Object, otherwise false
- */
-function isObject(val) {
-  return val !== null && (0, _typeof2.default)(val) === 'object';
-}
-
-/**
- * Determine if a value is a Date
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a Date, otherwise false
- */
-function isDate(val) {
-  return toString.call(val) === '[object Date]';
-}
-
-/**
- * Determine if a value is a URLSearchParams object
- *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is a URLSearchParams object, otherwise false
- */
-function isURLSearchParams(val) {
-  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
-}
-
-/**
- * Iterate over an Array or an Object invoking a function for each item.
- *
- * If `obj` is an Array callback will be called passing
- * the value, index, and complete array for each item.
- *
- * If 'obj' is an Object callback will be called passing
- * the value, key, and complete object for each property.
- *
- * @param {Object|Array} obj The object to iterate
- * @param {Function} fn The callback to invoke for each item
- */
-function forEach(obj, fn) {
-  // Don't bother if no value provided
-  if (obj === null || typeof obj === 'undefined') {
-    return;
-  }
-
-  // Force an array if not already something iterable
-  if ((0, _typeof2.default)(obj) !== 'object') {
-    /* eslint no-param-reassign:0 */
-    obj = [obj];
-  }
-  if (isArray(obj)) {
-    // Iterate over array values
-    for (var i = 0, l = obj.length; i < l; i++) {
-      fn.call(null, obj[i], i, obj);
-    }
-  } else {
-    // Iterate over object keys
-    for (var key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        fn.call(null, obj[key], key, obj);
-      }
-    }
-  }
-}
-
-/**
- * 是否为boolean 值
- * @param val
- * @returns {boolean}
- */
-function isBoolean(val) {
-  return typeof val === 'boolean';
-}
-
-/**
- * 是否为真正的对象{} new Object
- * @param {any} obj - 检测的对象
- * @returns {boolean}
- */
-function isPlainObject(obj) {
-  return Object.prototype.toString.call(obj) === '[object Object]';
-}
-
-/**
- * Function equal to merge with the difference being that no reference
- * to original objects is kept.
- *
- * @see merge
- * @param {Object} obj1 Object to merge
- * @returns {Object} Result of all merge properties
- */
-function deepMerge( /* obj1, obj2, obj3, ... */
-) {
-  var result = {};
-  function assignValue(val, key) {
-    if ((0, _typeof2.default)(result[key]) === 'object' && (0, _typeof2.default)(val) === 'object') {
-      result[key] = deepMerge(result[key], val);
-    } else if ((0, _typeof2.default)(val) === 'object') {
-      result[key] = deepMerge({}, val);
-    } else {
-      result[key] = val;
-    }
-  }
-  for (var i = 0, l = arguments.length; i < l; i++) {
-    forEach(arguments[i], assignValue);
-  }
-  return result;
-}
-function isUndefined(val) {
-  return typeof val === 'undefined';
-}
-
-/***/ }),
-/* 45 */
-/*!********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/buildFullPath.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = buildFullPath;
-var _isAbsoluteURL = _interopRequireDefault(__webpack_require__(/*! ../helpers/isAbsoluteURL */ 46));
-var _combineURLs = _interopRequireDefault(__webpack_require__(/*! ../helpers/combineURLs */ 47));
-/**
- * Creates a new URL by combining the baseURL with the requestedURL,
- * only when the requestedURL is not already an absolute URL.
- * If the requestURL is absolute, this function returns the requestedURL untouched.
- *
- * @param {string} baseURL The base URL
- * @param {string} requestedURL Absolute or relative URL to combine
- * @returns {string} The combined full path
- */
-function buildFullPath(baseURL, requestedURL) {
-  if (baseURL && !(0, _isAbsoluteURL.default)(requestedURL)) {
-    return (0, _combineURLs.default)(baseURL, requestedURL);
-  }
-  return requestedURL;
-}
-
-/***/ }),
-/* 46 */
-/*!***********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/isAbsoluteURL.js ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isAbsoluteURL;
-function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
-}
-
-/***/ }),
-/* 47 */
-/*!*********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/combineURLs.js ***!
-  \*********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = combineURLs;
-function combineURLs(baseURL, relativeURL) {
-  return relativeURL ? "".concat(baseURL.replace(/\/+$/, ''), "/").concat(relativeURL.replace(/^\/+/, '')) : baseURL;
-}
-
-/***/ }),
-/* 48 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/settle.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = settle;
-/**
- * Resolve or reject a Promise based on response status.
- *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  var status = response.statusCode;
-  if (status && (!validateStatus || validateStatus(status))) {
-    resolve(response);
-  } else {
-    reject(response);
-  }
-}
-
-/***/ }),
-/* 49 */
-/*!*************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/InterceptorManager.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  this.handlers.forEach(function (h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-var _default = InterceptorManager;
-exports.default = _default;
-
-/***/ }),
-/* 50 */
-/*!******************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/mergeConfig.js ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _utils = __webpack_require__(/*! ../utils */ 44);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-/**
- * 合并局部配置优先的配置，如果局部有该配置项则用局部，如果全局有该配置项则用全局
- * @param {Array} keys - 配置项
- * @param {Object} globalsConfig - 当前的全局配置
- * @param {Object} config2 - 局部配置
- * @return {{}}
- */
-var mergeKeys = function mergeKeys(keys, globalsConfig, config2) {
-  var config = {};
-  keys.forEach(function (prop) {
-    if (!(0, _utils.isUndefined)(config2[prop])) {
-      config[prop] = config2[prop];
-    } else if (!(0, _utils.isUndefined)(globalsConfig[prop])) {
-      config[prop] = globalsConfig[prop];
-    }
-  });
-  return config;
-};
-/**
- *
- * @param globalsConfig - 当前实例的全局配置
- * @param config2 - 当前的局部配置
- * @return - 合并后的配置
- */
-var _default = function _default(globalsConfig) {
-  var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var method = config2.method || globalsConfig.method || 'GET';
-  var config = {
-    baseURL: globalsConfig.baseURL || '',
-    method: method,
-    url: config2.url || '',
-    params: config2.params || {},
-    custom: _objectSpread(_objectSpread({}, globalsConfig.custom || {}), config2.custom || {}),
-    header: (0, _utils.deepMerge)(globalsConfig.header || {}, config2.header || {})
-  };
-  var defaultToConfig2Keys = ['getTask', 'validateStatus'];
-  config = _objectSpread(_objectSpread({}, config), mergeKeys(defaultToConfig2Keys, globalsConfig, config2));
-
-  // eslint-disable-next-line no-empty
-  if (method === 'DOWNLOAD') {} else if (method === 'UPLOAD') {
-    delete config.header['content-type'];
-    delete config.header['Content-Type'];
-    var uploadKeys = ['filePath', 'name', 'formData'];
-    uploadKeys.forEach(function (prop) {
-      if (!(0, _utils.isUndefined)(config2[prop])) {
-        config[prop] = config2[prop];
-      }
-    });
-  } else {
-    var defaultsKeys = ['data', 'timeout', 'dataType', 'responseType'];
-    config = _objectSpread(_objectSpread({}, config), mergeKeys(defaultsKeys, globalsConfig, config2));
-  }
-  return config;
-};
-exports.default = _default;
-
-/***/ }),
-/* 51 */
-/*!***************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/defaults.js ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/**
- * 默认的全局配置
- */
-var _default = {
-  baseURL: '',
-  header: {},
-  method: 'GET',
-  dataType: 'json',
-  responseType: 'text',
-  custom: {},
-  timeout: 60000,
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 52 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/utils/clone.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Buffer) {
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
-/* eslint-disable */
-var clone = function () {
-  'use strict';
-
-  function _instanceof(obj, type) {
-    return type != null && obj instanceof type;
-  }
-  var nativeMap;
-  try {
-    nativeMap = Map;
-  } catch (_) {
-    // maybe a reference error because no `Map`. Give it a dummy value that no
-    // value will ever be an instanceof.
-    nativeMap = function nativeMap() {};
-  }
-  var nativeSet;
-  try {
-    nativeSet = Set;
-  } catch (_) {
-    nativeSet = function nativeSet() {};
-  }
-  var nativePromise;
-  try {
-    nativePromise = Promise;
-  } catch (_) {
-    nativePromise = function nativePromise() {};
-  }
-
-  /**
-   * Clones (copies) an Object using deep copying.
-   *
-   * This function supports circular references by default, but if you are certain
-   * there are no circular references in your object, you can save some CPU time
-   * by calling clone(obj, false).
-   *
-   * Caution: if `circular` is false and `parent` contains circular references,
-   * your program may enter an infinite loop and crash.
-   *
-   * @param `parent` - the object to be cloned
-   * @param `circular` - set to true if the object to be cloned may contain
-   *    circular references. (optional - true by default)
-   * @param `depth` - set to a number if the object is only to be cloned to
-   *    a particular depth. (optional - defaults to Infinity)
-   * @param `prototype` - sets the prototype to be used when cloning an object.
-   *    (optional - defaults to parent prototype).
-   * @param `includeNonEnumerable` - set to true if the non-enumerable properties
-   *    should be cloned as well. Non-enumerable properties on the prototype
-   *    chain will be ignored. (optional - false by default)
-   */
-  function clone(parent, circular, depth, prototype, includeNonEnumerable) {
-    if ((0, _typeof2.default)(circular) === 'object') {
-      depth = circular.depth;
-      prototype = circular.prototype;
-      includeNonEnumerable = circular.includeNonEnumerable;
-      circular = circular.circular;
-    }
-    // maintain two arrays for circular references, where corresponding parents
-    // and children have the same index
-    var allParents = [];
-    var allChildren = [];
-    var useBuffer = typeof Buffer != 'undefined';
-    if (typeof circular == 'undefined') circular = true;
-    if (typeof depth == 'undefined') depth = Infinity;
-
-    // recurse this function so we don't reset allParents and allChildren
-    function _clone(parent, depth) {
-      // cloning null always returns null
-      if (parent === null) return null;
-      if (depth === 0) return parent;
-      var child;
-      var proto;
-      if ((0, _typeof2.default)(parent) != 'object') {
-        return parent;
-      }
-      if (_instanceof(parent, nativeMap)) {
-        child = new nativeMap();
-      } else if (_instanceof(parent, nativeSet)) {
-        child = new nativeSet();
-      } else if (_instanceof(parent, nativePromise)) {
-        child = new nativePromise(function (resolve, reject) {
-          parent.then(function (value) {
-            resolve(_clone(value, depth - 1));
-          }, function (err) {
-            reject(_clone(err, depth - 1));
-          });
-        });
-      } else if (clone.__isArray(parent)) {
-        child = [];
-      } else if (clone.__isRegExp(parent)) {
-        child = new RegExp(parent.source, __getRegExpFlags(parent));
-        if (parent.lastIndex) child.lastIndex = parent.lastIndex;
-      } else if (clone.__isDate(parent)) {
-        child = new Date(parent.getTime());
-      } else if (useBuffer && Buffer.isBuffer(parent)) {
-        if (Buffer.from) {
-          // Node.js >= 5.10.0
-          child = Buffer.from(parent);
-        } else {
-          // Older Node.js versions
-          child = new Buffer(parent.length);
-          parent.copy(child);
-        }
-        return child;
-      } else if (_instanceof(parent, Error)) {
-        child = Object.create(parent);
-      } else {
-        if (typeof prototype == 'undefined') {
-          proto = Object.getPrototypeOf(parent);
-          child = Object.create(proto);
-        } else {
-          child = Object.create(prototype);
-          proto = prototype;
-        }
-      }
-      if (circular) {
-        var index = allParents.indexOf(parent);
-        if (index != -1) {
-          return allChildren[index];
-        }
-        allParents.push(parent);
-        allChildren.push(child);
-      }
-      if (_instanceof(parent, nativeMap)) {
-        parent.forEach(function (value, key) {
-          var keyChild = _clone(key, depth - 1);
-          var valueChild = _clone(value, depth - 1);
-          child.set(keyChild, valueChild);
-        });
-      }
-      if (_instanceof(parent, nativeSet)) {
-        parent.forEach(function (value) {
-          var entryChild = _clone(value, depth - 1);
-          child.add(entryChild);
-        });
-      }
-      for (var i in parent) {
-        var attrs = Object.getOwnPropertyDescriptor(parent, i);
-        if (attrs) {
-          child[i] = _clone(parent[i], depth - 1);
-        }
-        try {
-          var objProperty = Object.getOwnPropertyDescriptor(parent, i);
-          if (objProperty.set === 'undefined') {
-            // no setter defined. Skip cloning this property
-            continue;
-          }
-          child[i] = _clone(parent[i], depth - 1);
-        } catch (e) {
-          if (e instanceof TypeError) {
-            // when in strict mode, TypeError will be thrown if child[i] property only has a getter
-            // we can't do anything about this, other than inform the user that this property cannot be set.
-            continue;
-          } else if (e instanceof ReferenceError) {
-            //this may happen in non strict mode
-            continue;
-          }
-        }
-      }
-      if (Object.getOwnPropertySymbols) {
-        var symbols = Object.getOwnPropertySymbols(parent);
-        for (var i = 0; i < symbols.length; i++) {
-          // Don't need to worry about cloning a symbol because it is a primitive,
-          // like a number or string.
-          var symbol = symbols[i];
-          var descriptor = Object.getOwnPropertyDescriptor(parent, symbol);
-          if (descriptor && !descriptor.enumerable && !includeNonEnumerable) {
-            continue;
-          }
-          child[symbol] = _clone(parent[symbol], depth - 1);
-          Object.defineProperty(child, symbol, descriptor);
-        }
-      }
-      if (includeNonEnumerable) {
-        var allPropertyNames = Object.getOwnPropertyNames(parent);
-        for (var i = 0; i < allPropertyNames.length; i++) {
-          var propertyName = allPropertyNames[i];
-          var descriptor = Object.getOwnPropertyDescriptor(parent, propertyName);
-          if (descriptor && descriptor.enumerable) {
-            continue;
-          }
-          child[propertyName] = _clone(parent[propertyName], depth - 1);
-          Object.defineProperty(child, propertyName, descriptor);
-        }
-      }
-      return child;
-    }
-    return _clone(parent, depth);
-  }
-
-  /**
-   * Simple flat clone using prototype, accepts only objects, usefull for property
-   * override on FLAT configuration object (no nested props).
-   *
-   * USE WITH CAUTION! This may not behave as you wish if you do not know how this
-   * works.
-   */
-  clone.clonePrototype = function clonePrototype(parent) {
-    if (parent === null) return null;
-    var c = function c() {};
-    c.prototype = parent;
-    return new c();
-  };
-
-  // private utility functions
-
-  function __objToStr(o) {
-    return Object.prototype.toString.call(o);
-  }
-  clone.__objToStr = __objToStr;
-  function __isDate(o) {
-    return (0, _typeof2.default)(o) === 'object' && __objToStr(o) === '[object Date]';
-  }
-  clone.__isDate = __isDate;
-  function __isArray(o) {
-    return (0, _typeof2.default)(o) === 'object' && __objToStr(o) === '[object Array]';
-  }
-  clone.__isArray = __isArray;
-  function __isRegExp(o) {
-    return (0, _typeof2.default)(o) === 'object' && __objToStr(o) === '[object RegExp]';
-  }
-  clone.__isRegExp = __isRegExp;
-  function __getRegExpFlags(re) {
-    var flags = '';
-    if (re.global) flags += 'g';
-    if (re.ignoreCase) flags += 'i';
-    if (re.multiline) flags += 'm';
-    return flags;
-  }
-  clone.__getRegExpFlags = __getRegExpFlags;
-  return clone;
-}();
-var _default = clone;
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/buffer/index.js */ 53).Buffer))
-
-/***/ }),
-/* 53 */
-/*!**************************************!*\
-  !*** ./node_modules/buffer/index.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <http://feross.org>
- * @license  MIT
- */
-/* eslint-disable no-proto */
-
-
-
-var base64 = __webpack_require__(/*! base64-js */ 54)
-var ieee754 = __webpack_require__(/*! ieee754 */ 55)
-var isArray = __webpack_require__(/*! isarray */ 56)
-
-exports.Buffer = Buffer
-exports.SlowBuffer = SlowBuffer
-exports.INSPECT_MAX_BYTES = 50
-
-/**
- * If `Buffer.TYPED_ARRAY_SUPPORT`:
- *   === true    Use Uint8Array implementation (fastest)
- *   === false   Use Object implementation (most compatible, even IE6)
- *
- * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
- * Opera 11.6+, iOS 4.2+.
- *
- * Due to various browser bugs, sometimes the Object implementation will be used even
- * when the browser supports typed arrays.
- *
- * Note:
- *
- *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
- *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
- *
- *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
- *
- *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
- *     incorrect length in some situations.
-
- * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
- * get the Object implementation, which is slower but behaves correctly.
- */
-Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
-  ? global.TYPED_ARRAY_SUPPORT
-  : typedArraySupport()
-
-/*
- * Export kMaxLength after typed array support is determined.
- */
-exports.kMaxLength = kMaxLength()
-
-function typedArraySupport () {
-  try {
-    var arr = new Uint8Array(1)
-    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
-    return arr.foo() === 42 && // typed array instances can be augmented
-        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
-        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
-  } catch (e) {
-    return false
-  }
-}
-
-function kMaxLength () {
-  return Buffer.TYPED_ARRAY_SUPPORT
-    ? 0x7fffffff
-    : 0x3fffffff
-}
-
-function createBuffer (that, length) {
-  if (kMaxLength() < length) {
-    throw new RangeError('Invalid typed array length')
-  }
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Return an augmented `Uint8Array` instance, for best performance
-    that = new Uint8Array(length)
-    that.__proto__ = Buffer.prototype
-  } else {
-    // Fallback: Return an object instance of the Buffer class
-    if (that === null) {
-      that = new Buffer(length)
-    }
-    that.length = length
-  }
-
-  return that
-}
-
-/**
- * The Buffer constructor returns instances of `Uint8Array` that have their
- * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
- * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
- * and the `Uint8Array` methods. Square bracket notation works as expected -- it
- * returns a single octet.
- *
- * The `Uint8Array` prototype remains unmodified.
- */
-
-function Buffer (arg, encodingOrOffset, length) {
-  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
-    return new Buffer(arg, encodingOrOffset, length)
-  }
-
-  // Common case.
-  if (typeof arg === 'number') {
-    if (typeof encodingOrOffset === 'string') {
-      throw new Error(
-        'If encoding is specified then the first argument must be a string'
-      )
-    }
-    return allocUnsafe(this, arg)
-  }
-  return from(this, arg, encodingOrOffset, length)
-}
-
-Buffer.poolSize = 8192 // not used by this implementation
-
-// TODO: Legacy, not needed anymore. Remove in next major version.
-Buffer._augment = function (arr) {
-  arr.__proto__ = Buffer.prototype
-  return arr
-}
-
-function from (that, value, encodingOrOffset, length) {
-  if (typeof value === 'number') {
-    throw new TypeError('"value" argument must not be a number')
-  }
-
-  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
-    return fromArrayBuffer(that, value, encodingOrOffset, length)
-  }
-
-  if (typeof value === 'string') {
-    return fromString(that, value, encodingOrOffset)
-  }
-
-  return fromObject(that, value)
-}
-
-/**
- * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
- * if value is a number.
- * Buffer.from(str[, encoding])
- * Buffer.from(array)
- * Buffer.from(buffer)
- * Buffer.from(arrayBuffer[, byteOffset[, length]])
- **/
-Buffer.from = function (value, encodingOrOffset, length) {
-  return from(null, value, encodingOrOffset, length)
-}
-
-if (Buffer.TYPED_ARRAY_SUPPORT) {
-  Buffer.prototype.__proto__ = Uint8Array.prototype
-  Buffer.__proto__ = Uint8Array
-  if (typeof Symbol !== 'undefined' && Symbol.species &&
-      Buffer[Symbol.species] === Buffer) {
-    // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
-    Object.defineProperty(Buffer, Symbol.species, {
-      value: null,
-      configurable: true
-    })
-  }
-}
-
-function assertSize (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('"size" argument must be a number')
-  } else if (size < 0) {
-    throw new RangeError('"size" argument must not be negative')
-  }
-}
-
-function alloc (that, size, fill, encoding) {
-  assertSize(size)
-  if (size <= 0) {
-    return createBuffer(that, size)
-  }
-  if (fill !== undefined) {
-    // Only pay attention to encoding if it's a string. This
-    // prevents accidentally sending in a number that would
-    // be interpretted as a start offset.
-    return typeof encoding === 'string'
-      ? createBuffer(that, size).fill(fill, encoding)
-      : createBuffer(that, size).fill(fill)
-  }
-  return createBuffer(that, size)
-}
-
-/**
- * Creates a new filled Buffer instance.
- * alloc(size[, fill[, encoding]])
- **/
-Buffer.alloc = function (size, fill, encoding) {
-  return alloc(null, size, fill, encoding)
-}
-
-function allocUnsafe (that, size) {
-  assertSize(size)
-  that = createBuffer(that, size < 0 ? 0 : checked(size) | 0)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) {
-    for (var i = 0; i < size; ++i) {
-      that[i] = 0
-    }
-  }
-  return that
-}
-
-/**
- * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
- * */
-Buffer.allocUnsafe = function (size) {
-  return allocUnsafe(null, size)
-}
-/**
- * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
- */
-Buffer.allocUnsafeSlow = function (size) {
-  return allocUnsafe(null, size)
-}
-
-function fromString (that, string, encoding) {
-  if (typeof encoding !== 'string' || encoding === '') {
-    encoding = 'utf8'
-  }
-
-  if (!Buffer.isEncoding(encoding)) {
-    throw new TypeError('"encoding" must be a valid string encoding')
-  }
-
-  var length = byteLength(string, encoding) | 0
-  that = createBuffer(that, length)
-
-  var actual = that.write(string, encoding)
-
-  if (actual !== length) {
-    // Writing a hex string, for example, that contains invalid characters will
-    // cause everything after the first invalid character to be ignored. (e.g.
-    // 'abxxcd' will be treated as 'ab')
-    that = that.slice(0, actual)
-  }
-
-  return that
-}
-
-function fromArrayLike (that, array) {
-  var length = array.length < 0 ? 0 : checked(array.length) | 0
-  that = createBuffer(that, length)
-  for (var i = 0; i < length; i += 1) {
-    that[i] = array[i] & 255
-  }
-  return that
-}
-
-function fromArrayBuffer (that, array, byteOffset, length) {
-  array.byteLength // this throws if `array` is not a valid ArrayBuffer
-
-  if (byteOffset < 0 || array.byteLength < byteOffset) {
-    throw new RangeError('\'offset\' is out of bounds')
-  }
-
-  if (array.byteLength < byteOffset + (length || 0)) {
-    throw new RangeError('\'length\' is out of bounds')
-  }
-
-  if (byteOffset === undefined && length === undefined) {
-    array = new Uint8Array(array)
-  } else if (length === undefined) {
-    array = new Uint8Array(array, byteOffset)
-  } else {
-    array = new Uint8Array(array, byteOffset, length)
-  }
-
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Return an augmented `Uint8Array` instance, for best performance
-    that = array
-    that.__proto__ = Buffer.prototype
-  } else {
-    // Fallback: Return an object instance of the Buffer class
-    that = fromArrayLike(that, array)
-  }
-  return that
-}
-
-function fromObject (that, obj) {
-  if (Buffer.isBuffer(obj)) {
-    var len = checked(obj.length) | 0
-    that = createBuffer(that, len)
-
-    if (that.length === 0) {
-      return that
-    }
-
-    obj.copy(that, 0, 0, len)
-    return that
-  }
-
-  if (obj) {
-    if ((typeof ArrayBuffer !== 'undefined' &&
-        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
-      if (typeof obj.length !== 'number' || isnan(obj.length)) {
-        return createBuffer(that, 0)
-      }
-      return fromArrayLike(that, obj)
-    }
-
-    if (obj.type === 'Buffer' && isArray(obj.data)) {
-      return fromArrayLike(that, obj.data)
-    }
-  }
-
-  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
-}
-
-function checked (length) {
-  // Note: cannot use `length < kMaxLength()` here because that fails when
-  // length is NaN (which is otherwise coerced to zero.)
-  if (length >= kMaxLength()) {
-    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
-                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
-  }
-  return length | 0
-}
-
-function SlowBuffer (length) {
-  if (+length != length) { // eslint-disable-line eqeqeq
-    length = 0
-  }
-  return Buffer.alloc(+length)
-}
-
-Buffer.isBuffer = function isBuffer (b) {
-  return !!(b != null && b._isBuffer)
-}
-
-Buffer.compare = function compare (a, b) {
-  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
-    throw new TypeError('Arguments must be Buffers')
-  }
-
-  if (a === b) return 0
-
-  var x = a.length
-  var y = b.length
-
-  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
-    if (a[i] !== b[i]) {
-      x = a[i]
-      y = b[i]
-      break
-    }
-  }
-
-  if (x < y) return -1
-  if (y < x) return 1
-  return 0
-}
-
-Buffer.isEncoding = function isEncoding (encoding) {
-  switch (String(encoding).toLowerCase()) {
-    case 'hex':
-    case 'utf8':
-    case 'utf-8':
-    case 'ascii':
-    case 'latin1':
-    case 'binary':
-    case 'base64':
-    case 'ucs2':
-    case 'ucs-2':
-    case 'utf16le':
-    case 'utf-16le':
-      return true
-    default:
-      return false
-  }
-}
-
-Buffer.concat = function concat (list, length) {
-  if (!isArray(list)) {
-    throw new TypeError('"list" argument must be an Array of Buffers')
-  }
-
-  if (list.length === 0) {
-    return Buffer.alloc(0)
-  }
-
-  var i
-  if (length === undefined) {
-    length = 0
-    for (i = 0; i < list.length; ++i) {
-      length += list[i].length
-    }
-  }
-
-  var buffer = Buffer.allocUnsafe(length)
-  var pos = 0
-  for (i = 0; i < list.length; ++i) {
-    var buf = list[i]
-    if (!Buffer.isBuffer(buf)) {
-      throw new TypeError('"list" argument must be an Array of Buffers')
-    }
-    buf.copy(buffer, pos)
-    pos += buf.length
-  }
-  return buffer
-}
-
-function byteLength (string, encoding) {
-  if (Buffer.isBuffer(string)) {
-    return string.length
-  }
-  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
-      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
-    return string.byteLength
-  }
-  if (typeof string !== 'string') {
-    string = '' + string
-  }
-
-  var len = string.length
-  if (len === 0) return 0
-
-  // Use a for loop to avoid recursion
-  var loweredCase = false
-  for (;;) {
-    switch (encoding) {
-      case 'ascii':
-      case 'latin1':
-      case 'binary':
-        return len
-      case 'utf8':
-      case 'utf-8':
-      case undefined:
-        return utf8ToBytes(string).length
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return len * 2
-      case 'hex':
-        return len >>> 1
-      case 'base64':
-        return base64ToBytes(string).length
-      default:
-        if (loweredCase) return utf8ToBytes(string).length // assume utf8
-        encoding = ('' + encoding).toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-Buffer.byteLength = byteLength
-
-function slowToString (encoding, start, end) {
-  var loweredCase = false
-
-  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
-  // property of a typed array.
-
-  // This behaves neither like String nor Uint8Array in that we set start/end
-  // to their upper/lower bounds if the value passed is out of range.
-  // undefined is handled specially as per ECMA-262 6th Edition,
-  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
-  if (start === undefined || start < 0) {
-    start = 0
-  }
-  // Return early if start > this.length. Done here to prevent potential uint32
-  // coercion fail below.
-  if (start > this.length) {
-    return ''
-  }
-
-  if (end === undefined || end > this.length) {
-    end = this.length
-  }
-
-  if (end <= 0) {
-    return ''
-  }
-
-  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
-  end >>>= 0
-  start >>>= 0
-
-  if (end <= start) {
-    return ''
-  }
-
-  if (!encoding) encoding = 'utf8'
-
-  while (true) {
-    switch (encoding) {
-      case 'hex':
-        return hexSlice(this, start, end)
-
-      case 'utf8':
-      case 'utf-8':
-        return utf8Slice(this, start, end)
-
-      case 'ascii':
-        return asciiSlice(this, start, end)
-
-      case 'latin1':
-      case 'binary':
-        return latin1Slice(this, start, end)
-
-      case 'base64':
-        return base64Slice(this, start, end)
-
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return utf16leSlice(this, start, end)
-
-      default:
-        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
-        encoding = (encoding + '').toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-
-// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
-// Buffer instances.
-Buffer.prototype._isBuffer = true
-
-function swap (b, n, m) {
-  var i = b[n]
-  b[n] = b[m]
-  b[m] = i
-}
-
-Buffer.prototype.swap16 = function swap16 () {
-  var len = this.length
-  if (len % 2 !== 0) {
-    throw new RangeError('Buffer size must be a multiple of 16-bits')
-  }
-  for (var i = 0; i < len; i += 2) {
-    swap(this, i, i + 1)
-  }
-  return this
-}
-
-Buffer.prototype.swap32 = function swap32 () {
-  var len = this.length
-  if (len % 4 !== 0) {
-    throw new RangeError('Buffer size must be a multiple of 32-bits')
-  }
-  for (var i = 0; i < len; i += 4) {
-    swap(this, i, i + 3)
-    swap(this, i + 1, i + 2)
-  }
-  return this
-}
-
-Buffer.prototype.swap64 = function swap64 () {
-  var len = this.length
-  if (len % 8 !== 0) {
-    throw new RangeError('Buffer size must be a multiple of 64-bits')
-  }
-  for (var i = 0; i < len; i += 8) {
-    swap(this, i, i + 7)
-    swap(this, i + 1, i + 6)
-    swap(this, i + 2, i + 5)
-    swap(this, i + 3, i + 4)
-  }
-  return this
-}
-
-Buffer.prototype.toString = function toString () {
-  var length = this.length | 0
-  if (length === 0) return ''
-  if (arguments.length === 0) return utf8Slice(this, 0, length)
-  return slowToString.apply(this, arguments)
-}
-
-Buffer.prototype.equals = function equals (b) {
-  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
-  if (this === b) return true
-  return Buffer.compare(this, b) === 0
-}
-
-Buffer.prototype.inspect = function inspect () {
-  var str = ''
-  var max = exports.INSPECT_MAX_BYTES
-  if (this.length > 0) {
-    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
-    if (this.length > max) str += ' ... '
-  }
-  return '<Buffer ' + str + '>'
-}
-
-Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
-  if (!Buffer.isBuffer(target)) {
-    throw new TypeError('Argument must be a Buffer')
-  }
-
-  if (start === undefined) {
-    start = 0
-  }
-  if (end === undefined) {
-    end = target ? target.length : 0
-  }
-  if (thisStart === undefined) {
-    thisStart = 0
-  }
-  if (thisEnd === undefined) {
-    thisEnd = this.length
-  }
-
-  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
-    throw new RangeError('out of range index')
-  }
-
-  if (thisStart >= thisEnd && start >= end) {
-    return 0
-  }
-  if (thisStart >= thisEnd) {
-    return -1
-  }
-  if (start >= end) {
-    return 1
-  }
-
-  start >>>= 0
-  end >>>= 0
-  thisStart >>>= 0
-  thisEnd >>>= 0
-
-  if (this === target) return 0
-
-  var x = thisEnd - thisStart
-  var y = end - start
-  var len = Math.min(x, y)
-
-  var thisCopy = this.slice(thisStart, thisEnd)
-  var targetCopy = target.slice(start, end)
-
-  for (var i = 0; i < len; ++i) {
-    if (thisCopy[i] !== targetCopy[i]) {
-      x = thisCopy[i]
-      y = targetCopy[i]
-      break
-    }
-  }
-
-  if (x < y) return -1
-  if (y < x) return 1
-  return 0
-}
-
-// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
-// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
-//
-// Arguments:
-// - buffer - a Buffer to search
-// - val - a string, Buffer, or number
-// - byteOffset - an index into `buffer`; will be clamped to an int32
-// - encoding - an optional encoding, relevant is val is a string
-// - dir - true for indexOf, false for lastIndexOf
-function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
-  // Empty buffer means no match
-  if (buffer.length === 0) return -1
-
-  // Normalize byteOffset
-  if (typeof byteOffset === 'string') {
-    encoding = byteOffset
-    byteOffset = 0
-  } else if (byteOffset > 0x7fffffff) {
-    byteOffset = 0x7fffffff
-  } else if (byteOffset < -0x80000000) {
-    byteOffset = -0x80000000
-  }
-  byteOffset = +byteOffset  // Coerce to Number.
-  if (isNaN(byteOffset)) {
-    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
-    byteOffset = dir ? 0 : (buffer.length - 1)
-  }
-
-  // Normalize byteOffset: negative offsets start from the end of the buffer
-  if (byteOffset < 0) byteOffset = buffer.length + byteOffset
-  if (byteOffset >= buffer.length) {
-    if (dir) return -1
-    else byteOffset = buffer.length - 1
-  } else if (byteOffset < 0) {
-    if (dir) byteOffset = 0
-    else return -1
-  }
-
-  // Normalize val
-  if (typeof val === 'string') {
-    val = Buffer.from(val, encoding)
-  }
-
-  // Finally, search either indexOf (if dir is true) or lastIndexOf
-  if (Buffer.isBuffer(val)) {
-    // Special case: looking for empty string/buffer always fails
-    if (val.length === 0) {
-      return -1
-    }
-    return arrayIndexOf(buffer, val, byteOffset, encoding, dir)
-  } else if (typeof val === 'number') {
-    val = val & 0xFF // Search for a byte value [0-255]
-    if (Buffer.TYPED_ARRAY_SUPPORT &&
-        typeof Uint8Array.prototype.indexOf === 'function') {
-      if (dir) {
-        return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset)
-      } else {
-        return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
-      }
-    }
-    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
-  }
-
-  throw new TypeError('val must be string, number or Buffer')
-}
-
-function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
-  var indexSize = 1
-  var arrLength = arr.length
-  var valLength = val.length
-
-  if (encoding !== undefined) {
-    encoding = String(encoding).toLowerCase()
-    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
-        encoding === 'utf16le' || encoding === 'utf-16le') {
-      if (arr.length < 2 || val.length < 2) {
-        return -1
-      }
-      indexSize = 2
-      arrLength /= 2
-      valLength /= 2
-      byteOffset /= 2
-    }
-  }
-
-  function read (buf, i) {
-    if (indexSize === 1) {
-      return buf[i]
-    } else {
-      return buf.readUInt16BE(i * indexSize)
-    }
-  }
-
-  var i
-  if (dir) {
-    var foundIndex = -1
-    for (i = byteOffset; i < arrLength; i++) {
-      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
-        if (foundIndex === -1) foundIndex = i
-        if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
-      } else {
-        if (foundIndex !== -1) i -= i - foundIndex
-        foundIndex = -1
-      }
-    }
-  } else {
-    if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength
-    for (i = byteOffset; i >= 0; i--) {
-      var found = true
-      for (var j = 0; j < valLength; j++) {
-        if (read(arr, i + j) !== read(val, j)) {
-          found = false
-          break
-        }
-      }
-      if (found) return i
-    }
-  }
-
-  return -1
-}
-
-Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
-  return this.indexOf(val, byteOffset, encoding) !== -1
-}
-
-Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
-  return bidirectionalIndexOf(this, val, byteOffset, encoding, true)
-}
-
-Buffer.prototype.lastIndexOf = function lastIndexOf (val, byteOffset, encoding) {
-  return bidirectionalIndexOf(this, val, byteOffset, encoding, false)
-}
-
-function hexWrite (buf, string, offset, length) {
-  offset = Number(offset) || 0
-  var remaining = buf.length - offset
-  if (!length) {
-    length = remaining
-  } else {
-    length = Number(length)
-    if (length > remaining) {
-      length = remaining
-    }
-  }
-
-  // must be an even number of digits
-  var strLen = string.length
-  if (strLen % 2 !== 0) throw new TypeError('Invalid hex string')
-
-  if (length > strLen / 2) {
-    length = strLen / 2
-  }
-  for (var i = 0; i < length; ++i) {
-    var parsed = parseInt(string.substr(i * 2, 2), 16)
-    if (isNaN(parsed)) return i
-    buf[offset + i] = parsed
-  }
-  return i
-}
-
-function utf8Write (buf, string, offset, length) {
-  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
-}
-
-function asciiWrite (buf, string, offset, length) {
-  return blitBuffer(asciiToBytes(string), buf, offset, length)
-}
-
-function latin1Write (buf, string, offset, length) {
-  return asciiWrite(buf, string, offset, length)
-}
-
-function base64Write (buf, string, offset, length) {
-  return blitBuffer(base64ToBytes(string), buf, offset, length)
-}
-
-function ucs2Write (buf, string, offset, length) {
-  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
-}
-
-Buffer.prototype.write = function write (string, offset, length, encoding) {
-  // Buffer#write(string)
-  if (offset === undefined) {
-    encoding = 'utf8'
-    length = this.length
-    offset = 0
-  // Buffer#write(string, encoding)
-  } else if (length === undefined && typeof offset === 'string') {
-    encoding = offset
-    length = this.length
-    offset = 0
-  // Buffer#write(string, offset[, length][, encoding])
-  } else if (isFinite(offset)) {
-    offset = offset | 0
-    if (isFinite(length)) {
-      length = length | 0
-      if (encoding === undefined) encoding = 'utf8'
-    } else {
-      encoding = length
-      length = undefined
-    }
-  // legacy write(string, encoding, offset, length) - remove in v0.13
-  } else {
-    throw new Error(
-      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
-    )
-  }
-
-  var remaining = this.length - offset
-  if (length === undefined || length > remaining) length = remaining
-
-  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
-    throw new RangeError('Attempt to write outside buffer bounds')
-  }
-
-  if (!encoding) encoding = 'utf8'
-
-  var loweredCase = false
-  for (;;) {
-    switch (encoding) {
-      case 'hex':
-        return hexWrite(this, string, offset, length)
-
-      case 'utf8':
-      case 'utf-8':
-        return utf8Write(this, string, offset, length)
-
-      case 'ascii':
-        return asciiWrite(this, string, offset, length)
-
-      case 'latin1':
-      case 'binary':
-        return latin1Write(this, string, offset, length)
-
-      case 'base64':
-        // Warning: maxLength not taken into account in base64Write
-        return base64Write(this, string, offset, length)
-
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return ucs2Write(this, string, offset, length)
-
-      default:
-        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
-        encoding = ('' + encoding).toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-
-Buffer.prototype.toJSON = function toJSON () {
-  return {
-    type: 'Buffer',
-    data: Array.prototype.slice.call(this._arr || this, 0)
-  }
-}
-
-function base64Slice (buf, start, end) {
-  if (start === 0 && end === buf.length) {
-    return base64.fromByteArray(buf)
-  } else {
-    return base64.fromByteArray(buf.slice(start, end))
-  }
-}
-
-function utf8Slice (buf, start, end) {
-  end = Math.min(buf.length, end)
-  var res = []
-
-  var i = start
-  while (i < end) {
-    var firstByte = buf[i]
-    var codePoint = null
-    var bytesPerSequence = (firstByte > 0xEF) ? 4
-      : (firstByte > 0xDF) ? 3
-      : (firstByte > 0xBF) ? 2
-      : 1
-
-    if (i + bytesPerSequence <= end) {
-      var secondByte, thirdByte, fourthByte, tempCodePoint
-
-      switch (bytesPerSequence) {
-        case 1:
-          if (firstByte < 0x80) {
-            codePoint = firstByte
-          }
-          break
-        case 2:
-          secondByte = buf[i + 1]
-          if ((secondByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
-            if (tempCodePoint > 0x7F) {
-              codePoint = tempCodePoint
-            }
-          }
-          break
-        case 3:
-          secondByte = buf[i + 1]
-          thirdByte = buf[i + 2]
-          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
-            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
-              codePoint = tempCodePoint
-            }
-          }
-          break
-        case 4:
-          secondByte = buf[i + 1]
-          thirdByte = buf[i + 2]
-          fourthByte = buf[i + 3]
-          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
-            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
-              codePoint = tempCodePoint
-            }
-          }
-      }
-    }
-
-    if (codePoint === null) {
-      // we did not generate a valid codePoint so insert a
-      // replacement char (U+FFFD) and advance only 1 byte
-      codePoint = 0xFFFD
-      bytesPerSequence = 1
-    } else if (codePoint > 0xFFFF) {
-      // encode to utf16 (surrogate pair dance)
-      codePoint -= 0x10000
-      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
-      codePoint = 0xDC00 | codePoint & 0x3FF
-    }
-
-    res.push(codePoint)
-    i += bytesPerSequence
-  }
-
-  return decodeCodePointsArray(res)
-}
-
-// Based on http://stackoverflow.com/a/22747272/680742, the browser with
-// the lowest limit is Chrome, with 0x10000 args.
-// We go 1 magnitude less, for safety
-var MAX_ARGUMENTS_LENGTH = 0x1000
-
-function decodeCodePointsArray (codePoints) {
-  var len = codePoints.length
-  if (len <= MAX_ARGUMENTS_LENGTH) {
-    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
-  }
-
-  // Decode in chunks to avoid "call stack size exceeded".
-  var res = ''
-  var i = 0
-  while (i < len) {
-    res += String.fromCharCode.apply(
-      String,
-      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
-    )
-  }
-  return res
-}
-
-function asciiSlice (buf, start, end) {
-  var ret = ''
-  end = Math.min(buf.length, end)
-
-  for (var i = start; i < end; ++i) {
-    ret += String.fromCharCode(buf[i] & 0x7F)
-  }
-  return ret
-}
-
-function latin1Slice (buf, start, end) {
-  var ret = ''
-  end = Math.min(buf.length, end)
-
-  for (var i = start; i < end; ++i) {
-    ret += String.fromCharCode(buf[i])
-  }
-  return ret
-}
-
-function hexSlice (buf, start, end) {
-  var len = buf.length
-
-  if (!start || start < 0) start = 0
-  if (!end || end < 0 || end > len) end = len
-
-  var out = ''
-  for (var i = start; i < end; ++i) {
-    out += toHex(buf[i])
-  }
-  return out
-}
-
-function utf16leSlice (buf, start, end) {
-  var bytes = buf.slice(start, end)
-  var res = ''
-  for (var i = 0; i < bytes.length; i += 2) {
-    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
-  }
-  return res
-}
-
-Buffer.prototype.slice = function slice (start, end) {
-  var len = this.length
-  start = ~~start
-  end = end === undefined ? len : ~~end
-
-  if (start < 0) {
-    start += len
-    if (start < 0) start = 0
-  } else if (start > len) {
-    start = len
-  }
-
-  if (end < 0) {
-    end += len
-    if (end < 0) end = 0
-  } else if (end > len) {
-    end = len
-  }
-
-  if (end < start) end = start
-
-  var newBuf
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    newBuf = this.subarray(start, end)
-    newBuf.__proto__ = Buffer.prototype
-  } else {
-    var sliceLen = end - start
-    newBuf = new Buffer(sliceLen, undefined)
-    for (var i = 0; i < sliceLen; ++i) {
-      newBuf[i] = this[i + start]
-    }
-  }
-
-  return newBuf
-}
-
-/*
- * Need to make sure that buffer isn't trying to write out of bounds.
- */
-function checkOffset (offset, ext, length) {
-  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
-  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
-}
-
-Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var val = this[offset]
-  var mul = 1
-  var i = 0
-  while (++i < byteLength && (mul *= 0x100)) {
-    val += this[offset + i] * mul
-  }
-
-  return val
-}
-
-Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) {
-    checkOffset(offset, byteLength, this.length)
-  }
-
-  var val = this[offset + --byteLength]
-  var mul = 1
-  while (byteLength > 0 && (mul *= 0x100)) {
-    val += this[offset + --byteLength] * mul
-  }
-
-  return val
-}
-
-Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 1, this.length)
-  return this[offset]
-}
-
-Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  return this[offset] | (this[offset + 1] << 8)
-}
-
-Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  return (this[offset] << 8) | this[offset + 1]
-}
-
-Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return ((this[offset]) |
-      (this[offset + 1] << 8) |
-      (this[offset + 2] << 16)) +
-      (this[offset + 3] * 0x1000000)
-}
-
-Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset] * 0x1000000) +
-    ((this[offset + 1] << 16) |
-    (this[offset + 2] << 8) |
-    this[offset + 3])
-}
-
-Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var val = this[offset]
-  var mul = 1
-  var i = 0
-  while (++i < byteLength && (mul *= 0x100)) {
-    val += this[offset + i] * mul
-  }
-  mul *= 0x80
-
-  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
-
-  return val
-}
-
-Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var i = byteLength
-  var mul = 1
-  var val = this[offset + --i]
-  while (i > 0 && (mul *= 0x100)) {
-    val += this[offset + --i] * mul
-  }
-  mul *= 0x80
-
-  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
-
-  return val
-}
-
-Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 1, this.length)
-  if (!(this[offset] & 0x80)) return (this[offset])
-  return ((0xff - this[offset] + 1) * -1)
-}
-
-Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  var val = this[offset] | (this[offset + 1] << 8)
-  return (val & 0x8000) ? val | 0xFFFF0000 : val
-}
-
-Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  var val = this[offset + 1] | (this[offset] << 8)
-  return (val & 0x8000) ? val | 0xFFFF0000 : val
-}
-
-Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset]) |
-    (this[offset + 1] << 8) |
-    (this[offset + 2] << 16) |
-    (this[offset + 3] << 24)
-}
-
-Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset] << 24) |
-    (this[offset + 1] << 16) |
-    (this[offset + 2] << 8) |
-    (this[offset + 3])
-}
-
-Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-  return ieee754.read(this, offset, true, 23, 4)
-}
-
-Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-  return ieee754.read(this, offset, false, 23, 4)
-}
-
-Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 8, this.length)
-  return ieee754.read(this, offset, true, 52, 8)
-}
-
-Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 8, this.length)
-  return ieee754.read(this, offset, false, 52, 8)
-}
-
-function checkInt (buf, value, offset, ext, max, min) {
-  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
-  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
-  if (offset + ext > buf.length) throw new RangeError('Index out of range')
-}
-
-Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) {
-    var maxBytes = Math.pow(2, 8 * byteLength) - 1
-    checkInt(this, value, offset, byteLength, maxBytes, 0)
-  }
-
-  var mul = 1
-  var i = 0
-  this[offset] = value & 0xFF
-  while (++i < byteLength && (mul *= 0x100)) {
-    this[offset + i] = (value / mul) & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) {
-    var maxBytes = Math.pow(2, 8 * byteLength) - 1
-    checkInt(this, value, offset, byteLength, maxBytes, 0)
-  }
-
-  var i = byteLength - 1
-  var mul = 1
-  this[offset + i] = value & 0xFF
-  while (--i >= 0 && (mul *= 0x100)) {
-    this[offset + i] = (value / mul) & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-  this[offset] = (value & 0xff)
-  return offset + 1
-}
-
-function objectWriteUInt16 (buf, value, offset, littleEndian) {
-  if (value < 0) value = 0xffff + value + 1
-  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; ++i) {
-    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
-      (littleEndian ? i : 1 - i) * 8
-  }
-}
-
-Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-  } else {
-    objectWriteUInt16(this, value, offset, true)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 8)
-    this[offset + 1] = (value & 0xff)
-  } else {
-    objectWriteUInt16(this, value, offset, false)
-  }
-  return offset + 2
-}
-
-function objectWriteUInt32 (buf, value, offset, littleEndian) {
-  if (value < 0) value = 0xffffffff + value + 1
-  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; ++i) {
-    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
-  }
-}
-
-Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset + 3] = (value >>> 24)
-    this[offset + 2] = (value >>> 16)
-    this[offset + 1] = (value >>> 8)
-    this[offset] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, true)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 24)
-    this[offset + 1] = (value >>> 16)
-    this[offset + 2] = (value >>> 8)
-    this[offset + 3] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, false)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength - 1)
-
-    checkInt(this, value, offset, byteLength, limit - 1, -limit)
-  }
-
-  var i = 0
-  var mul = 1
-  var sub = 0
-  this[offset] = value & 0xFF
-  while (++i < byteLength && (mul *= 0x100)) {
-    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
-      sub = 1
-    }
-    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength - 1)
-
-    checkInt(this, value, offset, byteLength, limit - 1, -limit)
-  }
-
-  var i = byteLength - 1
-  var mul = 1
-  var sub = 0
-  this[offset + i] = value & 0xFF
-  while (--i >= 0 && (mul *= 0x100)) {
-    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
-      sub = 1
-    }
-    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-  if (value < 0) value = 0xff + value + 1
-  this[offset] = (value & 0xff)
-  return offset + 1
-}
-
-Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-  } else {
-    objectWriteUInt16(this, value, offset, true)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 8)
-    this[offset + 1] = (value & 0xff)
-  } else {
-    objectWriteUInt16(this, value, offset, false)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-    this[offset + 2] = (value >>> 16)
-    this[offset + 3] = (value >>> 24)
-  } else {
-    objectWriteUInt32(this, value, offset, true)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-  if (value < 0) value = 0xffffffff + value + 1
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 24)
-    this[offset + 1] = (value >>> 16)
-    this[offset + 2] = (value >>> 8)
-    this[offset + 3] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, false)
-  }
-  return offset + 4
-}
-
-function checkIEEE754 (buf, value, offset, ext, max, min) {
-  if (offset + ext > buf.length) throw new RangeError('Index out of range')
-  if (offset < 0) throw new RangeError('Index out of range')
-}
-
-function writeFloat (buf, value, offset, littleEndian, noAssert) {
-  if (!noAssert) {
-    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
-  }
-  ieee754.write(buf, value, offset, littleEndian, 23, 4)
-  return offset + 4
-}
-
-Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
-  return writeFloat(this, value, offset, true, noAssert)
-}
-
-Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
-  return writeFloat(this, value, offset, false, noAssert)
-}
-
-function writeDouble (buf, value, offset, littleEndian, noAssert) {
-  if (!noAssert) {
-    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
-  }
-  ieee754.write(buf, value, offset, littleEndian, 52, 8)
-  return offset + 8
-}
-
-Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
-  return writeDouble(this, value, offset, true, noAssert)
-}
-
-Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
-  return writeDouble(this, value, offset, false, noAssert)
-}
-
-// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
-Buffer.prototype.copy = function copy (target, targetStart, start, end) {
-  if (!start) start = 0
-  if (!end && end !== 0) end = this.length
-  if (targetStart >= target.length) targetStart = target.length
-  if (!targetStart) targetStart = 0
-  if (end > 0 && end < start) end = start
-
-  // Copy 0 bytes; we're done
-  if (end === start) return 0
-  if (target.length === 0 || this.length === 0) return 0
-
-  // Fatal error conditions
-  if (targetStart < 0) {
-    throw new RangeError('targetStart out of bounds')
-  }
-  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
-  if (end < 0) throw new RangeError('sourceEnd out of bounds')
-
-  // Are we oob?
-  if (end > this.length) end = this.length
-  if (target.length - targetStart < end - start) {
-    end = target.length - targetStart + start
-  }
-
-  var len = end - start
-  var i
-
-  if (this === target && start < targetStart && targetStart < end) {
-    // descending copy from end
-    for (i = len - 1; i >= 0; --i) {
-      target[i + targetStart] = this[i + start]
-    }
-  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
-    // ascending copy from start
-    for (i = 0; i < len; ++i) {
-      target[i + targetStart] = this[i + start]
-    }
-  } else {
-    Uint8Array.prototype.set.call(
-      target,
-      this.subarray(start, start + len),
-      targetStart
-    )
-  }
-
-  return len
-}
-
-// Usage:
-//    buffer.fill(number[, offset[, end]])
-//    buffer.fill(buffer[, offset[, end]])
-//    buffer.fill(string[, offset[, end]][, encoding])
-Buffer.prototype.fill = function fill (val, start, end, encoding) {
-  // Handle string cases:
-  if (typeof val === 'string') {
-    if (typeof start === 'string') {
-      encoding = start
-      start = 0
-      end = this.length
-    } else if (typeof end === 'string') {
-      encoding = end
-      end = this.length
-    }
-    if (val.length === 1) {
-      var code = val.charCodeAt(0)
-      if (code < 256) {
-        val = code
-      }
-    }
-    if (encoding !== undefined && typeof encoding !== 'string') {
-      throw new TypeError('encoding must be a string')
-    }
-    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
-      throw new TypeError('Unknown encoding: ' + encoding)
-    }
-  } else if (typeof val === 'number') {
-    val = val & 255
-  }
-
-  // Invalid ranges are not set to a default, so can range check early.
-  if (start < 0 || this.length < start || this.length < end) {
-    throw new RangeError('Out of range index')
-  }
-
-  if (end <= start) {
-    return this
-  }
-
-  start = start >>> 0
-  end = end === undefined ? this.length : end >>> 0
-
-  if (!val) val = 0
-
-  var i
-  if (typeof val === 'number') {
-    for (i = start; i < end; ++i) {
-      this[i] = val
-    }
-  } else {
-    var bytes = Buffer.isBuffer(val)
-      ? val
-      : utf8ToBytes(new Buffer(val, encoding).toString())
-    var len = bytes.length
-    for (i = 0; i < end - start; ++i) {
-      this[i + start] = bytes[i % len]
-    }
-  }
-
-  return this
-}
-
-// HELPER FUNCTIONS
-// ================
-
-var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
-
-function base64clean (str) {
-  // Node strips out invalid characters like \n and \t from the string, base64-js does not
-  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
-  // Node converts strings with length < 2 to ''
-  if (str.length < 2) return ''
-  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
-  while (str.length % 4 !== 0) {
-    str = str + '='
-  }
-  return str
-}
-
-function stringtrim (str) {
-  if (str.trim) return str.trim()
-  return str.replace(/^\s+|\s+$/g, '')
-}
-
-function toHex (n) {
-  if (n < 16) return '0' + n.toString(16)
-  return n.toString(16)
-}
-
-function utf8ToBytes (string, units) {
-  units = units || Infinity
-  var codePoint
-  var length = string.length
-  var leadSurrogate = null
-  var bytes = []
-
-  for (var i = 0; i < length; ++i) {
-    codePoint = string.charCodeAt(i)
-
-    // is surrogate component
-    if (codePoint > 0xD7FF && codePoint < 0xE000) {
-      // last char was a lead
-      if (!leadSurrogate) {
-        // no lead yet
-        if (codePoint > 0xDBFF) {
-          // unexpected trail
-          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-          continue
-        } else if (i + 1 === length) {
-          // unpaired lead
-          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-          continue
-        }
-
-        // valid lead
-        leadSurrogate = codePoint
-
-        continue
-      }
-
-      // 2 leads in a row
-      if (codePoint < 0xDC00) {
-        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-        leadSurrogate = codePoint
-        continue
-      }
-
-      // valid surrogate pair
-      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
-    } else if (leadSurrogate) {
-      // valid bmp char, but last char was a lead
-      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-    }
-
-    leadSurrogate = null
-
-    // encode utf8
-    if (codePoint < 0x80) {
-      if ((units -= 1) < 0) break
-      bytes.push(codePoint)
-    } else if (codePoint < 0x800) {
-      if ((units -= 2) < 0) break
-      bytes.push(
-        codePoint >> 0x6 | 0xC0,
-        codePoint & 0x3F | 0x80
-      )
-    } else if (codePoint < 0x10000) {
-      if ((units -= 3) < 0) break
-      bytes.push(
-        codePoint >> 0xC | 0xE0,
-        codePoint >> 0x6 & 0x3F | 0x80,
-        codePoint & 0x3F | 0x80
-      )
-    } else if (codePoint < 0x110000) {
-      if ((units -= 4) < 0) break
-      bytes.push(
-        codePoint >> 0x12 | 0xF0,
-        codePoint >> 0xC & 0x3F | 0x80,
-        codePoint >> 0x6 & 0x3F | 0x80,
-        codePoint & 0x3F | 0x80
-      )
-    } else {
-      throw new Error('Invalid code point')
-    }
-  }
-
-  return bytes
-}
-
-function asciiToBytes (str) {
-  var byteArray = []
-  for (var i = 0; i < str.length; ++i) {
-    // Node's code seems to be doing this and not & 0x7F..
-    byteArray.push(str.charCodeAt(i) & 0xFF)
-  }
-  return byteArray
-}
-
-function utf16leToBytes (str, units) {
-  var c, hi, lo
-  var byteArray = []
-  for (var i = 0; i < str.length; ++i) {
-    if ((units -= 2) < 0) break
-
-    c = str.charCodeAt(i)
-    hi = c >> 8
-    lo = c % 256
-    byteArray.push(lo)
-    byteArray.push(hi)
-  }
-
-  return byteArray
-}
-
-function base64ToBytes (str) {
-  return base64.toByteArray(base64clean(str))
-}
-
-function blitBuffer (src, dst, offset, length) {
-  for (var i = 0; i < length; ++i) {
-    if ((i + offset >= dst.length) || (i >= src.length)) break
-    dst[i + offset] = src[i]
-  }
-  return i
-}
-
-function isnan (val) {
-  return val !== val // eslint-disable-line no-self-compare
-}
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ 3)))
-
-/***/ }),
-/* 54 */
-/*!*****************************************!*\
-  !*** ./node_modules/base64-js/index.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.byteLength = byteLength
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
-
-var lookup = []
-var revLookup = []
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
-
-var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-for (var i = 0, len = code.length; i < len; ++i) {
-  lookup[i] = code[i]
-  revLookup[code.charCodeAt(i)] = i
-}
-
-// Support decoding URL-safe base64 strings, as Node.js does.
-// See: https://en.wikipedia.org/wiki/Base64#URL_applications
-revLookup['-'.charCodeAt(0)] = 62
-revLookup['_'.charCodeAt(0)] = 63
-
-function getLens (b64) {
-  var len = b64.length
-
-  if (len % 4 > 0) {
-    throw new Error('Invalid string. Length must be a multiple of 4')
-  }
-
-  // Trim off extra bytes after placeholder bytes are found
-  // See: https://github.com/beatgammit/base64-js/issues/42
-  var validLen = b64.indexOf('=')
-  if (validLen === -1) validLen = len
-
-  var placeHoldersLen = validLen === len
-    ? 0
-    : 4 - (validLen % 4)
-
-  return [validLen, placeHoldersLen]
-}
-
-// base64 is 4/3 + up to two characters of the original data
-function byteLength (b64) {
-  var lens = getLens(b64)
-  var validLen = lens[0]
-  var placeHoldersLen = lens[1]
-  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
-}
-
-function _byteLength (b64, validLen, placeHoldersLen) {
-  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
-}
-
-function toByteArray (b64) {
-  var tmp
-  var lens = getLens(b64)
-  var validLen = lens[0]
-  var placeHoldersLen = lens[1]
-
-  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
-
-  var curByte = 0
-
-  // if there are placeholders, only get up to the last complete 4 chars
-  var len = placeHoldersLen > 0
-    ? validLen - 4
-    : validLen
-
-  var i
-  for (i = 0; i < len; i += 4) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 18) |
-      (revLookup[b64.charCodeAt(i + 1)] << 12) |
-      (revLookup[b64.charCodeAt(i + 2)] << 6) |
-      revLookup[b64.charCodeAt(i + 3)]
-    arr[curByte++] = (tmp >> 16) & 0xFF
-    arr[curByte++] = (tmp >> 8) & 0xFF
-    arr[curByte++] = tmp & 0xFF
-  }
-
-  if (placeHoldersLen === 2) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 2) |
-      (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[curByte++] = tmp & 0xFF
-  }
-
-  if (placeHoldersLen === 1) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 10) |
-      (revLookup[b64.charCodeAt(i + 1)] << 4) |
-      (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[curByte++] = (tmp >> 8) & 0xFF
-    arr[curByte++] = tmp & 0xFF
-  }
-
-  return arr
-}
-
-function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] +
-    lookup[num >> 12 & 0x3F] +
-    lookup[num >> 6 & 0x3F] +
-    lookup[num & 0x3F]
-}
-
-function encodeChunk (uint8, start, end) {
-  var tmp
-  var output = []
-  for (var i = start; i < end; i += 3) {
-    tmp =
-      ((uint8[i] << 16) & 0xFF0000) +
-      ((uint8[i + 1] << 8) & 0xFF00) +
-      (uint8[i + 2] & 0xFF)
-    output.push(tripletToBase64(tmp))
-  }
-  return output.join('')
-}
-
-function fromByteArray (uint8) {
-  var tmp
-  var len = uint8.length
-  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var parts = []
-  var maxChunkLength = 16383 // must be multiple of 3
-
-  // go through the array every three bytes, we'll deal with trailing stuff later
-  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
-  }
-
-  // pad the end with zeros, but make sure to not forget the extra bytes
-  if (extraBytes === 1) {
-    tmp = uint8[len - 1]
-    parts.push(
-      lookup[tmp >> 2] +
-      lookup[(tmp << 4) & 0x3F] +
-      '=='
-    )
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
-    parts.push(
-      lookup[tmp >> 10] +
-      lookup[(tmp >> 4) & 0x3F] +
-      lookup[(tmp << 2) & 0x3F] +
-      '='
-    )
-  }
-
-  return parts.join('')
-}
-
-
-/***/ }),
-/* 55 */
-/*!***************************************!*\
-  !*** ./node_modules/ieee754/index.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
-exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-  var e, m
-  var eLen = (nBytes * 8) - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var nBits = -7
-  var i = isLE ? (nBytes - 1) : 0
-  var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
-
-  i += d
-
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
-  nBits += eLen
-  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
-
-  m = e & ((1 << (-nBits)) - 1)
-  e >>= (-nBits)
-  nBits += mLen
-  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
-
-  if (e === 0) {
-    e = 1 - eBias
-  } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
-  } else {
-    m = m + Math.pow(2, mLen)
-    e = e - eBias
-  }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
-}
-
-exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c
-  var eLen = (nBytes * 8) - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-  var i = isLE ? 0 : (nBytes - 1)
-  var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
-
-  value = Math.abs(value)
-
-  if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0
-    e = eMax
-  } else {
-    e = Math.floor(Math.log(value) / Math.LN2)
-    if (value * (c = Math.pow(2, -e)) < 1) {
-      e--
-      c *= 2
-    }
-    if (e + eBias >= 1) {
-      value += rt / c
-    } else {
-      value += rt * Math.pow(2, 1 - eBias)
-    }
-    if (value * c >= 2) {
-      e++
-      c /= 2
-    }
-
-    if (e + eBias >= eMax) {
-      m = 0
-      e = eMax
-    } else if (e + eBias >= 1) {
-      m = ((value * c) - 1) * Math.pow(2, mLen)
-      e = e + eBias
-    } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-      e = 0
-    }
-  }
-
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
-
-  e = (e << mLen) | m
-  eLen += mLen
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
-
-  buffer[offset + i - d] |= s * 128
-}
-
-
-/***/ }),
-/* 56 */
-/*!***************************************!*\
-  !*** ./node_modules/isarray/index.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 57 */
-/*!***********************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/util/route.js ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 58));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 60));
-var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
-var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-/**
- * 路由跳转方法，该方法相对于直接使用uni.xxx的好处是使用更加简单快捷
- * 并且带有路由拦截功能
- */
-var Router = /*#__PURE__*/function () {
-  function Router() {
-    (0, _classCallCheck2.default)(this, Router);
-    // 原始属性定义
-    this.config = {
-      type: 'navigateTo',
-      url: '',
-      delta: 1,
-      // navigateBack页面后退时,回退的层数
-      params: {},
-      // 传递的参数
-      animationType: 'pop-in',
-      // 窗口动画,只在APP有效
-      animationDuration: 300,
-      // 窗口动画持续时间,单位毫秒,只在APP有效
-      intercept: false // 是否需要拦截
-    };
-    // 因为route方法是需要对外赋值给另外的对象使用，同时route内部有使用this，会导致route失去上下文
-    // 这里在构造函数中进行this绑定
-    this.route = this.route.bind(this);
-  }
-
-  // 判断url前面是否有"/"，如果没有则加上，否则无法跳转
-  (0, _createClass2.default)(Router, [{
-    key: "addRootPath",
-    value: function addRootPath(url) {
-      return url[0] === '/' ? url : "/".concat(url);
-    }
-
-    // 整合路由参数
-  }, {
-    key: "mixinParam",
-    value: function mixinParam(url, params) {
-      url = url && this.addRootPath(url);
-
-      // 使用正则匹配，主要依据是判断是否有"/","?","="等，如“/page/index/index?name=mary"
-      // 如果有url中有get参数，转换后无需带上"?"
-      var query = '';
-      if (/.*\/.*\?.*=.*/.test(url)) {
-        // object对象转为get类型的参数
-        query = uni.$u.queryParams(params, false);
-        // 因为已有get参数,所以后面拼接的参数需要带上"&"隔开
-        return url += "&".concat(query);
-      }
-      // 直接拼接参数，因为此处url中没有后面的query参数，也就没有"?/&"之类的符号
-      query = uni.$u.queryParams(params);
-      return url += query;
-    }
-
-    // 对外的方法名称
-  }, {
-    key: "route",
-    value: function () {
-      var _route = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var options,
-          params,
-          mergeConfig,
-          isNext,
-          _args = arguments;
-        return _regenerator.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                options = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};
-                params = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
-                // 合并用户的配置和内部的默认配置
-                mergeConfig = {};
-                if (typeof options === 'string') {
-                  // 如果options为字符串，则为route(url, params)的形式
-                  mergeConfig.url = this.mixinParam(options, params);
-                  mergeConfig.type = 'navigateTo';
-                } else {
-                  mergeConfig = uni.$u.deepMerge(this.config, options);
-                  // 否则正常使用mergeConfig中的url和params进行拼接
-                  mergeConfig.url = this.mixinParam(options.url, options.params);
-                }
-
-                // 如果本次跳转的路径和本页面路径一致，不执行跳转，防止用户快速点击跳转按钮，造成多次跳转同一个页面的问题
-                if (!(mergeConfig.url === uni.$u.page())) {
-                  _context.next = 6;
-                  break;
-                }
-                return _context.abrupt("return");
-              case 6:
-                if (params.intercept) {
-                  this.config.intercept = params.intercept;
-                }
-                // params参数也带给拦截器
-                mergeConfig.params = params;
-                // 合并内外部参数
-                mergeConfig = uni.$u.deepMerge(this.config, mergeConfig);
-                // 判断用户是否定义了拦截器
-                if (!(typeof uni.$u.routeIntercept === 'function')) {
-                  _context.next = 16;
-                  break;
-                }
-                _context.next = 12;
-                return new Promise(function (resolve, reject) {
-                  uni.$u.routeIntercept(mergeConfig, resolve);
-                });
-              case 12:
-                isNext = _context.sent;
-                // 如果isNext为true，则执行路由跳转
-                isNext && this.openPage(mergeConfig);
-                _context.next = 17;
-                break;
-              case 16:
-                this.openPage(mergeConfig);
-              case 17:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-      function route() {
-        return _route.apply(this, arguments);
-      }
-      return route;
-    }() // 执行路由跳转
-  }, {
-    key: "openPage",
-    value: function openPage(config) {
-      // 解构参数
-      var url = config.url,
-        type = config.type,
-        delta = config.delta,
-        animationType = config.animationType,
-        animationDuration = config.animationDuration;
-      if (config.type == 'navigateTo' || config.type == 'to') {
-        uni.navigateTo({
-          url: url,
-          animationType: animationType,
-          animationDuration: animationDuration
-        });
-      }
-      if (config.type == 'redirectTo' || config.type == 'redirect') {
-        uni.redirectTo({
-          url: url
-        });
-      }
-      if (config.type == 'switchTab' || config.type == 'tab') {
-        uni.switchTab({
-          url: url
-        });
-      }
-      if (config.type == 'reLaunch' || config.type == 'launch') {
-        uni.reLaunch({
-          url: url
-        });
-      }
-      if (config.type == 'navigateBack' || config.type == 'back') {
-        uni.navigateBack({
-          delta: delta
-        });
-      }
-    }
-  }]);
-  return Router;
-}();
-var _default = new Router().route;
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 58 */
-/*!************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/@babel/runtime/regenerator/index.js ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// TODO(Babel 8): Remove this file.
-
-var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 59)();
-module.exports = runtime;
-
-/***/ }),
-/* 59 */
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-function _regeneratorRuntime() {
-  "use strict";
-
-  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
-  module.exports = _regeneratorRuntime = function _regeneratorRuntime() {
-    return exports;
-  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  var exports = {},
-    Op = Object.prototype,
-    hasOwn = Op.hasOwnProperty,
-    defineProperty = Object.defineProperty || function (obj, key, desc) {
-      obj[key] = desc.value;
-    },
-    $Symbol = "function" == typeof Symbol ? Symbol : {},
-    iteratorSymbol = $Symbol.iterator || "@@iterator",
-    asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator",
-    toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-  function define(obj, key, value) {
-    return Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: !0,
-      configurable: !0,
-      writable: !0
-    }), obj[key];
-  }
-  try {
-    define({}, "");
-  } catch (err) {
-    define = function define(obj, key, value) {
-      return obj[key] = value;
-    };
-  }
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator,
-      generator = Object.create(protoGenerator.prototype),
-      context = new Context(tryLocsList || []);
-    return defineProperty(generator, "_invoke", {
-      value: makeInvokeMethod(innerFn, self, context)
-    }), generator;
-  }
-  function tryCatch(fn, obj, arg) {
-    try {
-      return {
-        type: "normal",
-        arg: fn.call(obj, arg)
-      };
-    } catch (err) {
-      return {
-        type: "throw",
-        arg: err
-      };
-    }
-  }
-  exports.wrap = wrap;
-  var ContinueSentinel = {};
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-  var IteratorPrototype = {};
-  define(IteratorPrototype, iteratorSymbol, function () {
-    return this;
-  });
-  var getProto = Object.getPrototypeOf,
-    NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
-  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function (method) {
-      define(prototype, method, function (arg) {
-        return this._invoke(method, arg);
-      });
-    });
-  }
-  function AsyncIterator(generator, PromiseImpl) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if ("throw" !== record.type) {
-        var result = record.arg,
-          value = result.value;
-        return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) {
-          invoke("next", value, resolve, reject);
-        }, function (err) {
-          invoke("throw", err, resolve, reject);
-        }) : PromiseImpl.resolve(value).then(function (unwrapped) {
-          result.value = unwrapped, resolve(result);
-        }, function (error) {
-          return invoke("throw", error, resolve, reject);
-        });
-      }
-      reject(record.arg);
-    }
-    var previousPromise;
-    defineProperty(this, "_invoke", {
-      value: function value(method, arg) {
-        function callInvokeWithMethodAndArg() {
-          return new PromiseImpl(function (resolve, reject) {
-            invoke(method, arg, resolve, reject);
-          });
-        }
-        return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-      }
-    });
-  }
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = "suspendedStart";
-    return function (method, arg) {
-      if ("executing" === state) throw new Error("Generator is already running");
-      if ("completed" === state) {
-        if ("throw" === method) throw arg;
-        return doneResult();
-      }
-      for (context.method = method, context.arg = arg;;) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-        if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) {
-          if ("suspendedStart" === state) throw state = "completed", context.arg;
-          context.dispatchException(context.arg);
-        } else "return" === context.method && context.abrupt("return", context.arg);
-        state = "executing";
-        var record = tryCatch(innerFn, self, context);
-        if ("normal" === record.type) {
-          if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
-          return {
-            value: record.arg,
-            done: context.done
-          };
-        }
-        "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
-      }
-    };
-  }
-  function maybeInvokeDelegate(delegate, context) {
-    var methodName = context.method,
-      method = delegate.iterator[methodName];
-    if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
-    var record = tryCatch(method, delegate.iterator, context.arg);
-    if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
-    var info = record.arg;
-    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
-  }
-  function pushTryEntry(locs) {
-    var entry = {
-      tryLoc: locs[0]
-    };
-    1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
-  }
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal", delete record.arg, entry.completion = record;
-  }
-  function Context(tryLocsList) {
-    this.tryEntries = [{
-      tryLoc: "root"
-    }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
-  }
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) return iteratorMethod.call(iterable);
-      if ("function" == typeof iterable.next) return iterable;
-      if (!isNaN(iterable.length)) {
-        var i = -1,
-          next = function next() {
-            for (; ++i < iterable.length;) {
-              if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
-            }
-            return next.value = undefined, next.done = !0, next;
-          };
-        return next.next = next;
-      }
-    }
-    return {
-      next: doneResult
-    };
-  }
-  function doneResult() {
-    return {
-      value: undefined,
-      done: !0
-    };
-  }
-  return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
-    value: GeneratorFunctionPrototype,
-    configurable: !0
-  }), defineProperty(GeneratorFunctionPrototype, "constructor", {
-    value: GeneratorFunction,
-    configurable: !0
-  }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) {
-    var ctor = "function" == typeof genFun && genFun.constructor;
-    return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
-  }, exports.mark = function (genFun) {
-    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
-  }, exports.awrap = function (arg) {
-    return {
-      __await: arg
-    };
-  }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
-    return this;
-  }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-    void 0 === PromiseImpl && (PromiseImpl = Promise);
-    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-    return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) {
-      return result.done ? result.value : iter.next();
-    });
-  }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () {
-    return this;
-  }), define(Gp, "toString", function () {
-    return "[object Generator]";
-  }), exports.keys = function (val) {
-    var object = Object(val),
-      keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    return keys.reverse(), function next() {
-      for (; keys.length;) {
-        var key = keys.pop();
-        if (key in object) return next.value = key, next.done = !1, next;
-      }
-      return next.done = !0, next;
-    };
-  }, exports.values = values, Context.prototype = {
-    constructor: Context,
-    reset: function reset(skipTempReset) {
-      if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) {
-        "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
-      }
-    },
-    stop: function stop() {
-      this.done = !0;
-      var rootRecord = this.tryEntries[0].completion;
-      if ("throw" === rootRecord.type) throw rootRecord.arg;
-      return this.rval;
-    },
-    dispatchException: function dispatchException(exception) {
-      if (this.done) throw exception;
-      var context = this;
-      function handle(loc, caught) {
-        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
-      }
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i],
-          record = entry.completion;
-        if ("root" === entry.tryLoc) return handle("end");
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc"),
-            hasFinally = hasOwn.call(entry, "finallyLoc");
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-          } else {
-            if (!hasFinally) throw new Error("try statement without catch or finally");
-            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-          }
-        }
-      }
-    },
-    abrupt: function abrupt(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-      finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
-      var record = finallyEntry ? finallyEntry.completion : {};
-      return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
-    },
-    complete: function complete(record, afterLoc) {
-      if ("throw" === record.type) throw record.arg;
-      return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
-    },
-    finish: function finish(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
-      }
-    },
-    "catch": function _catch(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if ("throw" === record.type) {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-      throw new Error("illegal catch attempt");
-    },
-    delegateYield: function delegateYield(iterable, resultName, nextLoc) {
-      return this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
-    }
-  }, exports;
-}
-module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-/* 60 */
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-      args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-      _next(undefined);
-    });
-  };
-}
-module.exports = _asyncToGenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-/* 61 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/colorGradient.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/**
- * 求两个颜色之间的渐变值
- * @param {string} startColor 开始的颜色
- * @param {string} endColor 结束的颜色
- * @param {number} step 颜色等分的份额
- * */
-function colorGradient() {
-  var startColor = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'rgb(0, 0, 0)';
-  var endColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'rgb(255, 255, 255)';
-  var step = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
-  var startRGB = hexToRgb(startColor, false); // 转换为rgb数组模式
-  var startR = startRGB[0];
-  var startG = startRGB[1];
-  var startB = startRGB[2];
-  var endRGB = hexToRgb(endColor, false);
-  var endR = endRGB[0];
-  var endG = endRGB[1];
-  var endB = endRGB[2];
-  var sR = (endR - startR) / step; // 总差值
-  var sG = (endG - startG) / step;
-  var sB = (endB - startB) / step;
-  var colorArr = [];
-  for (var i = 0; i < step; i++) {
-    // 计算每一步的hex值
-    var hex = rgbToHex("rgb(".concat(Math.round(sR * i + startR), ",").concat(Math.round(sG * i + startG), ",").concat(Math.round(sB * i + startB), ")"));
-    // 确保第一个颜色值为startColor的值
-    if (i === 0) hex = rgbToHex(startColor);
-    // 确保最后一个颜色值为endColor的值
-    if (i === step - 1) hex = rgbToHex(endColor);
-    colorArr.push(hex);
-  }
-  return colorArr;
-}
-
-// 将hex表示方式转换为rgb表示方式(这里返回rgb数组模式)
-function hexToRgb(sColor) {
-  var str = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-  sColor = String(sColor).toLowerCase();
-  if (sColor && reg.test(sColor)) {
-    if (sColor.length === 4) {
-      var sColorNew = '#';
-      for (var i = 1; i < 4; i += 1) {
-        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
-      }
-      sColor = sColorNew;
-    }
-    // 处理六位的颜色值
-    var sColorChange = [];
-    for (var _i = 1; _i < 7; _i += 2) {
-      sColorChange.push(parseInt("0x".concat(sColor.slice(_i, _i + 2))));
-    }
-    if (!str) {
-      return sColorChange;
-    }
-    return "rgb(".concat(sColorChange[0], ",").concat(sColorChange[1], ",").concat(sColorChange[2], ")");
-  }
-  if (/^(rgb|RGB)/.test(sColor)) {
-    var arr = sColor.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',');
-    return arr.map(function (val) {
-      return Number(val);
-    });
-  }
-  return sColor;
-}
-
-// 将rgb表示方式转换为hex表示方式
-function rgbToHex(rgb) {
-  var _this = rgb;
-  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-  if (/^(rgb|RGB)/.test(_this)) {
-    var aColor = _this.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',');
-    var strHex = '#';
-    for (var i = 0; i < aColor.length; i++) {
-      var hex = Number(aColor[i]).toString(16);
-      hex = String(hex).length == 1 ? "".concat(0, hex) : hex; // 保证每个rgb的值为2位
-      if (hex === '0') {
-        hex += hex;
-      }
-      strHex += hex;
-    }
-    if (strHex.length !== 7) {
-      strHex = _this;
-    }
-    return strHex;
-  }
-  if (reg.test(_this)) {
-    var aNum = _this.replace(/#/, '').split('');
-    if (aNum.length === 6) {
-      return _this;
-    }
-    if (aNum.length === 3) {
-      var numHex = '#';
-      for (var _i2 = 0; _i2 < aNum.length; _i2 += 1) {
-        numHex += aNum[_i2] + aNum[_i2];
-      }
-      return numHex;
-    }
-  } else {
-    return _this;
-  }
-}
-
-/**
-* JS颜色十六进制转换为rgb或rgba,返回的格式为 rgba（255，255，255，0.5）字符串
-* sHex为传入的十六进制的色值
-* alpha为rgba的透明度
-*/
-function colorToRgba(color, alpha) {
-  color = rgbToHex(color);
-  // 十六进制颜色值的正则表达式
-  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-  /* 16进制颜色转为RGB格式 */
-  var sColor = String(color).toLowerCase();
-  if (sColor && reg.test(sColor)) {
-    if (sColor.length === 4) {
-      var sColorNew = '#';
-      for (var i = 1; i < 4; i += 1) {
-        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
-      }
-      sColor = sColorNew;
-    }
-    // 处理六位的颜色值
-    var sColorChange = [];
-    for (var _i3 = 1; _i3 < 7; _i3 += 2) {
-      sColorChange.push(parseInt("0x".concat(sColor.slice(_i3, _i3 + 2))));
-    }
-    // return sColorChange.join(',')
-    return "rgba(".concat(sColorChange.join(','), ",").concat(alpha, ")");
-  }
-  return sColor;
-}
-var _default = {
-  colorGradient: colorGradient,
-  hexToRgb: hexToRgb,
-  rgbToHex: rgbToHex,
-  colorToRgba: colorToRgba
-};
-exports.default = _default;
-
-/***/ }),
-/* 62 */
-/*!**************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/test.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
-/**
- * 验证电子邮箱格式
- */
-function email(value) {
-  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value);
-}
-
-/**
- * 验证手机格式
- */
-function mobile(value) {
-  return /^1([3589]\d|4[5-9]|6[1-2,4-7]|7[0-8])\d{8}$/.test(value);
-}
-
-/**
- * 验证URL格式
- */
-function url(value) {
-  return /^((https|http|ftp|rtsp|mms):\/\/)(([0-9a-zA-Z_!~*'().&=+$%-]+: )?[0-9a-zA-Z_!~*'().&=+$%-]+@)?(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z].[a-zA-Z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9a-zA-Z_!~*'().;?:@&=+$,%#-]+)+\/?)$/.test(value);
-}
-
-/**
- * 验证日期格式
- */
-function date(value) {
-  if (!value) return false;
-  // 判断是否数值或者字符串数值(意味着为时间戳)，转为数值，否则new Date无法识别字符串时间戳
-  if (number(value)) value = +value;
-  return !/Invalid|NaN/.test(new Date(value).toString());
-}
-
-/**
- * 验证ISO类型的日期格式
- */
-function dateISO(value) {
-  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value);
-}
-
-/**
- * 验证十进制数字
- */
-function number(value) {
-  return /^[\+-]?(\d+\.?\d*|\.\d+|\d\.\d+e\+\d+)$/.test(value);
-}
-
-/**
- * 验证字符串
- */
-function string(value) {
-  return typeof value === 'string';
-}
-
-/**
- * 验证整数
- */
-function digits(value) {
-  return /^\d+$/.test(value);
-}
-
-/**
- * 验证身份证号码
- */
-function idCard(value) {
-  return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(value);
-}
-
-/**
- * 是否车牌号
- */
-function carNo(value) {
-  // 新能源车牌
-  var xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/;
-  // 旧车牌
-  var creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/;
-  if (value.length === 7) {
-    return creg.test(value);
-  }
-  if (value.length === 8) {
-    return xreg.test(value);
-  }
-  return false;
-}
-
-/**
- * 金额,只允许2位小数
- */
-function amount(value) {
-  // 金额，只允许保留两位小数
-  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value);
-}
-
-/**
- * 中文
- */
-function chinese(value) {
-  var reg = /^[\u4e00-\u9fa5]+$/gi;
-  return reg.test(value);
-}
-
-/**
- * 只能输入字母
- */
-function letter(value) {
-  return /^[a-zA-Z]*$/.test(value);
-}
-
-/**
- * 只能是字母或者数字
- */
-function enOrNum(value) {
-  // 英文或者数字
-  var reg = /^[0-9a-zA-Z]*$/g;
-  return reg.test(value);
-}
-
-/**
- * 验证是否包含某个值
- */
-function contains(value, param) {
-  return value.indexOf(param) >= 0;
-}
-
-/**
- * 验证一个值范围[min, max]
- */
-function range(value, param) {
-  return value >= param[0] && value <= param[1];
-}
-
-/**
- * 验证一个长度范围[min, max]
- */
-function rangeLength(value, param) {
-  return value.length >= param[0] && value.length <= param[1];
-}
-
-/**
- * 是否固定电话
- */
-function landline(value) {
-  var reg = /^\d{3,4}-\d{7,8}(-\d{3,4})?$/;
-  return reg.test(value);
-}
-
-/**
- * 判断是否为空
- */
-function empty(value) {
-  switch ((0, _typeof2.default)(value)) {
-    case 'undefined':
-      return true;
-    case 'string':
-      if (value.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) return true;
-      break;
-    case 'boolean':
-      if (!value) return true;
-      break;
-    case 'number':
-      if (value === 0 || isNaN(value)) return true;
-      break;
-    case 'object':
-      if (value === null || value.length === 0) return true;
-      for (var i in value) {
-        return false;
-      }
-      return true;
-  }
-  return false;
-}
-
-/**
- * 是否json字符串
- */
-function jsonString(value) {
-  if (typeof value === 'string') {
-    try {
-      var obj = JSON.parse(value);
-      if ((0, _typeof2.default)(obj) === 'object' && obj) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
-  }
-  return false;
-}
-
-/**
- * 是否数组
- */
-function array(value) {
-  if (typeof Array.isArray === 'function') {
-    return Array.isArray(value);
-  }
-  return Object.prototype.toString.call(value) === '[object Array]';
-}
-
-/**
- * 是否对象
- */
-function object(value) {
-  return Object.prototype.toString.call(value) === '[object Object]';
-}
-
-/**
- * 是否短信验证码
- */
-function code(value) {
-  var len = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
-  return new RegExp("^\\d{".concat(len, "}$")).test(value);
-}
-
-/**
- * 是否函数方法
- * @param {Object} value
- */
-function func(value) {
-  return typeof value === 'function';
-}
-
-/**
- * 是否promise对象
- * @param {Object} value
- */
-function promise(value) {
-  return object(value) && func(value.then) && func(value.catch);
-}
-
-/** 是否图片格式
- * @param {Object} value
- */
-function image(value) {
-  var newValue = value.split('?')[0];
-  var IMAGE_REGEXP = /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i;
-  return IMAGE_REGEXP.test(newValue);
-}
-
-/**
- * 是否视频格式
- * @param {Object} value
- */
-function video(value) {
-  var VIDEO_REGEXP = /\.(mp4|mpg|mpeg|dat|asf|avi|rm|rmvb|mov|wmv|flv|mkv|m3u8)/i;
-  return VIDEO_REGEXP.test(value);
-}
-
-/**
- * 是否为正则对象
- * @param {Object}
- * @return {Boolean}
- */
-function regExp(o) {
-  return o && Object.prototype.toString.call(o) === '[object RegExp]';
-}
-var _default = {
-  email: email,
-  mobile: mobile,
-  url: url,
-  date: date,
-  dateISO: dateISO,
-  number: number,
-  digits: digits,
-  idCard: idCard,
-  carNo: carNo,
-  amount: amount,
-  chinese: chinese,
-  letter: letter,
-  enOrNum: enOrNum,
-  contains: contains,
-  range: range,
-  rangeLength: rangeLength,
-  empty: empty,
-  isEmpty: empty,
-  jsonString: jsonString,
-  landline: landline,
-  object: object,
-  array: array,
-  code: code,
-  func: func,
-  promise: promise,
-  video: video,
-  image: image,
-  regExp: regExp,
-  string: string
-};
-exports.default = _default;
-
-/***/ }),
-/* 63 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/debounce.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var timeout = null;
-
-/**
- * 防抖原理：一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
- *
- * @param {Function} func 要执行的回调函数
- * @param {Number} wait 延时的时间
- * @param {Boolean} immediate 是否立即执行
- * @return null
- */
-function debounce(func) {
-  var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
-  var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  // 清除定时器
-  if (timeout !== null) clearTimeout(timeout);
-  // 立即执行，此类情况一般用不到
-  if (immediate) {
-    var callNow = !timeout;
-    timeout = setTimeout(function () {
-      timeout = null;
-    }, wait);
-    if (callNow) typeof func === 'function' && func();
-  } else {
-    // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
-    timeout = setTimeout(function () {
-      typeof func === 'function' && func();
-    }, wait);
-  }
-}
-var _default = debounce;
-exports.default = _default;
-
-/***/ }),
-/* 64 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/throttle.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var timer;
-var flag;
-/**
- * 节流原理：在一定时间内，只能触发一次
- *
- * @param {Function} func 要执行的回调函数
- * @param {Number} wait 延时的时间
- * @param {Boolean} immediate 是否立即执行
- * @return null
- */
-function throttle(func) {
-  var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
-  var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-  if (immediate) {
-    if (!flag) {
-      flag = true;
-      // 如果是立即执行，则在wait毫秒内开始时执行
-      typeof func === 'function' && func();
-      timer = setTimeout(function () {
-        flag = false;
-      }, wait);
-    }
-  } else if (!flag) {
-    flag = true;
-    // 如果是非立即执行，则在wait毫秒内的结束处执行
-    timer = setTimeout(function () {
-      flag = false;
-      typeof func === 'function' && func();
-    }, wait);
-  }
-}
-var _default = throttle;
-exports.default = _default;
-
-/***/ }),
-/* 65 */
-/*!***************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/index.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
-var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
-var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 62));
-var _digit = __webpack_require__(/*! ./digit.js */ 66);
-/**
- * @description 如果value小于min，取min；如果value大于max，取max
- * @param {number} min
- * @param {number} max
- * @param {number} value
- */
-function range() {
-  var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-  return Math.max(min, Math.min(max, Number(value)));
-}
-
-/**
- * @description 用于获取用户传递值的px值  如果用户传递了"xxpx"或者"xxrpx"，取出其数值部分，如果是"xxxrpx"还需要用过uni.upx2px进行转换
- * @param {number|string} value 用户传递值的px值
- * @param {boolean} unit
- * @returns {number|string}
- */
-function getPx(value) {
-  var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  if (_test.default.number(value)) {
-    return unit ? "".concat(value, "px") : Number(value);
-  }
-  // 如果带有rpx，先取出其数值部分，再转为px值
-  if (/(rpx|upx)$/.test(value)) {
-    return unit ? "".concat(uni.upx2px(parseInt(value)), "px") : Number(uni.upx2px(parseInt(value)));
-  }
-  return unit ? "".concat(parseInt(value), "px") : parseInt(value);
-}
-
-/**
- * @description 进行延时，以达到可以简写代码的目的 比如: await uni.$u.sleep(20)将会阻塞20ms
- * @param {number} value 堵塞时间 单位ms 毫秒
- * @returns {Promise} 返回promise
- */
-function sleep() {
-  var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30;
-  return new Promise(function (resolve) {
-    setTimeout(function () {
-      resolve();
-    }, value);
-  });
-}
-/**
- * @description 运行期判断平台
- * @returns {string} 返回所在平台(小写)
- * @link 运行期判断平台 https://uniapp.dcloud.io/frame?id=判断平台
- */
-function os() {
-  return uni.getSystemInfoSync().platform.toLowerCase();
-}
-/**
- * @description 获取系统信息同步接口
- * @link 获取系统信息同步接口 https://uniapp.dcloud.io/api/system/info?id=getsysteminfosync
- */
-function sys() {
-  return uni.getSystemInfoSync();
-}
-
-/**
- * @description 取一个区间数
- * @param {Number} min 最小值
- * @param {Number} max 最大值
- */
-function random(min, max) {
-  if (min >= 0 && max > 0 && max >= min) {
-    var gab = max - min + 1;
-    return Math.floor(Math.random() * gab + min);
-  }
-  return 0;
-}
-
-/**
- * @param {Number} len uuid的长度
- * @param {Boolean} firstU 将返回的首字母置为"u"
- * @param {Nubmer} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
- */
-function guid() {
-  var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;
-  var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-  var uuid = [];
-  radix = radix || chars.length;
-  if (len) {
-    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
-    for (var i = 0; i < len; i++) {
-      uuid[i] = chars[0 | Math.random() * radix];
-    }
-  } else {
-    var r;
-    // rfc4122标准要求返回的uuid中,某些位为固定的字符
-    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-    uuid[14] = '4';
-    for (var _i = 0; _i < 36; _i++) {
-      if (!uuid[_i]) {
-        r = 0 | Math.random() * 16;
-        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
-      }
-    }
-  }
-  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guuid不能用作id或者class
-  if (firstU) {
-    uuid.shift();
-    return "u".concat(uuid.join(''));
-  }
-  return uuid.join('');
-}
-
-/**
-* @description 获取父组件的参数，因为支付宝小程序不支持provide/inject的写法
-   this.$parent在非H5中，可以准确获取到父组件，但是在H5中，需要多次this.$parent.$parent.xxx
-   这里默认值等于undefined有它的含义，因为最顶层元素(组件)的$parent就是undefined，意味着不传name
-   值(默认为undefined)，就是查找最顶层的$parent
-*  @param {string|undefined} name 父组件的参数名
-*/
-function $parent() {
-  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-  var parent = this.$parent;
-  // 通过while历遍，这里主要是为了H5需要多层解析的问题
-  while (parent) {
-    // 父组件
-    if (parent.$options && parent.$options.name !== name) {
-      // 如果组件的name不相等，继续上一级寻找
-      parent = parent.$parent;
-    } else {
-      return parent;
-    }
-  }
-  return false;
-}
-
-/**
- * @description 样式转换
- * 对象转字符串，或者字符串转对象
- * @param {object | string} customStyle 需要转换的目标
- * @param {String} target 转换的目的，object-转为对象，string-转为字符串
- * @returns {object|string}
- */
-function addStyle(customStyle) {
-  var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'object';
-  // 字符串转字符串，对象转对象情形，直接返回
-  if (_test.default.empty(customStyle) || (0, _typeof2.default)(customStyle) === 'object' && target === 'object' || target === 'string' && typeof customStyle === 'string') {
-    return customStyle;
-  }
-  // 字符串转对象
-  if (target === 'object') {
-    // 去除字符串样式中的两端空格(中间的空格不能去掉，比如padding: 20px 0如果去掉了就错了)，空格是无用的
-    customStyle = trim(customStyle);
-    // 根据";"将字符串转为数组形式
-    var styleArray = customStyle.split(';');
-    var style = {};
-    // 历遍数组，拼接成对象
-    for (var i = 0; i < styleArray.length; i++) {
-      // 'font-size:20px;color:red;'，如此最后字符串有";"的话，会导致styleArray最后一个元素为空字符串，这里需要过滤
-      if (styleArray[i]) {
-        var item = styleArray[i].split(':');
-        style[trim(item[0])] = trim(item[1]);
-      }
-    }
-    return style;
-  }
-  // 这里为对象转字符串形式
-  var string = '';
-  for (var _i2 in customStyle) {
-    // 驼峰转为中划线的形式，否则css内联样式，无法识别驼峰样式属性名
-    var key = _i2.replace(/([A-Z])/g, '-$1').toLowerCase();
-    string += "".concat(key, ":").concat(customStyle[_i2], ";");
-  }
-  // 去除两端空格
-  return trim(string);
-}
-
-/**
- * @description 添加单位，如果有rpx，upx，%，px等单位结尾或者值为auto，直接返回，否则加上px单位结尾
- * @param {string|number} value 需要添加单位的值
- * @param {string} unit 添加的单位名 比如px
- */
-function addUnit() {
-  var _uni$$u$config$unit, _uni, _uni$$u, _uni$$u$config;
-  var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'auto';
-  var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (_uni$$u$config$unit = (_uni = uni) === null || _uni === void 0 ? void 0 : (_uni$$u = _uni.$u) === null || _uni$$u === void 0 ? void 0 : (_uni$$u$config = _uni$$u.config) === null || _uni$$u$config === void 0 ? void 0 : _uni$$u$config.unit) !== null && _uni$$u$config$unit !== void 0 ? _uni$$u$config$unit : 'px';
-  value = String(value);
-  // 用uView内置验证规则中的number判断是否为数值
-  return _test.default.number(value) ? "".concat(value).concat(unit) : value;
-}
-
-/**
- * @description 深度克隆
- * @param {object} obj 需要深度克隆的对象
- * @param cache 缓存
- * @returns {*} 克隆后的对象或者原值（不是对象）
- */
-function deepClone(obj) {
-  var cache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new WeakMap();
-  if (obj === null || (0, _typeof2.default)(obj) !== 'object') return obj;
-  if (cache.has(obj)) return cache.get(obj);
-  var clone;
-  if (obj instanceof Date) {
-    clone = new Date(obj.getTime());
-  } else if (obj instanceof RegExp) {
-    clone = new RegExp(obj);
-  } else if (obj instanceof Map) {
-    clone = new Map(Array.from(obj, function (_ref) {
-      var _ref2 = (0, _slicedToArray2.default)(_ref, 2),
-        key = _ref2[0],
-        value = _ref2[1];
-      return [key, deepClone(value, cache)];
-    }));
-  } else if (obj instanceof Set) {
-    clone = new Set(Array.from(obj, function (value) {
-      return deepClone(value, cache);
-    }));
-  } else if (Array.isArray(obj)) {
-    clone = obj.map(function (value) {
-      return deepClone(value, cache);
-    });
-  } else if (Object.prototype.toString.call(obj) === '[object Object]') {
-    clone = Object.create(Object.getPrototypeOf(obj));
-    cache.set(obj, clone);
-    for (var _i3 = 0, _Object$entries = Object.entries(obj); _i3 < _Object$entries.length; _i3++) {
-      var _Object$entries$_i = (0, _slicedToArray2.default)(_Object$entries[_i3], 2),
-        key = _Object$entries$_i[0],
-        value = _Object$entries$_i[1];
-      clone[key] = deepClone(value, cache);
-    }
-  } else {
-    clone = Object.assign({}, obj);
-  }
-  cache.set(obj, clone);
-  return clone;
-}
-
-/**
- * @description JS对象深度合并
- * @param {object} target 需要拷贝的对象
- * @param {object} source 拷贝的来源对象
- * @returns {object|boolean} 深度合并后的对象或者false（入参有不是对象）
- */
-function deepMerge() {
-  var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  target = deepClone(target);
-  if ((0, _typeof2.default)(target) !== 'object' || target === null || (0, _typeof2.default)(source) !== 'object' || source === null) return target;
-  var merged = Array.isArray(target) ? target.slice() : Object.assign({}, target);
-  for (var prop in source) {
-    if (!source.hasOwnProperty(prop)) continue;
-    var sourceValue = source[prop];
-    var targetValue = merged[prop];
-    if (sourceValue instanceof Date) {
-      merged[prop] = new Date(sourceValue);
-    } else if (sourceValue instanceof RegExp) {
-      merged[prop] = new RegExp(sourceValue);
-    } else if (sourceValue instanceof Map) {
-      merged[prop] = new Map(sourceValue);
-    } else if (sourceValue instanceof Set) {
-      merged[prop] = new Set(sourceValue);
-    } else if ((0, _typeof2.default)(sourceValue) === 'object' && sourceValue !== null) {
-      merged[prop] = deepMerge(targetValue, sourceValue);
-    } else {
-      merged[prop] = sourceValue;
-    }
-  }
-  return merged;
-}
-
-/**
- * @description error提示
- * @param {*} err 错误内容
- */
-function error(err) {
-  // 开发环境才提示，生产环境不会提示
-  if (true) {
-    console.error("uView\u63D0\u793A\uFF1A".concat(err));
-  }
-}
-
-/**
- * @description 打乱数组
- * @param {array} array 需要打乱的数组
- * @returns {array} 打乱后的数组
- */
-function randomArray() {
-  var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  // 原理是sort排序,Math.random()产生0<= x < 1之间的数,会导致x-0.05大于或者小于0
-  return array.sort(function () {
-    return Math.random() - 0.5;
-  });
-}
-
-// padStart 的 polyfill，因为某些机型或情况，还无法支持es7的padStart，比如电脑版的微信小程序
-// 所以这里做一个兼容polyfill的兼容处理
-if (!String.prototype.padStart) {
-  // 为了方便表示这里 fillString 用了ES6 的默认参数，不影响理解
-  String.prototype.padStart = function (maxLength) {
-    var fillString = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ' ';
-    if (Object.prototype.toString.call(fillString) !== '[object String]') {
-      throw new TypeError('fillString must be String');
-    }
-    var str = this;
-    // 返回 String(str) 这里是为了使返回的值是字符串字面量，在控制台中更符合直觉
-    if (str.length >= maxLength) return String(str);
-    var fillLength = maxLength - str.length;
-    var times = Math.ceil(fillLength / fillString.length);
-    while (times >>= 1) {
-      fillString += fillString;
-      if (times === 1) {
-        fillString += fillString;
-      }
-    }
-    return fillString.slice(0, fillLength) + str;
-  };
-}
-
-/**
- * @description 格式化时间
- * @param {String|Number} dateTime 需要格式化的时间戳
- * @param {String} fmt 格式化规则 yyyy:mm:dd|yyyy:mm|yyyy年mm月dd日|yyyy年mm月dd日 hh时MM分等,可自定义组合 默认yyyy-mm-dd
- * @returns {string} 返回格式化后的字符串
- */
-function timeFormat() {
-  var dateTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var formatStr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yyyy-mm-dd';
-  var date;
-  // 若传入时间为假值，则取当前时间
-  if (!dateTime) {
-    date = new Date();
-  }
-  // 若为unix秒时间戳，则转为毫秒时间戳（逻辑有点奇怪，但不敢改，以保证历史兼容）
-  else if (/^\d{10}$/.test(dateTime === null || dateTime === void 0 ? void 0 : dateTime.toString().trim())) {
-    date = new Date(dateTime * 1000);
-  }
-  // 若用户传入字符串格式时间戳，new Date无法解析，需做兼容
-  else if (typeof dateTime === 'string' && /^\d+$/.test(dateTime.trim())) {
-    date = new Date(Number(dateTime));
-  }
-  // 处理平台性差异，在Safari/Webkit中，new Date仅支持/作为分割符的字符串时间
-  // 处理 '2022-07-10 01:02:03'，跳过 '2022-07-10T01:02:03'
-  else if (typeof dateTime === 'string' && dateTime.includes('-') && !dateTime.includes('T')) {
-    date = new Date(dateTime.replace(/-/g, '/'));
-  }
-  // 其他都认为符合 RFC 2822 规范
-  else {
-    date = new Date(dateTime);
-  }
-  var timeSource = {
-    'y': date.getFullYear().toString(),
-    // 年
-    'm': (date.getMonth() + 1).toString().padStart(2, '0'),
-    // 月
-    'd': date.getDate().toString().padStart(2, '0'),
-    // 日
-    'h': date.getHours().toString().padStart(2, '0'),
-    // 时
-    'M': date.getMinutes().toString().padStart(2, '0'),
-    // 分
-    's': date.getSeconds().toString().padStart(2, '0') // 秒
-    // 有其他格式化字符需求可以继续添加，必须转化成字符串
-  };
-
-  for (var key in timeSource) {
-    var _ref3 = new RegExp("".concat(key, "+")).exec(formatStr) || [],
-      _ref4 = (0, _slicedToArray2.default)(_ref3, 1),
-      ret = _ref4[0];
-    if (ret) {
-      // 年可能只需展示两位
-      var beginIndex = key === 'y' && ret.length === 2 ? 2 : 0;
-      formatStr = formatStr.replace(ret, timeSource[key].slice(beginIndex));
-    }
-  }
-  return formatStr;
-}
-
-/**
- * @description 时间戳转为多久之前
- * @param {String|Number} timestamp 时间戳
- * @param {String|Boolean} format
- * 格式化规则如果为时间格式字符串，超出一定时间范围，返回固定的时间格式；
- * 如果为布尔值false，无论什么时间，都返回多久以前的格式
- * @returns {string} 转化后的内容
- */
-function timeFrom() {
-  var timestamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yyyy-mm-dd';
-  if (timestamp == null) timestamp = Number(new Date());
-  timestamp = parseInt(timestamp);
-  // 判断用户输入的时间戳是秒还是毫秒,一般前端js获取的时间戳是毫秒(13位),后端传过来的为秒(10位)
-  if (timestamp.toString().length == 10) timestamp *= 1000;
-  var timer = new Date().getTime() - timestamp;
-  timer = parseInt(timer / 1000);
-  // 如果小于5分钟,则返回"刚刚",其他以此类推
-  var tips = '';
-  switch (true) {
-    case timer < 300:
-      tips = '刚刚';
-      break;
-    case timer >= 300 && timer < 3600:
-      tips = "".concat(parseInt(timer / 60), "\u5206\u949F\u524D");
-      break;
-    case timer >= 3600 && timer < 86400:
-      tips = "".concat(parseInt(timer / 3600), "\u5C0F\u65F6\u524D");
-      break;
-    case timer >= 86400 && timer < 2592000:
-      tips = "".concat(parseInt(timer / 86400), "\u5929\u524D");
-      break;
-    default:
-      // 如果format为false，则无论什么时间戳，都显示xx之前
-      if (format === false) {
-        if (timer >= 2592000 && timer < 365 * 86400) {
-          tips = "".concat(parseInt(timer / (86400 * 30)), "\u4E2A\u6708\u524D");
-        } else {
-          tips = "".concat(parseInt(timer / (86400 * 365)), "\u5E74\u524D");
-        }
-      } else {
-        tips = timeFormat(timestamp, format);
-      }
-  }
-  return tips;
-}
-
-/**
- * @description 去除空格
- * @param String str 需要去除空格的字符串
- * @param String pos both(左右)|left|right|all 默认both
- */
-function trim(str) {
-  var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'both';
-  str = String(str);
-  if (pos == 'both') {
-    return str.replace(/^\s+|\s+$/g, '');
-  }
-  if (pos == 'left') {
-    return str.replace(/^\s*/, '');
-  }
-  if (pos == 'right') {
-    return str.replace(/(\s*$)/g, '');
-  }
-  if (pos == 'all') {
-    return str.replace(/\s+/g, '');
-  }
-  return str;
-}
-
-/**
- * @description 对象转url参数
- * @param {object} data,对象
- * @param {Boolean} isPrefix,是否自动加上"?"
- * @param {string} arrayFormat 规则 indices|brackets|repeat|comma
- */
-function queryParams() {
-  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var isPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var arrayFormat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'brackets';
-  var prefix = isPrefix ? '?' : '';
-  var _result = [];
-  if (['indices', 'brackets', 'repeat', 'comma'].indexOf(arrayFormat) == -1) arrayFormat = 'brackets';
-  var _loop = function _loop(key) {
-    var value = data[key];
-    // 去掉为空的参数
-    if (['', undefined, null].indexOf(value) >= 0) {
-      return "continue";
-    }
-    // 如果值为数组，另行处理
-    if (value.constructor === Array) {
-      // e.g. {ids: [1, 2, 3]}
-      switch (arrayFormat) {
-        case 'indices':
-          // 结果: ids[0]=1&ids[1]=2&ids[2]=3
-          for (var i = 0; i < value.length; i++) {
-            _result.push("".concat(key, "[").concat(i, "]=").concat(value[i]));
-          }
-          break;
-        case 'brackets':
-          // 结果: ids[]=1&ids[]=2&ids[]=3
-          value.forEach(function (_value) {
-            _result.push("".concat(key, "[]=").concat(_value));
-          });
-          break;
-        case 'repeat':
-          // 结果: ids=1&ids=2&ids=3
-          value.forEach(function (_value) {
-            _result.push("".concat(key, "=").concat(_value));
-          });
-          break;
-        case 'comma':
-          // 结果: ids=1,2,3
-          var commaStr = '';
-          value.forEach(function (_value) {
-            commaStr += (commaStr ? ',' : '') + _value;
-          });
-          _result.push("".concat(key, "=").concat(commaStr));
-          break;
-        default:
-          value.forEach(function (_value) {
-            _result.push("".concat(key, "[]=").concat(_value));
-          });
-      }
-    } else {
-      _result.push("".concat(key, "=").concat(value));
-    }
-  };
-  for (var key in data) {
-    var _ret = _loop(key);
-    if (_ret === "continue") continue;
-  }
-  return _result.length ? prefix + _result.join('&') : '';
-}
-
-/**
- * 显示消息提示框
- * @param {String} title 提示的内容，长度与 icon 取值有关。
- * @param {Number} duration 提示的延迟时间，单位毫秒，默认：2000
- */
-function toast(title) {
-  var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
-  uni.showToast({
-    title: String(title),
-    icon: 'none',
-    duration: duration
-  });
-}
-
-/**
- * @description 根据主题type值,获取对应的图标
- * @param {String} type 主题名称,primary|info|error|warning|success
- * @param {boolean} fill 是否使用fill填充实体的图标
- */
-function type2icon() {
-  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';
-  var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  // 如果非预置值,默认为success
-  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
-  var iconName = '';
-  // 目前(2019-12-12),info和primary使用同一个图标
-  switch (type) {
-    case 'primary':
-      iconName = 'info-circle';
-      break;
-    case 'info':
-      iconName = 'info-circle';
-      break;
-    case 'error':
-      iconName = 'close-circle';
-      break;
-    case 'warning':
-      iconName = 'error-circle';
-      break;
-    case 'success':
-      iconName = 'checkmark-circle';
-      break;
-    default:
-      iconName = 'checkmark-circle';
-  }
-  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
-  if (fill) iconName += '-fill';
-  return iconName;
-}
-
-/**
- * @description 数字格式化
- * @param {number|string} number 要格式化的数字
- * @param {number} decimals 保留几位小数
- * @param {string} decimalPoint 小数点符号
- * @param {string} thousandsSeparator 千分位符号
- * @returns {string} 格式化后的数字
- */
-function priceFormat(number) {
-  var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  var decimalPoint = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
-  var thousandsSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ',';
-  number = "".concat(number).replace(/[^0-9+-Ee.]/g, '');
-  var n = !isFinite(+number) ? 0 : +number;
-  var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals);
-  var sep = typeof thousandsSeparator === 'undefined' ? ',' : thousandsSeparator;
-  var dec = typeof decimalPoint === 'undefined' ? '.' : decimalPoint;
-  var s = '';
-  s = (prec ? (0, _digit.round)(n, prec) + '' : "".concat(Math.round(n))).split('.');
-  var re = /(-?\d+)(\d{3})/;
-  while (re.test(s[0])) {
-    s[0] = s[0].replace(re, "$1".concat(sep, "$2"));
-  }
-  if ((s[1] || '').length < prec) {
-    s[1] = s[1] || '';
-    s[1] += new Array(prec - s[1].length + 1).join('0');
-  }
-  return s.join(dec);
-}
-
-/**
- * @description 获取duration值
- * 如果带有ms或者s直接返回，如果大于一定值，认为是ms单位，小于一定值，认为是s单位
- * 比如以30位阈值，那么300大于30，可以理解为用户想要的是300ms，而不是想花300s去执行一个动画
- * @param {String|number} value 比如: "1s"|"100ms"|1|100
- * @param {boolean} unit  提示: 如果是false 默认返回number
- * @return {string|number}
- */
-function getDuration(value) {
-  var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var valueNum = parseInt(value);
-  if (unit) {
-    if (/s$/.test(value)) return value;
-    return value > 30 ? "".concat(value, "ms") : "".concat(value, "s");
-  }
-  if (/ms$/.test(value)) return valueNum;
-  if (/s$/.test(value)) return valueNum > 30 ? valueNum : valueNum * 1000;
-  return valueNum;
-}
-
-/**
- * @description 日期的月或日补零操作
- * @param {String} value 需要补零的值
- */
-function padZero(value) {
-  return "00".concat(value).slice(-2);
-}
-
-/**
- * @description 在u-form的子组件内容发生变化，或者失去焦点时，尝试通知u-form执行校验方法
- * @param {*} instance
- * @param {*} event
- */
-function formValidate(instance, event) {
-  var formItem = uni.$u.$parent.call(instance, 'u-form-item');
-  var form = uni.$u.$parent.call(instance, 'u-form');
-  // 如果发生变化的input或者textarea等，其父组件中有u-form-item或者u-form等，就执行form的validate方法
-  // 同时将form-item的pros传递给form，让其进行精确对象验证
-  if (formItem && form) {
-    form.validateField(formItem.prop, function () {}, event);
-  }
-}
-
-/**
- * @description 获取某个对象下的属性，用于通过类似'a.b.c'的形式去获取一个对象的的属性的形式
- * @param {object} obj 对象
- * @param {string} key 需要获取的属性字段
- * @returns {*}
- */
-function getProperty(obj, key) {
-  if (!obj) {
-    return;
-  }
-  if (typeof key !== 'string' || key === '') {
-    return '';
-  }
-  if (key.indexOf('.') !== -1) {
-    var keys = key.split('.');
-    var firstObj = obj[keys[0]] || {};
-    for (var i = 1; i < keys.length; i++) {
-      if (firstObj) {
-        firstObj = firstObj[keys[i]];
-      }
-    }
-    return firstObj;
-  }
-  return obj[key];
-}
-
-/**
- * @description 设置对象的属性值，如果'a.b.c'的形式进行设置
- * @param {object} obj 对象
- * @param {string} key 需要设置的属性
- * @param {string} value 设置的值
- */
-function setProperty(obj, key, value) {
-  if (!obj) {
-    return;
-  }
-  // 递归赋值
-  var inFn = function inFn(_obj, keys, v) {
-    // 最后一个属性key
-    if (keys.length === 1) {
-      _obj[keys[0]] = v;
-      return;
-    }
-    // 0~length-1个key
-    while (keys.length > 1) {
-      var k = keys[0];
-      if (!_obj[k] || (0, _typeof2.default)(_obj[k]) !== 'object') {
-        _obj[k] = {};
-      }
-      var _key = keys.shift();
-      // 自调用判断是否存在属性，不存在则自动创建对象
-      inFn(_obj[k], keys, v);
-    }
-  };
-  if (typeof key !== 'string' || key === '') {} else if (key.indexOf('.') !== -1) {
-    // 支持多层级赋值操作
-    var keys = key.split('.');
-    inFn(obj, keys, value);
-  } else {
-    obj[key] = value;
-  }
-}
-
-/**
- * @description 获取当前页面路径
- */
-function page() {
-  var _pages$route, _pages;
-  var pages = getCurrentPages();
-  // 某些特殊情况下(比如页面进行redirectTo时的一些时机)，pages可能为空数组
-  return "/".concat((_pages$route = (_pages = pages[pages.length - 1]) === null || _pages === void 0 ? void 0 : _pages.route) !== null && _pages$route !== void 0 ? _pages$route : '');
-}
-
-/**
- * @description 获取当前路由栈实例数组
- */
-function pages() {
-  var pages = getCurrentPages();
-  return pages;
-}
-
-/**
- * 获取页面历史栈指定层实例
- * @param back {number} [0] - 0或者负数，表示获取历史栈的哪一层，0表示获取当前页面实例，-1 表示获取上一个页面实例。默认0。
- */
-function getHistoryPage() {
-  var back = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  var pages = getCurrentPages();
-  var len = pages.length;
-  return pages[len - 1 + back];
-}
-
-/**
- * @description 修改uView内置属性值
- * @param {object} props 修改内置props属性
- * @param {object} config 修改内置config属性
- * @param {object} color 修改内置color属性
- * @param {object} zIndex 修改内置zIndex属性
- */
-function setConfig(_ref5) {
-  var _ref5$props = _ref5.props,
-    props = _ref5$props === void 0 ? {} : _ref5$props,
-    _ref5$config = _ref5.config,
-    config = _ref5$config === void 0 ? {} : _ref5$config,
-    _ref5$color = _ref5.color,
-    color = _ref5$color === void 0 ? {} : _ref5$color,
-    _ref5$zIndex = _ref5.zIndex,
-    zIndex = _ref5$zIndex === void 0 ? {} : _ref5$zIndex;
-  var deepMerge = uni.$u.deepMerge;
-  uni.$u.config = deepMerge(uni.$u.config, config);
-  uni.$u.props = deepMerge(uni.$u.props, props);
-  uni.$u.color = deepMerge(uni.$u.color, color);
-  uni.$u.zIndex = deepMerge(uni.$u.zIndex, zIndex);
-}
-var _default = {
-  range: range,
-  getPx: getPx,
-  sleep: sleep,
-  os: os,
-  sys: sys,
-  random: random,
-  guid: guid,
-  $parent: $parent,
-  addStyle: addStyle,
-  addUnit: addUnit,
-  deepClone: deepClone,
-  deepMerge: deepMerge,
-  error: error,
-  randomArray: randomArray,
-  timeFormat: timeFormat,
-  timeFrom: timeFrom,
-  trim: trim,
-  queryParams: queryParams,
-  toast: toast,
-  type2icon: type2icon,
-  priceFormat: priceFormat,
-  getDuration: getDuration,
-  padZero: padZero,
-  formValidate: formValidate,
-  getProperty: getProperty,
-  setProperty: setProperty,
-  page: page,
-  pages: pages,
-  getHistoryPage: getHistoryPage,
-  setConfig: setConfig
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 66 */
-/*!***************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/digit.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-exports.divide = divide;
-exports.enableBoundaryChecking = enableBoundaryChecking;
-exports.minus = minus;
-exports.plus = plus;
-exports.round = round;
-exports.times = times;
-var _toArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toArray */ 67));
-var _boundaryCheckingState = true; // 是否进行越界检查的全局开关
-
-/**
- * 把错误的数据转正
- * @private
- * @example strip(0.09999999999999998)=0.1
- */
-function strip(num) {
-  var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 15;
-  return +parseFloat(Number(num).toPrecision(precision));
-}
-
-/**
- * Return digits length of a number
- * @private
- * @param {*number} num Input number
- */
-function digitLength(num) {
-  // Get digit length of e
-  var eSplit = num.toString().split(/[eE]/);
-  var len = (eSplit[0].split('.')[1] || '').length - +(eSplit[1] || 0);
-  return len > 0 ? len : 0;
-}
-
-/**
- * 把小数转成整数,如果是小数则放大成整数
- * @private
- * @param {*number} num 输入数
- */
-function float2Fixed(num) {
-  if (num.toString().indexOf('e') === -1) {
-    return Number(num.toString().replace('.', ''));
-  }
-  var dLen = digitLength(num);
-  return dLen > 0 ? strip(Number(num) * Math.pow(10, dLen)) : Number(num);
-}
-
-/**
- * 检测数字是否越界，如果越界给出提示
- * @private
- * @param {*number} num 输入数
- */
-function checkBoundary(num) {
-  if (_boundaryCheckingState) {
-    if (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER) {
-      console.warn("".concat(num, " \u8D85\u51FA\u4E86\u7CBE\u5EA6\u9650\u5236\uFF0C\u7ED3\u679C\u53EF\u80FD\u4E0D\u6B63\u786E"));
-    }
-  }
-}
-
-/**
- * 把递归操作扁平迭代化
- * @param {number[]} arr 要操作的数字数组
- * @param {function} operation 迭代操作
- * @private
- */
-function iteratorOperation(arr, operation) {
-  var _arr = (0, _toArray2.default)(arr),
-    num1 = _arr[0],
-    num2 = _arr[1],
-    others = _arr.slice(2);
-  var res = operation(num1, num2);
-  others.forEach(function (num) {
-    res = operation(res, num);
-  });
-  return res;
-}
-
-/**
- * 高精度乘法
- * @export
- */
-function times() {
-  for (var _len = arguments.length, nums = new Array(_len), _key = 0; _key < _len; _key++) {
-    nums[_key] = arguments[_key];
-  }
-  if (nums.length > 2) {
-    return iteratorOperation(nums, times);
-  }
-  var num1 = nums[0],
-    num2 = nums[1];
-  var num1Changed = float2Fixed(num1);
-  var num2Changed = float2Fixed(num2);
-  var baseNum = digitLength(num1) + digitLength(num2);
-  var leftValue = num1Changed * num2Changed;
-  checkBoundary(leftValue);
-  return leftValue / Math.pow(10, baseNum);
-}
-
-/**
- * 高精度加法
- * @export
- */
-function plus() {
-  for (var _len2 = arguments.length, nums = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    nums[_key2] = arguments[_key2];
-  }
-  if (nums.length > 2) {
-    return iteratorOperation(nums, plus);
-  }
-  var num1 = nums[0],
-    num2 = nums[1];
-  // 取最大的小数位
-  var baseNum = Math.pow(10, Math.max(digitLength(num1), digitLength(num2)));
-  // 把小数都转为整数然后再计算
-  return (times(num1, baseNum) + times(num2, baseNum)) / baseNum;
-}
-
-/**
- * 高精度减法
- * @export
- */
-function minus() {
-  for (var _len3 = arguments.length, nums = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-    nums[_key3] = arguments[_key3];
-  }
-  if (nums.length > 2) {
-    return iteratorOperation(nums, minus);
-  }
-  var num1 = nums[0],
-    num2 = nums[1];
-  var baseNum = Math.pow(10, Math.max(digitLength(num1), digitLength(num2)));
-  return (times(num1, baseNum) - times(num2, baseNum)) / baseNum;
-}
-
-/**
- * 高精度除法
- * @export
- */
-function divide() {
-  for (var _len4 = arguments.length, nums = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-    nums[_key4] = arguments[_key4];
-  }
-  if (nums.length > 2) {
-    return iteratorOperation(nums, divide);
-  }
-  var num1 = nums[0],
-    num2 = nums[1];
-  var num1Changed = float2Fixed(num1);
-  var num2Changed = float2Fixed(num2);
-  checkBoundary(num1Changed);
-  checkBoundary(num2Changed);
-  // 重要，这里必须用strip进行修正
-  return times(num1Changed / num2Changed, strip(Math.pow(10, digitLength(num2) - digitLength(num1))));
-}
-
-/**
- * 四舍五入
- * @export
- */
-function round(num, ratio) {
-  var base = Math.pow(10, ratio);
-  var result = divide(Math.round(Math.abs(times(num, base))), base);
-  if (num < 0 && result !== 0) {
-    result = times(result, -1);
-  }
-  // 位数不足则补0
-  return result;
-}
-
-/**
- * 是否进行边界检查，默认开启
- * @param flag 标记开关，true 为开启，false 为关闭，默认为 true
- * @export
- */
-function enableBoundaryChecking() {
-  var flag = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-  _boundaryCheckingState = flag;
-}
-var _default = {
-  times: times,
-  plus: plus,
-  minus: minus,
-  divide: divide,
-  round: round,
-  enableBoundaryChecking: enableBoundaryChecking
-};
-exports.default = _default;
-
-/***/ }),
-/* 67 */
-/*!********************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/toArray.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles.js */ 6);
-var iterableToArray = __webpack_require__(/*! ./iterableToArray.js */ 20);
-var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ 8);
-var nonIterableRest = __webpack_require__(/*! ./nonIterableRest.js */ 10);
-function _toArray(arr) {
-  return arrayWithHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableRest();
-}
-module.exports = _toArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-/* 68 */
-/*!**************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/config.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-// 此版本发布于2024-03-17
-var version = '2.0.37';
-
-// 开发环境才提示，生产环境不会提示
-if (true) {
-  console.log("\n %c uView V".concat(version, " %c https://uviewui.com/ \n\n"), 'color: #ffffff; background: #3c9cff; padding:5px 0; border-radius: 5px;');
-}
-var _default = {
-  v: version,
-  version: version,
-  // 主题名称
-  type: ['primary', 'success', 'info', 'error', 'warning'],
-  // 颜色部分，本来可以通过scss的:export导出供js使用，但是奈何nvue不支持
-  color: {
-    'u-primary': '#2979ff',
-    'u-warning': '#ff9900',
-    'u-success': '#19be6b',
-    'u-error': '#fa3534',
-    'u-info': '#909399',
-    'u-main-color': '#303133',
-    'u-content-color': '#606266',
-    'u-tips-color': '#909399',
-    'u-light-color': '#c0c4cc'
-  },
-  // 默认单位，可以通过配置为rpx，那么在用于传入组件大小参数为数值时，就默认为rpx
-  unit: 'px'
-};
-exports.default = _default;
-
-/***/ }),
-/* 69 */
-/*!*************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props.js ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 68));
-var _actionSheet = _interopRequireDefault(__webpack_require__(/*! ./props/actionSheet.js */ 70));
-var _album = _interopRequireDefault(__webpack_require__(/*! ./props/album.js */ 71));
-var _alert = _interopRequireDefault(__webpack_require__(/*! ./props/alert.js */ 72));
-var _avatar = _interopRequireDefault(__webpack_require__(/*! ./props/avatar */ 73));
-var _avatarGroup = _interopRequireDefault(__webpack_require__(/*! ./props/avatarGroup */ 74));
-var _backtop = _interopRequireDefault(__webpack_require__(/*! ./props/backtop */ 75));
-var _badge = _interopRequireDefault(__webpack_require__(/*! ./props/badge */ 76));
-var _button = _interopRequireDefault(__webpack_require__(/*! ./props/button */ 77));
-var _calendar = _interopRequireDefault(__webpack_require__(/*! ./props/calendar */ 78));
-var _carKeyboard = _interopRequireDefault(__webpack_require__(/*! ./props/carKeyboard */ 79));
-var _cell = _interopRequireDefault(__webpack_require__(/*! ./props/cell */ 80));
-var _cellGroup = _interopRequireDefault(__webpack_require__(/*! ./props/cellGroup */ 81));
-var _checkbox = _interopRequireDefault(__webpack_require__(/*! ./props/checkbox */ 82));
-var _checkboxGroup = _interopRequireDefault(__webpack_require__(/*! ./props/checkboxGroup */ 83));
-var _circleProgress = _interopRequireDefault(__webpack_require__(/*! ./props/circleProgress */ 84));
-var _code = _interopRequireDefault(__webpack_require__(/*! ./props/code */ 85));
-var _codeInput = _interopRequireDefault(__webpack_require__(/*! ./props/codeInput */ 86));
-var _col = _interopRequireDefault(__webpack_require__(/*! ./props/col */ 87));
-var _collapse = _interopRequireDefault(__webpack_require__(/*! ./props/collapse */ 88));
-var _collapseItem = _interopRequireDefault(__webpack_require__(/*! ./props/collapseItem */ 89));
-var _columnNotice = _interopRequireDefault(__webpack_require__(/*! ./props/columnNotice */ 90));
-var _countDown = _interopRequireDefault(__webpack_require__(/*! ./props/countDown */ 91));
-var _countTo = _interopRequireDefault(__webpack_require__(/*! ./props/countTo */ 92));
-var _datetimePicker = _interopRequireDefault(__webpack_require__(/*! ./props/datetimePicker */ 93));
-var _divider = _interopRequireDefault(__webpack_require__(/*! ./props/divider */ 94));
-var _empty = _interopRequireDefault(__webpack_require__(/*! ./props/empty */ 95));
-var _form = _interopRequireDefault(__webpack_require__(/*! ./props/form */ 96));
-var _formItem = _interopRequireDefault(__webpack_require__(/*! ./props/formItem */ 97));
-var _gap = _interopRequireDefault(__webpack_require__(/*! ./props/gap */ 98));
-var _grid = _interopRequireDefault(__webpack_require__(/*! ./props/grid */ 99));
-var _gridItem = _interopRequireDefault(__webpack_require__(/*! ./props/gridItem */ 100));
-var _icon = _interopRequireDefault(__webpack_require__(/*! ./props/icon */ 101));
-var _image = _interopRequireDefault(__webpack_require__(/*! ./props/image */ 102));
-var _indexAnchor = _interopRequireDefault(__webpack_require__(/*! ./props/indexAnchor */ 103));
-var _indexList = _interopRequireDefault(__webpack_require__(/*! ./props/indexList */ 104));
-var _input = _interopRequireDefault(__webpack_require__(/*! ./props/input */ 105));
-var _keyboard = _interopRequireDefault(__webpack_require__(/*! ./props/keyboard */ 106));
-var _line = _interopRequireDefault(__webpack_require__(/*! ./props/line */ 107));
-var _lineProgress = _interopRequireDefault(__webpack_require__(/*! ./props/lineProgress */ 108));
-var _link = _interopRequireDefault(__webpack_require__(/*! ./props/link */ 109));
-var _list = _interopRequireDefault(__webpack_require__(/*! ./props/list */ 110));
-var _listItem = _interopRequireDefault(__webpack_require__(/*! ./props/listItem */ 111));
-var _loadingIcon = _interopRequireDefault(__webpack_require__(/*! ./props/loadingIcon */ 112));
-var _loadingPage = _interopRequireDefault(__webpack_require__(/*! ./props/loadingPage */ 113));
-var _loadmore = _interopRequireDefault(__webpack_require__(/*! ./props/loadmore */ 114));
-var _modal = _interopRequireDefault(__webpack_require__(/*! ./props/modal */ 115));
-var _navbar = _interopRequireDefault(__webpack_require__(/*! ./props/navbar */ 116));
-var _noNetwork = _interopRequireDefault(__webpack_require__(/*! ./props/noNetwork */ 118));
-var _noticeBar = _interopRequireDefault(__webpack_require__(/*! ./props/noticeBar */ 119));
-var _notify = _interopRequireDefault(__webpack_require__(/*! ./props/notify */ 120));
-var _numberBox = _interopRequireDefault(__webpack_require__(/*! ./props/numberBox */ 121));
-var _numberKeyboard = _interopRequireDefault(__webpack_require__(/*! ./props/numberKeyboard */ 122));
-var _overlay = _interopRequireDefault(__webpack_require__(/*! ./props/overlay */ 123));
-var _parse = _interopRequireDefault(__webpack_require__(/*! ./props/parse */ 124));
-var _picker = _interopRequireDefault(__webpack_require__(/*! ./props/picker */ 125));
-var _popup = _interopRequireDefault(__webpack_require__(/*! ./props/popup */ 126));
-var _radio = _interopRequireDefault(__webpack_require__(/*! ./props/radio */ 127));
-var _radioGroup = _interopRequireDefault(__webpack_require__(/*! ./props/radioGroup */ 128));
-var _rate = _interopRequireDefault(__webpack_require__(/*! ./props/rate */ 129));
-var _readMore = _interopRequireDefault(__webpack_require__(/*! ./props/readMore */ 130));
-var _row = _interopRequireDefault(__webpack_require__(/*! ./props/row */ 131));
-var _rowNotice = _interopRequireDefault(__webpack_require__(/*! ./props/rowNotice */ 132));
-var _scrollList = _interopRequireDefault(__webpack_require__(/*! ./props/scrollList */ 133));
-var _search = _interopRequireDefault(__webpack_require__(/*! ./props/search */ 134));
-var _section = _interopRequireDefault(__webpack_require__(/*! ./props/section */ 135));
-var _skeleton = _interopRequireDefault(__webpack_require__(/*! ./props/skeleton */ 136));
-var _slider = _interopRequireDefault(__webpack_require__(/*! ./props/slider */ 137));
-var _statusBar = _interopRequireDefault(__webpack_require__(/*! ./props/statusBar */ 138));
-var _steps = _interopRequireDefault(__webpack_require__(/*! ./props/steps */ 139));
-var _stepsItem = _interopRequireDefault(__webpack_require__(/*! ./props/stepsItem */ 140));
-var _sticky = _interopRequireDefault(__webpack_require__(/*! ./props/sticky */ 141));
-var _subsection = _interopRequireDefault(__webpack_require__(/*! ./props/subsection */ 142));
-var _swipeAction = _interopRequireDefault(__webpack_require__(/*! ./props/swipeAction */ 143));
-var _swipeActionItem = _interopRequireDefault(__webpack_require__(/*! ./props/swipeActionItem */ 144));
-var _swiper = _interopRequireDefault(__webpack_require__(/*! ./props/swiper */ 145));
-var _swipterIndicator = _interopRequireDefault(__webpack_require__(/*! ./props/swipterIndicator */ 146));
-var _switch2 = _interopRequireDefault(__webpack_require__(/*! ./props/switch */ 147));
-var _tabbar = _interopRequireDefault(__webpack_require__(/*! ./props/tabbar */ 148));
-var _tabbarItem = _interopRequireDefault(__webpack_require__(/*! ./props/tabbarItem */ 149));
-var _tabs = _interopRequireDefault(__webpack_require__(/*! ./props/tabs */ 150));
-var _tag = _interopRequireDefault(__webpack_require__(/*! ./props/tag */ 151));
-var _text = _interopRequireDefault(__webpack_require__(/*! ./props/text */ 152));
-var _textarea = _interopRequireDefault(__webpack_require__(/*! ./props/textarea */ 153));
-var _toast = _interopRequireDefault(__webpack_require__(/*! ./props/toast */ 154));
-var _toolbar = _interopRequireDefault(__webpack_require__(/*! ./props/toolbar */ 155));
-var _tooltip = _interopRequireDefault(__webpack_require__(/*! ./props/tooltip */ 156));
-var _transition = _interopRequireDefault(__webpack_require__(/*! ./props/transition */ 157));
-var _upload = _interopRequireDefault(__webpack_require__(/*! ./props/upload */ 158));
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var color = _config.default.color;
-var _default = _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, _actionSheet.default), _album.default), _alert.default), _avatar.default), _avatarGroup.default), _backtop.default), _badge.default), _button.default), _calendar.default), _carKeyboard.default), _cell.default), _cellGroup.default), _checkbox.default), _checkboxGroup.default), _circleProgress.default), _code.default), _codeInput.default), _col.default), _collapse.default), _collapseItem.default), _columnNotice.default), _countDown.default), _countTo.default), _datetimePicker.default), _divider.default), _empty.default), _form.default), _formItem.default), _gap.default), _grid.default), _gridItem.default), _icon.default), _image.default), _indexAnchor.default), _indexList.default), _input.default), _keyboard.default), _line.default), _lineProgress.default), _link.default), _list.default), _listItem.default), _loadingIcon.default), _loadingPage.default), _loadmore.default), _modal.default), _navbar.default), _noNetwork.default), _noticeBar.default), _notify.default), _numberBox.default), _numberKeyboard.default), _overlay.default), _parse.default), _picker.default), _popup.default), _radio.default), _radioGroup.default), _rate.default), _readMore.default), _row.default), _rowNotice.default), _scrollList.default), _search.default), _section.default), _skeleton.default), _slider.default), _statusBar.default), _steps.default), _stepsItem.default), _sticky.default), _subsection.default), _swipeAction.default), _swipeActionItem.default), _swiper.default), _swipterIndicator.default), _switch2.default), _tabbar.default), _tabbarItem.default), _tabs.default), _tag.default), _text.default), _textarea.default), _toast.default), _toolbar.default), _tooltip.default), _transition.default), _upload.default);
-exports.default = _default;
-
-/***/ }),
-/* 70 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/actionSheet.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:44:35
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/actionSheet.js
- */
-var _default = {
-  // action-sheet组件
-  actionSheet: {
-    show: false,
-    title: '',
-    description: '',
-    actions: function actions() {
-      return [];
-    },
-    index: '',
-    cancelText: '',
-    closeOnClickAction: true,
-    safeAreaInsetBottom: true,
-    openType: '',
-    closeOnClickOverlay: true,
-    round: 0
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 71 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/album.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:47:24
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/album.js
- */
-var _default = {
-  // album 组件
-  album: {
-    urls: function urls() {
-      return [];
-    },
-    keyName: '',
-    singleSize: 180,
-    multipleSize: 70,
-    space: 6,
-    singleMode: 'scaleToFill',
-    multipleMode: 'aspectFill',
-    maxCount: 9,
-    previewFullImage: true,
-    rowCount: 3,
-    showMore: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 72 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/alert.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:48:53
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/alert.js
- */
-var _default = {
-  // alert警告组件
-  alert: {
-    title: '',
-    type: 'warning',
-    description: '',
-    closable: false,
-    showIcon: false,
-    effect: 'light',
-    center: false,
-    fontSize: 14
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 73 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/avatar.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:49:22
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/avatar.js
- */
-var _default = {
-  // avatar 组件
-  avatar: {
-    src: '',
-    shape: 'circle',
-    size: 40,
-    mode: 'scaleToFill',
-    text: '',
-    bgColor: '#c0c4cc',
-    color: '#ffffff',
-    fontSize: 18,
-    icon: '',
-    mpAvatar: false,
-    randomBgColor: false,
-    defaultUrl: '',
-    colorIndex: '',
-    name: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 74 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/avatarGroup.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:49:55
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/avatarGroup.js
- */
-var _default = {
-  // avatarGroup 组件
-  avatarGroup: {
-    urls: function urls() {
-      return [];
-    },
-    maxCount: 5,
-    shape: 'circle',
-    mode: 'scaleToFill',
-    showMore: true,
-    size: 40,
-    keyName: '',
-    gap: 0.5,
-    extraValue: 0
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 75 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/backtop.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:50:18
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/backtop.js
- */
-var _default = {
-  // backtop组件
-  backtop: {
-    mode: 'circle',
-    icon: 'arrow-upward',
-    text: '',
-    duration: 100,
-    scrollTop: 0,
-    top: 400,
-    bottom: 100,
-    right: 20,
-    zIndex: 9,
-    iconStyle: function iconStyle() {
-      return {
-        color: '#909399',
-        fontSize: '19px'
-      };
-    }
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 76 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/badge.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-23 19:51:50
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/badge.js
- */
-var _default = {
-  // 徽标数组件
-  badge: {
-    isDot: false,
-    value: '',
-    show: true,
-    max: 999,
-    type: 'error',
-    showZero: false,
-    bgColor: null,
-    color: null,
-    shape: 'circle',
-    numberType: 'overflow',
-    offset: function offset() {
-      return [];
-    },
-    inverted: false,
-    absolute: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 77 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/button.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:51:27
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/button.js
- */
-var _default = {
-  // button组件
-  button: {
-    hairline: false,
-    type: 'info',
-    size: 'normal',
-    shape: 'square',
-    plain: false,
-    disabled: false,
-    loading: false,
-    loadingText: '',
-    loadingMode: 'spinner',
-    loadingSize: 15,
-    openType: '',
-    formType: '',
-    appParameter: '',
-    hoverStopPropagation: true,
-    lang: 'en',
-    sessionFrom: '',
-    sendMessageTitle: '',
-    sendMessagePath: '',
-    sendMessageImg: '',
-    showMessageCard: false,
-    dataName: '',
-    throttleTime: 0,
-    hoverStartTime: 0,
-    hoverStayTime: 200,
-    text: '',
-    icon: '',
-    iconColor: '',
-    color: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 78 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/calendar.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:52:43
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/calendar.js
- */
-var _default = {
-  // calendar 组件
-  calendar: {
-    title: '日期选择',
-    showTitle: true,
-    showSubtitle: true,
-    mode: 'single',
-    startText: '开始',
-    endText: '结束',
-    customList: function customList() {
-      return [];
-    },
-    color: '#3c9cff',
-    minDate: 0,
-    maxDate: 0,
-    defaultDate: null,
-    maxCount: Number.MAX_SAFE_INTEGER,
-    // Infinity
-    rowHeight: 56,
-    formatter: null,
-    showLunar: false,
-    showMark: true,
-    confirmText: '确定',
-    confirmDisabledText: '确定',
-    show: false,
-    closeOnClickOverlay: false,
-    readonly: false,
-    showConfirm: true,
-    maxRange: Number.MAX_SAFE_INTEGER,
-    // Infinity
-    rangePrompt: '',
-    showRangePrompt: true,
-    allowSameDay: false,
-    round: 0,
-    monthNum: 3
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 79 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/carKeyboard.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:53:20
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/carKeyboard.js
- */
-var _default = {
-  // 车牌号键盘
-  carKeyboard: {
-    random: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 80 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/cell.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-23 20:53:09
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/cell.js
- */
-var _default = {
-  // cell组件的props
-  cell: {
-    customClass: '',
-    title: '',
-    label: '',
-    value: '',
-    icon: '',
-    disabled: false,
-    border: true,
-    center: false,
-    url: '',
-    linkType: 'navigateTo',
-    clickable: false,
-    isLink: false,
-    required: false,
-    arrowDirection: '',
-    iconStyle: {},
-    rightIconStyle: {},
-    rightIcon: 'arrow-right',
-    titleStyle: {},
-    size: '',
-    stop: true,
-    name: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 81 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/cellGroup.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:54:16
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/cellGroup.js
- */
-var _default = {
-  // cell-group组件的props
-  cellGroup: {
-    title: '',
-    border: true,
-    customStyle: {}
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 82 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/checkbox.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-23 21:06:59
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/checkbox.js
- */
-var _default = {
-  // checkbox组件
-  checkbox: {
-    name: '',
-    shape: '',
-    size: '',
-    checkbox: false,
-    disabled: '',
-    activeColor: '',
-    inactiveColor: '',
-    iconSize: '',
-    iconColor: '',
-    label: '',
-    labelSize: '',
-    labelColor: '',
-    labelDisabled: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 83 */
-/*!***************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/checkboxGroup.js ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:54:47
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/checkboxGroup.js
- */
-var _default = {
-  // checkbox-group组件
-  checkboxGroup: {
-    name: '',
-    value: function value() {
-      return [];
-    },
-    shape: 'square',
-    disabled: false,
-    activeColor: '#2979ff',
-    inactiveColor: '#c8c9cc',
-    size: 18,
-    placement: 'row',
-    labelSize: 14,
-    labelColor: '#303133',
-    labelDisabled: false,
-    iconColor: '#ffffff',
-    iconSize: 12,
-    iconPlacement: 'left',
-    borderBottom: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 84 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/circleProgress.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:55:02
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/circleProgress.js
- */
-var _default = {
-  // circleProgress 组件
-  circleProgress: {
-    percentage: 30
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 85 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/code.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:55:27
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/code.js
- */
-var _default = {
-  // code 组件
-  code: {
-    seconds: 60,
-    startText: '获取验证码',
-    changeText: 'X秒重新获取',
-    endText: '重新获取',
-    keepRunning: false,
-    uniqueKey: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 86 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/codeInput.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:55:58
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/codeInput.js
- */
-var _default = {
-  // codeInput 组件
-  codeInput: {
-    adjustPosition: true,
-    maxlength: 6,
-    dot: false,
-    mode: 'box',
-    hairline: false,
-    space: 10,
-    value: '',
-    focus: false,
-    bold: false,
-    color: '#606266',
-    fontSize: 18,
-    size: 35,
-    disabledKeyboard: false,
-    borderColor: '#c9cacc',
-    disabledDot: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 87 */
-/*!*****************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/col.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:56:12
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/col.js
- */
-var _default = {
-  // col 组件
-  col: {
-    span: 12,
-    offset: 0,
-    justify: 'start',
-    align: 'stretch',
-    textAlign: 'left'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 88 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/collapse.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:56:30
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/collapse.js
- */
-var _default = {
-  // collapse 组件
-  collapse: {
-    value: null,
-    accordion: false,
-    border: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 89 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/collapseItem.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:56:42
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/collapseItem.js
- */
-var _default = {
-  // collapseItem 组件
-  collapseItem: {
-    title: '',
-    value: '',
-    label: '',
-    disabled: false,
-    isLink: true,
-    clickable: true,
-    border: true,
-    align: 'left',
-    name: '',
-    icon: '',
-    duration: 300
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 90 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/columnNotice.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:57:16
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/columnNotice.js
- */
-var _default = {
-  // columnNotice 组件
-  columnNotice: {
-    text: '',
-    icon: 'volume',
-    mode: '',
-    color: '#f9ae3d',
-    bgColor: '#fdf6ec',
-    fontSize: 14,
-    speed: 80,
-    step: false,
-    duration: 1500,
-    disableTouch: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 91 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/countDown.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:11:29
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/countDown.js
- */
-var _default = {
-  // u-count-down 计时器组件
-  countDown: {
-    time: 0,
-    format: 'HH:mm:ss',
-    autoStart: true,
-    millisecond: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 92 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/countTo.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:57:32
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/countTo.js
- */
-var _default = {
-  // countTo 组件
-  countTo: {
-    startVal: 0,
-    endVal: 0,
-    duration: 2000,
-    autoplay: true,
-    decimals: 0,
-    useEasing: true,
-    decimal: '.',
-    color: '#606266',
-    fontSize: 22,
-    bold: false,
-    separator: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 93 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/datetimePicker.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:57:48
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/datetimePicker.js
- */
-var _default = {
-  // datetimePicker 组件
-  datetimePicker: {
-    show: false,
-    showToolbar: true,
-    value: '',
-    title: '',
-    mode: 'datetime',
-    maxDate: new Date(new Date().getFullYear() + 10, 0, 1).getTime(),
-    minDate: new Date(new Date().getFullYear() - 10, 0, 1).getTime(),
-    minHour: 0,
-    maxHour: 23,
-    minMinute: 0,
-    maxMinute: 59,
-    filter: null,
-    formatter: null,
-    loading: false,
-    itemHeight: 44,
-    cancelText: '取消',
-    confirmText: '确认',
-    cancelColor: '#909193',
-    confirmColor: '#3c9cff',
-    visibleItemCount: 5,
-    closeOnClickOverlay: false,
-    defaultIndex: function defaultIndex() {
-      return [];
-    }
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 94 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/divider.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:58:03
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/divider.js
- */
-var _default = {
-  // divider组件
-  divider: {
-    dashed: false,
-    hairline: true,
-    dot: false,
-    textPosition: 'center',
-    text: '',
-    textSize: 14,
-    textColor: '#909399',
-    lineColor: '#dcdfe6'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 95 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/empty.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:03:27
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/empty.js
- */
-var _default = {
-  // empty组件
-  empty: {
-    icon: '',
-    text: '',
-    textColor: '#c0c4cc',
-    textSize: 14,
-    iconColor: '#c0c4cc',
-    iconSize: 90,
-    mode: 'data',
-    width: 160,
-    height: 160,
-    show: true,
-    marginTop: 0
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 96 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/form.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:03:49
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/form.js
- */
-var _default = {
-  // form 组件
-  form: {
-    model: function model() {
-      return {};
-    },
-    rules: function rules() {
-      return {};
-    },
-    errorType: 'message',
-    borderBottom: true,
-    labelPosition: 'left',
-    labelWidth: 45,
-    labelAlign: 'left',
-    labelStyle: function labelStyle() {
-      return {};
-    }
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 97 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/formItem.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:04:32
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/formItem.js
- */
-var _default = {
-  // formItem 组件
-  formItem: {
-    label: '',
-    prop: '',
-    borderBottom: '',
-    labelPosition: '',
-    labelWidth: '',
-    rightIcon: '',
-    leftIcon: '',
-    required: false,
-    leftIconStyle: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 98 */
-/*!*****************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/gap.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:05:25
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/gap.js
- */
-var _default = {
-  // gap组件
-  gap: {
-    bgColor: 'transparent',
-    height: 20,
-    marginTop: 0,
-    marginBottom: 0,
-    customStyle: {}
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 99 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/grid.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:05:57
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/grid.js
- */
-var _default = {
-  // grid组件
-  grid: {
-    col: 3,
-    border: false,
-    align: 'left'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 100 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/gridItem.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:06:13
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/gridItem.js
- */
-var _default = {
-  // grid-item组件
-  gridItem: {
-    name: null,
-    bgColor: 'transparent'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 101 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/icon.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 68));
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 18:00:14
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/icon.js
- */
-
-var color = _config.default.color;
-var _default = {
-  // icon组件
-  icon: {
-    name: '',
-    color: color['u-content-color'],
-    size: '16px',
-    bold: false,
-    index: '',
-    hoverClass: '',
-    customPrefix: 'uicon',
-    label: '',
-    labelPos: 'right',
-    labelSize: '15px',
-    labelColor: color['u-content-color'],
-    space: '3px',
-    imgMode: '',
-    width: '',
-    height: '',
-    top: 0,
-    stop: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 102 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/image.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:01:51
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/image.js
- */
-var _default = {
-  // image组件
-  image: {
-    src: '',
-    mode: 'aspectFill',
-    width: '300',
-    height: '225',
-    shape: 'square',
-    radius: 0,
-    lazyLoad: true,
-    showMenuByLongpress: true,
-    loadingIcon: 'photo',
-    errorIcon: 'error-circle',
-    showLoading: true,
-    showError: true,
-    fade: true,
-    webp: false,
-    duration: 500,
-    bgColor: '#f3f4f6'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 103 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/indexAnchor.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:13:15
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/indexAnchor.js
- */
-var _default = {
-  // indexAnchor 组件
-  indexAnchor: {
-    text: '',
-    color: '#606266',
-    size: 14,
-    bgColor: '#dedede',
-    height: 32
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 104 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/indexList.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:13:35
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/indexList.js
- */
-var _default = {
-  // indexList 组件
-  indexList: {
-    inactiveColor: '#606266',
-    activeColor: '#5677fc',
-    indexList: function indexList() {
-      return [];
-    },
-    sticky: true,
-    customNavHeight: 0
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 105 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/input.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:13:55
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/input.js
- */
-var _default = {
-  // index 组件
-  input: {
-    value: '',
-    type: 'text',
-    fixed: false,
-    disabled: false,
-    disabledColor: '#f5f7fa',
-    clearable: false,
-    password: false,
-    maxlength: -1,
-    placeholder: null,
-    placeholderClass: 'input-placeholder',
-    placeholderStyle: 'color: #c0c4cc',
-    showWordLimit: false,
-    confirmType: 'done',
-    confirmHold: false,
-    holdKeyboard: false,
-    focus: false,
-    autoBlur: false,
-    disableDefaultPadding: false,
-    cursor: -1,
-    cursorSpacing: 30,
-    selectionStart: -1,
-    selectionEnd: -1,
-    adjustPosition: true,
-    inputAlign: 'left',
-    fontSize: '15px',
-    color: '#303133',
-    prefixIcon: '',
-    prefixIconStyle: '',
-    suffixIcon: '',
-    suffixIconStyle: '',
-    border: 'surround',
-    readonly: false,
-    shape: 'square',
-    formatter: null
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 106 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/keyboard.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:07:49
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/keyboard.js
- */
-var _default = {
-  // 键盘组件
-  keyboard: {
-    mode: 'number',
-    dotDisabled: false,
-    tooltip: true,
-    showTips: true,
-    tips: '',
-    showCancel: true,
-    showConfirm: true,
-    random: false,
-    safeAreaInsetBottom: true,
-    closeOnClickOverlay: true,
-    show: false,
-    overlay: true,
-    zIndex: 10075,
-    cancelText: '取消',
-    confirmText: '确定',
-    autoChange: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 107 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/line.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:04:49
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/line.js
- */
-var _default = {
-  // line组件
-  line: {
-    color: '#d6d7d9',
-    length: '100%',
-    direction: 'row',
-    hairline: true,
-    margin: 0,
-    dashed: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 108 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/lineProgress.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:14:11
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/lineProgress.js
- */
-var _default = {
-  // lineProgress 组件
-  lineProgress: {
-    activeColor: '#19be6b',
-    inactiveColor: '#ececec',
-    percentage: 0,
-    showText: true,
-    height: 12
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 109 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/link.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 68));
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:45:36
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/link.js
- */
-
-var color = _config.default.color;
-var _default = {
-  // link超链接组件props参数
-  link: {
-    color: color['u-primary'],
-    fontSize: 15,
-    underLine: false,
-    href: '',
-    mpTips: '链接已复制，请在浏览器打开',
-    lineColor: '',
-    text: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 110 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/list.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:14:53
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/list.js
- */
-var _default = {
-  // list 组件
-  list: {
-    showScrollbar: false,
-    lowerThreshold: 50,
-    upperThreshold: 0,
-    scrollTop: 0,
-    offsetAccuracy: 10,
-    enableFlex: false,
-    pagingEnabled: false,
-    scrollable: true,
-    scrollIntoView: '',
-    scrollWithAnimation: false,
-    enableBackToTop: false,
-    height: 0,
-    width: 0,
-    preLoadScreen: 1
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 111 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/listItem.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:15:40
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/listItem.js
- */
-var _default = {
-  // listItem 组件
-  listItem: {
-    anchor: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 112 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadingIcon.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 68));
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:45:47
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/loadingIcon.js
- */
-
-var color = _config.default.color;
-var _default = {
-  // loading-icon加载中图标组件
-  loadingIcon: {
-    show: true,
-    color: color['u-tips-color'],
-    textColor: color['u-tips-color'],
-    vertical: false,
-    mode: 'spinner',
-    size: 24,
-    textSize: 15,
-    text: '',
-    timingFunction: 'ease-in-out',
-    duration: 1200,
-    inactiveColor: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 113 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadingPage.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:00:23
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/loadingPage.js
- */
-var _default = {
-  // loading-page组件
-  loadingPage: {
-    loadingText: '正在加载',
-    image: '',
-    loadingMode: 'circle',
-    loading: false,
-    bgColor: '#ffffff',
-    color: '#C8C8C8',
-    fontSize: 19,
-    iconSize: 28,
-    loadingColor: '#C8C8C8'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 114 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadmore.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:15:26
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/loadmore.js
- */
-var _default = {
-  // loadmore 组件
-  loadmore: {
-    status: 'loadmore',
-    bgColor: 'transparent',
-    icon: true,
-    fontSize: 14,
-    iconSize: 17,
-    color: '#606266',
-    loadingIcon: 'spinner',
-    loadmoreText: '加载更多',
-    loadingText: '正在加载...',
-    nomoreText: '没有更多了',
-    isDot: false,
-    iconColor: '#b7b7b7',
-    marginTop: 10,
-    marginBottom: 10,
-    height: 'auto',
-    line: false,
-    lineColor: '#E6E8EB',
-    dashed: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 115 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/modal.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:15:59
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/modal.js
- */
-var _default = {
-  // modal 组件
-  modal: {
-    show: false,
-    title: '',
-    content: '',
-    confirmText: '确认',
-    cancelText: '取消',
-    showConfirmButton: true,
-    showCancelButton: false,
-    confirmColor: '#2979ff',
-    cancelColor: '#606266',
-    buttonReverse: false,
-    zoom: true,
-    asyncClose: false,
-    closeOnClickOverlay: false,
-    negativeTop: 0,
-    width: '650rpx',
-    confirmButtonShape: '',
-    duration: 400
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 116 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/navbar.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _color = _interopRequireDefault(__webpack_require__(/*! ../color */ 117));
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:16:18
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/navbar.js
- */
-var _default = {
-  // navbar 组件
-  navbar: {
-    safeAreaInsetTop: true,
-    placeholder: false,
-    fixed: true,
-    border: false,
-    leftIcon: 'arrow-left',
-    leftText: '',
-    rightText: '',
-    rightIcon: '',
-    title: '',
-    bgColor: '#ffffff',
-    titleWidth: '400rpx',
-    height: '44px',
-    leftIconSize: 20,
-    leftIconColor: _color.default.mainColor,
-    autoBack: false,
-    titleStyle: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 117 */
-/*!*************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/color.js ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-// 为了让用户能够自定义主题，会逐步弃用此文件，各颜色通过css提供
-// 为了给某些特殊场景使用和向后兼容，无需删除此文件(2020-06-20)
-var color = {
-  primary: '#3c9cff',
-  info: '#909399',
-  default: '#909399',
-  warning: '#f9ae3d',
-  error: '#f56c6c',
-  success: '#5ac725',
-  mainColor: '#303133',
-  contentColor: '#606266',
-  tipsColor: '#909399',
-  lightColor: '#c0c4cc',
-  borderColor: '#e4e7ed'
-};
-var _default = color;
-exports.default = _default;
-
-/***/ }),
-/* 118 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/noNetwork.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:16:39
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/noNetwork.js
- */
-var _default = {
-  // noNetwork
-  noNetwork: {
-    tips: '哎呀，网络信号丢失',
-    zIndex: '',
-    image: 'data:image/png;base64,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'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 119 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/noticeBar.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:17:13
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/noticeBar.js
- */
-var _default = {
-  // noticeBar
-  noticeBar: {
-    text: function text() {
-      return [];
-    },
-    direction: 'row',
-    step: false,
-    icon: 'volume',
-    mode: '',
-    color: '#f9ae3d',
-    bgColor: '#fdf6ec',
-    speed: 80,
-    fontSize: 14,
-    duration: 2000,
-    disableTouch: true,
-    url: '',
-    linkType: 'navigateTo'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 120 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/notify.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:10:21
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/notify.js
- */
-var _default = {
-  // notify组件
-  notify: {
-    top: 0,
-    type: 'primary',
-    color: '#ffffff',
-    bgColor: '',
-    message: '',
-    duration: 3000,
-    fontSize: 15,
-    safeAreaInsetTop: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 121 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/numberBox.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:11:46
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/numberBox.js
- */
-var _default = {
-  // 步进器组件
-  numberBox: {
-    name: '',
-    value: 0,
-    min: 1,
-    max: Number.MAX_SAFE_INTEGER,
-    step: 1,
-    integer: false,
-    disabled: false,
-    disabledInput: false,
-    asyncChange: false,
-    inputWidth: 35,
-    showMinus: true,
-    showPlus: true,
-    decimalLength: null,
-    longPress: true,
-    color: '#323233',
-    buttonSize: 30,
-    bgColor: '#EBECEE',
-    cursorSpacing: 100,
-    disableMinus: false,
-    disablePlus: false,
-    iconStyle: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 122 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/numberKeyboard.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:08:05
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/numberKeyboard.js
- */
-var _default = {
-  // 数字键盘
-  numberKeyboard: {
-    mode: 'number',
-    dotDisabled: false,
-    random: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 123 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/overlay.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:06:50
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/overlay.js
- */
-var _default = {
-  // overlay组件
-  overlay: {
-    show: false,
-    zIndex: 10070,
-    duration: 300,
-    opacity: 0.5
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 124 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/parse.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:17:33
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/parse.js
- */
-var _default = {
-  // parse
-  parse: {
-    copyLink: true,
-    errorImg: '',
-    lazyLoad: false,
-    loadingImg: '',
-    pauseVideo: true,
-    previewImg: true,
-    setTitle: true,
-    showImgMenu: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 125 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/picker.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:18:20
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/picker.js
- */
-var _default = {
-  // picker
-  picker: {
-    show: false,
-    showToolbar: true,
-    title: '',
-    columns: function columns() {
-      return [];
-    },
-    loading: false,
-    itemHeight: 44,
-    cancelText: '取消',
-    confirmText: '确定',
-    cancelColor: '#909193',
-    confirmColor: '#3c9cff',
-    visibleItemCount: 5,
-    keyName: 'text',
-    closeOnClickOverlay: false,
-    defaultIndex: function defaultIndex() {
-      return [];
-    },
-    immediateChange: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 126 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/popup.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:06:33
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/popup.js
- */
-var _default = {
-  // popup组件
-  popup: {
-    show: false,
-    overlay: true,
-    mode: 'bottom',
-    duration: 300,
-    closeable: false,
-    overlayStyle: function overlayStyle() {},
-    closeOnClickOverlay: true,
-    zIndex: 10075,
-    safeAreaInsetBottom: true,
-    safeAreaInsetTop: false,
-    closeIconPos: 'top-right',
-    round: 0,
-    zoom: true,
-    bgColor: '',
-    overlayOpacity: 0.5
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 127 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/radio.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:02:34
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/radio.js
- */
-var _default = {
-  // radio组件
-  radio: {
-    name: '',
-    shape: '',
-    disabled: '',
-    labelDisabled: '',
-    activeColor: '',
-    inactiveColor: '',
-    iconSize: '',
-    labelSize: '',
-    label: '',
-    labelColor: '',
-    size: '',
-    iconColor: '',
-    placement: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 128 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/radioGroup.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:03:12
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/radioGroup.js
- */
-var _default = {
-  // radio-group组件
-  radioGroup: {
-    value: '',
-    disabled: false,
-    shape: 'circle',
-    activeColor: '#2979ff',
-    inactiveColor: '#c8c9cc',
-    name: '',
-    size: 18,
-    placement: 'row',
-    label: '',
-    labelColor: '#303133',
-    labelSize: 14,
-    labelDisabled: false,
-    iconColor: '#ffffff',
-    iconSize: 12,
-    borderBottom: false,
-    iconPlacement: 'left'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 129 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/rate.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:05:09
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/rate.js
- */
-var _default = {
-  // rate组件
-  rate: {
-    value: 1,
-    count: 5,
-    disabled: false,
-    size: 18,
-    inactiveColor: '#b2b2b2',
-    activeColor: '#FA3534',
-    gutter: 4,
-    minCount: 1,
-    allowHalf: false,
-    activeIcon: 'star-fill',
-    inactiveIcon: 'star',
-    touchable: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 130 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/readMore.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:18:41
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/readMore.js
- */
-var _default = {
-  // readMore
-  readMore: {
-    showHeight: 400,
-    toggle: false,
-    closeText: '展开阅读全文',
-    openText: '收起',
-    color: '#2979ff',
-    fontSize: 14,
-    textIndent: '2em',
-    name: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 131 */
-/*!*****************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/row.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:18:58
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/row.js
- */
-var _default = {
-  // row
-  row: {
-    gutter: 0,
-    justify: 'start',
-    align: 'center'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 132 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/rowNotice.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:19:13
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/rowNotice.js
- */
-var _default = {
-  // rowNotice
-  rowNotice: {
-    text: '',
-    icon: 'volume',
-    mode: '',
-    color: '#f9ae3d',
-    bgColor: '#fdf6ec',
-    fontSize: 14,
-    speed: 80
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 133 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/scrollList.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:19:28
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/scrollList.js
- */
-var _default = {
-  // scrollList
-  scrollList: {
-    indicatorWidth: 50,
-    indicatorBarWidth: 20,
-    indicator: true,
-    indicatorColor: '#f2f2f2',
-    indicatorActiveColor: '#3c9cff',
-    indicatorStyle: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 134 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/search.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:19:45
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/search.js
- */
-var _default = {
-  // search
-  search: {
-    shape: 'round',
-    bgColor: '#f2f2f2',
-    placeholder: '请输入关键字',
-    clearabled: true,
-    focus: false,
-    showAction: true,
-    actionStyle: function actionStyle() {
-      return {};
-    },
-    actionText: '搜索',
-    inputAlign: 'left',
-    inputStyle: function inputStyle() {
-      return {};
-    },
-    disabled: false,
-    borderColor: 'transparent',
-    searchIconColor: '#909399',
-    searchIconSize: 22,
-    color: '#606266',
-    placeholderColor: '#909399',
-    searchIcon: 'search',
-    margin: '0',
-    animation: false,
-    value: '',
-    maxlength: '-1',
-    height: 32,
-    label: null
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 135 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/section.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:07:33
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/section.js
- */
-var _default = {
-  // u-section组件
-  section: {
-    title: '',
-    subTitle: '更多',
-    right: true,
-    fontSize: 15,
-    bold: true,
-    color: '#303133',
-    subColor: '#909399',
-    showLine: true,
-    lineColor: '',
-    arrow: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 136 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/skeleton.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:20:14
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/skeleton.js
- */
-var _default = {
-  // skeleton
-  skeleton: {
-    loading: true,
-    animate: true,
-    rows: 0,
-    rowsWidth: '100%',
-    rowsHeight: 18,
-    title: true,
-    titleWidth: '50%',
-    titleHeight: 18,
-    avatar: false,
-    avatarSize: 32,
-    avatarShape: 'circle'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 137 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/slider.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:08:25
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/slider.js
- */
-var _default = {
-  // slider组件
-  slider: {
-    value: 0,
-    blockSize: 18,
-    min: 0,
-    max: 100,
-    step: 1,
-    activeColor: '#2979ff',
-    inactiveColor: '#c0c4cc',
-    blockColor: '#ffffff',
-    showValue: false,
-    disabled: false,
-    blockStyle: function blockStyle() {}
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 138 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/statusBar.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:20:39
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/statusBar.js
- */
-var _default = {
-  // statusBar
-  statusBar: {
-    bgColor: 'transparent'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 139 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/steps.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:12:37
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/steps.js
- */
-var _default = {
-  // steps组件
-  steps: {
-    direction: 'row',
-    current: 0,
-    activeColor: '#3c9cff',
-    inactiveColor: '#969799',
-    activeIcon: '',
-    inactiveIcon: '',
-    dot: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 140 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/stepsItem.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:12:55
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/stepsItem.js
- */
-var _default = {
-  // steps-item组件
-  stepsItem: {
-    title: '',
-    desc: '',
-    iconSize: 17,
-    error: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 141 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/sticky.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:01:30
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/sticky.js
- */
-var _default = {
-  // sticky组件
-  sticky: {
-    offsetTop: 0,
-    customNavHeight: 0,
-    disabled: false,
-    bgColor: 'transparent',
-    zIndex: '',
-    index: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 142 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/subsection.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:12:20
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/subsection.js
- */
-var _default = {
-  // subsection组件
-  subsection: {
-    list: [],
-    current: 0,
-    activeColor: '#3c9cff',
-    inactiveColor: '#303133',
-    mode: 'button',
-    fontSize: 12,
-    bold: true,
-    bgColor: '#eeeeef',
-    keyName: 'name'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 143 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipeAction.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:00:42
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/swipeAction.js
- */
-var _default = {
-  // swipe-action组件
-  swipeAction: {
-    autoClose: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 144 */
-/*!*****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipeActionItem.js ***!
-  \*****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:01:13
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/swipeActionItem.js
- */
-var _default = {
-  // swipeActionItem 组件
-  swipeActionItem: {
-    show: false,
-    name: '',
-    disabled: false,
-    threshold: 20,
-    autoClose: true,
-    options: [],
-    duration: 300
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 145 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swiper.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:21:38
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/swiper.js
- */
-var _default = {
-  // swiper 组件
-  swiper: {
-    list: function list() {
-      return [];
-    },
-    indicator: false,
-    indicatorActiveColor: '#FFFFFF',
-    indicatorInactiveColor: 'rgba(255, 255, 255, 0.35)',
-    indicatorStyle: '',
-    indicatorMode: 'line',
-    autoplay: true,
-    current: 0,
-    currentItemId: '',
-    interval: 3000,
-    duration: 300,
-    circular: false,
-    previousMargin: 0,
-    nextMargin: 0,
-    acceleration: false,
-    displayMultipleItems: 1,
-    easingFunction: 'default',
-    keyName: 'url',
-    imgMode: 'aspectFill',
-    height: 130,
-    bgColor: '#f3f4f6',
-    radius: 4,
-    loading: false,
-    showTitle: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 146 */
-/*!******************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipterIndicator.js ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:22:07
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/swiperIndicator.js
- */
-var _default = {
-  // swiperIndicator 组件
-  swiperIndicator: {
-    length: 0,
-    current: 0,
-    indicatorActiveColor: '',
-    indicatorInactiveColor: '',
-    indicatorMode: 'line'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 147 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/switch.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:22:24
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/switch.js
- */
-var _default = {
-  // switch
-  switch: {
-    loading: false,
-    disabled: false,
-    size: 25,
-    activeColor: '#2979ff',
-    inactiveColor: '#ffffff',
-    value: false,
-    activeValue: true,
-    inactiveValue: false,
-    asyncChange: false,
-    space: 0
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 148 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabbar.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:22:40
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tabbar.js
- */
-var _default = {
-  // tabbar
-  tabbar: {
-    value: null,
-    safeAreaInsetBottom: true,
-    border: true,
-    zIndex: 1,
-    activeColor: '#1989fa',
-    inactiveColor: '#7d7e80',
-    fixed: true,
-    placeholder: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 149 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabbarItem.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:22:55
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tabbarItem.js
- */
-var _default = {
-  //
-  tabbarItem: {
-    name: null,
-    icon: '',
-    badge: null,
-    dot: false,
-    text: '',
-    badgeStyle: 'top: 6px;right:2px;'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 150 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabs.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:23:14
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tabs.js
- */
-var _default = {
-  //
-  tabs: {
-    duration: 300,
-    list: function list() {
-      return [];
-    },
-    lineColor: '#3c9cff',
-    activeStyle: function activeStyle() {
-      return {
-        color: '#303133'
-      };
-    },
-    inactiveStyle: function inactiveStyle() {
-      return {
-        color: '#606266'
-      };
-    },
-    lineWidth: 20,
-    lineHeight: 3,
-    lineBgSize: 'cover',
-    itemStyle: function itemStyle() {
-      return {
-        height: '44px'
-      };
-    },
-    scrollable: true,
-    current: 0,
-    keyName: 'name'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 151 */
-/*!*****************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tag.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:23:37
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tag.js
- */
-var _default = {
-  // tag 组件
-  tag: {
-    type: 'primary',
-    disabled: false,
-    size: 'medium',
-    shape: 'square',
-    text: '',
-    bgColor: '',
-    color: '',
-    borderColor: '',
-    closeColor: '#C6C7CB',
-    name: '',
-    plainFill: false,
-    plain: false,
-    closable: false,
-    show: true,
-    icon: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 152 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/text.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:23:58
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/text.js
- */
-var _default = {
-  // text 组件
-  text: {
-    type: '',
-    show: true,
-    text: '',
-    prefixIcon: '',
-    suffixIcon: '',
-    mode: '',
-    href: '',
-    format: '',
-    call: false,
-    openType: '',
-    bold: false,
-    block: false,
-    lines: '',
-    color: '#303133',
-    size: 15,
-    iconStyle: function iconStyle() {
-      return {
-        fontSize: '15px'
-      };
-    },
-    decoration: 'none',
-    margin: 0,
-    lineHeight: '',
-    align: 'left',
-    wordWrap: 'normal'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 153 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/textarea.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:24:32
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/textarea.js
- */
-var _default = {
-  // textarea 组件
-  textarea: {
-    value: '',
-    placeholder: '',
-    placeholderClass: 'textarea-placeholder',
-    placeholderStyle: 'color: #c0c4cc',
-    height: 70,
-    confirmType: 'done',
-    disabled: false,
-    count: false,
-    focus: false,
-    autoHeight: false,
-    fixed: false,
-    cursorSpacing: 0,
-    cursor: '',
-    showConfirmBar: true,
-    selectionStart: -1,
-    selectionEnd: -1,
-    adjustPosition: true,
-    disableDefaultPadding: false,
-    holdKeyboard: false,
-    maxlength: 140,
-    border: 'surround',
-    formatter: null
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 154 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/toast.js ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:07:07
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/toast.js
- */
-var _default = {
-  // toast组件
-  toast: {
-    zIndex: 10090,
-    loading: false,
-    text: '',
-    icon: '',
-    type: '',
-    loadingMode: '',
-    show: '',
-    overlay: false,
-    position: 'center',
-    params: function params() {},
-    duration: 2000,
-    isTab: false,
-    url: '',
-    callback: null,
-    back: false
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 155 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/toolbar.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:24:55
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/toolbar.js
- */
-var _default = {
-  // toolbar 组件
-  toolbar: {
-    show: true,
-    cancelText: '取消',
-    confirmText: '确认',
-    cancelColor: '#909193',
-    confirmColor: '#3c9cff',
-    title: ''
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 156 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tooltip.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:25:14
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tooltip.js
- */
-var _default = {
-  // tooltip 组件
-  tooltip: {
-    text: '',
-    copyText: '',
-    size: 14,
-    color: '#606266',
-    bgColor: 'transparent',
-    direction: 'top',
-    zIndex: 10071,
-    showCopy: true,
-    buttons: function buttons() {
-      return [];
-    },
-    overlay: true,
-    showToast: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 157 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/transition.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 16:59:00
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/transition.js
- */
-var _default = {
-  // transition动画组件的props
-  transition: {
-    show: false,
-    mode: 'fade',
-    duration: '300',
-    timingFunction: 'ease-out'
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 158 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/upload.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-20 16:44:21
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-20 17:09:50
- * @FilePath     : /u-view2.0/uview-ui/libs/config/props/upload.js
- */
-var _default = {
-  // upload组件
-  upload: {
-    accept: 'image',
-    capture: function capture() {
-      return ['album', 'camera'];
-    },
-    compressed: true,
-    camera: 'back',
-    maxDuration: 60,
-    uploadIcon: 'camera-fill',
-    uploadIconColor: '#D3D4D6',
-    useBeforeRead: false,
-    previewFullImage: true,
-    maxCount: 52,
-    disabled: false,
-    imageMode: 'aspectFill',
-    name: '',
-    sizeType: function sizeType() {
-      return ['original', 'compressed'];
-    },
-    multiple: false,
-    deletable: true,
-    maxSize: Number.MAX_VALUE,
-    fileList: function fileList() {
-      return [];
-    },
-    uploadText: '',
-    width: 80,
-    height: 80,
-    previewImage: true
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 159 */
-/*!**************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/zIndex.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-// uniapp在H5中各API的z-index值如下：
-/**
- * actionsheet: 999
- * modal: 999
- * navigate: 998
- * tabbar: 998
- * toast: 999
- */
-var _default = {
-  toast: 10090,
-  noNetwork: 10080,
-  // popup包含popup，actionsheet，keyboard，picker的值
-  popup: 10075,
-  mask: 10070,
-  navbar: 980,
-  topTips: 975,
-  sticky: 970,
-  indexListSticky: 965
-};
-exports.default = _default;
-
-/***/ }),
-/* 160 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/platform.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/**
- * 注意：
- * 此部分内容，在vue-cli模式下，需要在vue.config.js加入如下内容才有效：
- * module.exports = {
- *     transpileDependencies: ['uview-v2']
- * }
- */
-
-var platform = 'none';
-platform = 'vue2';
-platform = 'weixin';
-platform = 'mp';
-var _default = platform;
-exports.default = _default;
-
-/***/ }),
-/* 161 */
-/*!********************************************************!*\
-  !*** E:/code/baba_statistics/uni.promisify.adaptor.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(uni) {var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ 13);
-uni.addInterceptor({
-  returnValue: function returnValue(res) {
-    if (!(!!res && (_typeof(res) === "object" || typeof res === "function") && typeof res.then === "function")) {
-      return res;
-    }
-    return new Promise(function (resolve, reject) {
-      res.then(function (res) {
-        return res[0] ? reject(res[0]) : resolve(res[1]);
-      });
-    });
-  }
-});
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */,
-/* 167 */,
-/* 168 */
+/* 27 */
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -20590,21 +9501,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 58));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 169));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 30));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 60));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 170));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 171));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 172));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 173));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 32));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 33));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 34));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 35));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
 var _uniI18n = __webpack_require__(/*! @dcloudio/uni-i18n */ 22);
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 175));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e35) { throw _e35; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e36) { didErr = true; err = _e36; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -21052,12 +9963,25 @@ var b = "development" === "development",
   C = "true" === undefined || !0 === undefined,
   T = S([]),
   P = "h5" === k ? "web" : "app-plus" === k ? "app" : k,
-  A = S(undefined),
-  E = S(undefined) || [],
+  A = S({
+    "address": [
+        "127.0.0.1",
+        "192.168.41.85"
+    ],
+    "debugPort": 9000,
+    "initialLaunchType": "local",
+    "servePort": 7000,
+    "skipFiles": [
+        "<node_internals>/**",
+        "D:/mySoft/HBuilderX/plugins/unicloud/**/*.js"
+    ]
+}
+),
+  E = S([{"provider":"aliyun","spaceName":"statistics","spaceId":"mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608","clientSecret":"59wAJNcC2buZhFaPNnXmHw==","endpoint":"https://api.next.bspapp.com"}]) || [],
   O = true;
 var x = "";
 try {
-  x = (__webpack_require__(/*! uni-stat-config */ 176).default || __webpack_require__(/*! uni-stat-config */ 176)).appid;
+  x = (__webpack_require__(/*! uni-stat-config */ 38).default || __webpack_require__(/*! uni-stat-config */ 38)).appid;
 } catch (e) {}
 var R = {};
 function U(e) {
@@ -27928,7 +16852,341 @@ exports.default = Ns;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
-/* 169 */
+/* 28 */
+/*!************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/@babel/runtime/regenerator/index.js ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// TODO(Babel 8): Remove this file.
+
+var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 29)();
+module.exports = runtime;
+
+/***/ }),
+/* 29 */
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
+function _regeneratorRuntime() {
+  "use strict";
+
+  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+  module.exports = _regeneratorRuntime = function _regeneratorRuntime() {
+    return exports;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  var exports = {},
+    Op = Object.prototype,
+    hasOwn = Op.hasOwnProperty,
+    defineProperty = Object.defineProperty || function (obj, key, desc) {
+      obj[key] = desc.value;
+    },
+    $Symbol = "function" == typeof Symbol ? Symbol : {},
+    iteratorSymbol = $Symbol.iterator || "@@iterator",
+    asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator",
+    toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+  function define(obj, key, value) {
+    return Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: !0,
+      configurable: !0,
+      writable: !0
+    }), obj[key];
+  }
+  try {
+    define({}, "");
+  } catch (err) {
+    define = function define(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator,
+      generator = Object.create(protoGenerator.prototype),
+      context = new Context(tryLocsList || []);
+    return defineProperty(generator, "_invoke", {
+      value: makeInvokeMethod(innerFn, self, context)
+    }), generator;
+  }
+  function tryCatch(fn, obj, arg) {
+    try {
+      return {
+        type: "normal",
+        arg: fn.call(obj, arg)
+      };
+    } catch (err) {
+      return {
+        type: "throw",
+        arg: err
+      };
+    }
+  }
+  exports.wrap = wrap;
+  var ContinueSentinel = {};
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+  var IteratorPrototype = {};
+  define(IteratorPrototype, iteratorSymbol, function () {
+    return this;
+  });
+  var getProto = Object.getPrototypeOf,
+    NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
+  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function (method) {
+      define(prototype, method, function (arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if ("throw" !== record.type) {
+        var result = record.arg,
+          value = result.value;
+        return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) {
+          invoke("next", value, resolve, reject);
+        }, function (err) {
+          invoke("throw", err, resolve, reject);
+        }) : PromiseImpl.resolve(value).then(function (unwrapped) {
+          result.value = unwrapped, resolve(result);
+        }, function (error) {
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+      reject(record.arg);
+    }
+    var previousPromise;
+    defineProperty(this, "_invoke", {
+      value: function value(method, arg) {
+        function callInvokeWithMethodAndArg() {
+          return new PromiseImpl(function (resolve, reject) {
+            invoke(method, arg, resolve, reject);
+          });
+        }
+        return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+      }
+    });
+  }
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = "suspendedStart";
+    return function (method, arg) {
+      if ("executing" === state) throw new Error("Generator is already running");
+      if ("completed" === state) {
+        if ("throw" === method) throw arg;
+        return doneResult();
+      }
+      for (context.method = method, context.arg = arg;;) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+        if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) {
+          if ("suspendedStart" === state) throw state = "completed", context.arg;
+          context.dispatchException(context.arg);
+        } else "return" === context.method && context.abrupt("return", context.arg);
+        state = "executing";
+        var record = tryCatch(innerFn, self, context);
+        if ("normal" === record.type) {
+          if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+          return {
+            value: record.arg,
+            done: context.done
+          };
+        }
+        "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+      }
+    };
+  }
+  function maybeInvokeDelegate(delegate, context) {
+    var methodName = context.method,
+      method = delegate.iterator[methodName];
+    if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
+    var record = tryCatch(method, delegate.iterator, context.arg);
+    if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
+    var info = record.arg;
+    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+  }
+  function pushTryEntry(locs) {
+    var entry = {
+      tryLoc: locs[0]
+    };
+    1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+  }
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal", delete record.arg, entry.completion = record;
+  }
+  function Context(tryLocsList) {
+    this.tryEntries = [{
+      tryLoc: "root"
+    }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
+  }
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) return iteratorMethod.call(iterable);
+      if ("function" == typeof iterable.next) return iterable;
+      if (!isNaN(iterable.length)) {
+        var i = -1,
+          next = function next() {
+            for (; ++i < iterable.length;) {
+              if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
+            }
+            return next.value = undefined, next.done = !0, next;
+          };
+        return next.next = next;
+      }
+    }
+    return {
+      next: doneResult
+    };
+  }
+  function doneResult() {
+    return {
+      value: undefined,
+      done: !0
+    };
+  }
+  return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
+    value: GeneratorFunctionPrototype,
+    configurable: !0
+  }), defineProperty(GeneratorFunctionPrototype, "constructor", {
+    value: GeneratorFunction,
+    configurable: !0
+  }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) {
+    var ctor = "function" == typeof genFun && genFun.constructor;
+    return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
+  }, exports.mark = function (genFun) {
+    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
+  }, exports.awrap = function (arg) {
+    return {
+      __await: arg
+    };
+  }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    return this;
+  }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    void 0 === PromiseImpl && (PromiseImpl = Promise);
+    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
+    return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) {
+      return result.done ? result.value : iter.next();
+    });
+  }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () {
+    return this;
+  }), define(Gp, "toString", function () {
+    return "[object Generator]";
+  }), exports.keys = function (val) {
+    var object = Object(val),
+      keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    return keys.reverse(), function next() {
+      for (; keys.length;) {
+        var key = keys.pop();
+        if (key in object) return next.value = key, next.done = !1, next;
+      }
+      return next.done = !0, next;
+    };
+  }, exports.values = values, Context.prototype = {
+    constructor: Context,
+    reset: function reset(skipTempReset) {
+      if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) {
+        "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+      }
+    },
+    stop: function stop() {
+      this.done = !0;
+      var rootRecord = this.tryEntries[0].completion;
+      if ("throw" === rootRecord.type) throw rootRecord.arg;
+      return this.rval;
+    },
+    dispatchException: function dispatchException(exception) {
+      if (this.done) throw exception;
+      var context = this;
+      function handle(loc, caught) {
+        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
+      }
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i],
+          record = entry.completion;
+        if ("root" === entry.tryLoc) return handle("end");
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc"),
+            hasFinally = hasOwn.call(entry, "finallyLoc");
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+          } else {
+            if (!hasFinally) throw new Error("try statement without catch or finally");
+            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+          }
+        }
+      }
+    },
+    abrupt: function abrupt(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+      finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
+      var record = finallyEntry ? finallyEntry.completion : {};
+      return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
+    },
+    complete: function complete(record, afterLoc) {
+      if ("throw" === record.type) throw record.arg;
+      return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
+    },
+    finish: function finish(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
+      }
+    },
+    "catch": function _catch(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if ("throw" === record.type) {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+      throw new Error("illegal catch attempt");
+    },
+    delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+      return this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
+    }
+  }, exports;
+}
+module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+/* 30 */
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -27944,7 +17202,47 @@ function _assertThisInitialized(self) {
 module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 170 */
+/* 31 */
+/*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+      args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+      _next(undefined);
+    });
+  };
+}
+module.exports = _asyncToGenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+/* 32 */
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -27971,7 +17269,7 @@ function _inherits(subClass, superClass) {
 module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 171 */
+/* 33 */
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -27979,7 +17277,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 169);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 30);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -27991,7 +17289,7 @@ function _possibleConstructorReturn(self, call) {
 module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 172 */
+/* 34 */
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -28007,16 +17305,16 @@ function _getPrototypeOf(o) {
 module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 173 */
+/* 35 */
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 172);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 34);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 174);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 36);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -28047,7 +17345,7 @@ function _wrapNativeSuper(Class) {
 module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 174 */
+/* 36 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -28060,7 +17358,7 @@ function _isNativeFunction(fn) {
 module.exports = _isNativeFunction, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 175 */
+/* 37 */
 /*!***********************************************************************!*\
   !*** E:/code/baba_statistics/pages.json?{"type":"origin-pages-json"} ***!
   \***********************************************************************/
@@ -28208,7 +17506,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 176 */
+/* 38 */
 /*!**********************************************************!*\
   !*** E:/code/baba_statistics/pages.json?{"type":"stat"} ***!
   \**********************************************************/
@@ -28228,7 +17526,10730 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 177 */
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    if(typeof renderjs.beforeCreate === 'function'){
+			renderjs.beforeCreate = [renderjs.beforeCreate]
+		}
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 45 */
+/*!**********************************************!*\
+  !*** E:/code/baba_statistics/store/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 46));
+var _userInfo = _interopRequireDefault(__webpack_require__(/*! ./userInfo.js */ 47));
+_vue.default.use(_vuex.default);
+var _default = new _vuex.default.Store({
+  state: {},
+  mutations: {},
+  actions: {},
+  modules: {
+    userInfo: _userInfo.default
+  }
+});
+exports.default = _default;
+
+/***/ }),
+/* 46 */
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vuex3/dist/vuex.common.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/*!
+ * vuex v3.6.2
+ * (c) 2021 Evan You
+ * @license MIT
+ */
+
+
+function applyMixin (Vue) {
+  var version = Number(Vue.version.split('.')[0]);
+
+  if (version >= 2) {
+    Vue.mixin({ beforeCreate: vuexInit });
+  } else {
+    // override init and inject vuex init procedure
+    // for 1.x backwards compatibility.
+    var _init = Vue.prototype._init;
+    Vue.prototype._init = function (options) {
+      if ( options === void 0 ) options = {};
+
+      options.init = options.init
+        ? [vuexInit].concat(options.init)
+        : vuexInit;
+      _init.call(this, options);
+    };
+  }
+
+  /**
+   * Vuex init hook, injected into each instances init hooks list.
+   */
+
+  function vuexInit () {
+    var options = this.$options;
+    // store injection
+    if (options.store) {
+      this.$store = typeof options.store === 'function'
+        ? options.store()
+        : options.store;
+    } else if (options.parent && options.parent.$store) {
+      this.$store = options.parent.$store;
+    }
+  }
+}
+
+var target = typeof window !== 'undefined'
+  ? window
+  : typeof global !== 'undefined'
+    ? global
+    : {};
+var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+function devtoolPlugin (store) {
+  if (!devtoolHook) { return }
+
+  store._devtoolHook = devtoolHook;
+
+  devtoolHook.emit('vuex:init', store);
+
+  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    store.replaceState(targetState);
+  });
+
+  store.subscribe(function (mutation, state) {
+    devtoolHook.emit('vuex:mutation', mutation, state);
+  }, { prepend: true });
+
+  store.subscribeAction(function (action, state) {
+    devtoolHook.emit('vuex:action', action, state);
+  }, { prepend: true });
+}
+
+/**
+ * Get the first item that pass the test
+ * by second argument function
+ *
+ * @param {Array} list
+ * @param {Function} f
+ * @return {*}
+ */
+function find (list, f) {
+  return list.filter(f)[0]
+}
+
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+function deepCopy (obj, cache) {
+  if ( cache === void 0 ) cache = [];
+
+  // just return if obj is immutable value
+  if (obj === null || typeof obj !== 'object') {
+    return obj
+  }
+
+  // if obj is hit, it is in circular structure
+  var hit = find(cache, function (c) { return c.original === obj; });
+  if (hit) {
+    return hit.copy
+  }
+
+  var copy = Array.isArray(obj) ? [] : {};
+  // put the copy into cache at first
+  // because we want to refer it in recursive deepCopy
+  cache.push({
+    original: obj,
+    copy: copy
+  });
+
+  Object.keys(obj).forEach(function (key) {
+    copy[key] = deepCopy(obj[key], cache);
+  });
+
+  return copy
+}
+
+/**
+ * forEach for object
+ */
+function forEachValue (obj, fn) {
+  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isPromise (val) {
+  return val && typeof val.then === 'function'
+}
+
+function assert (condition, msg) {
+  if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+function partial (fn, arg) {
+  return function () {
+    return fn(arg)
+  }
+}
+
+// Base data struct for store's module, package with some attribute and method
+var Module = function Module (rawModule, runtime) {
+  this.runtime = runtime;
+  // Store some children item
+  this._children = Object.create(null);
+  // Store the origin module object which passed by programmer
+  this._rawModule = rawModule;
+  var rawState = rawModule.state;
+
+  // Store the origin module's state
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors = { namespaced: { configurable: true } };
+
+prototypeAccessors.namespaced.get = function () {
+  return !!this._rawModule.namespaced
+};
+
+Module.prototype.addChild = function addChild (key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild (key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild (key) {
+  return this._children[key]
+};
+
+Module.prototype.hasChild = function hasChild (key) {
+  return key in this._children
+};
+
+Module.prototype.update = function update (rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild (fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter (fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction (fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation (fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties( Module.prototype, prototypeAccessors );
+
+var ModuleCollection = function ModuleCollection (rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get (path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key)
+  }, this.root)
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace (path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '')
+  }, '')
+};
+
+ModuleCollection.prototype.update = function update$1 (rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
+    var this$1 = this;
+    if ( runtime === void 0 ) runtime = true;
+
+  if ((true)) {
+    assertRawModule(path, rawModule);
+  }
+
+  var newModule = new Module(rawModule, runtime);
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  }
+
+  // register nested modules
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  var child = parent.getChild(key);
+
+  if (!child) {
+    if ((true)) {
+      console.warn(
+        "[vuex] trying to unregister module '" + key + "', which is " +
+        "not registered"
+      );
+    }
+    return
+  }
+
+  if (!child.runtime) {
+    return
+  }
+
+  parent.removeChild(key);
+};
+
+ModuleCollection.prototype.isRegistered = function isRegistered (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+
+  if (parent) {
+    return parent.hasChild(key)
+  }
+
+  return false
+};
+
+function update (path, targetModule, newModule) {
+  if ((true)) {
+    assertRawModule(path, newModule);
+  }
+
+  // update target module
+  targetModule.update(newModule);
+
+  // update nested modules
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+        if ((true)) {
+          console.warn(
+            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+            'manual reload is needed'
+          );
+        }
+        return
+      }
+      update(
+        path.concat(key),
+        targetModule.getChild(key),
+        newModule.modules[key]
+      );
+    }
+  }
+}
+
+var functionAssert = {
+  assert: function (value) { return typeof value === 'function'; },
+  expected: 'function'
+};
+
+var objectAssert = {
+  assert: function (value) { return typeof value === 'function' ||
+    (typeof value === 'object' && typeof value.handler === 'function'); },
+  expected: 'function or object with "handler" function'
+};
+
+var assertTypes = {
+  getters: functionAssert,
+  mutations: functionAssert,
+  actions: objectAssert
+};
+
+function assertRawModule (path, rawModule) {
+  Object.keys(assertTypes).forEach(function (key) {
+    if (!rawModule[key]) { return }
+
+    var assertOptions = assertTypes[key];
+
+    forEachValue(rawModule[key], function (value, type) {
+      assert(
+        assertOptions.assert(value),
+        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+      );
+    });
+  });
+}
+
+function makeAssertionMessage (path, key, type, value, expected) {
+  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
+  if (path.length > 0) {
+    buf += " in module \"" + (path.join('.')) + "\"";
+  }
+  buf += " is " + (JSON.stringify(value)) + ".";
+  return buf
+}
+
+var Vue; // bind on install
+
+var Store = function Store (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #731
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  if ((true)) {
+    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
+    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+    assert(this instanceof Store, "store must be called with the new operator.");
+  }
+
+  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+  // store internal state
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._watcherVM = new Vue();
+  this._makeLocalGettersCache = Object.create(null);
+
+  // bind commit and dispatch to self
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+  this.dispatch = function boundDispatch (type, payload) {
+    return dispatch.call(store, type, payload)
+  };
+  this.commit = function boundCommit (type, payload, options) {
+    return commit.call(store, type, payload, options)
+  };
+
+  // strict mode
+  this.strict = strict;
+
+  var state = this._modules.root.state;
+
+  // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+  installModule(this, state, [], this._modules.root);
+
+  // initialize the store vm, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+  resetStoreVM(this, state);
+
+  // apply plugins
+  plugins.forEach(function (plugin) { return plugin(this$1); });
+
+  var useDevtools = options.devtools !== undefined ? options.devtools : Vue.config.devtools;
+  if (useDevtools) {
+    devtoolPlugin(this);
+  }
+};
+
+var prototypeAccessors$1 = { state: { configurable: true } };
+
+prototypeAccessors$1.state.get = function () {
+  return this._vm._data.$$state
+};
+
+prototypeAccessors$1.state.set = function (v) {
+  if ((true)) {
+    assert(false, "use store.replaceState() to explicit replace store state.");
+  }
+};
+
+Store.prototype.commit = function commit (_type, _payload, _options) {
+    var this$1 = this;
+
+  // check object-style commit
+  var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var options = ref.options;
+
+  var mutation = { type: type, payload: payload };
+  var entry = this._mutations[type];
+  if (!entry) {
+    if ((true)) {
+      console.error(("[vuex] unknown mutation type: " + type));
+    }
+    return
+  }
+  this._withCommit(function () {
+    entry.forEach(function commitIterator (handler) {
+      handler(payload);
+    });
+  });
+
+  this._subscribers
+    .slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+    .forEach(function (sub) { return sub(mutation, this$1.state); });
+
+  if (
+    ( true) &&
+    options && options.silent
+  ) {
+    console.warn(
+      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
+      'Use the filter functionality in the vue-devtools'
+    );
+  }
+};
+
+Store.prototype.dispatch = function dispatch (_type, _payload) {
+    var this$1 = this;
+
+  // check object-style dispatch
+  var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+
+  var action = { type: type, payload: payload };
+  var entry = this._actions[type];
+  if (!entry) {
+    if ((true)) {
+      console.error(("[vuex] unknown action type: " + type));
+    }
+    return
+  }
+
+  try {
+    this._actionSubscribers
+      .slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+      .filter(function (sub) { return sub.before; })
+      .forEach(function (sub) { return sub.before(action, this$1.state); });
+  } catch (e) {
+    if ((true)) {
+      console.warn("[vuex] error in before action subscribers: ");
+      console.error(e);
+    }
+  }
+
+  var result = entry.length > 1
+    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+    : entry[0](payload);
+
+  return new Promise(function (resolve, reject) {
+    result.then(function (res) {
+      try {
+        this$1._actionSubscribers
+          .filter(function (sub) { return sub.after; })
+          .forEach(function (sub) { return sub.after(action, this$1.state); });
+      } catch (e) {
+        if ((true)) {
+          console.warn("[vuex] error in after action subscribers: ");
+          console.error(e);
+        }
+      }
+      resolve(res);
+    }, function (error) {
+      try {
+        this$1._actionSubscribers
+          .filter(function (sub) { return sub.error; })
+          .forEach(function (sub) { return sub.error(action, this$1.state, error); });
+      } catch (e) {
+        if ((true)) {
+          console.warn("[vuex] error in error action subscribers: ");
+          console.error(e);
+        }
+      }
+      reject(error);
+    });
+  })
+};
+
+Store.prototype.subscribe = function subscribe (fn, options) {
+  return genericSubscribe(fn, this._subscribers, options)
+};
+
+Store.prototype.subscribeAction = function subscribeAction (fn, options) {
+  var subs = typeof fn === 'function' ? { before: fn } : fn;
+  return genericSubscribe(subs, this._actionSubscribers, options)
+};
+
+Store.prototype.watch = function watch (getter, cb, options) {
+    var this$1 = this;
+
+  if ((true)) {
+    assert(typeof getter === 'function', "store.watch only accepts a function.");
+  }
+  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
+};
+
+Store.prototype.replaceState = function replaceState (state) {
+    var this$1 = this;
+
+  this._withCommit(function () {
+    this$1._vm._data.$$state = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule (path, rawModule, options) {
+    if ( options === void 0 ) options = {};
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+    assert(path.length > 0, 'cannot register the root module by using registerModule.');
+  }
+
+  this._modules.register(path, rawModule);
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  // reset store to update getters...
+  resetStoreVM(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule (path) {
+    var this$1 = this;
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  this._modules.unregister(path);
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1.state, path.slice(0, -1));
+    Vue.delete(parentState, path[path.length - 1]);
+  });
+  resetStore(this);
+};
+
+Store.prototype.hasModule = function hasModule (path) {
+  if (typeof path === 'string') { path = [path]; }
+
+  if ((true)) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  return this._modules.isRegistered(path)
+};
+
+Store.prototype[[104,111,116,85,112,100,97,116,101].map(function (item) {return String.fromCharCode(item)}).join('')] = function (newOptions) {
+  this._modules.update(newOptions);
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit (fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties( Store.prototype, prototypeAccessors$1 );
+
+function genericSubscribe (fn, subs, options) {
+  if (subs.indexOf(fn) < 0) {
+    options && options.prepend
+      ? subs.unshift(fn)
+      : subs.push(fn);
+  }
+  return function () {
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
+    }
+  }
+}
+
+function resetStore (store, hot) {
+  store._actions = Object.create(null);
+  store._mutations = Object.create(null);
+  store._wrappedGetters = Object.create(null);
+  store._modulesNamespaceMap = Object.create(null);
+  var state = store.state;
+  // init all modules
+  installModule(store, state, [], store._modules.root, true);
+  // reset vm
+  resetStoreVM(store, state, hot);
+}
+
+function resetStoreVM (store, state, hot) {
+  var oldVm = store._vm;
+
+  // bind store public getters
+  store.getters = {};
+  // reset local getters cache
+  store._makeLocalGettersCache = Object.create(null);
+  var wrappedGetters = store._wrappedGetters;
+  var computed = {};
+  forEachValue(wrappedGetters, function (fn, key) {
+    // use computed to leverage its lazy-caching mechanism
+    // direct inline function use will lead to closure preserving oldVm.
+    // using partial to return function with only arguments preserved in closure environment.
+    computed[key] = partial(fn, store);
+    Object.defineProperty(store.getters, key, {
+      get: function () { return store._vm[key]; },
+      enumerable: true // for local getters
+    });
+  });
+
+  // use a Vue instance to store the state tree
+  // suppress warnings just in case the user has added
+  // some funky global mixins
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state
+    },
+    computed: computed
+  });
+  Vue.config.silent = silent;
+
+  // enable strict mode for new vm
+  if (store.strict) {
+    enableStrictMode(store);
+  }
+
+  if (oldVm) {
+    if (hot) {
+      // dispatch changes in all subscribed watchers
+      // to force getter re-evaluation for hot reloading.
+      store._withCommit(function () {
+        oldVm._data.$$state = null;
+      });
+    }
+    Vue.nextTick(function () { return oldVm.$destroy(); });
+  }
+}
+
+function installModule (store, rootState, path, module, hot) {
+  var isRoot = !path.length;
+  var namespace = store._modules.getNamespace(path);
+
+  // register in namespace map
+  if (module.namespaced) {
+    if (store._modulesNamespaceMap[namespace] && ("development" !== 'production')) {
+      console.error(("[vuex] duplicate namespace " + namespace + " for the namespaced module " + (path.join('/'))));
+    }
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  // set state
+  if (!isRoot && !hot) {
+    var parentState = getNestedState(rootState, path.slice(0, -1));
+    var moduleName = path[path.length - 1];
+    store._withCommit(function () {
+      if ((true)) {
+        if (moduleName in parentState) {
+          console.warn(
+            ("[vuex] state field \"" + moduleName + "\" was overridden by a module with the same name at \"" + (path.join('.')) + "\"")
+          );
+        }
+      }
+      Vue.set(parentState, moduleName, module.state);
+    });
+  }
+
+  var local = module.context = makeLocalContext(store, namespace, path);
+
+  module.forEachMutation(function (mutation, key) {
+    var namespacedType = namespace + key;
+    registerMutation(store, namespacedType, mutation, local);
+  });
+
+  module.forEachAction(function (action, key) {
+    var type = action.root ? key : namespace + key;
+    var handler = action.handler || action;
+    registerAction(store, type, handler, local);
+  });
+
+  module.forEachGetter(function (getter, key) {
+    var namespacedType = namespace + key;
+    registerGetter(store, namespacedType, getter, local);
+  });
+
+  module.forEachChild(function (child, key) {
+    installModule(store, rootState, path.concat(key), child, hot);
+  });
+}
+
+/**
+ * make localized dispatch, commit, getters and state
+ * if there is no namespace, just use root ones
+ */
+function makeLocalContext (store, namespace, path) {
+  var noNamespace = namespace === '';
+
+  var local = {
+    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if (( true) && !store._actions[type]) {
+          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      return store.dispatch(type, payload)
+    },
+
+    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if (( true) && !store._mutations[type]) {
+          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      store.commit(type, payload, options);
+    }
+  };
+
+  // getters and state object must be gotten lazily
+  // because they will be changed by vm update
+  Object.defineProperties(local, {
+    getters: {
+      get: noNamespace
+        ? function () { return store.getters; }
+        : function () { return makeLocalGetters(store, namespace); }
+    },
+    state: {
+      get: function () { return getNestedState(store.state, path); }
+    }
+  });
+
+  return local
+}
+
+function makeLocalGetters (store, namespace) {
+  if (!store._makeLocalGettersCache[namespace]) {
+    var gettersProxy = {};
+    var splitPos = namespace.length;
+    Object.keys(store.getters).forEach(function (type) {
+      // skip if the target getter is not match this namespace
+      if (type.slice(0, splitPos) !== namespace) { return }
+
+      // extract local getter type
+      var localType = type.slice(splitPos);
+
+      // Add a port to the getters proxy.
+      // Define as getter property because
+      // we do not want to evaluate the getters in this time.
+      Object.defineProperty(gettersProxy, localType, {
+        get: function () { return store.getters[type]; },
+        enumerable: true
+      });
+    });
+    store._makeLocalGettersCache[namespace] = gettersProxy;
+  }
+
+  return store._makeLocalGettersCache[namespace]
+}
+
+function registerMutation (store, type, handler, local) {
+  var entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function wrappedMutationHandler (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  var entry = store._actions[type] || (store._actions[type] = []);
+  entry.push(function wrappedActionHandler (payload) {
+    var res = handler.call(store, {
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    }, payload);
+    if (!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+    if (store._devtoolHook) {
+      return res.catch(function (err) {
+        store._devtoolHook.emit('vuex:error', err);
+        throw err
+      })
+    } else {
+      return res
+    }
+  });
+}
+
+function registerGetter (store, type, rawGetter, local) {
+  if (store._wrappedGetters[type]) {
+    if ((true)) {
+      console.error(("[vuex] duplicate getter key: " + type));
+    }
+    return
+  }
+  store._wrappedGetters[type] = function wrappedGetter (store) {
+    return rawGetter(
+      local.state, // local state
+      local.getters, // local getters
+      store.state, // root state
+      store.getters // root getters
+    )
+  };
+}
+
+function enableStrictMode (store) {
+  store._vm.$watch(function () { return this._data.$$state }, function () {
+    if ((true)) {
+      assert(store._committing, "do not mutate vuex store state outside mutation handlers.");
+    }
+  }, { deep: true, sync: true });
+}
+
+function getNestedState (state, path) {
+  return path.reduce(function (state, key) { return state[key]; }, state)
+}
+
+function unifyObjectStyle (type, payload, options) {
+  if (isObject(type) && type.type) {
+    options = payload;
+    payload = type;
+    type = type.type;
+  }
+
+  if ((true)) {
+    assert(typeof type === 'string', ("expects string as the type, but found " + (typeof type) + "."));
+  }
+
+  return { type: type, payload: payload, options: options }
+}
+
+function install (_Vue) {
+  if (Vue && _Vue === Vue) {
+    if ((true)) {
+      console.error(
+        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+      );
+    }
+    return
+  }
+  Vue = _Vue;
+  applyMixin(Vue);
+}
+
+/**
+ * Reduce the code which written in Vue.js for getting the state.
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} states # Object's item can be a function which accept state and getters for param, you can do something for state and getters in it.
+ * @param {Object}
+ */
+var mapState = normalizeNamespace(function (namespace, states) {
+  var res = {};
+  if (( true) && !isValidMap(states)) {
+    console.error('[vuex] mapState: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(states).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedState () {
+      var state = this.$store.state;
+      var getters = this.$store.getters;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+        if (!module) {
+          return
+        }
+        state = module.context.state;
+        getters = module.context.getters;
+      }
+      return typeof val === 'function'
+        ? val.call(this, state, getters)
+        : state[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for committing the mutation
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} mutations # Object's item can be a function which accept `commit` function as the first param, it can accept another params. You can commit mutation and do any other things in this function. specially, You need to pass anthor params from the mapped function.
+ * @return {Object}
+ */
+var mapMutations = normalizeNamespace(function (namespace, mutations) {
+  var res = {};
+  if (( true) && !isValidMap(mutations)) {
+    console.error('[vuex] mapMutations: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(mutations).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedMutation () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      // Get the commit method from store
+      var commit = this.$store.commit;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+        if (!module) {
+          return
+        }
+        commit = module.context.commit;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [commit].concat(args))
+        : commit.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for getting the getters
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} getters
+ * @return {Object}
+ */
+var mapGetters = normalizeNamespace(function (namespace, getters) {
+  var res = {};
+  if (( true) && !isValidMap(getters)) {
+    console.error('[vuex] mapGetters: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(getters).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    // The namespace has been mutated by normalizeNamespace
+    val = namespace + val;
+    res[key] = function mappedGetter () {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      if (( true) && !(val in this.$store.getters)) {
+        console.error(("[vuex] unknown getter: " + val));
+        return
+      }
+      return this.$store.getters[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+/**
+ * Reduce the code which written in Vue.js for dispatch the action
+ * @param {String} [namespace] - Module's namespace
+ * @param {Object|Array} actions # Object's item can be a function which accept `dispatch` function as the first param, it can accept anthor params. You can dispatch action and do any other things in this function. specially, You need to pass anthor params from the mapped function.
+ * @return {Object}
+ */
+var mapActions = normalizeNamespace(function (namespace, actions) {
+  var res = {};
+  if (( true) && !isValidMap(actions)) {
+    console.error('[vuex] mapActions: mapper parameter must be either an Array or an Object');
+  }
+  normalizeMap(actions).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedAction () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      // get dispatch function from store
+      var dispatch = this.$store.dispatch;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [dispatch].concat(args))
+        : dispatch.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+/**
+ * Rebinding namespace param for mapXXX function in special scoped, and return them by simple object
+ * @param {String} namespace
+ * @return {Object}
+ */
+var createNamespacedHelpers = function (namespace) { return ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+}); };
+
+/**
+ * Normalize the map
+ * normalizeMap([1, 2, 3]) => [ { key: 1, val: 1 }, { key: 2, val: 2 }, { key: 3, val: 3 } ]
+ * normalizeMap({a: 1, b: 2, c: 3}) => [ { key: 'a', val: 1 }, { key: 'b', val: 2 }, { key: 'c', val: 3 } ]
+ * @param {Array|Object} map
+ * @return {Object}
+ */
+function normalizeMap (map) {
+  if (!isValidMap(map)) {
+    return []
+  }
+  return Array.isArray(map)
+    ? map.map(function (key) { return ({ key: key, val: key }); })
+    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+}
+
+/**
+ * Validate whether given map is valid or not
+ * @param {*} map
+ * @return {Boolean}
+ */
+function isValidMap (map) {
+  return Array.isArray(map) || isObject(map)
+}
+
+/**
+ * Return a function expect two param contains namespace and map. it will normalize the namespace and then the param's function will handle the new namespace and the map.
+ * @param {Function} fn
+ * @return {Function}
+ */
+function normalizeNamespace (fn) {
+  return function (namespace, map) {
+    if (typeof namespace !== 'string') {
+      map = namespace;
+      namespace = '';
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      namespace += '/';
+    }
+    return fn(namespace, map)
+  }
+}
+
+/**
+ * Search a special module from store by namespace. if module not exist, print error message.
+ * @param {Object} store
+ * @param {String} helper
+ * @param {String} namespace
+ * @return {Object}
+ */
+function getModuleByNamespace (store, helper, namespace) {
+  var module = store._modulesNamespaceMap[namespace];
+  if (( true) && !module) {
+    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
+  }
+  return module
+}
+
+// Credits: borrowed code from fcomb/redux-logger
+
+function createLogger (ref) {
+  if ( ref === void 0 ) ref = {};
+  var collapsed = ref.collapsed; if ( collapsed === void 0 ) collapsed = true;
+  var filter = ref.filter; if ( filter === void 0 ) filter = function (mutation, stateBefore, stateAfter) { return true; };
+  var transformer = ref.transformer; if ( transformer === void 0 ) transformer = function (state) { return state; };
+  var mutationTransformer = ref.mutationTransformer; if ( mutationTransformer === void 0 ) mutationTransformer = function (mut) { return mut; };
+  var actionFilter = ref.actionFilter; if ( actionFilter === void 0 ) actionFilter = function (action, state) { return true; };
+  var actionTransformer = ref.actionTransformer; if ( actionTransformer === void 0 ) actionTransformer = function (act) { return act; };
+  var logMutations = ref.logMutations; if ( logMutations === void 0 ) logMutations = true;
+  var logActions = ref.logActions; if ( logActions === void 0 ) logActions = true;
+  var logger = ref.logger; if ( logger === void 0 ) logger = console;
+
+  return function (store) {
+    var prevState = deepCopy(store.state);
+
+    if (typeof logger === 'undefined') {
+      return
+    }
+
+    if (logMutations) {
+      store.subscribe(function (mutation, state) {
+        var nextState = deepCopy(state);
+
+        if (filter(mutation, prevState, nextState)) {
+          var formattedTime = getFormattedTime();
+          var formattedMutation = mutationTransformer(mutation);
+          var message = "mutation " + (mutation.type) + formattedTime;
+
+          startMessage(logger, message, collapsed);
+          logger.log('%c prev state', 'color: #9E9E9E; font-weight: bold', transformer(prevState));
+          logger.log('%c mutation', 'color: #03A9F4; font-weight: bold', formattedMutation);
+          logger.log('%c next state', 'color: #4CAF50; font-weight: bold', transformer(nextState));
+          endMessage(logger);
+        }
+
+        prevState = nextState;
+      });
+    }
+
+    if (logActions) {
+      store.subscribeAction(function (action, state) {
+        if (actionFilter(action, state)) {
+          var formattedTime = getFormattedTime();
+          var formattedAction = actionTransformer(action);
+          var message = "action " + (action.type) + formattedTime;
+
+          startMessage(logger, message, collapsed);
+          logger.log('%c action', 'color: #03A9F4; font-weight: bold', formattedAction);
+          endMessage(logger);
+        }
+      });
+    }
+  }
+}
+
+function startMessage (logger, message, collapsed) {
+  var startMessage = collapsed
+    ? logger.groupCollapsed
+    : logger.group;
+
+  // render
+  try {
+    startMessage.call(logger, message);
+  } catch (e) {
+    logger.log(message);
+  }
+}
+
+function endMessage (logger) {
+  try {
+    logger.groupEnd();
+  } catch (e) {
+    logger.log('—— log end ——');
+  }
+}
+
+function getFormattedTime () {
+  var time = new Date();
+  return (" @ " + (pad(time.getHours(), 2)) + ":" + (pad(time.getMinutes(), 2)) + ":" + (pad(time.getSeconds(), 2)) + "." + (pad(time.getMilliseconds(), 3)))
+}
+
+function repeat (str, times) {
+  return (new Array(times + 1)).join(str)
+}
+
+function pad (num, maxLength) {
+  return repeat('0', maxLength - num.toString().length) + num
+}
+
+var index_cjs = {
+  Store: Store,
+  install: install,
+  version: '3.6.2',
+  mapState: mapState,
+  mapMutations: mapMutations,
+  mapGetters: mapGetters,
+  mapActions: mapActions,
+  createNamespacedHelpers: createNamespacedHelpers,
+  createLogger: createLogger
+};
+
+module.exports = index_cjs;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
+
+/***/ }),
+/* 47 */
+/*!*************************************************!*\
+  !*** E:/code/baba_statistics/store/userInfo.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  namespaced: true,
+  state: {
+    userInfo: uni.getStorageSync('userInfo') || null
+  },
+  mutations: {
+    updateUserInfo: function updateUserInfo(state, userInfo) {
+      state.userInfo = userInfo;
+    },
+    clearUserInfo: function clearUserInfo(state) {
+      state.userInfo = {};
+    }
+  },
+  actions: {
+    updateUserInfo: function updateUserInfo(_ref, userInfo) {
+      var commit = _ref.commit;
+      uni.setStorageSync('userInfo', userInfo);
+      commit("updateUserInfo", userInfo);
+    },
+    clearUserInfo: function clearUserInfo(_ref2) {
+      var commit = _ref2.commit;
+      uni.removeStorage({
+        key: 'userInfo'
+      });
+      commit("clearUserInfo");
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 48 */
+/*!*************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/index.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 49));
+var _mpMixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mpMixin.js */ 50));
+var _luchRequest = _interopRequireDefault(__webpack_require__(/*! ./libs/luch-request */ 51));
+var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/util/route.js */ 69));
+var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 70));
+var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 71));
+var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 72));
+var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 73));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./libs/function/index.js */ 74));
+var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 77));
+var _props = _interopRequireDefault(__webpack_require__(/*! ./libs/config/props.js */ 78));
+var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 168));
+var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/config/color.js */ 126));
+var _platform = _interopRequireDefault(__webpack_require__(/*! ./libs/function/platform */ 169));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+// 看到此报错，是因为没有配置vue.config.js的【transpileDependencies】，详见：https://www.uviewui.com/components/npmSetting.html#_5-cli模式额外配置
+var pleaseSetTranspileDependencies = {},
+  babelTest = pleaseSetTranspileDependencies === null || pleaseSetTranspileDependencies === void 0 ? void 0 : pleaseSetTranspileDependencies.test;
+
+// 引入全局mixin
+
+var $u = _objectSpread(_objectSpread({
+  route: _route.default,
+  date: _index.default.timeFormat,
+  // 另名date
+  colorGradient: _colorGradient.default.colorGradient,
+  hexToRgb: _colorGradient.default.hexToRgb,
+  rgbToHex: _colorGradient.default.rgbToHex,
+  colorToRgba: _colorGradient.default.colorToRgba,
+  test: _test.default,
+  type: ['primary', 'success', 'error', 'warning', 'info'],
+  http: new _luchRequest.default(),
+  config: _config.default,
+  // uView配置信息相关，比如版本号
+  zIndex: _zIndex.default,
+  debounce: _debounce.default,
+  throttle: _throttle.default,
+  mixin: _mixin.default,
+  mpMixin: _mpMixin.default,
+  props: _props.default
+}, _index.default), {}, {
+  color: _color.default,
+  platform: _platform.default
+});
+
+// $u挂载到uni对象上
+uni.$u = $u;
+var install = function install(Vue) {
+  // 时间格式化，同时两个名称，date和timeFormat
+  Vue.filter('timeFormat', function (timestamp, format) {
+    return uni.$u.timeFormat(timestamp, format);
+  });
+  Vue.filter('date', function (timestamp, format) {
+    return uni.$u.timeFormat(timestamp, format);
+  });
+  // 将多久以前的方法，注入到全局过滤器
+  Vue.filter('timeFrom', function (timestamp, format) {
+    return uni.$u.timeFrom(timestamp, format);
+  });
+  // 同时挂载到uni和Vue.prototype中
+
+  // 只有vue，挂载到Vue.prototype才有意义，因为nvue中全局Vue.prototype和Vue.mixin是无效的
+  Vue.prototype.$u = $u;
+  Vue.mixin(_mixin.default);
+};
+var _default = {
+  install: install
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 49 */
+/*!************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/mixin.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
+  // 定义每个组件都可能需要用到的外部样式以及类名
+  props: {
+    // 每个组件都有的父组件传递的样式，可以为字符串或者对象形式
+    customStyle: {
+      type: [Object, String],
+      default: function _default() {
+        return {};
+      }
+    },
+    customClass: {
+      type: String,
+      default: ''
+    },
+    // 跳转的页面路径
+    url: {
+      type: String,
+      default: ''
+    },
+    // 页面跳转的类型
+    linkType: {
+      type: String,
+      default: 'navigateTo'
+    }
+  },
+  data: function data() {
+    return {};
+  },
+  onLoad: function onLoad() {
+    // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
+    this.$u.getRect = this.$uGetRect;
+  },
+  created: function created() {
+    // 组件当中，只有created声明周期，为了能在组件使用，故也在created中将方法挂载到$u
+    this.$u.getRect = this.$uGetRect;
+  },
+  computed: {
+    // 在2.x版本中，将会把$u挂载到uni对象下，导致在模板中无法使用uni.$u.xxx形式
+    // 所以这里通过computed计算属性将其附加到this.$u上，就可以在模板或者js中使用uni.$u.xxx
+    // 只在nvue环境通过此方式引入完整的$u，其他平台会出现性能问题，非nvue则按需引入（主要原因是props过大）
+    $u: function $u() {
+      // 在非nvue端，移除props，http，mixin等对象，避免在小程序setData时数据过大影响性能
+      return uni.$u.deepMerge(uni.$u, {
+        props: undefined,
+        http: undefined,
+        mixin: undefined
+      });
+    },
+    /**
+     * 生成bem规则类名
+     * 由于微信小程序，H5，nvue之间绑定class的差异，无法通过:class="[bem()]"的形式进行同用
+     * 故采用如下折中做法，最后返回的是数组（一般平台）或字符串（支付宝和字节跳动平台），类似['a', 'b', 'c']或'a b c'的形式
+     * @param {String} name 组件名称
+     * @param {Array} fixed 一直会存在的类名
+     * @param {Array} change 会根据变量值为true或者false而出现或者隐藏的类名
+     * @returns {Array|string}
+     */
+    bem: function bem() {
+      return function (name, fixed, change) {
+        var _this = this;
+        // 类名前缀
+        var prefix = "u-".concat(name, "--");
+        var classes = {};
+        if (fixed) {
+          fixed.map(function (item) {
+            // 这里的类名，会一直存在
+            classes[prefix + _this[item]] = true;
+          });
+        }
+        if (change) {
+          change.map(function (item) {
+            // 这里的类名，会根据this[item]的值为true或者false，而进行添加或者移除某一个类
+            _this[item] ? classes[prefix + item] = _this[item] : delete classes[prefix + item];
+          });
+        }
+        return Object.keys(classes);
+        // 支付宝，头条小程序无法动态绑定一个数组类名，否则解析出来的结果会带有","，而导致失效
+      };
+    }
+  },
+
+  methods: {
+    // 跳转某一个页面
+    openPage: function openPage() {
+      var urlKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'url';
+      var url = this[urlKey];
+      if (url) {
+        // 执行类似uni.navigateTo的方法
+        uni[this.linkType]({
+          url: url
+        });
+      }
+    },
+    // 查询节点信息
+    // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
+    // 解决办法为在组件根部再套一个没有任何作用的view元素
+    $uGetRect: function $uGetRect(selector, all) {
+      var _this2 = this;
+      return new Promise(function (resolve) {
+        uni.createSelectorQuery().in(_this2)[all ? 'selectAll' : 'select'](selector).boundingClientRect(function (rect) {
+          if (all && Array.isArray(rect) && rect.length) {
+            resolve(rect);
+          }
+          if (!all && rect) {
+            resolve(rect);
+          }
+        }).exec();
+      });
+    },
+    getParentData: function getParentData() {
+      var _this3 = this;
+      var parentName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      // 避免在created中去定义parent变量
+      if (!this.parent) this.parent = {};
+      // 这里的本质原理是，通过获取父组件实例(也即类似u-radio的父组件u-radio-group的this)
+      // 将父组件this中对应的参数，赋值给本组件(u-radio的this)的parentData对象中对应的属性
+      // 之所以需要这么做，是因为所有端中，头条小程序不支持通过this.parent.xxx去监听父组件参数的变化
+      // 此处并不会自动更新子组件的数据，而是依赖父组件u-radio-group去监听data的变化，手动调用更新子组件的方法去重新获取
+      this.parent = uni.$u.$parent.call(this, parentName);
+      if (this.parent.children) {
+        // 如果父组件的children不存在本组件的实例，才将本实例添加到父组件的children中
+        this.parent.children.indexOf(this) === -1 && this.parent.children.push(this);
+      }
+      if (this.parent && this.parentData) {
+        // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
+        Object.keys(this.parentData).map(function (key) {
+          _this3.parentData[key] = _this3.parent[key];
+        });
+      }
+    },
+    // 阻止事件冒泡
+    preventEvent: function preventEvent(e) {
+      e && typeof e.stopPropagation === 'function' && e.stopPropagation();
+    },
+    // 空操作
+    noop: function noop(e) {
+      this.preventEvent(e);
+    }
+  },
+  onReachBottom: function onReachBottom() {
+    uni.$emit('uOnReachBottom');
+  },
+  beforeDestroy: function beforeDestroy() {
+    var _this4 = this;
+    // 判断当前页面是否存在parent和chldren，一般在checkbox和checkbox-group父子联动的场景会有此情况
+    // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
+    if (this.parent && uni.$u.test.array(this.parent.children)) {
+      // 组件销毁时，移除父组件中的children数组中对应的实例
+      var childrenList = this.parent.children;
+      childrenList.map(function (child, index) {
+        // 如果相等，则移除
+        if (child === _this4) {
+          childrenList.splice(index, 1);
+        }
+      });
+    }
+  }
+};
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 50 */
+/*!**************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/mpMixin.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  // 将自定义节点设置成虚拟的，更加接近Vue组件的表现，能更好的使用flex属性
+  options: {
+    virtualHost: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 51 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/index.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _Request = _interopRequireDefault(__webpack_require__(/*! ./core/Request */ 52));
+var _default = _Request.default;
+exports.default = _default;
+
+/***/ }),
+/* 52 */
+/*!**************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/Request.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
+var _dispatchRequest = _interopRequireDefault(__webpack_require__(/*! ./dispatchRequest */ 53));
+var _InterceptorManager = _interopRequireDefault(__webpack_require__(/*! ./InterceptorManager */ 61));
+var _mergeConfig = _interopRequireDefault(__webpack_require__(/*! ./mergeConfig */ 62));
+var _defaults = _interopRequireDefault(__webpack_require__(/*! ./defaults */ 63));
+var _utils = __webpack_require__(/*! ../utils */ 56);
+var _clone = _interopRequireDefault(__webpack_require__(/*! ../utils/clone */ 64));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+var Request = /*#__PURE__*/function () {
+  /**
+  * @param {Object} arg - 全局配置
+  * @param {String} arg.baseURL - 全局根路径
+  * @param {Object} arg.header - 全局header
+  * @param {String} arg.method = [GET|POST|PUT|DELETE|CONNECT|HEAD|OPTIONS|TRACE] - 全局默认请求方式
+  * @param {String} arg.dataType = [json] - 全局默认的dataType
+  * @param {String} arg.responseType = [text|arraybuffer] - 全局默认的responseType。支付宝小程序不支持
+  * @param {Object} arg.custom - 全局默认的自定义参数
+  * @param {Number} arg.timeout - 全局默认的超时时间，单位 ms。默认60000。H5(HBuilderX 2.9.9+)、APP(HBuilderX 2.9.9+)、微信小程序（2.10.0）、支付宝小程序
+  * @param {Boolean} arg.sslVerify - 全局默认的是否验证 ssl 证书。默认true.仅App安卓端支持（HBuilderX 2.3.3+）
+  * @param {Boolean} arg.withCredentials - 全局默认的跨域请求时是否携带凭证（cookies）。默认false。仅H5支持（HBuilderX 2.6.15+）
+  * @param {Boolean} arg.firstIpv4 - 全DNS解析时优先使用ipv4。默认false。仅 App-Android 支持 (HBuilderX 2.8.0+)
+  * @param {Function(statusCode):Boolean} arg.validateStatus - 全局默认的自定义验证器。默认statusCode >= 200 && statusCode < 300
+  */
+  function Request() {
+    var arg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    (0, _classCallCheck2.default)(this, Request);
+    if (!(0, _utils.isPlainObject)(arg)) {
+      arg = {};
+      console.warn('设置全局参数必须接收一个Object');
+    }
+    this.config = (0, _clone.default)(_objectSpread(_objectSpread({}, _defaults.default), arg));
+    this.interceptors = {
+      request: new _InterceptorManager.default(),
+      response: new _InterceptorManager.default()
+    };
+  }
+
+  /**
+  * @Function
+  * @param {Request~setConfigCallback} f - 设置全局默认配置
+  */
+  (0, _createClass2.default)(Request, [{
+    key: "setConfig",
+    value: function setConfig(f) {
+      this.config = f(this.config);
+    }
+  }, {
+    key: "middleware",
+    value: function middleware(config) {
+      config = (0, _mergeConfig.default)(this.config, config);
+      var chain = [_dispatchRequest.default, undefined];
+      var promise = Promise.resolve(config);
+      this.interceptors.request.forEach(function (interceptor) {
+        chain.unshift(interceptor.fulfilled, interceptor.rejected);
+      });
+      this.interceptors.response.forEach(function (interceptor) {
+        chain.push(interceptor.fulfilled, interceptor.rejected);
+      });
+      while (chain.length) {
+        promise = promise.then(chain.shift(), chain.shift());
+      }
+      return promise;
+    }
+
+    /**
+    * @Function
+    * @param {Object} config - 请求配置项
+    * @prop {String} options.url - 请求路径
+    * @prop {Object} options.data - 请求参数
+    * @prop {Object} [options.responseType = config.responseType] [text|arraybuffer] - 响应的数据类型
+    * @prop {Object} [options.dataType = config.dataType] - 如果设为 json，会尝试对返回的数据做一次 JSON.parse
+    * @prop {Object} [options.header = config.header] - 请求header
+    * @prop {Object} [options.method = config.method] - 请求方法
+    * @returns {Promise<unknown>}
+    */
+  }, {
+    key: "request",
+    value: function request() {
+      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return this.middleware(config);
+    }
+  }, {
+    key: "get",
+    value: function get(url) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      return this.middleware(_objectSpread({
+        url: url,
+        method: 'GET'
+      }, options));
+    }
+  }, {
+    key: "post",
+    value: function post(url, data) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.middleware(_objectSpread({
+        url: url,
+        data: data,
+        method: 'POST'
+      }, options));
+    }
+  }, {
+    key: "put",
+    value: function put(url, data) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.middleware(_objectSpread({
+        url: url,
+        data: data,
+        method: 'PUT'
+      }, options));
+    }
+  }, {
+    key: "delete",
+    value: function _delete(url, data) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.middleware(_objectSpread({
+        url: url,
+        data: data,
+        method: 'DELETE'
+      }, options));
+    }
+  }, {
+    key: "connect",
+    value: function connect(url, data) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.middleware(_objectSpread({
+        url: url,
+        data: data,
+        method: 'CONNECT'
+      }, options));
+    }
+  }, {
+    key: "head",
+    value: function head(url, data) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.middleware(_objectSpread({
+        url: url,
+        data: data,
+        method: 'HEAD'
+      }, options));
+    }
+  }, {
+    key: "options",
+    value: function options(url, data) {
+      var _options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.middleware(_objectSpread({
+        url: url,
+        data: data,
+        method: 'OPTIONS'
+      }, _options));
+    }
+  }, {
+    key: "trace",
+    value: function trace(url, data) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return this.middleware(_objectSpread({
+        url: url,
+        data: data,
+        method: 'TRACE'
+      }, options));
+    }
+  }, {
+    key: "upload",
+    value: function upload(url) {
+      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      config.url = url;
+      config.method = 'UPLOAD';
+      return this.middleware(config);
+    }
+  }, {
+    key: "download",
+    value: function download(url) {
+      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      config.url = url;
+      config.method = 'DOWNLOAD';
+      return this.middleware(config);
+    }
+  }]);
+  return Request;
+}();
+/**
+ * setConfig回调
+ * @return {Object} - 返回操作后的config
+ * @callback Request~setConfigCallback
+ * @param {Object} config - 全局默认config
+ */
+exports.default = Request;
+
+/***/ }),
+/* 53 */
+/*!**********************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/dispatchRequest.js ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _index = _interopRequireDefault(__webpack_require__(/*! ../adapters/index */ 54));
+var _default = function _default(config) {
+  return (0, _index.default)(config);
+};
+exports.default = _default;
+
+/***/ }),
+/* 54 */
+/*!****************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/adapters/index.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+var _buildURL = _interopRequireDefault(__webpack_require__(/*! ../helpers/buildURL */ 55));
+var _buildFullPath = _interopRequireDefault(__webpack_require__(/*! ../core/buildFullPath */ 57));
+var _settle = _interopRequireDefault(__webpack_require__(/*! ../core/settle */ 60));
+var _utils = __webpack_require__(/*! ../utils */ 56);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+/**
+ * 返回可选值存在的配置
+ * @param {Array} keys - 可选值数组
+ * @param {Object} config2 - 配置
+ * @return {{}} - 存在的配置项
+ */
+var mergeKeys = function mergeKeys(keys, config2) {
+  var config = {};
+  keys.forEach(function (prop) {
+    if (!(0, _utils.isUndefined)(config2[prop])) {
+      config[prop] = config2[prop];
+    }
+  });
+  return config;
+};
+var _default = function _default(config) {
+  return new Promise(function (resolve, reject) {
+    var fullPath = (0, _buildURL.default)((0, _buildFullPath.default)(config.baseURL, config.url), config.params);
+    var _config = {
+      url: fullPath,
+      header: config.header,
+      complete: function complete(response) {
+        config.fullPath = fullPath;
+        response.config = config;
+        try {
+          // 对可能字符串不是json 的情况容错
+          if (typeof response.data === 'string') {
+            response.data = JSON.parse(response.data);
+          }
+          // eslint-disable-next-line no-empty
+        } catch (e) {}
+        (0, _settle.default)(resolve, reject, response);
+      }
+    };
+    var requestTask;
+    if (config.method === 'UPLOAD') {
+      delete _config.header['content-type'];
+      delete _config.header['Content-Type'];
+      var otherConfig = {
+        filePath: config.filePath,
+        name: config.name
+      };
+      var optionalKeys = ['formData'];
+      requestTask = uni.uploadFile(_objectSpread(_objectSpread(_objectSpread({}, _config), otherConfig), mergeKeys(optionalKeys, config)));
+    } else if (config.method === 'DOWNLOAD') {
+      requestTask = uni.downloadFile(_config);
+    } else {
+      var _optionalKeys = ['data', 'method', 'timeout', 'dataType', 'responseType'];
+      requestTask = uni.request(_objectSpread(_objectSpread({}, _config), mergeKeys(_optionalKeys, config)));
+    }
+    if (config.getTask) {
+      config.getTask(requestTask, config);
+    }
+  });
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 55 */
+/*!******************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/buildURL.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ 13);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = buildURL;
+var utils = _interopRequireWildcard(__webpack_require__(/*! ../utils */ 56));
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function encode(val) {
+  return encodeURIComponent(val).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+function buildURL(url, params) {
+  /* eslint no-param-reassign:0 */
+  if (!params) {
+    return url;
+  }
+  var serializedParams;
+  if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+    utils.forEach(params, function (val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+      if (utils.isArray(val)) {
+        key = "".concat(key, "[]");
+      } else {
+        val = [val];
+      }
+      utils.forEach(val, function (v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push("".concat(encode(key), "=").concat(encode(v)));
+      });
+    });
+    serializedParams = parts.join('&');
+  }
+  if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+  return url;
+}
+
+/***/ }),
+/* 56 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/utils.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// utils is a library of generic helper functions non-specific to axios
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deepMerge = deepMerge;
+exports.forEach = forEach;
+exports.isArray = isArray;
+exports.isBoolean = isBoolean;
+exports.isDate = isDate;
+exports.isObject = isObject;
+exports.isPlainObject = isPlainObject;
+exports.isURLSearchParams = isURLSearchParams;
+exports.isUndefined = isUndefined;
+var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
+var toString = Object.prototype.toString;
+
+/**
+ * Determine if a value is an Array
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Array, otherwise false
+ */
+function isArray(val) {
+  return toString.call(val) === '[object Array]';
+}
+
+/**
+ * Determine if a value is an Object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Object, otherwise false
+ */
+function isObject(val) {
+  return val !== null && (0, _typeof2.default)(val) === 'object';
+}
+
+/**
+ * Determine if a value is a Date
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Date, otherwise false
+ */
+function isDate(val) {
+  return toString.call(val) === '[object Date]';
+}
+
+/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+ */
+function isURLSearchParams(val) {
+  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+}
+
+/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If 'obj' is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * @param {Object|Array} obj The object to iterate
+ * @param {Function} fn The callback to invoke for each item
+ */
+function forEach(obj, fn) {
+  // Don't bother if no value provided
+  if (obj === null || typeof obj === 'undefined') {
+    return;
+  }
+
+  // Force an array if not already something iterable
+  if ((0, _typeof2.default)(obj) !== 'object') {
+    /* eslint no-param-reassign:0 */
+    obj = [obj];
+  }
+  if (isArray(obj)) {
+    // Iterate over array values
+    for (var i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
+    }
+  } else {
+    // Iterate over object keys
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+}
+
+/**
+ * 是否为boolean 值
+ * @param val
+ * @returns {boolean}
+ */
+function isBoolean(val) {
+  return typeof val === 'boolean';
+}
+
+/**
+ * 是否为真正的对象{} new Object
+ * @param {any} obj - 检测的对象
+ * @returns {boolean}
+ */
+function isPlainObject(obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+}
+
+/**
+ * Function equal to merge with the difference being that no reference
+ * to original objects is kept.
+ *
+ * @see merge
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function deepMerge( /* obj1, obj2, obj3, ... */
+) {
+  var result = {};
+  function assignValue(val, key) {
+    if ((0, _typeof2.default)(result[key]) === 'object' && (0, _typeof2.default)(val) === 'object') {
+      result[key] = deepMerge(result[key], val);
+    } else if ((0, _typeof2.default)(val) === 'object') {
+      result[key] = deepMerge({}, val);
+    } else {
+      result[key] = val;
+    }
+  }
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/***/ }),
+/* 57 */
+/*!********************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/buildFullPath.js ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = buildFullPath;
+var _isAbsoluteURL = _interopRequireDefault(__webpack_require__(/*! ../helpers/isAbsoluteURL */ 58));
+var _combineURLs = _interopRequireDefault(__webpack_require__(/*! ../helpers/combineURLs */ 59));
+/**
+ * Creates a new URL by combining the baseURL with the requestedURL,
+ * only when the requestedURL is not already an absolute URL.
+ * If the requestURL is absolute, this function returns the requestedURL untouched.
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} requestedURL Absolute or relative URL to combine
+ * @returns {string} The combined full path
+ */
+function buildFullPath(baseURL, requestedURL) {
+  if (baseURL && !(0, _isAbsoluteURL.default)(requestedURL)) {
+    return (0, _combineURLs.default)(baseURL, requestedURL);
+  }
+  return requestedURL;
+}
+
+/***/ }),
+/* 58 */
+/*!***********************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/isAbsoluteURL.js ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isAbsoluteURL;
+function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
+}
+
+/***/ }),
+/* 59 */
+/*!*********************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/combineURLs.js ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = combineURLs;
+function combineURLs(baseURL, relativeURL) {
+  return relativeURL ? "".concat(baseURL.replace(/\/+$/, ''), "/").concat(relativeURL.replace(/^\/+/, '')) : baseURL;
+}
+
+/***/ }),
+/* 60 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/settle.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = settle;
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  var status = response.statusCode;
+  if (status && (!validateStatus || validateStatus(status))) {
+    resolve(response);
+  } else {
+    reject(response);
+  }
+}
+
+/***/ }),
+/* 61 */
+/*!*************************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/InterceptorManager.js ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  this.handlers.forEach(function (h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+var _default = InterceptorManager;
+exports.default = _default;
+
+/***/ }),
+/* 62 */
+/*!******************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/mergeConfig.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+var _utils = __webpack_require__(/*! ../utils */ 56);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+/**
+ * 合并局部配置优先的配置，如果局部有该配置项则用局部，如果全局有该配置项则用全局
+ * @param {Array} keys - 配置项
+ * @param {Object} globalsConfig - 当前的全局配置
+ * @param {Object} config2 - 局部配置
+ * @return {{}}
+ */
+var mergeKeys = function mergeKeys(keys, globalsConfig, config2) {
+  var config = {};
+  keys.forEach(function (prop) {
+    if (!(0, _utils.isUndefined)(config2[prop])) {
+      config[prop] = config2[prop];
+    } else if (!(0, _utils.isUndefined)(globalsConfig[prop])) {
+      config[prop] = globalsConfig[prop];
+    }
+  });
+  return config;
+};
+/**
+ *
+ * @param globalsConfig - 当前实例的全局配置
+ * @param config2 - 当前的局部配置
+ * @return - 合并后的配置
+ */
+var _default = function _default(globalsConfig) {
+  var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var method = config2.method || globalsConfig.method || 'GET';
+  var config = {
+    baseURL: globalsConfig.baseURL || '',
+    method: method,
+    url: config2.url || '',
+    params: config2.params || {},
+    custom: _objectSpread(_objectSpread({}, globalsConfig.custom || {}), config2.custom || {}),
+    header: (0, _utils.deepMerge)(globalsConfig.header || {}, config2.header || {})
+  };
+  var defaultToConfig2Keys = ['getTask', 'validateStatus'];
+  config = _objectSpread(_objectSpread({}, config), mergeKeys(defaultToConfig2Keys, globalsConfig, config2));
+
+  // eslint-disable-next-line no-empty
+  if (method === 'DOWNLOAD') {} else if (method === 'UPLOAD') {
+    delete config.header['content-type'];
+    delete config.header['Content-Type'];
+    var uploadKeys = ['filePath', 'name', 'formData'];
+    uploadKeys.forEach(function (prop) {
+      if (!(0, _utils.isUndefined)(config2[prop])) {
+        config[prop] = config2[prop];
+      }
+    });
+  } else {
+    var defaultsKeys = ['data', 'timeout', 'dataType', 'responseType'];
+    config = _objectSpread(_objectSpread({}, config), mergeKeys(defaultsKeys, globalsConfig, config2));
+  }
+  return config;
+};
+exports.default = _default;
+
+/***/ }),
+/* 63 */
+/*!***************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/defaults.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/**
+ * 默认的全局配置
+ */
+var _default = {
+  baseURL: '',
+  header: {},
+  method: 'GET',
+  dataType: 'json',
+  responseType: 'text',
+  custom: {},
+  timeout: 60000,
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 64 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/utils/clone.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Buffer) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
+/* eslint-disable */
+var clone = function () {
+  'use strict';
+
+  function _instanceof(obj, type) {
+    return type != null && obj instanceof type;
+  }
+  var nativeMap;
+  try {
+    nativeMap = Map;
+  } catch (_) {
+    // maybe a reference error because no `Map`. Give it a dummy value that no
+    // value will ever be an instanceof.
+    nativeMap = function nativeMap() {};
+  }
+  var nativeSet;
+  try {
+    nativeSet = Set;
+  } catch (_) {
+    nativeSet = function nativeSet() {};
+  }
+  var nativePromise;
+  try {
+    nativePromise = Promise;
+  } catch (_) {
+    nativePromise = function nativePromise() {};
+  }
+
+  /**
+   * Clones (copies) an Object using deep copying.
+   *
+   * This function supports circular references by default, but if you are certain
+   * there are no circular references in your object, you can save some CPU time
+   * by calling clone(obj, false).
+   *
+   * Caution: if `circular` is false and `parent` contains circular references,
+   * your program may enter an infinite loop and crash.
+   *
+   * @param `parent` - the object to be cloned
+   * @param `circular` - set to true if the object to be cloned may contain
+   *    circular references. (optional - true by default)
+   * @param `depth` - set to a number if the object is only to be cloned to
+   *    a particular depth. (optional - defaults to Infinity)
+   * @param `prototype` - sets the prototype to be used when cloning an object.
+   *    (optional - defaults to parent prototype).
+   * @param `includeNonEnumerable` - set to true if the non-enumerable properties
+   *    should be cloned as well. Non-enumerable properties on the prototype
+   *    chain will be ignored. (optional - false by default)
+   */
+  function clone(parent, circular, depth, prototype, includeNonEnumerable) {
+    if ((0, _typeof2.default)(circular) === 'object') {
+      depth = circular.depth;
+      prototype = circular.prototype;
+      includeNonEnumerable = circular.includeNonEnumerable;
+      circular = circular.circular;
+    }
+    // maintain two arrays for circular references, where corresponding parents
+    // and children have the same index
+    var allParents = [];
+    var allChildren = [];
+    var useBuffer = typeof Buffer != 'undefined';
+    if (typeof circular == 'undefined') circular = true;
+    if (typeof depth == 'undefined') depth = Infinity;
+
+    // recurse this function so we don't reset allParents and allChildren
+    function _clone(parent, depth) {
+      // cloning null always returns null
+      if (parent === null) return null;
+      if (depth === 0) return parent;
+      var child;
+      var proto;
+      if ((0, _typeof2.default)(parent) != 'object') {
+        return parent;
+      }
+      if (_instanceof(parent, nativeMap)) {
+        child = new nativeMap();
+      } else if (_instanceof(parent, nativeSet)) {
+        child = new nativeSet();
+      } else if (_instanceof(parent, nativePromise)) {
+        child = new nativePromise(function (resolve, reject) {
+          parent.then(function (value) {
+            resolve(_clone(value, depth - 1));
+          }, function (err) {
+            reject(_clone(err, depth - 1));
+          });
+        });
+      } else if (clone.__isArray(parent)) {
+        child = [];
+      } else if (clone.__isRegExp(parent)) {
+        child = new RegExp(parent.source, __getRegExpFlags(parent));
+        if (parent.lastIndex) child.lastIndex = parent.lastIndex;
+      } else if (clone.__isDate(parent)) {
+        child = new Date(parent.getTime());
+      } else if (useBuffer && Buffer.isBuffer(parent)) {
+        if (Buffer.from) {
+          // Node.js >= 5.10.0
+          child = Buffer.from(parent);
+        } else {
+          // Older Node.js versions
+          child = new Buffer(parent.length);
+          parent.copy(child);
+        }
+        return child;
+      } else if (_instanceof(parent, Error)) {
+        child = Object.create(parent);
+      } else {
+        if (typeof prototype == 'undefined') {
+          proto = Object.getPrototypeOf(parent);
+          child = Object.create(proto);
+        } else {
+          child = Object.create(prototype);
+          proto = prototype;
+        }
+      }
+      if (circular) {
+        var index = allParents.indexOf(parent);
+        if (index != -1) {
+          return allChildren[index];
+        }
+        allParents.push(parent);
+        allChildren.push(child);
+      }
+      if (_instanceof(parent, nativeMap)) {
+        parent.forEach(function (value, key) {
+          var keyChild = _clone(key, depth - 1);
+          var valueChild = _clone(value, depth - 1);
+          child.set(keyChild, valueChild);
+        });
+      }
+      if (_instanceof(parent, nativeSet)) {
+        parent.forEach(function (value) {
+          var entryChild = _clone(value, depth - 1);
+          child.add(entryChild);
+        });
+      }
+      for (var i in parent) {
+        var attrs = Object.getOwnPropertyDescriptor(parent, i);
+        if (attrs) {
+          child[i] = _clone(parent[i], depth - 1);
+        }
+        try {
+          var objProperty = Object.getOwnPropertyDescriptor(parent, i);
+          if (objProperty.set === 'undefined') {
+            // no setter defined. Skip cloning this property
+            continue;
+          }
+          child[i] = _clone(parent[i], depth - 1);
+        } catch (e) {
+          if (e instanceof TypeError) {
+            // when in strict mode, TypeError will be thrown if child[i] property only has a getter
+            // we can't do anything about this, other than inform the user that this property cannot be set.
+            continue;
+          } else if (e instanceof ReferenceError) {
+            //this may happen in non strict mode
+            continue;
+          }
+        }
+      }
+      if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(parent);
+        for (var i = 0; i < symbols.length; i++) {
+          // Don't need to worry about cloning a symbol because it is a primitive,
+          // like a number or string.
+          var symbol = symbols[i];
+          var descriptor = Object.getOwnPropertyDescriptor(parent, symbol);
+          if (descriptor && !descriptor.enumerable && !includeNonEnumerable) {
+            continue;
+          }
+          child[symbol] = _clone(parent[symbol], depth - 1);
+          Object.defineProperty(child, symbol, descriptor);
+        }
+      }
+      if (includeNonEnumerable) {
+        var allPropertyNames = Object.getOwnPropertyNames(parent);
+        for (var i = 0; i < allPropertyNames.length; i++) {
+          var propertyName = allPropertyNames[i];
+          var descriptor = Object.getOwnPropertyDescriptor(parent, propertyName);
+          if (descriptor && descriptor.enumerable) {
+            continue;
+          }
+          child[propertyName] = _clone(parent[propertyName], depth - 1);
+          Object.defineProperty(child, propertyName, descriptor);
+        }
+      }
+      return child;
+    }
+    return _clone(parent, depth);
+  }
+
+  /**
+   * Simple flat clone using prototype, accepts only objects, usefull for property
+   * override on FLAT configuration object (no nested props).
+   *
+   * USE WITH CAUTION! This may not behave as you wish if you do not know how this
+   * works.
+   */
+  clone.clonePrototype = function clonePrototype(parent) {
+    if (parent === null) return null;
+    var c = function c() {};
+    c.prototype = parent;
+    return new c();
+  };
+
+  // private utility functions
+
+  function __objToStr(o) {
+    return Object.prototype.toString.call(o);
+  }
+  clone.__objToStr = __objToStr;
+  function __isDate(o) {
+    return (0, _typeof2.default)(o) === 'object' && __objToStr(o) === '[object Date]';
+  }
+  clone.__isDate = __isDate;
+  function __isArray(o) {
+    return (0, _typeof2.default)(o) === 'object' && __objToStr(o) === '[object Array]';
+  }
+  clone.__isArray = __isArray;
+  function __isRegExp(o) {
+    return (0, _typeof2.default)(o) === 'object' && __objToStr(o) === '[object RegExp]';
+  }
+  clone.__isRegExp = __isRegExp;
+  function __getRegExpFlags(re) {
+    var flags = '';
+    if (re.global) flags += 'g';
+    if (re.ignoreCase) flags += 'i';
+    if (re.multiline) flags += 'm';
+    return flags;
+  }
+  clone.__getRegExpFlags = __getRegExpFlags;
+  return clone;
+}();
+var _default = clone;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/buffer/index.js */ 65).Buffer))
+
+/***/ }),
+/* 65 */
+/*!**************************************!*\
+  !*** ./node_modules/buffer/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+/* eslint-disable no-proto */
+
+
+
+var base64 = __webpack_require__(/*! base64-js */ 66)
+var ieee754 = __webpack_require__(/*! ieee754 */ 67)
+var isArray = __webpack_require__(/*! isarray */ 68)
+
+exports.Buffer = Buffer
+exports.SlowBuffer = SlowBuffer
+exports.INSPECT_MAX_BYTES = 50
+
+/**
+ * If `Buffer.TYPED_ARRAY_SUPPORT`:
+ *   === true    Use Uint8Array implementation (fastest)
+ *   === false   Use Object implementation (most compatible, even IE6)
+ *
+ * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
+ * Opera 11.6+, iOS 4.2+.
+ *
+ * Due to various browser bugs, sometimes the Object implementation will be used even
+ * when the browser supports typed arrays.
+ *
+ * Note:
+ *
+ *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
+ *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
+ *
+ *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
+ *
+ *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
+ *     incorrect length in some situations.
+
+ * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
+ * get the Object implementation, which is slower but behaves correctly.
+ */
+Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
+  ? global.TYPED_ARRAY_SUPPORT
+  : typedArraySupport()
+
+/*
+ * Export kMaxLength after typed array support is determined.
+ */
+exports.kMaxLength = kMaxLength()
+
+function typedArraySupport () {
+  try {
+    var arr = new Uint8Array(1)
+    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
+    return arr.foo() === 42 && // typed array instances can be augmented
+        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
+        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
+  } catch (e) {
+    return false
+  }
+}
+
+function kMaxLength () {
+  return Buffer.TYPED_ARRAY_SUPPORT
+    ? 0x7fffffff
+    : 0x3fffffff
+}
+
+function createBuffer (that, length) {
+  if (kMaxLength() < length) {
+    throw new RangeError('Invalid typed array length')
+  }
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = new Uint8Array(length)
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    if (that === null) {
+      that = new Buffer(length)
+    }
+    that.length = length
+  }
+
+  return that
+}
+
+/**
+ * The Buffer constructor returns instances of `Uint8Array` that have their
+ * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
+ * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
+ * and the `Uint8Array` methods. Square bracket notation works as expected -- it
+ * returns a single octet.
+ *
+ * The `Uint8Array` prototype remains unmodified.
+ */
+
+function Buffer (arg, encodingOrOffset, length) {
+  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
+    return new Buffer(arg, encodingOrOffset, length)
+  }
+
+  // Common case.
+  if (typeof arg === 'number') {
+    if (typeof encodingOrOffset === 'string') {
+      throw new Error(
+        'If encoding is specified then the first argument must be a string'
+      )
+    }
+    return allocUnsafe(this, arg)
+  }
+  return from(this, arg, encodingOrOffset, length)
+}
+
+Buffer.poolSize = 8192 // not used by this implementation
+
+// TODO: Legacy, not needed anymore. Remove in next major version.
+Buffer._augment = function (arr) {
+  arr.__proto__ = Buffer.prototype
+  return arr
+}
+
+function from (that, value, encodingOrOffset, length) {
+  if (typeof value === 'number') {
+    throw new TypeError('"value" argument must not be a number')
+  }
+
+  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+    return fromArrayBuffer(that, value, encodingOrOffset, length)
+  }
+
+  if (typeof value === 'string') {
+    return fromString(that, value, encodingOrOffset)
+  }
+
+  return fromObject(that, value)
+}
+
+/**
+ * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
+ * if value is a number.
+ * Buffer.from(str[, encoding])
+ * Buffer.from(array)
+ * Buffer.from(buffer)
+ * Buffer.from(arrayBuffer[, byteOffset[, length]])
+ **/
+Buffer.from = function (value, encodingOrOffset, length) {
+  return from(null, value, encodingOrOffset, length)
+}
+
+if (Buffer.TYPED_ARRAY_SUPPORT) {
+  Buffer.prototype.__proto__ = Uint8Array.prototype
+  Buffer.__proto__ = Uint8Array
+  if (typeof Symbol !== 'undefined' && Symbol.species &&
+      Buffer[Symbol.species] === Buffer) {
+    // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
+    Object.defineProperty(Buffer, Symbol.species, {
+      value: null,
+      configurable: true
+    })
+  }
+}
+
+function assertSize (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('"size" argument must be a number')
+  } else if (size < 0) {
+    throw new RangeError('"size" argument must not be negative')
+  }
+}
+
+function alloc (that, size, fill, encoding) {
+  assertSize(size)
+  if (size <= 0) {
+    return createBuffer(that, size)
+  }
+  if (fill !== undefined) {
+    // Only pay attention to encoding if it's a string. This
+    // prevents accidentally sending in a number that would
+    // be interpretted as a start offset.
+    return typeof encoding === 'string'
+      ? createBuffer(that, size).fill(fill, encoding)
+      : createBuffer(that, size).fill(fill)
+  }
+  return createBuffer(that, size)
+}
+
+/**
+ * Creates a new filled Buffer instance.
+ * alloc(size[, fill[, encoding]])
+ **/
+Buffer.alloc = function (size, fill, encoding) {
+  return alloc(null, size, fill, encoding)
+}
+
+function allocUnsafe (that, size) {
+  assertSize(size)
+  that = createBuffer(that, size < 0 ? 0 : checked(size) | 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+    for (var i = 0; i < size; ++i) {
+      that[i] = 0
+    }
+  }
+  return that
+}
+
+/**
+ * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
+ * */
+Buffer.allocUnsafe = function (size) {
+  return allocUnsafe(null, size)
+}
+/**
+ * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
+ */
+Buffer.allocUnsafeSlow = function (size) {
+  return allocUnsafe(null, size)
+}
+
+function fromString (that, string, encoding) {
+  if (typeof encoding !== 'string' || encoding === '') {
+    encoding = 'utf8'
+  }
+
+  if (!Buffer.isEncoding(encoding)) {
+    throw new TypeError('"encoding" must be a valid string encoding')
+  }
+
+  var length = byteLength(string, encoding) | 0
+  that = createBuffer(that, length)
+
+  var actual = that.write(string, encoding)
+
+  if (actual !== length) {
+    // Writing a hex string, for example, that contains invalid characters will
+    // cause everything after the first invalid character to be ignored. (e.g.
+    // 'abxxcd' will be treated as 'ab')
+    that = that.slice(0, actual)
+  }
+
+  return that
+}
+
+function fromArrayLike (that, array) {
+  var length = array.length < 0 ? 0 : checked(array.length) | 0
+  that = createBuffer(that, length)
+  for (var i = 0; i < length; i += 1) {
+    that[i] = array[i] & 255
+  }
+  return that
+}
+
+function fromArrayBuffer (that, array, byteOffset, length) {
+  array.byteLength // this throws if `array` is not a valid ArrayBuffer
+
+  if (byteOffset < 0 || array.byteLength < byteOffset) {
+    throw new RangeError('\'offset\' is out of bounds')
+  }
+
+  if (array.byteLength < byteOffset + (length || 0)) {
+    throw new RangeError('\'length\' is out of bounds')
+  }
+
+  if (byteOffset === undefined && length === undefined) {
+    array = new Uint8Array(array)
+  } else if (length === undefined) {
+    array = new Uint8Array(array, byteOffset)
+  } else {
+    array = new Uint8Array(array, byteOffset, length)
+  }
+
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = array
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    that = fromArrayLike(that, array)
+  }
+  return that
+}
+
+function fromObject (that, obj) {
+  if (Buffer.isBuffer(obj)) {
+    var len = checked(obj.length) | 0
+    that = createBuffer(that, len)
+
+    if (that.length === 0) {
+      return that
+    }
+
+    obj.copy(that, 0, 0, len)
+    return that
+  }
+
+  if (obj) {
+    if ((typeof ArrayBuffer !== 'undefined' &&
+        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
+      if (typeof obj.length !== 'number' || isnan(obj.length)) {
+        return createBuffer(that, 0)
+      }
+      return fromArrayLike(that, obj)
+    }
+
+    if (obj.type === 'Buffer' && isArray(obj.data)) {
+      return fromArrayLike(that, obj.data)
+    }
+  }
+
+  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
+}
+
+function checked (length) {
+  // Note: cannot use `length < kMaxLength()` here because that fails when
+  // length is NaN (which is otherwise coerced to zero.)
+  if (length >= kMaxLength()) {
+    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
+                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
+  }
+  return length | 0
+}
+
+function SlowBuffer (length) {
+  if (+length != length) { // eslint-disable-line eqeqeq
+    length = 0
+  }
+  return Buffer.alloc(+length)
+}
+
+Buffer.isBuffer = function isBuffer (b) {
+  return !!(b != null && b._isBuffer)
+}
+
+Buffer.compare = function compare (a, b) {
+  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
+    throw new TypeError('Arguments must be Buffers')
+  }
+
+  if (a === b) return 0
+
+  var x = a.length
+  var y = b.length
+
+  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+    if (a[i] !== b[i]) {
+      x = a[i]
+      y = b[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+Buffer.isEncoding = function isEncoding (encoding) {
+  switch (String(encoding).toLowerCase()) {
+    case 'hex':
+    case 'utf8':
+    case 'utf-8':
+    case 'ascii':
+    case 'latin1':
+    case 'binary':
+    case 'base64':
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      return true
+    default:
+      return false
+  }
+}
+
+Buffer.concat = function concat (list, length) {
+  if (!isArray(list)) {
+    throw new TypeError('"list" argument must be an Array of Buffers')
+  }
+
+  if (list.length === 0) {
+    return Buffer.alloc(0)
+  }
+
+  var i
+  if (length === undefined) {
+    length = 0
+    for (i = 0; i < list.length; ++i) {
+      length += list[i].length
+    }
+  }
+
+  var buffer = Buffer.allocUnsafe(length)
+  var pos = 0
+  for (i = 0; i < list.length; ++i) {
+    var buf = list[i]
+    if (!Buffer.isBuffer(buf)) {
+      throw new TypeError('"list" argument must be an Array of Buffers')
+    }
+    buf.copy(buffer, pos)
+    pos += buf.length
+  }
+  return buffer
+}
+
+function byteLength (string, encoding) {
+  if (Buffer.isBuffer(string)) {
+    return string.length
+  }
+  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
+      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
+    return string.byteLength
+  }
+  if (typeof string !== 'string') {
+    string = '' + string
+  }
+
+  var len = string.length
+  if (len === 0) return 0
+
+  // Use a for loop to avoid recursion
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'ascii':
+      case 'latin1':
+      case 'binary':
+        return len
+      case 'utf8':
+      case 'utf-8':
+      case undefined:
+        return utf8ToBytes(string).length
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return len * 2
+      case 'hex':
+        return len >>> 1
+      case 'base64':
+        return base64ToBytes(string).length
+      default:
+        if (loweredCase) return utf8ToBytes(string).length // assume utf8
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+Buffer.byteLength = byteLength
+
+function slowToString (encoding, start, end) {
+  var loweredCase = false
+
+  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+  // property of a typed array.
+
+  // This behaves neither like String nor Uint8Array in that we set start/end
+  // to their upper/lower bounds if the value passed is out of range.
+  // undefined is handled specially as per ECMA-262 6th Edition,
+  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
+  if (start === undefined || start < 0) {
+    start = 0
+  }
+  // Return early if start > this.length. Done here to prevent potential uint32
+  // coercion fail below.
+  if (start > this.length) {
+    return ''
+  }
+
+  if (end === undefined || end > this.length) {
+    end = this.length
+  }
+
+  if (end <= 0) {
+    return ''
+  }
+
+  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
+  end >>>= 0
+  start >>>= 0
+
+  if (end <= start) {
+    return ''
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  while (true) {
+    switch (encoding) {
+      case 'hex':
+        return hexSlice(this, start, end)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Slice(this, start, end)
+
+      case 'ascii':
+        return asciiSlice(this, start, end)
+
+      case 'latin1':
+      case 'binary':
+        return latin1Slice(this, start, end)
+
+      case 'base64':
+        return base64Slice(this, start, end)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return utf16leSlice(this, start, end)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = (encoding + '').toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
+// Buffer instances.
+Buffer.prototype._isBuffer = true
+
+function swap (b, n, m) {
+  var i = b[n]
+  b[n] = b[m]
+  b[m] = i
+}
+
+Buffer.prototype.swap16 = function swap16 () {
+  var len = this.length
+  if (len % 2 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 16-bits')
+  }
+  for (var i = 0; i < len; i += 2) {
+    swap(this, i, i + 1)
+  }
+  return this
+}
+
+Buffer.prototype.swap32 = function swap32 () {
+  var len = this.length
+  if (len % 4 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 32-bits')
+  }
+  for (var i = 0; i < len; i += 4) {
+    swap(this, i, i + 3)
+    swap(this, i + 1, i + 2)
+  }
+  return this
+}
+
+Buffer.prototype.swap64 = function swap64 () {
+  var len = this.length
+  if (len % 8 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 64-bits')
+  }
+  for (var i = 0; i < len; i += 8) {
+    swap(this, i, i + 7)
+    swap(this, i + 1, i + 6)
+    swap(this, i + 2, i + 5)
+    swap(this, i + 3, i + 4)
+  }
+  return this
+}
+
+Buffer.prototype.toString = function toString () {
+  var length = this.length | 0
+  if (length === 0) return ''
+  if (arguments.length === 0) return utf8Slice(this, 0, length)
+  return slowToString.apply(this, arguments)
+}
+
+Buffer.prototype.equals = function equals (b) {
+  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
+  if (this === b) return true
+  return Buffer.compare(this, b) === 0
+}
+
+Buffer.prototype.inspect = function inspect () {
+  var str = ''
+  var max = exports.INSPECT_MAX_BYTES
+  if (this.length > 0) {
+    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
+    if (this.length > max) str += ' ... '
+  }
+  return '<Buffer ' + str + '>'
+}
+
+Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
+  if (!Buffer.isBuffer(target)) {
+    throw new TypeError('Argument must be a Buffer')
+  }
+
+  if (start === undefined) {
+    start = 0
+  }
+  if (end === undefined) {
+    end = target ? target.length : 0
+  }
+  if (thisStart === undefined) {
+    thisStart = 0
+  }
+  if (thisEnd === undefined) {
+    thisEnd = this.length
+  }
+
+  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+    throw new RangeError('out of range index')
+  }
+
+  if (thisStart >= thisEnd && start >= end) {
+    return 0
+  }
+  if (thisStart >= thisEnd) {
+    return -1
+  }
+  if (start >= end) {
+    return 1
+  }
+
+  start >>>= 0
+  end >>>= 0
+  thisStart >>>= 0
+  thisEnd >>>= 0
+
+  if (this === target) return 0
+
+  var x = thisEnd - thisStart
+  var y = end - start
+  var len = Math.min(x, y)
+
+  var thisCopy = this.slice(thisStart, thisEnd)
+  var targetCopy = target.slice(start, end)
+
+  for (var i = 0; i < len; ++i) {
+    if (thisCopy[i] !== targetCopy[i]) {
+      x = thisCopy[i]
+      y = targetCopy[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
+// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
+//
+// Arguments:
+// - buffer - a Buffer to search
+// - val - a string, Buffer, or number
+// - byteOffset - an index into `buffer`; will be clamped to an int32
+// - encoding - an optional encoding, relevant is val is a string
+// - dir - true for indexOf, false for lastIndexOf
+function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
+  // Empty buffer means no match
+  if (buffer.length === 0) return -1
+
+  // Normalize byteOffset
+  if (typeof byteOffset === 'string') {
+    encoding = byteOffset
+    byteOffset = 0
+  } else if (byteOffset > 0x7fffffff) {
+    byteOffset = 0x7fffffff
+  } else if (byteOffset < -0x80000000) {
+    byteOffset = -0x80000000
+  }
+  byteOffset = +byteOffset  // Coerce to Number.
+  if (isNaN(byteOffset)) {
+    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+    byteOffset = dir ? 0 : (buffer.length - 1)
+  }
+
+  // Normalize byteOffset: negative offsets start from the end of the buffer
+  if (byteOffset < 0) byteOffset = buffer.length + byteOffset
+  if (byteOffset >= buffer.length) {
+    if (dir) return -1
+    else byteOffset = buffer.length - 1
+  } else if (byteOffset < 0) {
+    if (dir) byteOffset = 0
+    else return -1
+  }
+
+  // Normalize val
+  if (typeof val === 'string') {
+    val = Buffer.from(val, encoding)
+  }
+
+  // Finally, search either indexOf (if dir is true) or lastIndexOf
+  if (Buffer.isBuffer(val)) {
+    // Special case: looking for empty string/buffer always fails
+    if (val.length === 0) {
+      return -1
+    }
+    return arrayIndexOf(buffer, val, byteOffset, encoding, dir)
+  } else if (typeof val === 'number') {
+    val = val & 0xFF // Search for a byte value [0-255]
+    if (Buffer.TYPED_ARRAY_SUPPORT &&
+        typeof Uint8Array.prototype.indexOf === 'function') {
+      if (dir) {
+        return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset)
+      } else {
+        return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
+      }
+    }
+    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
+  }
+
+  throw new TypeError('val must be string, number or Buffer')
+}
+
+function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
+  var indexSize = 1
+  var arrLength = arr.length
+  var valLength = val.length
+
+  if (encoding !== undefined) {
+    encoding = String(encoding).toLowerCase()
+    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
+        encoding === 'utf16le' || encoding === 'utf-16le') {
+      if (arr.length < 2 || val.length < 2) {
+        return -1
+      }
+      indexSize = 2
+      arrLength /= 2
+      valLength /= 2
+      byteOffset /= 2
+    }
+  }
+
+  function read (buf, i) {
+    if (indexSize === 1) {
+      return buf[i]
+    } else {
+      return buf.readUInt16BE(i * indexSize)
+    }
+  }
+
+  var i
+  if (dir) {
+    var foundIndex = -1
+    for (i = byteOffset; i < arrLength; i++) {
+      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+        if (foundIndex === -1) foundIndex = i
+        if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
+      } else {
+        if (foundIndex !== -1) i -= i - foundIndex
+        foundIndex = -1
+      }
+    }
+  } else {
+    if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength
+    for (i = byteOffset; i >= 0; i--) {
+      var found = true
+      for (var j = 0; j < valLength; j++) {
+        if (read(arr, i + j) !== read(val, j)) {
+          found = false
+          break
+        }
+      }
+      if (found) return i
+    }
+  }
+
+  return -1
+}
+
+Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
+  return this.indexOf(val, byteOffset, encoding) !== -1
+}
+
+Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, true)
+}
+
+Buffer.prototype.lastIndexOf = function lastIndexOf (val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, false)
+}
+
+function hexWrite (buf, string, offset, length) {
+  offset = Number(offset) || 0
+  var remaining = buf.length - offset
+  if (!length) {
+    length = remaining
+  } else {
+    length = Number(length)
+    if (length > remaining) {
+      length = remaining
+    }
+  }
+
+  // must be an even number of digits
+  var strLen = string.length
+  if (strLen % 2 !== 0) throw new TypeError('Invalid hex string')
+
+  if (length > strLen / 2) {
+    length = strLen / 2
+  }
+  for (var i = 0; i < length; ++i) {
+    var parsed = parseInt(string.substr(i * 2, 2), 16)
+    if (isNaN(parsed)) return i
+    buf[offset + i] = parsed
+  }
+  return i
+}
+
+function utf8Write (buf, string, offset, length) {
+  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+function asciiWrite (buf, string, offset, length) {
+  return blitBuffer(asciiToBytes(string), buf, offset, length)
+}
+
+function latin1Write (buf, string, offset, length) {
+  return asciiWrite(buf, string, offset, length)
+}
+
+function base64Write (buf, string, offset, length) {
+  return blitBuffer(base64ToBytes(string), buf, offset, length)
+}
+
+function ucs2Write (buf, string, offset, length) {
+  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+Buffer.prototype.write = function write (string, offset, length, encoding) {
+  // Buffer#write(string)
+  if (offset === undefined) {
+    encoding = 'utf8'
+    length = this.length
+    offset = 0
+  // Buffer#write(string, encoding)
+  } else if (length === undefined && typeof offset === 'string') {
+    encoding = offset
+    length = this.length
+    offset = 0
+  // Buffer#write(string, offset[, length][, encoding])
+  } else if (isFinite(offset)) {
+    offset = offset | 0
+    if (isFinite(length)) {
+      length = length | 0
+      if (encoding === undefined) encoding = 'utf8'
+    } else {
+      encoding = length
+      length = undefined
+    }
+  // legacy write(string, encoding, offset, length) - remove in v0.13
+  } else {
+    throw new Error(
+      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
+    )
+  }
+
+  var remaining = this.length - offset
+  if (length === undefined || length > remaining) length = remaining
+
+  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
+    throw new RangeError('Attempt to write outside buffer bounds')
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'hex':
+        return hexWrite(this, string, offset, length)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Write(this, string, offset, length)
+
+      case 'ascii':
+        return asciiWrite(this, string, offset, length)
+
+      case 'latin1':
+      case 'binary':
+        return latin1Write(this, string, offset, length)
+
+      case 'base64':
+        // Warning: maxLength not taken into account in base64Write
+        return base64Write(this, string, offset, length)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return ucs2Write(this, string, offset, length)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+Buffer.prototype.toJSON = function toJSON () {
+  return {
+    type: 'Buffer',
+    data: Array.prototype.slice.call(this._arr || this, 0)
+  }
+}
+
+function base64Slice (buf, start, end) {
+  if (start === 0 && end === buf.length) {
+    return base64.fromByteArray(buf)
+  } else {
+    return base64.fromByteArray(buf.slice(start, end))
+  }
+}
+
+function utf8Slice (buf, start, end) {
+  end = Math.min(buf.length, end)
+  var res = []
+
+  var i = start
+  while (i < end) {
+    var firstByte = buf[i]
+    var codePoint = null
+    var bytesPerSequence = (firstByte > 0xEF) ? 4
+      : (firstByte > 0xDF) ? 3
+      : (firstByte > 0xBF) ? 2
+      : 1
+
+    if (i + bytesPerSequence <= end) {
+      var secondByte, thirdByte, fourthByte, tempCodePoint
+
+      switch (bytesPerSequence) {
+        case 1:
+          if (firstByte < 0x80) {
+            codePoint = firstByte
+          }
+          break
+        case 2:
+          secondByte = buf[i + 1]
+          if ((secondByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
+            if (tempCodePoint > 0x7F) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 3:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
+            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 4:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          fourthByte = buf[i + 3]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
+            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
+              codePoint = tempCodePoint
+            }
+          }
+      }
+    }
+
+    if (codePoint === null) {
+      // we did not generate a valid codePoint so insert a
+      // replacement char (U+FFFD) and advance only 1 byte
+      codePoint = 0xFFFD
+      bytesPerSequence = 1
+    } else if (codePoint > 0xFFFF) {
+      // encode to utf16 (surrogate pair dance)
+      codePoint -= 0x10000
+      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
+      codePoint = 0xDC00 | codePoint & 0x3FF
+    }
+
+    res.push(codePoint)
+    i += bytesPerSequence
+  }
+
+  return decodeCodePointsArray(res)
+}
+
+// Based on http://stackoverflow.com/a/22747272/680742, the browser with
+// the lowest limit is Chrome, with 0x10000 args.
+// We go 1 magnitude less, for safety
+var MAX_ARGUMENTS_LENGTH = 0x1000
+
+function decodeCodePointsArray (codePoints) {
+  var len = codePoints.length
+  if (len <= MAX_ARGUMENTS_LENGTH) {
+    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
+  }
+
+  // Decode in chunks to avoid "call stack size exceeded".
+  var res = ''
+  var i = 0
+  while (i < len) {
+    res += String.fromCharCode.apply(
+      String,
+      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
+    )
+  }
+  return res
+}
+
+function asciiSlice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; ++i) {
+    ret += String.fromCharCode(buf[i] & 0x7F)
+  }
+  return ret
+}
+
+function latin1Slice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; ++i) {
+    ret += String.fromCharCode(buf[i])
+  }
+  return ret
+}
+
+function hexSlice (buf, start, end) {
+  var len = buf.length
+
+  if (!start || start < 0) start = 0
+  if (!end || end < 0 || end > len) end = len
+
+  var out = ''
+  for (var i = start; i < end; ++i) {
+    out += toHex(buf[i])
+  }
+  return out
+}
+
+function utf16leSlice (buf, start, end) {
+  var bytes = buf.slice(start, end)
+  var res = ''
+  for (var i = 0; i < bytes.length; i += 2) {
+    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
+  }
+  return res
+}
+
+Buffer.prototype.slice = function slice (start, end) {
+  var len = this.length
+  start = ~~start
+  end = end === undefined ? len : ~~end
+
+  if (start < 0) {
+    start += len
+    if (start < 0) start = 0
+  } else if (start > len) {
+    start = len
+  }
+
+  if (end < 0) {
+    end += len
+    if (end < 0) end = 0
+  } else if (end > len) {
+    end = len
+  }
+
+  if (end < start) end = start
+
+  var newBuf
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    newBuf = this.subarray(start, end)
+    newBuf.__proto__ = Buffer.prototype
+  } else {
+    var sliceLen = end - start
+    newBuf = new Buffer(sliceLen, undefined)
+    for (var i = 0; i < sliceLen; ++i) {
+      newBuf[i] = this[i + start]
+    }
+  }
+
+  return newBuf
+}
+
+/*
+ * Need to make sure that buffer isn't trying to write out of bounds.
+ */
+function checkOffset (offset, ext, length) {
+  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
+  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
+}
+
+Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    checkOffset(offset, byteLength, this.length)
+  }
+
+  var val = this[offset + --byteLength]
+  var mul = 1
+  while (byteLength > 0 && (mul *= 0x100)) {
+    val += this[offset + --byteLength] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  return this[offset]
+}
+
+Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return this[offset] | (this[offset + 1] << 8)
+}
+
+Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return (this[offset] << 8) | this[offset + 1]
+}
+
+Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return ((this[offset]) |
+      (this[offset + 1] << 8) |
+      (this[offset + 2] << 16)) +
+      (this[offset + 3] * 0x1000000)
+}
+
+Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] * 0x1000000) +
+    ((this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    this[offset + 3])
+}
+
+Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var i = byteLength
+  var mul = 1
+  var val = this[offset + --i]
+  while (i > 0 && (mul *= 0x100)) {
+    val += this[offset + --i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  if (!(this[offset] & 0x80)) return (this[offset])
+  return ((0xff - this[offset] + 1) * -1)
+}
+
+Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset] | (this[offset + 1] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset + 1] | (this[offset] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset]) |
+    (this[offset + 1] << 8) |
+    (this[offset + 2] << 16) |
+    (this[offset + 3] << 24)
+}
+
+Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] << 24) |
+    (this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    (this[offset + 3])
+}
+
+Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, true, 23, 4)
+}
+
+Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, false, 23, 4)
+}
+
+Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, true, 52, 8)
+}
+
+Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, false, 52, 8)
+}
+
+function checkInt (buf, value, offset, ext, max, min) {
+  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
+  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+}
+
+Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var mul = 1
+  var i = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+function objectWriteUInt16 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; ++i) {
+    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
+      (littleEndian ? i : 1 - i) * 8
+  }
+}
+
+Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+function objectWriteUInt32 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffffffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; ++i) {
+    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
+  }
+}
+
+Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset + 3] = (value >>> 24)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 1] = (value >>> 8)
+    this[offset] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = 0
+  var mul = 1
+  var sub = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  var sub = 0
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  if (value < 0) value = 0xff + value + 1
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 3] = (value >>> 24)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (value < 0) value = 0xffffffff + value + 1
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+function checkIEEE754 (buf, value, offset, ext, max, min) {
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+  if (offset < 0) throw new RangeError('Index out of range')
+}
+
+function writeFloat (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 23, 4)
+  return offset + 4
+}
+
+Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, false, noAssert)
+}
+
+function writeDouble (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 52, 8)
+  return offset + 8
+}
+
+Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, false, noAssert)
+}
+
+// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+Buffer.prototype.copy = function copy (target, targetStart, start, end) {
+  if (!start) start = 0
+  if (!end && end !== 0) end = this.length
+  if (targetStart >= target.length) targetStart = target.length
+  if (!targetStart) targetStart = 0
+  if (end > 0 && end < start) end = start
+
+  // Copy 0 bytes; we're done
+  if (end === start) return 0
+  if (target.length === 0 || this.length === 0) return 0
+
+  // Fatal error conditions
+  if (targetStart < 0) {
+    throw new RangeError('targetStart out of bounds')
+  }
+  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
+  if (end < 0) throw new RangeError('sourceEnd out of bounds')
+
+  // Are we oob?
+  if (end > this.length) end = this.length
+  if (target.length - targetStart < end - start) {
+    end = target.length - targetStart + start
+  }
+
+  var len = end - start
+  var i
+
+  if (this === target && start < targetStart && targetStart < end) {
+    // descending copy from end
+    for (i = len - 1; i >= 0; --i) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
+    // ascending copy from start
+    for (i = 0; i < len; ++i) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else {
+    Uint8Array.prototype.set.call(
+      target,
+      this.subarray(start, start + len),
+      targetStart
+    )
+  }
+
+  return len
+}
+
+// Usage:
+//    buffer.fill(number[, offset[, end]])
+//    buffer.fill(buffer[, offset[, end]])
+//    buffer.fill(string[, offset[, end]][, encoding])
+Buffer.prototype.fill = function fill (val, start, end, encoding) {
+  // Handle string cases:
+  if (typeof val === 'string') {
+    if (typeof start === 'string') {
+      encoding = start
+      start = 0
+      end = this.length
+    } else if (typeof end === 'string') {
+      encoding = end
+      end = this.length
+    }
+    if (val.length === 1) {
+      var code = val.charCodeAt(0)
+      if (code < 256) {
+        val = code
+      }
+    }
+    if (encoding !== undefined && typeof encoding !== 'string') {
+      throw new TypeError('encoding must be a string')
+    }
+    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
+      throw new TypeError('Unknown encoding: ' + encoding)
+    }
+  } else if (typeof val === 'number') {
+    val = val & 255
+  }
+
+  // Invalid ranges are not set to a default, so can range check early.
+  if (start < 0 || this.length < start || this.length < end) {
+    throw new RangeError('Out of range index')
+  }
+
+  if (end <= start) {
+    return this
+  }
+
+  start = start >>> 0
+  end = end === undefined ? this.length : end >>> 0
+
+  if (!val) val = 0
+
+  var i
+  if (typeof val === 'number') {
+    for (i = start; i < end; ++i) {
+      this[i] = val
+    }
+  } else {
+    var bytes = Buffer.isBuffer(val)
+      ? val
+      : utf8ToBytes(new Buffer(val, encoding).toString())
+    var len = bytes.length
+    for (i = 0; i < end - start; ++i) {
+      this[i + start] = bytes[i % len]
+    }
+  }
+
+  return this
+}
+
+// HELPER FUNCTIONS
+// ================
+
+var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
+
+function base64clean (str) {
+  // Node strips out invalid characters like \n and \t from the string, base64-js does not
+  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
+  // Node converts strings with length < 2 to ''
+  if (str.length < 2) return ''
+  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
+  while (str.length % 4 !== 0) {
+    str = str + '='
+  }
+  return str
+}
+
+function stringtrim (str) {
+  if (str.trim) return str.trim()
+  return str.replace(/^\s+|\s+$/g, '')
+}
+
+function toHex (n) {
+  if (n < 16) return '0' + n.toString(16)
+  return n.toString(16)
+}
+
+function utf8ToBytes (string, units) {
+  units = units || Infinity
+  var codePoint
+  var length = string.length
+  var leadSurrogate = null
+  var bytes = []
+
+  for (var i = 0; i < length; ++i) {
+    codePoint = string.charCodeAt(i)
+
+    // is surrogate component
+    if (codePoint > 0xD7FF && codePoint < 0xE000) {
+      // last char was a lead
+      if (!leadSurrogate) {
+        // no lead yet
+        if (codePoint > 0xDBFF) {
+          // unexpected trail
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        } else if (i + 1 === length) {
+          // unpaired lead
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        }
+
+        // valid lead
+        leadSurrogate = codePoint
+
+        continue
+      }
+
+      // 2 leads in a row
+      if (codePoint < 0xDC00) {
+        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+        leadSurrogate = codePoint
+        continue
+      }
+
+      // valid surrogate pair
+      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
+    } else if (leadSurrogate) {
+      // valid bmp char, but last char was a lead
+      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+    }
+
+    leadSurrogate = null
+
+    // encode utf8
+    if (codePoint < 0x80) {
+      if ((units -= 1) < 0) break
+      bytes.push(codePoint)
+    } else if (codePoint < 0x800) {
+      if ((units -= 2) < 0) break
+      bytes.push(
+        codePoint >> 0x6 | 0xC0,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x10000) {
+      if ((units -= 3) < 0) break
+      bytes.push(
+        codePoint >> 0xC | 0xE0,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x110000) {
+      if ((units -= 4) < 0) break
+      bytes.push(
+        codePoint >> 0x12 | 0xF0,
+        codePoint >> 0xC & 0x3F | 0x80,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else {
+      throw new Error('Invalid code point')
+    }
+  }
+
+  return bytes
+}
+
+function asciiToBytes (str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; ++i) {
+    // Node's code seems to be doing this and not & 0x7F..
+    byteArray.push(str.charCodeAt(i) & 0xFF)
+  }
+  return byteArray
+}
+
+function utf16leToBytes (str, units) {
+  var c, hi, lo
+  var byteArray = []
+  for (var i = 0; i < str.length; ++i) {
+    if ((units -= 2) < 0) break
+
+    c = str.charCodeAt(i)
+    hi = c >> 8
+    lo = c % 256
+    byteArray.push(lo)
+    byteArray.push(hi)
+  }
+
+  return byteArray
+}
+
+function base64ToBytes (str) {
+  return base64.toByteArray(base64clean(str))
+}
+
+function blitBuffer (src, dst, offset, length) {
+  for (var i = 0; i < length; ++i) {
+    if ((i + offset >= dst.length) || (i >= src.length)) break
+    dst[i + offset] = src[i]
+  }
+  return i
+}
+
+function isnan (val) {
+  return val !== val // eslint-disable-line no-self-compare
+}
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ 3)))
+
+/***/ }),
+/* 66 */
+/*!*****************************************!*\
+  !*** ./node_modules/base64-js/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
+}
+
+// Support decoding URL-safe base64 strings, as Node.js does.
+// See: https://en.wikipedia.org/wiki/Base64#URL_applications
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function getLens (b64) {
+  var len = b64.length
+
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // Trim off extra bytes after placeholder bytes are found
+  // See: https://github.com/beatgammit/base64-js/issues/42
+  var validLen = b64.indexOf('=')
+  if (validLen === -1) validLen = len
+
+  var placeHoldersLen = validLen === len
+    ? 0
+    : 4 - (validLen % 4)
+
+  return [validLen, placeHoldersLen]
+}
+
+// base64 is 4/3 + up to two characters of the original data
+function byteLength (b64) {
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function _byteLength (b64, validLen, placeHoldersLen) {
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function toByteArray (b64) {
+  var tmp
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+
+  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
+
+  var curByte = 0
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  var len = placeHoldersLen > 0
+    ? validLen - 4
+    : validLen
+
+  var i
+  for (i = 0; i < len; i += 4) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 18) |
+      (revLookup[b64.charCodeAt(i + 1)] << 12) |
+      (revLookup[b64.charCodeAt(i + 2)] << 6) |
+      revLookup[b64.charCodeAt(i + 3)]
+    arr[curByte++] = (tmp >> 16) & 0xFF
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 2) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 2) |
+      (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 1) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 10) |
+      (revLookup[b64.charCodeAt(i + 1)] << 4) |
+      (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] +
+    lookup[num >> 12 & 0x3F] +
+    lookup[num >> 6 & 0x3F] +
+    lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp =
+      ((uint8[i] << 16) & 0xFF0000) +
+      ((uint8[i + 1] << 8) & 0xFF00) +
+      (uint8[i + 2] & 0xFF)
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 2] +
+      lookup[(tmp << 4) & 0x3F] +
+      '=='
+    )
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 10] +
+      lookup[(tmp >> 4) & 0x3F] +
+      lookup[(tmp << 2) & 0x3F] +
+      '='
+    )
+  }
+
+  return parts.join('')
+}
+
+
+/***/ }),
+/* 67 */
+/*!***************************************!*\
+  !*** ./node_modules/ieee754/index.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = (nBytes * 8) - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = (nBytes * 8) - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = ((value * c) - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+
+/***/ }),
+/* 68 */
+/*!***************************************!*\
+  !*** ./node_modules/isarray/index.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+/* 69 */
+/*!***********************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/util/route.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
+/**
+ * 路由跳转方法，该方法相对于直接使用uni.xxx的好处是使用更加简单快捷
+ * 并且带有路由拦截功能
+ */
+var Router = /*#__PURE__*/function () {
+  function Router() {
+    (0, _classCallCheck2.default)(this, Router);
+    // 原始属性定义
+    this.config = {
+      type: 'navigateTo',
+      url: '',
+      delta: 1,
+      // navigateBack页面后退时,回退的层数
+      params: {},
+      // 传递的参数
+      animationType: 'pop-in',
+      // 窗口动画,只在APP有效
+      animationDuration: 300,
+      // 窗口动画持续时间,单位毫秒,只在APP有效
+      intercept: false // 是否需要拦截
+    };
+    // 因为route方法是需要对外赋值给另外的对象使用，同时route内部有使用this，会导致route失去上下文
+    // 这里在构造函数中进行this绑定
+    this.route = this.route.bind(this);
+  }
+
+  // 判断url前面是否有"/"，如果没有则加上，否则无法跳转
+  (0, _createClass2.default)(Router, [{
+    key: "addRootPath",
+    value: function addRootPath(url) {
+      return url[0] === '/' ? url : "/".concat(url);
+    }
+
+    // 整合路由参数
+  }, {
+    key: "mixinParam",
+    value: function mixinParam(url, params) {
+      url = url && this.addRootPath(url);
+
+      // 使用正则匹配，主要依据是判断是否有"/","?","="等，如“/page/index/index?name=mary"
+      // 如果有url中有get参数，转换后无需带上"?"
+      var query = '';
+      if (/.*\/.*\?.*=.*/.test(url)) {
+        // object对象转为get类型的参数
+        query = uni.$u.queryParams(params, false);
+        // 因为已有get参数,所以后面拼接的参数需要带上"&"隔开
+        return url += "&".concat(query);
+      }
+      // 直接拼接参数，因为此处url中没有后面的query参数，也就没有"?/&"之类的符号
+      query = uni.$u.queryParams(params);
+      return url += query;
+    }
+
+    // 对外的方法名称
+  }, {
+    key: "route",
+    value: function () {
+      var _route = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+        var options,
+          params,
+          mergeConfig,
+          isNext,
+          _args = arguments;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                options = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};
+                params = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+                // 合并用户的配置和内部的默认配置
+                mergeConfig = {};
+                if (typeof options === 'string') {
+                  // 如果options为字符串，则为route(url, params)的形式
+                  mergeConfig.url = this.mixinParam(options, params);
+                  mergeConfig.type = 'navigateTo';
+                } else {
+                  mergeConfig = uni.$u.deepMerge(this.config, options);
+                  // 否则正常使用mergeConfig中的url和params进行拼接
+                  mergeConfig.url = this.mixinParam(options.url, options.params);
+                }
+
+                // 如果本次跳转的路径和本页面路径一致，不执行跳转，防止用户快速点击跳转按钮，造成多次跳转同一个页面的问题
+                if (!(mergeConfig.url === uni.$u.page())) {
+                  _context.next = 6;
+                  break;
+                }
+                return _context.abrupt("return");
+              case 6:
+                if (params.intercept) {
+                  this.config.intercept = params.intercept;
+                }
+                // params参数也带给拦截器
+                mergeConfig.params = params;
+                // 合并内外部参数
+                mergeConfig = uni.$u.deepMerge(this.config, mergeConfig);
+                // 判断用户是否定义了拦截器
+                if (!(typeof uni.$u.routeIntercept === 'function')) {
+                  _context.next = 16;
+                  break;
+                }
+                _context.next = 12;
+                return new Promise(function (resolve, reject) {
+                  uni.$u.routeIntercept(mergeConfig, resolve);
+                });
+              case 12:
+                isNext = _context.sent;
+                // 如果isNext为true，则执行路由跳转
+                isNext && this.openPage(mergeConfig);
+                _context.next = 17;
+                break;
+              case 16:
+                this.openPage(mergeConfig);
+              case 17:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+      function route() {
+        return _route.apply(this, arguments);
+      }
+      return route;
+    }() // 执行路由跳转
+  }, {
+    key: "openPage",
+    value: function openPage(config) {
+      // 解构参数
+      var url = config.url,
+        type = config.type,
+        delta = config.delta,
+        animationType = config.animationType,
+        animationDuration = config.animationDuration;
+      if (config.type == 'navigateTo' || config.type == 'to') {
+        uni.navigateTo({
+          url: url,
+          animationType: animationType,
+          animationDuration: animationDuration
+        });
+      }
+      if (config.type == 'redirectTo' || config.type == 'redirect') {
+        uni.redirectTo({
+          url: url
+        });
+      }
+      if (config.type == 'switchTab' || config.type == 'tab') {
+        uni.switchTab({
+          url: url
+        });
+      }
+      if (config.type == 'reLaunch' || config.type == 'launch') {
+        uni.reLaunch({
+          url: url
+        });
+      }
+      if (config.type == 'navigateBack' || config.type == 'back') {
+        uni.navigateBack({
+          delta: delta
+        });
+      }
+    }
+  }]);
+  return Router;
+}();
+var _default = new Router().route;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 70 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/colorGradient.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/**
+ * 求两个颜色之间的渐变值
+ * @param {string} startColor 开始的颜色
+ * @param {string} endColor 结束的颜色
+ * @param {number} step 颜色等分的份额
+ * */
+function colorGradient() {
+  var startColor = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'rgb(0, 0, 0)';
+  var endColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'rgb(255, 255, 255)';
+  var step = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
+  var startRGB = hexToRgb(startColor, false); // 转换为rgb数组模式
+  var startR = startRGB[0];
+  var startG = startRGB[1];
+  var startB = startRGB[2];
+  var endRGB = hexToRgb(endColor, false);
+  var endR = endRGB[0];
+  var endG = endRGB[1];
+  var endB = endRGB[2];
+  var sR = (endR - startR) / step; // 总差值
+  var sG = (endG - startG) / step;
+  var sB = (endB - startB) / step;
+  var colorArr = [];
+  for (var i = 0; i < step; i++) {
+    // 计算每一步的hex值
+    var hex = rgbToHex("rgb(".concat(Math.round(sR * i + startR), ",").concat(Math.round(sG * i + startG), ",").concat(Math.round(sB * i + startB), ")"));
+    // 确保第一个颜色值为startColor的值
+    if (i === 0) hex = rgbToHex(startColor);
+    // 确保最后一个颜色值为endColor的值
+    if (i === step - 1) hex = rgbToHex(endColor);
+    colorArr.push(hex);
+  }
+  return colorArr;
+}
+
+// 将hex表示方式转换为rgb表示方式(这里返回rgb数组模式)
+function hexToRgb(sColor) {
+  var str = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+  sColor = String(sColor).toLowerCase();
+  if (sColor && reg.test(sColor)) {
+    if (sColor.length === 4) {
+      var sColorNew = '#';
+      for (var i = 1; i < 4; i += 1) {
+        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
+      }
+      sColor = sColorNew;
+    }
+    // 处理六位的颜色值
+    var sColorChange = [];
+    for (var _i = 1; _i < 7; _i += 2) {
+      sColorChange.push(parseInt("0x".concat(sColor.slice(_i, _i + 2))));
+    }
+    if (!str) {
+      return sColorChange;
+    }
+    return "rgb(".concat(sColorChange[0], ",").concat(sColorChange[1], ",").concat(sColorChange[2], ")");
+  }
+  if (/^(rgb|RGB)/.test(sColor)) {
+    var arr = sColor.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',');
+    return arr.map(function (val) {
+      return Number(val);
+    });
+  }
+  return sColor;
+}
+
+// 将rgb表示方式转换为hex表示方式
+function rgbToHex(rgb) {
+  var _this = rgb;
+  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+  if (/^(rgb|RGB)/.test(_this)) {
+    var aColor = _this.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',');
+    var strHex = '#';
+    for (var i = 0; i < aColor.length; i++) {
+      var hex = Number(aColor[i]).toString(16);
+      hex = String(hex).length == 1 ? "".concat(0, hex) : hex; // 保证每个rgb的值为2位
+      if (hex === '0') {
+        hex += hex;
+      }
+      strHex += hex;
+    }
+    if (strHex.length !== 7) {
+      strHex = _this;
+    }
+    return strHex;
+  }
+  if (reg.test(_this)) {
+    var aNum = _this.replace(/#/, '').split('');
+    if (aNum.length === 6) {
+      return _this;
+    }
+    if (aNum.length === 3) {
+      var numHex = '#';
+      for (var _i2 = 0; _i2 < aNum.length; _i2 += 1) {
+        numHex += aNum[_i2] + aNum[_i2];
+      }
+      return numHex;
+    }
+  } else {
+    return _this;
+  }
+}
+
+/**
+* JS颜色十六进制转换为rgb或rgba,返回的格式为 rgba（255，255，255，0.5）字符串
+* sHex为传入的十六进制的色值
+* alpha为rgba的透明度
+*/
+function colorToRgba(color, alpha) {
+  color = rgbToHex(color);
+  // 十六进制颜色值的正则表达式
+  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+  /* 16进制颜色转为RGB格式 */
+  var sColor = String(color).toLowerCase();
+  if (sColor && reg.test(sColor)) {
+    if (sColor.length === 4) {
+      var sColorNew = '#';
+      for (var i = 1; i < 4; i += 1) {
+        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
+      }
+      sColor = sColorNew;
+    }
+    // 处理六位的颜色值
+    var sColorChange = [];
+    for (var _i3 = 1; _i3 < 7; _i3 += 2) {
+      sColorChange.push(parseInt("0x".concat(sColor.slice(_i3, _i3 + 2))));
+    }
+    // return sColorChange.join(',')
+    return "rgba(".concat(sColorChange.join(','), ",").concat(alpha, ")");
+  }
+  return sColor;
+}
+var _default = {
+  colorGradient: colorGradient,
+  hexToRgb: hexToRgb,
+  rgbToHex: rgbToHex,
+  colorToRgba: colorToRgba
+};
+exports.default = _default;
+
+/***/ }),
+/* 71 */
+/*!**************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/test.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
+/**
+ * 验证电子邮箱格式
+ */
+function email(value) {
+  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value);
+}
+
+/**
+ * 验证手机格式
+ */
+function mobile(value) {
+  return /^1([3589]\d|4[5-9]|6[1-2,4-7]|7[0-8])\d{8}$/.test(value);
+}
+
+/**
+ * 验证URL格式
+ */
+function url(value) {
+  return /^((https|http|ftp|rtsp|mms):\/\/)(([0-9a-zA-Z_!~*'().&=+$%-]+: )?[0-9a-zA-Z_!~*'().&=+$%-]+@)?(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z].[a-zA-Z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9a-zA-Z_!~*'().;?:@&=+$,%#-]+)+\/?)$/.test(value);
+}
+
+/**
+ * 验证日期格式
+ */
+function date(value) {
+  if (!value) return false;
+  // 判断是否数值或者字符串数值(意味着为时间戳)，转为数值，否则new Date无法识别字符串时间戳
+  if (number(value)) value = +value;
+  return !/Invalid|NaN/.test(new Date(value).toString());
+}
+
+/**
+ * 验证ISO类型的日期格式
+ */
+function dateISO(value) {
+  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value);
+}
+
+/**
+ * 验证十进制数字
+ */
+function number(value) {
+  return /^[\+-]?(\d+\.?\d*|\.\d+|\d\.\d+e\+\d+)$/.test(value);
+}
+
+/**
+ * 验证字符串
+ */
+function string(value) {
+  return typeof value === 'string';
+}
+
+/**
+ * 验证整数
+ */
+function digits(value) {
+  return /^\d+$/.test(value);
+}
+
+/**
+ * 验证身份证号码
+ */
+function idCard(value) {
+  return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(value);
+}
+
+/**
+ * 是否车牌号
+ */
+function carNo(value) {
+  // 新能源车牌
+  var xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/;
+  // 旧车牌
+  var creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/;
+  if (value.length === 7) {
+    return creg.test(value);
+  }
+  if (value.length === 8) {
+    return xreg.test(value);
+  }
+  return false;
+}
+
+/**
+ * 金额,只允许2位小数
+ */
+function amount(value) {
+  // 金额，只允许保留两位小数
+  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value);
+}
+
+/**
+ * 中文
+ */
+function chinese(value) {
+  var reg = /^[\u4e00-\u9fa5]+$/gi;
+  return reg.test(value);
+}
+
+/**
+ * 只能输入字母
+ */
+function letter(value) {
+  return /^[a-zA-Z]*$/.test(value);
+}
+
+/**
+ * 只能是字母或者数字
+ */
+function enOrNum(value) {
+  // 英文或者数字
+  var reg = /^[0-9a-zA-Z]*$/g;
+  return reg.test(value);
+}
+
+/**
+ * 验证是否包含某个值
+ */
+function contains(value, param) {
+  return value.indexOf(param) >= 0;
+}
+
+/**
+ * 验证一个值范围[min, max]
+ */
+function range(value, param) {
+  return value >= param[0] && value <= param[1];
+}
+
+/**
+ * 验证一个长度范围[min, max]
+ */
+function rangeLength(value, param) {
+  return value.length >= param[0] && value.length <= param[1];
+}
+
+/**
+ * 是否固定电话
+ */
+function landline(value) {
+  var reg = /^\d{3,4}-\d{7,8}(-\d{3,4})?$/;
+  return reg.test(value);
+}
+
+/**
+ * 判断是否为空
+ */
+function empty(value) {
+  switch ((0, _typeof2.default)(value)) {
+    case 'undefined':
+      return true;
+    case 'string':
+      if (value.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) return true;
+      break;
+    case 'boolean':
+      if (!value) return true;
+      break;
+    case 'number':
+      if (value === 0 || isNaN(value)) return true;
+      break;
+    case 'object':
+      if (value === null || value.length === 0) return true;
+      for (var i in value) {
+        return false;
+      }
+      return true;
+  }
+  return false;
+}
+
+/**
+ * 是否json字符串
+ */
+function jsonString(value) {
+  if (typeof value === 'string') {
+    try {
+      var obj = JSON.parse(value);
+      if ((0, _typeof2.default)(obj) === 'object' && obj) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+  return false;
+}
+
+/**
+ * 是否数组
+ */
+function array(value) {
+  if (typeof Array.isArray === 'function') {
+    return Array.isArray(value);
+  }
+  return Object.prototype.toString.call(value) === '[object Array]';
+}
+
+/**
+ * 是否对象
+ */
+function object(value) {
+  return Object.prototype.toString.call(value) === '[object Object]';
+}
+
+/**
+ * 是否短信验证码
+ */
+function code(value) {
+  var len = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
+  return new RegExp("^\\d{".concat(len, "}$")).test(value);
+}
+
+/**
+ * 是否函数方法
+ * @param {Object} value
+ */
+function func(value) {
+  return typeof value === 'function';
+}
+
+/**
+ * 是否promise对象
+ * @param {Object} value
+ */
+function promise(value) {
+  return object(value) && func(value.then) && func(value.catch);
+}
+
+/** 是否图片格式
+ * @param {Object} value
+ */
+function image(value) {
+  var newValue = value.split('?')[0];
+  var IMAGE_REGEXP = /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i;
+  return IMAGE_REGEXP.test(newValue);
+}
+
+/**
+ * 是否视频格式
+ * @param {Object} value
+ */
+function video(value) {
+  var VIDEO_REGEXP = /\.(mp4|mpg|mpeg|dat|asf|avi|rm|rmvb|mov|wmv|flv|mkv|m3u8)/i;
+  return VIDEO_REGEXP.test(value);
+}
+
+/**
+ * 是否为正则对象
+ * @param {Object}
+ * @return {Boolean}
+ */
+function regExp(o) {
+  return o && Object.prototype.toString.call(o) === '[object RegExp]';
+}
+var _default = {
+  email: email,
+  mobile: mobile,
+  url: url,
+  date: date,
+  dateISO: dateISO,
+  number: number,
+  digits: digits,
+  idCard: idCard,
+  carNo: carNo,
+  amount: amount,
+  chinese: chinese,
+  letter: letter,
+  enOrNum: enOrNum,
+  contains: contains,
+  range: range,
+  rangeLength: rangeLength,
+  empty: empty,
+  isEmpty: empty,
+  jsonString: jsonString,
+  landline: landline,
+  object: object,
+  array: array,
+  code: code,
+  func: func,
+  promise: promise,
+  video: video,
+  image: image,
+  regExp: regExp,
+  string: string
+};
+exports.default = _default;
+
+/***/ }),
+/* 72 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/debounce.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var timeout = null;
+
+/**
+ * 防抖原理：一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
+ *
+ * @param {Function} func 要执行的回调函数
+ * @param {Number} wait 延时的时间
+ * @param {Boolean} immediate 是否立即执行
+ * @return null
+ */
+function debounce(func) {
+  var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
+  var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  // 清除定时器
+  if (timeout !== null) clearTimeout(timeout);
+  // 立即执行，此类情况一般用不到
+  if (immediate) {
+    var callNow = !timeout;
+    timeout = setTimeout(function () {
+      timeout = null;
+    }, wait);
+    if (callNow) typeof func === 'function' && func();
+  } else {
+    // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+    timeout = setTimeout(function () {
+      typeof func === 'function' && func();
+    }, wait);
+  }
+}
+var _default = debounce;
+exports.default = _default;
+
+/***/ }),
+/* 73 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/throttle.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var timer;
+var flag;
+/**
+ * 节流原理：在一定时间内，只能触发一次
+ *
+ * @param {Function} func 要执行的回调函数
+ * @param {Number} wait 延时的时间
+ * @param {Boolean} immediate 是否立即执行
+ * @return null
+ */
+function throttle(func) {
+  var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
+  var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+  if (immediate) {
+    if (!flag) {
+      flag = true;
+      // 如果是立即执行，则在wait毫秒内开始时执行
+      typeof func === 'function' && func();
+      timer = setTimeout(function () {
+        flag = false;
+      }, wait);
+    }
+  } else if (!flag) {
+    flag = true;
+    // 如果是非立即执行，则在wait毫秒内的结束处执行
+    timer = setTimeout(function () {
+      flag = false;
+      typeof func === 'function' && func();
+    }, wait);
+  }
+}
+var _default = throttle;
+exports.default = _default;
+
+/***/ }),
+/* 74 */
+/*!***************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/index.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
+var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
+var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 71));
+var _digit = __webpack_require__(/*! ./digit.js */ 75);
+/**
+ * @description 如果value小于min，取min；如果value大于max，取max
+ * @param {number} min
+ * @param {number} max
+ * @param {number} value
+ */
+function range() {
+  var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  return Math.max(min, Math.min(max, Number(value)));
+}
+
+/**
+ * @description 用于获取用户传递值的px值  如果用户传递了"xxpx"或者"xxrpx"，取出其数值部分，如果是"xxxrpx"还需要用过uni.upx2px进行转换
+ * @param {number|string} value 用户传递值的px值
+ * @param {boolean} unit
+ * @returns {number|string}
+ */
+function getPx(value) {
+  var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  if (_test.default.number(value)) {
+    return unit ? "".concat(value, "px") : Number(value);
+  }
+  // 如果带有rpx，先取出其数值部分，再转为px值
+  if (/(rpx|upx)$/.test(value)) {
+    return unit ? "".concat(uni.upx2px(parseInt(value)), "px") : Number(uni.upx2px(parseInt(value)));
+  }
+  return unit ? "".concat(parseInt(value), "px") : parseInt(value);
+}
+
+/**
+ * @description 进行延时，以达到可以简写代码的目的 比如: await uni.$u.sleep(20)将会阻塞20ms
+ * @param {number} value 堵塞时间 单位ms 毫秒
+ * @returns {Promise} 返回promise
+ */
+function sleep() {
+  var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30;
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve();
+    }, value);
+  });
+}
+/**
+ * @description 运行期判断平台
+ * @returns {string} 返回所在平台(小写)
+ * @link 运行期判断平台 https://uniapp.dcloud.io/frame?id=判断平台
+ */
+function os() {
+  return uni.getSystemInfoSync().platform.toLowerCase();
+}
+/**
+ * @description 获取系统信息同步接口
+ * @link 获取系统信息同步接口 https://uniapp.dcloud.io/api/system/info?id=getsysteminfosync
+ */
+function sys() {
+  return uni.getSystemInfoSync();
+}
+
+/**
+ * @description 取一个区间数
+ * @param {Number} min 最小值
+ * @param {Number} max 最大值
+ */
+function random(min, max) {
+  if (min >= 0 && max > 0 && max >= min) {
+    var gab = max - min + 1;
+    return Math.floor(Math.random() * gab + min);
+  }
+  return 0;
+}
+
+/**
+ * @param {Number} len uuid的长度
+ * @param {Boolean} firstU 将返回的首字母置为"u"
+ * @param {Nubmer} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
+ */
+function guid() {
+  var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;
+  var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  var uuid = [];
+  radix = radix || chars.length;
+  if (len) {
+    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
+    for (var i = 0; i < len; i++) {
+      uuid[i] = chars[0 | Math.random() * radix];
+    }
+  } else {
+    var r;
+    // rfc4122标准要求返回的uuid中,某些位为固定的字符
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+    uuid[14] = '4';
+    for (var _i = 0; _i < 36; _i++) {
+      if (!uuid[_i]) {
+        r = 0 | Math.random() * 16;
+        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
+      }
+    }
+  }
+  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guuid不能用作id或者class
+  if (firstU) {
+    uuid.shift();
+    return "u".concat(uuid.join(''));
+  }
+  return uuid.join('');
+}
+
+/**
+* @description 获取父组件的参数，因为支付宝小程序不支持provide/inject的写法
+   this.$parent在非H5中，可以准确获取到父组件，但是在H5中，需要多次this.$parent.$parent.xxx
+   这里默认值等于undefined有它的含义，因为最顶层元素(组件)的$parent就是undefined，意味着不传name
+   值(默认为undefined)，就是查找最顶层的$parent
+*  @param {string|undefined} name 父组件的参数名
+*/
+function $parent() {
+  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+  var parent = this.$parent;
+  // 通过while历遍，这里主要是为了H5需要多层解析的问题
+  while (parent) {
+    // 父组件
+    if (parent.$options && parent.$options.name !== name) {
+      // 如果组件的name不相等，继续上一级寻找
+      parent = parent.$parent;
+    } else {
+      return parent;
+    }
+  }
+  return false;
+}
+
+/**
+ * @description 样式转换
+ * 对象转字符串，或者字符串转对象
+ * @param {object | string} customStyle 需要转换的目标
+ * @param {String} target 转换的目的，object-转为对象，string-转为字符串
+ * @returns {object|string}
+ */
+function addStyle(customStyle) {
+  var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'object';
+  // 字符串转字符串，对象转对象情形，直接返回
+  if (_test.default.empty(customStyle) || (0, _typeof2.default)(customStyle) === 'object' && target === 'object' || target === 'string' && typeof customStyle === 'string') {
+    return customStyle;
+  }
+  // 字符串转对象
+  if (target === 'object') {
+    // 去除字符串样式中的两端空格(中间的空格不能去掉，比如padding: 20px 0如果去掉了就错了)，空格是无用的
+    customStyle = trim(customStyle);
+    // 根据";"将字符串转为数组形式
+    var styleArray = customStyle.split(';');
+    var style = {};
+    // 历遍数组，拼接成对象
+    for (var i = 0; i < styleArray.length; i++) {
+      // 'font-size:20px;color:red;'，如此最后字符串有";"的话，会导致styleArray最后一个元素为空字符串，这里需要过滤
+      if (styleArray[i]) {
+        var item = styleArray[i].split(':');
+        style[trim(item[0])] = trim(item[1]);
+      }
+    }
+    return style;
+  }
+  // 这里为对象转字符串形式
+  var string = '';
+  for (var _i2 in customStyle) {
+    // 驼峰转为中划线的形式，否则css内联样式，无法识别驼峰样式属性名
+    var key = _i2.replace(/([A-Z])/g, '-$1').toLowerCase();
+    string += "".concat(key, ":").concat(customStyle[_i2], ";");
+  }
+  // 去除两端空格
+  return trim(string);
+}
+
+/**
+ * @description 添加单位，如果有rpx，upx，%，px等单位结尾或者值为auto，直接返回，否则加上px单位结尾
+ * @param {string|number} value 需要添加单位的值
+ * @param {string} unit 添加的单位名 比如px
+ */
+function addUnit() {
+  var _uni$$u$config$unit, _uni, _uni$$u, _uni$$u$config;
+  var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'auto';
+  var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (_uni$$u$config$unit = (_uni = uni) === null || _uni === void 0 ? void 0 : (_uni$$u = _uni.$u) === null || _uni$$u === void 0 ? void 0 : (_uni$$u$config = _uni$$u.config) === null || _uni$$u$config === void 0 ? void 0 : _uni$$u$config.unit) !== null && _uni$$u$config$unit !== void 0 ? _uni$$u$config$unit : 'px';
+  value = String(value);
+  // 用uView内置验证规则中的number判断是否为数值
+  return _test.default.number(value) ? "".concat(value).concat(unit) : value;
+}
+
+/**
+ * @description 深度克隆
+ * @param {object} obj 需要深度克隆的对象
+ * @param cache 缓存
+ * @returns {*} 克隆后的对象或者原值（不是对象）
+ */
+function deepClone(obj) {
+  var cache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new WeakMap();
+  if (obj === null || (0, _typeof2.default)(obj) !== 'object') return obj;
+  if (cache.has(obj)) return cache.get(obj);
+  var clone;
+  if (obj instanceof Date) {
+    clone = new Date(obj.getTime());
+  } else if (obj instanceof RegExp) {
+    clone = new RegExp(obj);
+  } else if (obj instanceof Map) {
+    clone = new Map(Array.from(obj, function (_ref) {
+      var _ref2 = (0, _slicedToArray2.default)(_ref, 2),
+        key = _ref2[0],
+        value = _ref2[1];
+      return [key, deepClone(value, cache)];
+    }));
+  } else if (obj instanceof Set) {
+    clone = new Set(Array.from(obj, function (value) {
+      return deepClone(value, cache);
+    }));
+  } else if (Array.isArray(obj)) {
+    clone = obj.map(function (value) {
+      return deepClone(value, cache);
+    });
+  } else if (Object.prototype.toString.call(obj) === '[object Object]') {
+    clone = Object.create(Object.getPrototypeOf(obj));
+    cache.set(obj, clone);
+    for (var _i3 = 0, _Object$entries = Object.entries(obj); _i3 < _Object$entries.length; _i3++) {
+      var _Object$entries$_i = (0, _slicedToArray2.default)(_Object$entries[_i3], 2),
+        key = _Object$entries$_i[0],
+        value = _Object$entries$_i[1];
+      clone[key] = deepClone(value, cache);
+    }
+  } else {
+    clone = Object.assign({}, obj);
+  }
+  cache.set(obj, clone);
+  return clone;
+}
+
+/**
+ * @description JS对象深度合并
+ * @param {object} target 需要拷贝的对象
+ * @param {object} source 拷贝的来源对象
+ * @returns {object|boolean} 深度合并后的对象或者false（入参有不是对象）
+ */
+function deepMerge() {
+  var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  target = deepClone(target);
+  if ((0, _typeof2.default)(target) !== 'object' || target === null || (0, _typeof2.default)(source) !== 'object' || source === null) return target;
+  var merged = Array.isArray(target) ? target.slice() : Object.assign({}, target);
+  for (var prop in source) {
+    if (!source.hasOwnProperty(prop)) continue;
+    var sourceValue = source[prop];
+    var targetValue = merged[prop];
+    if (sourceValue instanceof Date) {
+      merged[prop] = new Date(sourceValue);
+    } else if (sourceValue instanceof RegExp) {
+      merged[prop] = new RegExp(sourceValue);
+    } else if (sourceValue instanceof Map) {
+      merged[prop] = new Map(sourceValue);
+    } else if (sourceValue instanceof Set) {
+      merged[prop] = new Set(sourceValue);
+    } else if ((0, _typeof2.default)(sourceValue) === 'object' && sourceValue !== null) {
+      merged[prop] = deepMerge(targetValue, sourceValue);
+    } else {
+      merged[prop] = sourceValue;
+    }
+  }
+  return merged;
+}
+
+/**
+ * @description error提示
+ * @param {*} err 错误内容
+ */
+function error(err) {
+  // 开发环境才提示，生产环境不会提示
+  if (true) {
+    console.error("uView\u63D0\u793A\uFF1A".concat(err));
+  }
+}
+
+/**
+ * @description 打乱数组
+ * @param {array} array 需要打乱的数组
+ * @returns {array} 打乱后的数组
+ */
+function randomArray() {
+  var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  // 原理是sort排序,Math.random()产生0<= x < 1之间的数,会导致x-0.05大于或者小于0
+  return array.sort(function () {
+    return Math.random() - 0.5;
+  });
+}
+
+// padStart 的 polyfill，因为某些机型或情况，还无法支持es7的padStart，比如电脑版的微信小程序
+// 所以这里做一个兼容polyfill的兼容处理
+if (!String.prototype.padStart) {
+  // 为了方便表示这里 fillString 用了ES6 的默认参数，不影响理解
+  String.prototype.padStart = function (maxLength) {
+    var fillString = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ' ';
+    if (Object.prototype.toString.call(fillString) !== '[object String]') {
+      throw new TypeError('fillString must be String');
+    }
+    var str = this;
+    // 返回 String(str) 这里是为了使返回的值是字符串字面量，在控制台中更符合直觉
+    if (str.length >= maxLength) return String(str);
+    var fillLength = maxLength - str.length;
+    var times = Math.ceil(fillLength / fillString.length);
+    while (times >>= 1) {
+      fillString += fillString;
+      if (times === 1) {
+        fillString += fillString;
+      }
+    }
+    return fillString.slice(0, fillLength) + str;
+  };
+}
+
+/**
+ * @description 格式化时间
+ * @param {String|Number} dateTime 需要格式化的时间戳
+ * @param {String} fmt 格式化规则 yyyy:mm:dd|yyyy:mm|yyyy年mm月dd日|yyyy年mm月dd日 hh时MM分等,可自定义组合 默认yyyy-mm-dd
+ * @returns {string} 返回格式化后的字符串
+ */
+function timeFormat() {
+  var dateTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var formatStr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yyyy-mm-dd';
+  var date;
+  // 若传入时间为假值，则取当前时间
+  if (!dateTime) {
+    date = new Date();
+  }
+  // 若为unix秒时间戳，则转为毫秒时间戳（逻辑有点奇怪，但不敢改，以保证历史兼容）
+  else if (/^\d{10}$/.test(dateTime === null || dateTime === void 0 ? void 0 : dateTime.toString().trim())) {
+    date = new Date(dateTime * 1000);
+  }
+  // 若用户传入字符串格式时间戳，new Date无法解析，需做兼容
+  else if (typeof dateTime === 'string' && /^\d+$/.test(dateTime.trim())) {
+    date = new Date(Number(dateTime));
+  }
+  // 处理平台性差异，在Safari/Webkit中，new Date仅支持/作为分割符的字符串时间
+  // 处理 '2022-07-10 01:02:03'，跳过 '2022-07-10T01:02:03'
+  else if (typeof dateTime === 'string' && dateTime.includes('-') && !dateTime.includes('T')) {
+    date = new Date(dateTime.replace(/-/g, '/'));
+  }
+  // 其他都认为符合 RFC 2822 规范
+  else {
+    date = new Date(dateTime);
+  }
+  var timeSource = {
+    'y': date.getFullYear().toString(),
+    // 年
+    'm': (date.getMonth() + 1).toString().padStart(2, '0'),
+    // 月
+    'd': date.getDate().toString().padStart(2, '0'),
+    // 日
+    'h': date.getHours().toString().padStart(2, '0'),
+    // 时
+    'M': date.getMinutes().toString().padStart(2, '0'),
+    // 分
+    's': date.getSeconds().toString().padStart(2, '0') // 秒
+    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+  };
+
+  for (var key in timeSource) {
+    var _ref3 = new RegExp("".concat(key, "+")).exec(formatStr) || [],
+      _ref4 = (0, _slicedToArray2.default)(_ref3, 1),
+      ret = _ref4[0];
+    if (ret) {
+      // 年可能只需展示两位
+      var beginIndex = key === 'y' && ret.length === 2 ? 2 : 0;
+      formatStr = formatStr.replace(ret, timeSource[key].slice(beginIndex));
+    }
+  }
+  return formatStr;
+}
+
+/**
+ * @description 时间戳转为多久之前
+ * @param {String|Number} timestamp 时间戳
+ * @param {String|Boolean} format
+ * 格式化规则如果为时间格式字符串，超出一定时间范围，返回固定的时间格式；
+ * 如果为布尔值false，无论什么时间，都返回多久以前的格式
+ * @returns {string} 转化后的内容
+ */
+function timeFrom() {
+  var timestamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yyyy-mm-dd';
+  if (timestamp == null) timestamp = Number(new Date());
+  timestamp = parseInt(timestamp);
+  // 判断用户输入的时间戳是秒还是毫秒,一般前端js获取的时间戳是毫秒(13位),后端传过来的为秒(10位)
+  if (timestamp.toString().length == 10) timestamp *= 1000;
+  var timer = new Date().getTime() - timestamp;
+  timer = parseInt(timer / 1000);
+  // 如果小于5分钟,则返回"刚刚",其他以此类推
+  var tips = '';
+  switch (true) {
+    case timer < 300:
+      tips = '刚刚';
+      break;
+    case timer >= 300 && timer < 3600:
+      tips = "".concat(parseInt(timer / 60), "\u5206\u949F\u524D");
+      break;
+    case timer >= 3600 && timer < 86400:
+      tips = "".concat(parseInt(timer / 3600), "\u5C0F\u65F6\u524D");
+      break;
+    case timer >= 86400 && timer < 2592000:
+      tips = "".concat(parseInt(timer / 86400), "\u5929\u524D");
+      break;
+    default:
+      // 如果format为false，则无论什么时间戳，都显示xx之前
+      if (format === false) {
+        if (timer >= 2592000 && timer < 365 * 86400) {
+          tips = "".concat(parseInt(timer / (86400 * 30)), "\u4E2A\u6708\u524D");
+        } else {
+          tips = "".concat(parseInt(timer / (86400 * 365)), "\u5E74\u524D");
+        }
+      } else {
+        tips = timeFormat(timestamp, format);
+      }
+  }
+  return tips;
+}
+
+/**
+ * @description 去除空格
+ * @param String str 需要去除空格的字符串
+ * @param String pos both(左右)|left|right|all 默认both
+ */
+function trim(str) {
+  var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'both';
+  str = String(str);
+  if (pos == 'both') {
+    return str.replace(/^\s+|\s+$/g, '');
+  }
+  if (pos == 'left') {
+    return str.replace(/^\s*/, '');
+  }
+  if (pos == 'right') {
+    return str.replace(/(\s*$)/g, '');
+  }
+  if (pos == 'all') {
+    return str.replace(/\s+/g, '');
+  }
+  return str;
+}
+
+/**
+ * @description 对象转url参数
+ * @param {object} data,对象
+ * @param {Boolean} isPrefix,是否自动加上"?"
+ * @param {string} arrayFormat 规则 indices|brackets|repeat|comma
+ */
+function queryParams() {
+  var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var arrayFormat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'brackets';
+  var prefix = isPrefix ? '?' : '';
+  var _result = [];
+  if (['indices', 'brackets', 'repeat', 'comma'].indexOf(arrayFormat) == -1) arrayFormat = 'brackets';
+  var _loop = function _loop(key) {
+    var value = data[key];
+    // 去掉为空的参数
+    if (['', undefined, null].indexOf(value) >= 0) {
+      return "continue";
+    }
+    // 如果值为数组，另行处理
+    if (value.constructor === Array) {
+      // e.g. {ids: [1, 2, 3]}
+      switch (arrayFormat) {
+        case 'indices':
+          // 结果: ids[0]=1&ids[1]=2&ids[2]=3
+          for (var i = 0; i < value.length; i++) {
+            _result.push("".concat(key, "[").concat(i, "]=").concat(value[i]));
+          }
+          break;
+        case 'brackets':
+          // 结果: ids[]=1&ids[]=2&ids[]=3
+          value.forEach(function (_value) {
+            _result.push("".concat(key, "[]=").concat(_value));
+          });
+          break;
+        case 'repeat':
+          // 结果: ids=1&ids=2&ids=3
+          value.forEach(function (_value) {
+            _result.push("".concat(key, "=").concat(_value));
+          });
+          break;
+        case 'comma':
+          // 结果: ids=1,2,3
+          var commaStr = '';
+          value.forEach(function (_value) {
+            commaStr += (commaStr ? ',' : '') + _value;
+          });
+          _result.push("".concat(key, "=").concat(commaStr));
+          break;
+        default:
+          value.forEach(function (_value) {
+            _result.push("".concat(key, "[]=").concat(_value));
+          });
+      }
+    } else {
+      _result.push("".concat(key, "=").concat(value));
+    }
+  };
+  for (var key in data) {
+    var _ret = _loop(key);
+    if (_ret === "continue") continue;
+  }
+  return _result.length ? prefix + _result.join('&') : '';
+}
+
+/**
+ * 显示消息提示框
+ * @param {String} title 提示的内容，长度与 icon 取值有关。
+ * @param {Number} duration 提示的延迟时间，单位毫秒，默认：2000
+ */
+function toast(title) {
+  var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
+  uni.showToast({
+    title: String(title),
+    icon: 'none',
+    duration: duration
+  });
+}
+
+/**
+ * @description 根据主题type值,获取对应的图标
+ * @param {String} type 主题名称,primary|info|error|warning|success
+ * @param {boolean} fill 是否使用fill填充实体的图标
+ */
+function type2icon() {
+  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';
+  var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  // 如果非预置值,默认为success
+  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
+  var iconName = '';
+  // 目前(2019-12-12),info和primary使用同一个图标
+  switch (type) {
+    case 'primary':
+      iconName = 'info-circle';
+      break;
+    case 'info':
+      iconName = 'info-circle';
+      break;
+    case 'error':
+      iconName = 'close-circle';
+      break;
+    case 'warning':
+      iconName = 'error-circle';
+      break;
+    case 'success':
+      iconName = 'checkmark-circle';
+      break;
+    default:
+      iconName = 'checkmark-circle';
+  }
+  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
+  if (fill) iconName += '-fill';
+  return iconName;
+}
+
+/**
+ * @description 数字格式化
+ * @param {number|string} number 要格式化的数字
+ * @param {number} decimals 保留几位小数
+ * @param {string} decimalPoint 小数点符号
+ * @param {string} thousandsSeparator 千分位符号
+ * @returns {string} 格式化后的数字
+ */
+function priceFormat(number) {
+  var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var decimalPoint = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
+  var thousandsSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ',';
+  number = "".concat(number).replace(/[^0-9+-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number;
+  var prec = !isFinite(+decimals) ? 0 : Math.abs(decimals);
+  var sep = typeof thousandsSeparator === 'undefined' ? ',' : thousandsSeparator;
+  var dec = typeof decimalPoint === 'undefined' ? '.' : decimalPoint;
+  var s = '';
+  s = (prec ? (0, _digit.round)(n, prec) + '' : "".concat(Math.round(n))).split('.');
+  var re = /(-?\d+)(\d{3})/;
+  while (re.test(s[0])) {
+    s[0] = s[0].replace(re, "$1".concat(sep, "$2"));
+  }
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
+}
+
+/**
+ * @description 获取duration值
+ * 如果带有ms或者s直接返回，如果大于一定值，认为是ms单位，小于一定值，认为是s单位
+ * 比如以30位阈值，那么300大于30，可以理解为用户想要的是300ms，而不是想花300s去执行一个动画
+ * @param {String|number} value 比如: "1s"|"100ms"|1|100
+ * @param {boolean} unit  提示: 如果是false 默认返回number
+ * @return {string|number}
+ */
+function getDuration(value) {
+  var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var valueNum = parseInt(value);
+  if (unit) {
+    if (/s$/.test(value)) return value;
+    return value > 30 ? "".concat(value, "ms") : "".concat(value, "s");
+  }
+  if (/ms$/.test(value)) return valueNum;
+  if (/s$/.test(value)) return valueNum > 30 ? valueNum : valueNum * 1000;
+  return valueNum;
+}
+
+/**
+ * @description 日期的月或日补零操作
+ * @param {String} value 需要补零的值
+ */
+function padZero(value) {
+  return "00".concat(value).slice(-2);
+}
+
+/**
+ * @description 在u-form的子组件内容发生变化，或者失去焦点时，尝试通知u-form执行校验方法
+ * @param {*} instance
+ * @param {*} event
+ */
+function formValidate(instance, event) {
+  var formItem = uni.$u.$parent.call(instance, 'u-form-item');
+  var form = uni.$u.$parent.call(instance, 'u-form');
+  // 如果发生变化的input或者textarea等，其父组件中有u-form-item或者u-form等，就执行form的validate方法
+  // 同时将form-item的pros传递给form，让其进行精确对象验证
+  if (formItem && form) {
+    form.validateField(formItem.prop, function () {}, event);
+  }
+}
+
+/**
+ * @description 获取某个对象下的属性，用于通过类似'a.b.c'的形式去获取一个对象的的属性的形式
+ * @param {object} obj 对象
+ * @param {string} key 需要获取的属性字段
+ * @returns {*}
+ */
+function getProperty(obj, key) {
+  if (!obj) {
+    return;
+  }
+  if (typeof key !== 'string' || key === '') {
+    return '';
+  }
+  if (key.indexOf('.') !== -1) {
+    var keys = key.split('.');
+    var firstObj = obj[keys[0]] || {};
+    for (var i = 1; i < keys.length; i++) {
+      if (firstObj) {
+        firstObj = firstObj[keys[i]];
+      }
+    }
+    return firstObj;
+  }
+  return obj[key];
+}
+
+/**
+ * @description 设置对象的属性值，如果'a.b.c'的形式进行设置
+ * @param {object} obj 对象
+ * @param {string} key 需要设置的属性
+ * @param {string} value 设置的值
+ */
+function setProperty(obj, key, value) {
+  if (!obj) {
+    return;
+  }
+  // 递归赋值
+  var inFn = function inFn(_obj, keys, v) {
+    // 最后一个属性key
+    if (keys.length === 1) {
+      _obj[keys[0]] = v;
+      return;
+    }
+    // 0~length-1个key
+    while (keys.length > 1) {
+      var k = keys[0];
+      if (!_obj[k] || (0, _typeof2.default)(_obj[k]) !== 'object') {
+        _obj[k] = {};
+      }
+      var _key = keys.shift();
+      // 自调用判断是否存在属性，不存在则自动创建对象
+      inFn(_obj[k], keys, v);
+    }
+  };
+  if (typeof key !== 'string' || key === '') {} else if (key.indexOf('.') !== -1) {
+    // 支持多层级赋值操作
+    var keys = key.split('.');
+    inFn(obj, keys, value);
+  } else {
+    obj[key] = value;
+  }
+}
+
+/**
+ * @description 获取当前页面路径
+ */
+function page() {
+  var _pages$route, _pages;
+  var pages = getCurrentPages();
+  // 某些特殊情况下(比如页面进行redirectTo时的一些时机)，pages可能为空数组
+  return "/".concat((_pages$route = (_pages = pages[pages.length - 1]) === null || _pages === void 0 ? void 0 : _pages.route) !== null && _pages$route !== void 0 ? _pages$route : '');
+}
+
+/**
+ * @description 获取当前路由栈实例数组
+ */
+function pages() {
+  var pages = getCurrentPages();
+  return pages;
+}
+
+/**
+ * 获取页面历史栈指定层实例
+ * @param back {number} [0] - 0或者负数，表示获取历史栈的哪一层，0表示获取当前页面实例，-1 表示获取上一个页面实例。默认0。
+ */
+function getHistoryPage() {
+  var back = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var pages = getCurrentPages();
+  var len = pages.length;
+  return pages[len - 1 + back];
+}
+
+/**
+ * @description 修改uView内置属性值
+ * @param {object} props 修改内置props属性
+ * @param {object} config 修改内置config属性
+ * @param {object} color 修改内置color属性
+ * @param {object} zIndex 修改内置zIndex属性
+ */
+function setConfig(_ref5) {
+  var _ref5$props = _ref5.props,
+    props = _ref5$props === void 0 ? {} : _ref5$props,
+    _ref5$config = _ref5.config,
+    config = _ref5$config === void 0 ? {} : _ref5$config,
+    _ref5$color = _ref5.color,
+    color = _ref5$color === void 0 ? {} : _ref5$color,
+    _ref5$zIndex = _ref5.zIndex,
+    zIndex = _ref5$zIndex === void 0 ? {} : _ref5$zIndex;
+  var deepMerge = uni.$u.deepMerge;
+  uni.$u.config = deepMerge(uni.$u.config, config);
+  uni.$u.props = deepMerge(uni.$u.props, props);
+  uni.$u.color = deepMerge(uni.$u.color, color);
+  uni.$u.zIndex = deepMerge(uni.$u.zIndex, zIndex);
+}
+var _default = {
+  range: range,
+  getPx: getPx,
+  sleep: sleep,
+  os: os,
+  sys: sys,
+  random: random,
+  guid: guid,
+  $parent: $parent,
+  addStyle: addStyle,
+  addUnit: addUnit,
+  deepClone: deepClone,
+  deepMerge: deepMerge,
+  error: error,
+  randomArray: randomArray,
+  timeFormat: timeFormat,
+  timeFrom: timeFrom,
+  trim: trim,
+  queryParams: queryParams,
+  toast: toast,
+  type2icon: type2icon,
+  priceFormat: priceFormat,
+  getDuration: getDuration,
+  padZero: padZero,
+  formValidate: formValidate,
+  getProperty: getProperty,
+  setProperty: setProperty,
+  page: page,
+  pages: pages,
+  getHistoryPage: getHistoryPage,
+  setConfig: setConfig
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 75 */
+/*!***************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/digit.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+exports.divide = divide;
+exports.enableBoundaryChecking = enableBoundaryChecking;
+exports.minus = minus;
+exports.plus = plus;
+exports.round = round;
+exports.times = times;
+var _toArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toArray */ 76));
+var _boundaryCheckingState = true; // 是否进行越界检查的全局开关
+
+/**
+ * 把错误的数据转正
+ * @private
+ * @example strip(0.09999999999999998)=0.1
+ */
+function strip(num) {
+  var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 15;
+  return +parseFloat(Number(num).toPrecision(precision));
+}
+
+/**
+ * Return digits length of a number
+ * @private
+ * @param {*number} num Input number
+ */
+function digitLength(num) {
+  // Get digit length of e
+  var eSplit = num.toString().split(/[eE]/);
+  var len = (eSplit[0].split('.')[1] || '').length - +(eSplit[1] || 0);
+  return len > 0 ? len : 0;
+}
+
+/**
+ * 把小数转成整数,如果是小数则放大成整数
+ * @private
+ * @param {*number} num 输入数
+ */
+function float2Fixed(num) {
+  if (num.toString().indexOf('e') === -1) {
+    return Number(num.toString().replace('.', ''));
+  }
+  var dLen = digitLength(num);
+  return dLen > 0 ? strip(Number(num) * Math.pow(10, dLen)) : Number(num);
+}
+
+/**
+ * 检测数字是否越界，如果越界给出提示
+ * @private
+ * @param {*number} num 输入数
+ */
+function checkBoundary(num) {
+  if (_boundaryCheckingState) {
+    if (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER) {
+      console.warn("".concat(num, " \u8D85\u51FA\u4E86\u7CBE\u5EA6\u9650\u5236\uFF0C\u7ED3\u679C\u53EF\u80FD\u4E0D\u6B63\u786E"));
+    }
+  }
+}
+
+/**
+ * 把递归操作扁平迭代化
+ * @param {number[]} arr 要操作的数字数组
+ * @param {function} operation 迭代操作
+ * @private
+ */
+function iteratorOperation(arr, operation) {
+  var _arr = (0, _toArray2.default)(arr),
+    num1 = _arr[0],
+    num2 = _arr[1],
+    others = _arr.slice(2);
+  var res = operation(num1, num2);
+  others.forEach(function (num) {
+    res = operation(res, num);
+  });
+  return res;
+}
+
+/**
+ * 高精度乘法
+ * @export
+ */
+function times() {
+  for (var _len = arguments.length, nums = new Array(_len), _key = 0; _key < _len; _key++) {
+    nums[_key] = arguments[_key];
+  }
+  if (nums.length > 2) {
+    return iteratorOperation(nums, times);
+  }
+  var num1 = nums[0],
+    num2 = nums[1];
+  var num1Changed = float2Fixed(num1);
+  var num2Changed = float2Fixed(num2);
+  var baseNum = digitLength(num1) + digitLength(num2);
+  var leftValue = num1Changed * num2Changed;
+  checkBoundary(leftValue);
+  return leftValue / Math.pow(10, baseNum);
+}
+
+/**
+ * 高精度加法
+ * @export
+ */
+function plus() {
+  for (var _len2 = arguments.length, nums = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    nums[_key2] = arguments[_key2];
+  }
+  if (nums.length > 2) {
+    return iteratorOperation(nums, plus);
+  }
+  var num1 = nums[0],
+    num2 = nums[1];
+  // 取最大的小数位
+  var baseNum = Math.pow(10, Math.max(digitLength(num1), digitLength(num2)));
+  // 把小数都转为整数然后再计算
+  return (times(num1, baseNum) + times(num2, baseNum)) / baseNum;
+}
+
+/**
+ * 高精度减法
+ * @export
+ */
+function minus() {
+  for (var _len3 = arguments.length, nums = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+    nums[_key3] = arguments[_key3];
+  }
+  if (nums.length > 2) {
+    return iteratorOperation(nums, minus);
+  }
+  var num1 = nums[0],
+    num2 = nums[1];
+  var baseNum = Math.pow(10, Math.max(digitLength(num1), digitLength(num2)));
+  return (times(num1, baseNum) - times(num2, baseNum)) / baseNum;
+}
+
+/**
+ * 高精度除法
+ * @export
+ */
+function divide() {
+  for (var _len4 = arguments.length, nums = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+    nums[_key4] = arguments[_key4];
+  }
+  if (nums.length > 2) {
+    return iteratorOperation(nums, divide);
+  }
+  var num1 = nums[0],
+    num2 = nums[1];
+  var num1Changed = float2Fixed(num1);
+  var num2Changed = float2Fixed(num2);
+  checkBoundary(num1Changed);
+  checkBoundary(num2Changed);
+  // 重要，这里必须用strip进行修正
+  return times(num1Changed / num2Changed, strip(Math.pow(10, digitLength(num2) - digitLength(num1))));
+}
+
+/**
+ * 四舍五入
+ * @export
+ */
+function round(num, ratio) {
+  var base = Math.pow(10, ratio);
+  var result = divide(Math.round(Math.abs(times(num, base))), base);
+  if (num < 0 && result !== 0) {
+    result = times(result, -1);
+  }
+  // 位数不足则补0
+  return result;
+}
+
+/**
+ * 是否进行边界检查，默认开启
+ * @param flag 标记开关，true 为开启，false 为关闭，默认为 true
+ * @export
+ */
+function enableBoundaryChecking() {
+  var flag = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+  _boundaryCheckingState = flag;
+}
+var _default = {
+  times: times,
+  plus: plus,
+  minus: minus,
+  divide: divide,
+  round: round,
+  enableBoundaryChecking: enableBoundaryChecking
+};
+exports.default = _default;
+
+/***/ }),
+/* 76 */
+/*!********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/toArray.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles.js */ 6);
+var iterableToArray = __webpack_require__(/*! ./iterableToArray.js */ 20);
+var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ 8);
+var nonIterableRest = __webpack_require__(/*! ./nonIterableRest.js */ 10);
+function _toArray(arr) {
+  return arrayWithHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableRest();
+}
+module.exports = _toArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+/* 77 */
+/*!**************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/config.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+// 此版本发布于2024-03-17
+var version = '2.0.37';
+
+// 开发环境才提示，生产环境不会提示
+if (true) {
+  console.log("\n %c uView V".concat(version, " %c https://uviewui.com/ \n\n"), 'color: #ffffff; background: #3c9cff; padding:5px 0; border-radius: 5px;');
+}
+var _default = {
+  v: version,
+  version: version,
+  // 主题名称
+  type: ['primary', 'success', 'info', 'error', 'warning'],
+  // 颜色部分，本来可以通过scss的:export导出供js使用，但是奈何nvue不支持
+  color: {
+    'u-primary': '#2979ff',
+    'u-warning': '#ff9900',
+    'u-success': '#19be6b',
+    'u-error': '#fa3534',
+    'u-info': '#909399',
+    'u-main-color': '#303133',
+    'u-content-color': '#606266',
+    'u-tips-color': '#909399',
+    'u-light-color': '#c0c4cc'
+  },
+  // 默认单位，可以通过配置为rpx，那么在用于传入组件大小参数为数值时，就默认为rpx
+  unit: 'px'
+};
+exports.default = _default;
+
+/***/ }),
+/* 78 */
+/*!*************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 77));
+var _actionSheet = _interopRequireDefault(__webpack_require__(/*! ./props/actionSheet.js */ 79));
+var _album = _interopRequireDefault(__webpack_require__(/*! ./props/album.js */ 80));
+var _alert = _interopRequireDefault(__webpack_require__(/*! ./props/alert.js */ 81));
+var _avatar = _interopRequireDefault(__webpack_require__(/*! ./props/avatar */ 82));
+var _avatarGroup = _interopRequireDefault(__webpack_require__(/*! ./props/avatarGroup */ 83));
+var _backtop = _interopRequireDefault(__webpack_require__(/*! ./props/backtop */ 84));
+var _badge = _interopRequireDefault(__webpack_require__(/*! ./props/badge */ 85));
+var _button = _interopRequireDefault(__webpack_require__(/*! ./props/button */ 86));
+var _calendar = _interopRequireDefault(__webpack_require__(/*! ./props/calendar */ 87));
+var _carKeyboard = _interopRequireDefault(__webpack_require__(/*! ./props/carKeyboard */ 88));
+var _cell = _interopRequireDefault(__webpack_require__(/*! ./props/cell */ 89));
+var _cellGroup = _interopRequireDefault(__webpack_require__(/*! ./props/cellGroup */ 90));
+var _checkbox = _interopRequireDefault(__webpack_require__(/*! ./props/checkbox */ 91));
+var _checkboxGroup = _interopRequireDefault(__webpack_require__(/*! ./props/checkboxGroup */ 92));
+var _circleProgress = _interopRequireDefault(__webpack_require__(/*! ./props/circleProgress */ 93));
+var _code = _interopRequireDefault(__webpack_require__(/*! ./props/code */ 94));
+var _codeInput = _interopRequireDefault(__webpack_require__(/*! ./props/codeInput */ 95));
+var _col = _interopRequireDefault(__webpack_require__(/*! ./props/col */ 96));
+var _collapse = _interopRequireDefault(__webpack_require__(/*! ./props/collapse */ 97));
+var _collapseItem = _interopRequireDefault(__webpack_require__(/*! ./props/collapseItem */ 98));
+var _columnNotice = _interopRequireDefault(__webpack_require__(/*! ./props/columnNotice */ 99));
+var _countDown = _interopRequireDefault(__webpack_require__(/*! ./props/countDown */ 100));
+var _countTo = _interopRequireDefault(__webpack_require__(/*! ./props/countTo */ 101));
+var _datetimePicker = _interopRequireDefault(__webpack_require__(/*! ./props/datetimePicker */ 102));
+var _divider = _interopRequireDefault(__webpack_require__(/*! ./props/divider */ 103));
+var _empty = _interopRequireDefault(__webpack_require__(/*! ./props/empty */ 104));
+var _form = _interopRequireDefault(__webpack_require__(/*! ./props/form */ 105));
+var _formItem = _interopRequireDefault(__webpack_require__(/*! ./props/formItem */ 106));
+var _gap = _interopRequireDefault(__webpack_require__(/*! ./props/gap */ 107));
+var _grid = _interopRequireDefault(__webpack_require__(/*! ./props/grid */ 108));
+var _gridItem = _interopRequireDefault(__webpack_require__(/*! ./props/gridItem */ 109));
+var _icon = _interopRequireDefault(__webpack_require__(/*! ./props/icon */ 110));
+var _image = _interopRequireDefault(__webpack_require__(/*! ./props/image */ 111));
+var _indexAnchor = _interopRequireDefault(__webpack_require__(/*! ./props/indexAnchor */ 112));
+var _indexList = _interopRequireDefault(__webpack_require__(/*! ./props/indexList */ 113));
+var _input = _interopRequireDefault(__webpack_require__(/*! ./props/input */ 114));
+var _keyboard = _interopRequireDefault(__webpack_require__(/*! ./props/keyboard */ 115));
+var _line = _interopRequireDefault(__webpack_require__(/*! ./props/line */ 116));
+var _lineProgress = _interopRequireDefault(__webpack_require__(/*! ./props/lineProgress */ 117));
+var _link = _interopRequireDefault(__webpack_require__(/*! ./props/link */ 118));
+var _list = _interopRequireDefault(__webpack_require__(/*! ./props/list */ 119));
+var _listItem = _interopRequireDefault(__webpack_require__(/*! ./props/listItem */ 120));
+var _loadingIcon = _interopRequireDefault(__webpack_require__(/*! ./props/loadingIcon */ 121));
+var _loadingPage = _interopRequireDefault(__webpack_require__(/*! ./props/loadingPage */ 122));
+var _loadmore = _interopRequireDefault(__webpack_require__(/*! ./props/loadmore */ 123));
+var _modal = _interopRequireDefault(__webpack_require__(/*! ./props/modal */ 124));
+var _navbar = _interopRequireDefault(__webpack_require__(/*! ./props/navbar */ 125));
+var _noNetwork = _interopRequireDefault(__webpack_require__(/*! ./props/noNetwork */ 127));
+var _noticeBar = _interopRequireDefault(__webpack_require__(/*! ./props/noticeBar */ 128));
+var _notify = _interopRequireDefault(__webpack_require__(/*! ./props/notify */ 129));
+var _numberBox = _interopRequireDefault(__webpack_require__(/*! ./props/numberBox */ 130));
+var _numberKeyboard = _interopRequireDefault(__webpack_require__(/*! ./props/numberKeyboard */ 131));
+var _overlay = _interopRequireDefault(__webpack_require__(/*! ./props/overlay */ 132));
+var _parse = _interopRequireDefault(__webpack_require__(/*! ./props/parse */ 133));
+var _picker = _interopRequireDefault(__webpack_require__(/*! ./props/picker */ 134));
+var _popup = _interopRequireDefault(__webpack_require__(/*! ./props/popup */ 135));
+var _radio = _interopRequireDefault(__webpack_require__(/*! ./props/radio */ 136));
+var _radioGroup = _interopRequireDefault(__webpack_require__(/*! ./props/radioGroup */ 137));
+var _rate = _interopRequireDefault(__webpack_require__(/*! ./props/rate */ 138));
+var _readMore = _interopRequireDefault(__webpack_require__(/*! ./props/readMore */ 139));
+var _row = _interopRequireDefault(__webpack_require__(/*! ./props/row */ 140));
+var _rowNotice = _interopRequireDefault(__webpack_require__(/*! ./props/rowNotice */ 141));
+var _scrollList = _interopRequireDefault(__webpack_require__(/*! ./props/scrollList */ 142));
+var _search = _interopRequireDefault(__webpack_require__(/*! ./props/search */ 143));
+var _section = _interopRequireDefault(__webpack_require__(/*! ./props/section */ 144));
+var _skeleton = _interopRequireDefault(__webpack_require__(/*! ./props/skeleton */ 145));
+var _slider = _interopRequireDefault(__webpack_require__(/*! ./props/slider */ 146));
+var _statusBar = _interopRequireDefault(__webpack_require__(/*! ./props/statusBar */ 147));
+var _steps = _interopRequireDefault(__webpack_require__(/*! ./props/steps */ 148));
+var _stepsItem = _interopRequireDefault(__webpack_require__(/*! ./props/stepsItem */ 149));
+var _sticky = _interopRequireDefault(__webpack_require__(/*! ./props/sticky */ 150));
+var _subsection = _interopRequireDefault(__webpack_require__(/*! ./props/subsection */ 151));
+var _swipeAction = _interopRequireDefault(__webpack_require__(/*! ./props/swipeAction */ 152));
+var _swipeActionItem = _interopRequireDefault(__webpack_require__(/*! ./props/swipeActionItem */ 153));
+var _swiper = _interopRequireDefault(__webpack_require__(/*! ./props/swiper */ 154));
+var _swipterIndicator = _interopRequireDefault(__webpack_require__(/*! ./props/swipterIndicator */ 155));
+var _switch2 = _interopRequireDefault(__webpack_require__(/*! ./props/switch */ 156));
+var _tabbar = _interopRequireDefault(__webpack_require__(/*! ./props/tabbar */ 157));
+var _tabbarItem = _interopRequireDefault(__webpack_require__(/*! ./props/tabbarItem */ 158));
+var _tabs = _interopRequireDefault(__webpack_require__(/*! ./props/tabs */ 159));
+var _tag = _interopRequireDefault(__webpack_require__(/*! ./props/tag */ 160));
+var _text = _interopRequireDefault(__webpack_require__(/*! ./props/text */ 161));
+var _textarea = _interopRequireDefault(__webpack_require__(/*! ./props/textarea */ 162));
+var _toast = _interopRequireDefault(__webpack_require__(/*! ./props/toast */ 163));
+var _toolbar = _interopRequireDefault(__webpack_require__(/*! ./props/toolbar */ 164));
+var _tooltip = _interopRequireDefault(__webpack_require__(/*! ./props/tooltip */ 165));
+var _transition = _interopRequireDefault(__webpack_require__(/*! ./props/transition */ 166));
+var _upload = _interopRequireDefault(__webpack_require__(/*! ./props/upload */ 167));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+var color = _config.default.color;
+var _default = _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, _actionSheet.default), _album.default), _alert.default), _avatar.default), _avatarGroup.default), _backtop.default), _badge.default), _button.default), _calendar.default), _carKeyboard.default), _cell.default), _cellGroup.default), _checkbox.default), _checkboxGroup.default), _circleProgress.default), _code.default), _codeInput.default), _col.default), _collapse.default), _collapseItem.default), _columnNotice.default), _countDown.default), _countTo.default), _datetimePicker.default), _divider.default), _empty.default), _form.default), _formItem.default), _gap.default), _grid.default), _gridItem.default), _icon.default), _image.default), _indexAnchor.default), _indexList.default), _input.default), _keyboard.default), _line.default), _lineProgress.default), _link.default), _list.default), _listItem.default), _loadingIcon.default), _loadingPage.default), _loadmore.default), _modal.default), _navbar.default), _noNetwork.default), _noticeBar.default), _notify.default), _numberBox.default), _numberKeyboard.default), _overlay.default), _parse.default), _picker.default), _popup.default), _radio.default), _radioGroup.default), _rate.default), _readMore.default), _row.default), _rowNotice.default), _scrollList.default), _search.default), _section.default), _skeleton.default), _slider.default), _statusBar.default), _steps.default), _stepsItem.default), _sticky.default), _subsection.default), _swipeAction.default), _swipeActionItem.default), _swiper.default), _swipterIndicator.default), _switch2.default), _tabbar.default), _tabbarItem.default), _tabs.default), _tag.default), _text.default), _textarea.default), _toast.default), _toolbar.default), _tooltip.default), _transition.default), _upload.default);
+exports.default = _default;
+
+/***/ }),
+/* 79 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/actionSheet.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:44:35
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/actionSheet.js
+ */
+var _default = {
+  // action-sheet组件
+  actionSheet: {
+    show: false,
+    title: '',
+    description: '',
+    actions: function actions() {
+      return [];
+    },
+    index: '',
+    cancelText: '',
+    closeOnClickAction: true,
+    safeAreaInsetBottom: true,
+    openType: '',
+    closeOnClickOverlay: true,
+    round: 0
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 80 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/album.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:47:24
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/album.js
+ */
+var _default = {
+  // album 组件
+  album: {
+    urls: function urls() {
+      return [];
+    },
+    keyName: '',
+    singleSize: 180,
+    multipleSize: 70,
+    space: 6,
+    singleMode: 'scaleToFill',
+    multipleMode: 'aspectFill',
+    maxCount: 9,
+    previewFullImage: true,
+    rowCount: 3,
+    showMore: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 81 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/alert.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:48:53
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/alert.js
+ */
+var _default = {
+  // alert警告组件
+  alert: {
+    title: '',
+    type: 'warning',
+    description: '',
+    closable: false,
+    showIcon: false,
+    effect: 'light',
+    center: false,
+    fontSize: 14
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 82 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/avatar.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:49:22
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/avatar.js
+ */
+var _default = {
+  // avatar 组件
+  avatar: {
+    src: '',
+    shape: 'circle',
+    size: 40,
+    mode: 'scaleToFill',
+    text: '',
+    bgColor: '#c0c4cc',
+    color: '#ffffff',
+    fontSize: 18,
+    icon: '',
+    mpAvatar: false,
+    randomBgColor: false,
+    defaultUrl: '',
+    colorIndex: '',
+    name: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 83 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/avatarGroup.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:49:55
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/avatarGroup.js
+ */
+var _default = {
+  // avatarGroup 组件
+  avatarGroup: {
+    urls: function urls() {
+      return [];
+    },
+    maxCount: 5,
+    shape: 'circle',
+    mode: 'scaleToFill',
+    showMore: true,
+    size: 40,
+    keyName: '',
+    gap: 0.5,
+    extraValue: 0
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 84 */
+/*!*********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/backtop.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:50:18
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/backtop.js
+ */
+var _default = {
+  // backtop组件
+  backtop: {
+    mode: 'circle',
+    icon: 'arrow-upward',
+    text: '',
+    duration: 100,
+    scrollTop: 0,
+    top: 400,
+    bottom: 100,
+    right: 20,
+    zIndex: 9,
+    iconStyle: function iconStyle() {
+      return {
+        color: '#909399',
+        fontSize: '19px'
+      };
+    }
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 85 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/badge.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-23 19:51:50
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/badge.js
+ */
+var _default = {
+  // 徽标数组件
+  badge: {
+    isDot: false,
+    value: '',
+    show: true,
+    max: 999,
+    type: 'error',
+    showZero: false,
+    bgColor: null,
+    color: null,
+    shape: 'circle',
+    numberType: 'overflow',
+    offset: function offset() {
+      return [];
+    },
+    inverted: false,
+    absolute: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 86 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/button.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:51:27
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/button.js
+ */
+var _default = {
+  // button组件
+  button: {
+    hairline: false,
+    type: 'info',
+    size: 'normal',
+    shape: 'square',
+    plain: false,
+    disabled: false,
+    loading: false,
+    loadingText: '',
+    loadingMode: 'spinner',
+    loadingSize: 15,
+    openType: '',
+    formType: '',
+    appParameter: '',
+    hoverStopPropagation: true,
+    lang: 'en',
+    sessionFrom: '',
+    sendMessageTitle: '',
+    sendMessagePath: '',
+    sendMessageImg: '',
+    showMessageCard: false,
+    dataName: '',
+    throttleTime: 0,
+    hoverStartTime: 0,
+    hoverStayTime: 200,
+    text: '',
+    icon: '',
+    iconColor: '',
+    color: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 87 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/calendar.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:52:43
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/calendar.js
+ */
+var _default = {
+  // calendar 组件
+  calendar: {
+    title: '日期选择',
+    showTitle: true,
+    showSubtitle: true,
+    mode: 'single',
+    startText: '开始',
+    endText: '结束',
+    customList: function customList() {
+      return [];
+    },
+    color: '#3c9cff',
+    minDate: 0,
+    maxDate: 0,
+    defaultDate: null,
+    maxCount: Number.MAX_SAFE_INTEGER,
+    // Infinity
+    rowHeight: 56,
+    formatter: null,
+    showLunar: false,
+    showMark: true,
+    confirmText: '确定',
+    confirmDisabledText: '确定',
+    show: false,
+    closeOnClickOverlay: false,
+    readonly: false,
+    showConfirm: true,
+    maxRange: Number.MAX_SAFE_INTEGER,
+    // Infinity
+    rangePrompt: '',
+    showRangePrompt: true,
+    allowSameDay: false,
+    round: 0,
+    monthNum: 3
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 88 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/carKeyboard.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:53:20
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/carKeyboard.js
+ */
+var _default = {
+  // 车牌号键盘
+  carKeyboard: {
+    random: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 89 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/cell.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-23 20:53:09
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/cell.js
+ */
+var _default = {
+  // cell组件的props
+  cell: {
+    customClass: '',
+    title: '',
+    label: '',
+    value: '',
+    icon: '',
+    disabled: false,
+    border: true,
+    center: false,
+    url: '',
+    linkType: 'navigateTo',
+    clickable: false,
+    isLink: false,
+    required: false,
+    arrowDirection: '',
+    iconStyle: {},
+    rightIconStyle: {},
+    rightIcon: 'arrow-right',
+    titleStyle: {},
+    size: '',
+    stop: true,
+    name: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 90 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/cellGroup.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:54:16
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/cellGroup.js
+ */
+var _default = {
+  // cell-group组件的props
+  cellGroup: {
+    title: '',
+    border: true,
+    customStyle: {}
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 91 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/checkbox.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-23 21:06:59
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/checkbox.js
+ */
+var _default = {
+  // checkbox组件
+  checkbox: {
+    name: '',
+    shape: '',
+    size: '',
+    checkbox: false,
+    disabled: '',
+    activeColor: '',
+    inactiveColor: '',
+    iconSize: '',
+    iconColor: '',
+    label: '',
+    labelSize: '',
+    labelColor: '',
+    labelDisabled: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 92 */
+/*!***************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/checkboxGroup.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:54:47
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/checkboxGroup.js
+ */
+var _default = {
+  // checkbox-group组件
+  checkboxGroup: {
+    name: '',
+    value: function value() {
+      return [];
+    },
+    shape: 'square',
+    disabled: false,
+    activeColor: '#2979ff',
+    inactiveColor: '#c8c9cc',
+    size: 18,
+    placement: 'row',
+    labelSize: 14,
+    labelColor: '#303133',
+    labelDisabled: false,
+    iconColor: '#ffffff',
+    iconSize: 12,
+    iconPlacement: 'left',
+    borderBottom: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 93 */
+/*!****************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/circleProgress.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:55:02
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/circleProgress.js
+ */
+var _default = {
+  // circleProgress 组件
+  circleProgress: {
+    percentage: 30
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 94 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/code.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:55:27
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/code.js
+ */
+var _default = {
+  // code 组件
+  code: {
+    seconds: 60,
+    startText: '获取验证码',
+    changeText: 'X秒重新获取',
+    endText: '重新获取',
+    keepRunning: false,
+    uniqueKey: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 95 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/codeInput.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:55:58
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/codeInput.js
+ */
+var _default = {
+  // codeInput 组件
+  codeInput: {
+    adjustPosition: true,
+    maxlength: 6,
+    dot: false,
+    mode: 'box',
+    hairline: false,
+    space: 10,
+    value: '',
+    focus: false,
+    bold: false,
+    color: '#606266',
+    fontSize: 18,
+    size: 35,
+    disabledKeyboard: false,
+    borderColor: '#c9cacc',
+    disabledDot: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 96 */
+/*!*****************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/col.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:56:12
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/col.js
+ */
+var _default = {
+  // col 组件
+  col: {
+    span: 12,
+    offset: 0,
+    justify: 'start',
+    align: 'stretch',
+    textAlign: 'left'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 97 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/collapse.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:56:30
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/collapse.js
+ */
+var _default = {
+  // collapse 组件
+  collapse: {
+    value: null,
+    accordion: false,
+    border: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 98 */
+/*!**************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/collapseItem.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:56:42
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/collapseItem.js
+ */
+var _default = {
+  // collapseItem 组件
+  collapseItem: {
+    title: '',
+    value: '',
+    label: '',
+    disabled: false,
+    isLink: true,
+    clickable: true,
+    border: true,
+    align: 'left',
+    name: '',
+    icon: '',
+    duration: 300
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 99 */
+/*!**************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/columnNotice.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:57:16
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/columnNotice.js
+ */
+var _default = {
+  // columnNotice 组件
+  columnNotice: {
+    text: '',
+    icon: 'volume',
+    mode: '',
+    color: '#f9ae3d',
+    bgColor: '#fdf6ec',
+    fontSize: 14,
+    speed: 80,
+    step: false,
+    duration: 1500,
+    disableTouch: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 100 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/countDown.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:11:29
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/countDown.js
+ */
+var _default = {
+  // u-count-down 计时器组件
+  countDown: {
+    time: 0,
+    format: 'HH:mm:ss',
+    autoStart: true,
+    millisecond: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 101 */
+/*!*********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/countTo.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:57:32
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/countTo.js
+ */
+var _default = {
+  // countTo 组件
+  countTo: {
+    startVal: 0,
+    endVal: 0,
+    duration: 2000,
+    autoplay: true,
+    decimals: 0,
+    useEasing: true,
+    decimal: '.',
+    color: '#606266',
+    fontSize: 22,
+    bold: false,
+    separator: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 102 */
+/*!****************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/datetimePicker.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:57:48
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/datetimePicker.js
+ */
+var _default = {
+  // datetimePicker 组件
+  datetimePicker: {
+    show: false,
+    showToolbar: true,
+    value: '',
+    title: '',
+    mode: 'datetime',
+    maxDate: new Date(new Date().getFullYear() + 10, 0, 1).getTime(),
+    minDate: new Date(new Date().getFullYear() - 10, 0, 1).getTime(),
+    minHour: 0,
+    maxHour: 23,
+    minMinute: 0,
+    maxMinute: 59,
+    filter: null,
+    formatter: null,
+    loading: false,
+    itemHeight: 44,
+    cancelText: '取消',
+    confirmText: '确认',
+    cancelColor: '#909193',
+    confirmColor: '#3c9cff',
+    visibleItemCount: 5,
+    closeOnClickOverlay: false,
+    defaultIndex: function defaultIndex() {
+      return [];
+    }
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 103 */
+/*!*********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/divider.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:58:03
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/divider.js
+ */
+var _default = {
+  // divider组件
+  divider: {
+    dashed: false,
+    hairline: true,
+    dot: false,
+    textPosition: 'center',
+    text: '',
+    textSize: 14,
+    textColor: '#909399',
+    lineColor: '#dcdfe6'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 104 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/empty.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:03:27
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/empty.js
+ */
+var _default = {
+  // empty组件
+  empty: {
+    icon: '',
+    text: '',
+    textColor: '#c0c4cc',
+    textSize: 14,
+    iconColor: '#c0c4cc',
+    iconSize: 90,
+    mode: 'data',
+    width: 160,
+    height: 160,
+    show: true,
+    marginTop: 0
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 105 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/form.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:03:49
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/form.js
+ */
+var _default = {
+  // form 组件
+  form: {
+    model: function model() {
+      return {};
+    },
+    rules: function rules() {
+      return {};
+    },
+    errorType: 'message',
+    borderBottom: true,
+    labelPosition: 'left',
+    labelWidth: 45,
+    labelAlign: 'left',
+    labelStyle: function labelStyle() {
+      return {};
+    }
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 106 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/formItem.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:04:32
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/formItem.js
+ */
+var _default = {
+  // formItem 组件
+  formItem: {
+    label: '',
+    prop: '',
+    borderBottom: '',
+    labelPosition: '',
+    labelWidth: '',
+    rightIcon: '',
+    leftIcon: '',
+    required: false,
+    leftIconStyle: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 107 */
+/*!*****************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/gap.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:05:25
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/gap.js
+ */
+var _default = {
+  // gap组件
+  gap: {
+    bgColor: 'transparent',
+    height: 20,
+    marginTop: 0,
+    marginBottom: 0,
+    customStyle: {}
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 108 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/grid.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:05:57
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/grid.js
+ */
+var _default = {
+  // grid组件
+  grid: {
+    col: 3,
+    border: false,
+    align: 'left'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 109 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/gridItem.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:06:13
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/gridItem.js
+ */
+var _default = {
+  // grid-item组件
+  gridItem: {
+    name: null,
+    bgColor: 'transparent'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 110 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/icon.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 77));
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 18:00:14
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/icon.js
+ */
+
+var color = _config.default.color;
+var _default = {
+  // icon组件
+  icon: {
+    name: '',
+    color: color['u-content-color'],
+    size: '16px',
+    bold: false,
+    index: '',
+    hoverClass: '',
+    customPrefix: 'uicon',
+    label: '',
+    labelPos: 'right',
+    labelSize: '15px',
+    labelColor: color['u-content-color'],
+    space: '3px',
+    imgMode: '',
+    width: '',
+    height: '',
+    top: 0,
+    stop: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 111 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/image.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:01:51
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/image.js
+ */
+var _default = {
+  // image组件
+  image: {
+    src: '',
+    mode: 'aspectFill',
+    width: '300',
+    height: '225',
+    shape: 'square',
+    radius: 0,
+    lazyLoad: true,
+    showMenuByLongpress: true,
+    loadingIcon: 'photo',
+    errorIcon: 'error-circle',
+    showLoading: true,
+    showError: true,
+    fade: true,
+    webp: false,
+    duration: 500,
+    bgColor: '#f3f4f6'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 112 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/indexAnchor.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:13:15
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/indexAnchor.js
+ */
+var _default = {
+  // indexAnchor 组件
+  indexAnchor: {
+    text: '',
+    color: '#606266',
+    size: 14,
+    bgColor: '#dedede',
+    height: 32
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 113 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/indexList.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:13:35
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/indexList.js
+ */
+var _default = {
+  // indexList 组件
+  indexList: {
+    inactiveColor: '#606266',
+    activeColor: '#5677fc',
+    indexList: function indexList() {
+      return [];
+    },
+    sticky: true,
+    customNavHeight: 0
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 114 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/input.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:13:55
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/input.js
+ */
+var _default = {
+  // index 组件
+  input: {
+    value: '',
+    type: 'text',
+    fixed: false,
+    disabled: false,
+    disabledColor: '#f5f7fa',
+    clearable: false,
+    password: false,
+    maxlength: -1,
+    placeholder: null,
+    placeholderClass: 'input-placeholder',
+    placeholderStyle: 'color: #c0c4cc',
+    showWordLimit: false,
+    confirmType: 'done',
+    confirmHold: false,
+    holdKeyboard: false,
+    focus: false,
+    autoBlur: false,
+    disableDefaultPadding: false,
+    cursor: -1,
+    cursorSpacing: 30,
+    selectionStart: -1,
+    selectionEnd: -1,
+    adjustPosition: true,
+    inputAlign: 'left',
+    fontSize: '15px',
+    color: '#303133',
+    prefixIcon: '',
+    prefixIconStyle: '',
+    suffixIcon: '',
+    suffixIconStyle: '',
+    border: 'surround',
+    readonly: false,
+    shape: 'square',
+    formatter: null
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 115 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/keyboard.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:07:49
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/keyboard.js
+ */
+var _default = {
+  // 键盘组件
+  keyboard: {
+    mode: 'number',
+    dotDisabled: false,
+    tooltip: true,
+    showTips: true,
+    tips: '',
+    showCancel: true,
+    showConfirm: true,
+    random: false,
+    safeAreaInsetBottom: true,
+    closeOnClickOverlay: true,
+    show: false,
+    overlay: true,
+    zIndex: 10075,
+    cancelText: '取消',
+    confirmText: '确定',
+    autoChange: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 116 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/line.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:04:49
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/line.js
+ */
+var _default = {
+  // line组件
+  line: {
+    color: '#d6d7d9',
+    length: '100%',
+    direction: 'row',
+    hairline: true,
+    margin: 0,
+    dashed: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 117 */
+/*!**************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/lineProgress.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:14:11
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/lineProgress.js
+ */
+var _default = {
+  // lineProgress 组件
+  lineProgress: {
+    activeColor: '#19be6b',
+    inactiveColor: '#ececec',
+    percentage: 0,
+    showText: true,
+    height: 12
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 118 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/link.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 77));
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:45:36
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/link.js
+ */
+
+var color = _config.default.color;
+var _default = {
+  // link超链接组件props参数
+  link: {
+    color: color['u-primary'],
+    fontSize: 15,
+    underLine: false,
+    href: '',
+    mpTips: '链接已复制，请在浏览器打开',
+    lineColor: '',
+    text: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 119 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/list.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:14:53
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/list.js
+ */
+var _default = {
+  // list 组件
+  list: {
+    showScrollbar: false,
+    lowerThreshold: 50,
+    upperThreshold: 0,
+    scrollTop: 0,
+    offsetAccuracy: 10,
+    enableFlex: false,
+    pagingEnabled: false,
+    scrollable: true,
+    scrollIntoView: '',
+    scrollWithAnimation: false,
+    enableBackToTop: false,
+    height: 0,
+    width: 0,
+    preLoadScreen: 1
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 120 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/listItem.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:15:40
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/listItem.js
+ */
+var _default = {
+  // listItem 组件
+  listItem: {
+    anchor: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 121 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadingIcon.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 77));
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:45:47
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/loadingIcon.js
+ */
+
+var color = _config.default.color;
+var _default = {
+  // loading-icon加载中图标组件
+  loadingIcon: {
+    show: true,
+    color: color['u-tips-color'],
+    textColor: color['u-tips-color'],
+    vertical: false,
+    mode: 'spinner',
+    size: 24,
+    textSize: 15,
+    text: '',
+    timingFunction: 'ease-in-out',
+    duration: 1200,
+    inactiveColor: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 122 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadingPage.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:00:23
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/loadingPage.js
+ */
+var _default = {
+  // loading-page组件
+  loadingPage: {
+    loadingText: '正在加载',
+    image: '',
+    loadingMode: 'circle',
+    loading: false,
+    bgColor: '#ffffff',
+    color: '#C8C8C8',
+    fontSize: 19,
+    iconSize: 28,
+    loadingColor: '#C8C8C8'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 123 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadmore.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:15:26
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/loadmore.js
+ */
+var _default = {
+  // loadmore 组件
+  loadmore: {
+    status: 'loadmore',
+    bgColor: 'transparent',
+    icon: true,
+    fontSize: 14,
+    iconSize: 17,
+    color: '#606266',
+    loadingIcon: 'spinner',
+    loadmoreText: '加载更多',
+    loadingText: '正在加载...',
+    nomoreText: '没有更多了',
+    isDot: false,
+    iconColor: '#b7b7b7',
+    marginTop: 10,
+    marginBottom: 10,
+    height: 'auto',
+    line: false,
+    lineColor: '#E6E8EB',
+    dashed: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 124 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/modal.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:15:59
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/modal.js
+ */
+var _default = {
+  // modal 组件
+  modal: {
+    show: false,
+    title: '',
+    content: '',
+    confirmText: '确认',
+    cancelText: '取消',
+    showConfirmButton: true,
+    showCancelButton: false,
+    confirmColor: '#2979ff',
+    cancelColor: '#606266',
+    buttonReverse: false,
+    zoom: true,
+    asyncClose: false,
+    closeOnClickOverlay: false,
+    negativeTop: 0,
+    width: '650rpx',
+    confirmButtonShape: '',
+    duration: 400
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 125 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/navbar.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _color = _interopRequireDefault(__webpack_require__(/*! ../color */ 126));
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:16:18
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/navbar.js
+ */
+var _default = {
+  // navbar 组件
+  navbar: {
+    safeAreaInsetTop: true,
+    placeholder: false,
+    fixed: true,
+    border: false,
+    leftIcon: 'arrow-left',
+    leftText: '',
+    rightText: '',
+    rightIcon: '',
+    title: '',
+    bgColor: '#ffffff',
+    titleWidth: '400rpx',
+    height: '44px',
+    leftIconSize: 20,
+    leftIconColor: _color.default.mainColor,
+    autoBack: false,
+    titleStyle: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 126 */
+/*!*************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/color.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+// 为了让用户能够自定义主题，会逐步弃用此文件，各颜色通过css提供
+// 为了给某些特殊场景使用和向后兼容，无需删除此文件(2020-06-20)
+var color = {
+  primary: '#3c9cff',
+  info: '#909399',
+  default: '#909399',
+  warning: '#f9ae3d',
+  error: '#f56c6c',
+  success: '#5ac725',
+  mainColor: '#303133',
+  contentColor: '#606266',
+  tipsColor: '#909399',
+  lightColor: '#c0c4cc',
+  borderColor: '#e4e7ed'
+};
+var _default = color;
+exports.default = _default;
+
+/***/ }),
+/* 127 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/noNetwork.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:16:39
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/noNetwork.js
+ */
+var _default = {
+  // noNetwork
+  noNetwork: {
+    tips: '哎呀，网络信号丢失',
+    zIndex: '',
+    image: 'data:image/png;base64,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'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 128 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/noticeBar.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:17:13
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/noticeBar.js
+ */
+var _default = {
+  // noticeBar
+  noticeBar: {
+    text: function text() {
+      return [];
+    },
+    direction: 'row',
+    step: false,
+    icon: 'volume',
+    mode: '',
+    color: '#f9ae3d',
+    bgColor: '#fdf6ec',
+    speed: 80,
+    fontSize: 14,
+    duration: 2000,
+    disableTouch: true,
+    url: '',
+    linkType: 'navigateTo'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 129 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/notify.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:10:21
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/notify.js
+ */
+var _default = {
+  // notify组件
+  notify: {
+    top: 0,
+    type: 'primary',
+    color: '#ffffff',
+    bgColor: '',
+    message: '',
+    duration: 3000,
+    fontSize: 15,
+    safeAreaInsetTop: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 130 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/numberBox.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:11:46
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/numberBox.js
+ */
+var _default = {
+  // 步进器组件
+  numberBox: {
+    name: '',
+    value: 0,
+    min: 1,
+    max: Number.MAX_SAFE_INTEGER,
+    step: 1,
+    integer: false,
+    disabled: false,
+    disabledInput: false,
+    asyncChange: false,
+    inputWidth: 35,
+    showMinus: true,
+    showPlus: true,
+    decimalLength: null,
+    longPress: true,
+    color: '#323233',
+    buttonSize: 30,
+    bgColor: '#EBECEE',
+    cursorSpacing: 100,
+    disableMinus: false,
+    disablePlus: false,
+    iconStyle: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 131 */
+/*!****************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/numberKeyboard.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:08:05
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/numberKeyboard.js
+ */
+var _default = {
+  // 数字键盘
+  numberKeyboard: {
+    mode: 'number',
+    dotDisabled: false,
+    random: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 132 */
+/*!*********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/overlay.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:06:50
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/overlay.js
+ */
+var _default = {
+  // overlay组件
+  overlay: {
+    show: false,
+    zIndex: 10070,
+    duration: 300,
+    opacity: 0.5
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 133 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/parse.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:17:33
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/parse.js
+ */
+var _default = {
+  // parse
+  parse: {
+    copyLink: true,
+    errorImg: '',
+    lazyLoad: false,
+    loadingImg: '',
+    pauseVideo: true,
+    previewImg: true,
+    setTitle: true,
+    showImgMenu: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 134 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/picker.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:18:20
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/picker.js
+ */
+var _default = {
+  // picker
+  picker: {
+    show: false,
+    showToolbar: true,
+    title: '',
+    columns: function columns() {
+      return [];
+    },
+    loading: false,
+    itemHeight: 44,
+    cancelText: '取消',
+    confirmText: '确定',
+    cancelColor: '#909193',
+    confirmColor: '#3c9cff',
+    visibleItemCount: 5,
+    keyName: 'text',
+    closeOnClickOverlay: false,
+    defaultIndex: function defaultIndex() {
+      return [];
+    },
+    immediateChange: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 135 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/popup.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:06:33
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/popup.js
+ */
+var _default = {
+  // popup组件
+  popup: {
+    show: false,
+    overlay: true,
+    mode: 'bottom',
+    duration: 300,
+    closeable: false,
+    overlayStyle: function overlayStyle() {},
+    closeOnClickOverlay: true,
+    zIndex: 10075,
+    safeAreaInsetBottom: true,
+    safeAreaInsetTop: false,
+    closeIconPos: 'top-right',
+    round: 0,
+    zoom: true,
+    bgColor: '',
+    overlayOpacity: 0.5
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 136 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/radio.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:02:34
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/radio.js
+ */
+var _default = {
+  // radio组件
+  radio: {
+    name: '',
+    shape: '',
+    disabled: '',
+    labelDisabled: '',
+    activeColor: '',
+    inactiveColor: '',
+    iconSize: '',
+    labelSize: '',
+    label: '',
+    labelColor: '',
+    size: '',
+    iconColor: '',
+    placement: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 137 */
+/*!************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/radioGroup.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:03:12
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/radioGroup.js
+ */
+var _default = {
+  // radio-group组件
+  radioGroup: {
+    value: '',
+    disabled: false,
+    shape: 'circle',
+    activeColor: '#2979ff',
+    inactiveColor: '#c8c9cc',
+    name: '',
+    size: 18,
+    placement: 'row',
+    label: '',
+    labelColor: '#303133',
+    labelSize: 14,
+    labelDisabled: false,
+    iconColor: '#ffffff',
+    iconSize: 12,
+    borderBottom: false,
+    iconPlacement: 'left'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 138 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/rate.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:05:09
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/rate.js
+ */
+var _default = {
+  // rate组件
+  rate: {
+    value: 1,
+    count: 5,
+    disabled: false,
+    size: 18,
+    inactiveColor: '#b2b2b2',
+    activeColor: '#FA3534',
+    gutter: 4,
+    minCount: 1,
+    allowHalf: false,
+    activeIcon: 'star-fill',
+    inactiveIcon: 'star',
+    touchable: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 139 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/readMore.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:18:41
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/readMore.js
+ */
+var _default = {
+  // readMore
+  readMore: {
+    showHeight: 400,
+    toggle: false,
+    closeText: '展开阅读全文',
+    openText: '收起',
+    color: '#2979ff',
+    fontSize: 14,
+    textIndent: '2em',
+    name: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 140 */
+/*!*****************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/row.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:18:58
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/row.js
+ */
+var _default = {
+  // row
+  row: {
+    gutter: 0,
+    justify: 'start',
+    align: 'center'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 141 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/rowNotice.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:19:13
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/rowNotice.js
+ */
+var _default = {
+  // rowNotice
+  rowNotice: {
+    text: '',
+    icon: 'volume',
+    mode: '',
+    color: '#f9ae3d',
+    bgColor: '#fdf6ec',
+    fontSize: 14,
+    speed: 80
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 142 */
+/*!************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/scrollList.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:19:28
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/scrollList.js
+ */
+var _default = {
+  // scrollList
+  scrollList: {
+    indicatorWidth: 50,
+    indicatorBarWidth: 20,
+    indicator: true,
+    indicatorColor: '#f2f2f2',
+    indicatorActiveColor: '#3c9cff',
+    indicatorStyle: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 143 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/search.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:19:45
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/search.js
+ */
+var _default = {
+  // search
+  search: {
+    shape: 'round',
+    bgColor: '#f2f2f2',
+    placeholder: '请输入关键字',
+    clearabled: true,
+    focus: false,
+    showAction: true,
+    actionStyle: function actionStyle() {
+      return {};
+    },
+    actionText: '搜索',
+    inputAlign: 'left',
+    inputStyle: function inputStyle() {
+      return {};
+    },
+    disabled: false,
+    borderColor: 'transparent',
+    searchIconColor: '#909399',
+    searchIconSize: 22,
+    color: '#606266',
+    placeholderColor: '#909399',
+    searchIcon: 'search',
+    margin: '0',
+    animation: false,
+    value: '',
+    maxlength: '-1',
+    height: 32,
+    label: null
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 144 */
+/*!*********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/section.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:07:33
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/section.js
+ */
+var _default = {
+  // u-section组件
+  section: {
+    title: '',
+    subTitle: '更多',
+    right: true,
+    fontSize: 15,
+    bold: true,
+    color: '#303133',
+    subColor: '#909399',
+    showLine: true,
+    lineColor: '',
+    arrow: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 145 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/skeleton.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:20:14
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/skeleton.js
+ */
+var _default = {
+  // skeleton
+  skeleton: {
+    loading: true,
+    animate: true,
+    rows: 0,
+    rowsWidth: '100%',
+    rowsHeight: 18,
+    title: true,
+    titleWidth: '50%',
+    titleHeight: 18,
+    avatar: false,
+    avatarSize: 32,
+    avatarShape: 'circle'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 146 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/slider.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:08:25
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/slider.js
+ */
+var _default = {
+  // slider组件
+  slider: {
+    value: 0,
+    blockSize: 18,
+    min: 0,
+    max: 100,
+    step: 1,
+    activeColor: '#2979ff',
+    inactiveColor: '#c0c4cc',
+    blockColor: '#ffffff',
+    showValue: false,
+    disabled: false,
+    blockStyle: function blockStyle() {}
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 147 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/statusBar.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:20:39
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/statusBar.js
+ */
+var _default = {
+  // statusBar
+  statusBar: {
+    bgColor: 'transparent'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 148 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/steps.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:12:37
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/steps.js
+ */
+var _default = {
+  // steps组件
+  steps: {
+    direction: 'row',
+    current: 0,
+    activeColor: '#3c9cff',
+    inactiveColor: '#969799',
+    activeIcon: '',
+    inactiveIcon: '',
+    dot: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 149 */
+/*!***********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/stepsItem.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:12:55
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/stepsItem.js
+ */
+var _default = {
+  // steps-item组件
+  stepsItem: {
+    title: '',
+    desc: '',
+    iconSize: 17,
+    error: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 150 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/sticky.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:01:30
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/sticky.js
+ */
+var _default = {
+  // sticky组件
+  sticky: {
+    offsetTop: 0,
+    customNavHeight: 0,
+    disabled: false,
+    bgColor: 'transparent',
+    zIndex: '',
+    index: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 151 */
+/*!************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/subsection.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:12:20
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/subsection.js
+ */
+var _default = {
+  // subsection组件
+  subsection: {
+    list: [],
+    current: 0,
+    activeColor: '#3c9cff',
+    inactiveColor: '#303133',
+    mode: 'button',
+    fontSize: 12,
+    bold: true,
+    bgColor: '#eeeeef',
+    keyName: 'name'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 152 */
+/*!*************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipeAction.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:00:42
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/swipeAction.js
+ */
+var _default = {
+  // swipe-action组件
+  swipeAction: {
+    autoClose: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 153 */
+/*!*****************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipeActionItem.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:01:13
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/swipeActionItem.js
+ */
+var _default = {
+  // swipeActionItem 组件
+  swipeActionItem: {
+    show: false,
+    name: '',
+    disabled: false,
+    threshold: 20,
+    autoClose: true,
+    options: [],
+    duration: 300
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 154 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swiper.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:21:38
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/swiper.js
+ */
+var _default = {
+  // swiper 组件
+  swiper: {
+    list: function list() {
+      return [];
+    },
+    indicator: false,
+    indicatorActiveColor: '#FFFFFF',
+    indicatorInactiveColor: 'rgba(255, 255, 255, 0.35)',
+    indicatorStyle: '',
+    indicatorMode: 'line',
+    autoplay: true,
+    current: 0,
+    currentItemId: '',
+    interval: 3000,
+    duration: 300,
+    circular: false,
+    previousMargin: 0,
+    nextMargin: 0,
+    acceleration: false,
+    displayMultipleItems: 1,
+    easingFunction: 'default',
+    keyName: 'url',
+    imgMode: 'aspectFill',
+    height: 130,
+    bgColor: '#f3f4f6',
+    radius: 4,
+    loading: false,
+    showTitle: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 155 */
+/*!******************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipterIndicator.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:22:07
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/swiperIndicator.js
+ */
+var _default = {
+  // swiperIndicator 组件
+  swiperIndicator: {
+    length: 0,
+    current: 0,
+    indicatorActiveColor: '',
+    indicatorInactiveColor: '',
+    indicatorMode: 'line'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 156 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/switch.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:22:24
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/switch.js
+ */
+var _default = {
+  // switch
+  switch: {
+    loading: false,
+    disabled: false,
+    size: 25,
+    activeColor: '#2979ff',
+    inactiveColor: '#ffffff',
+    value: false,
+    activeValue: true,
+    inactiveValue: false,
+    asyncChange: false,
+    space: 0
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 157 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabbar.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:22:40
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tabbar.js
+ */
+var _default = {
+  // tabbar
+  tabbar: {
+    value: null,
+    safeAreaInsetBottom: true,
+    border: true,
+    zIndex: 1,
+    activeColor: '#1989fa',
+    inactiveColor: '#7d7e80',
+    fixed: true,
+    placeholder: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 158 */
+/*!************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabbarItem.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:22:55
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tabbarItem.js
+ */
+var _default = {
+  //
+  tabbarItem: {
+    name: null,
+    icon: '',
+    badge: null,
+    dot: false,
+    text: '',
+    badgeStyle: 'top: 6px;right:2px;'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 159 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabs.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:23:14
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tabs.js
+ */
+var _default = {
+  //
+  tabs: {
+    duration: 300,
+    list: function list() {
+      return [];
+    },
+    lineColor: '#3c9cff',
+    activeStyle: function activeStyle() {
+      return {
+        color: '#303133'
+      };
+    },
+    inactiveStyle: function inactiveStyle() {
+      return {
+        color: '#606266'
+      };
+    },
+    lineWidth: 20,
+    lineHeight: 3,
+    lineBgSize: 'cover',
+    itemStyle: function itemStyle() {
+      return {
+        height: '44px'
+      };
+    },
+    scrollable: true,
+    current: 0,
+    keyName: 'name'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 160 */
+/*!*****************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tag.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:23:37
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tag.js
+ */
+var _default = {
+  // tag 组件
+  tag: {
+    type: 'primary',
+    disabled: false,
+    size: 'medium',
+    shape: 'square',
+    text: '',
+    bgColor: '',
+    color: '',
+    borderColor: '',
+    closeColor: '#C6C7CB',
+    name: '',
+    plainFill: false,
+    plain: false,
+    closable: false,
+    show: true,
+    icon: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 161 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/text.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:23:58
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/text.js
+ */
+var _default = {
+  // text 组件
+  text: {
+    type: '',
+    show: true,
+    text: '',
+    prefixIcon: '',
+    suffixIcon: '',
+    mode: '',
+    href: '',
+    format: '',
+    call: false,
+    openType: '',
+    bold: false,
+    block: false,
+    lines: '',
+    color: '#303133',
+    size: 15,
+    iconStyle: function iconStyle() {
+      return {
+        fontSize: '15px'
+      };
+    },
+    decoration: 'none',
+    margin: 0,
+    lineHeight: '',
+    align: 'left',
+    wordWrap: 'normal'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 162 */
+/*!**********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/textarea.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:24:32
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/textarea.js
+ */
+var _default = {
+  // textarea 组件
+  textarea: {
+    value: '',
+    placeholder: '',
+    placeholderClass: 'textarea-placeholder',
+    placeholderStyle: 'color: #c0c4cc',
+    height: 70,
+    confirmType: 'done',
+    disabled: false,
+    count: false,
+    focus: false,
+    autoHeight: false,
+    fixed: false,
+    cursorSpacing: 0,
+    cursor: '',
+    showConfirmBar: true,
+    selectionStart: -1,
+    selectionEnd: -1,
+    adjustPosition: true,
+    disableDefaultPadding: false,
+    holdKeyboard: false,
+    maxlength: 140,
+    border: 'surround',
+    formatter: null
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 163 */
+/*!*******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/toast.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:07:07
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/toast.js
+ */
+var _default = {
+  // toast组件
+  toast: {
+    zIndex: 10090,
+    loading: false,
+    text: '',
+    icon: '',
+    type: '',
+    loadingMode: '',
+    show: '',
+    overlay: false,
+    position: 'center',
+    params: function params() {},
+    duration: 2000,
+    isTab: false,
+    url: '',
+    callback: null,
+    back: false
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 164 */
+/*!*********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/toolbar.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:24:55
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/toolbar.js
+ */
+var _default = {
+  // toolbar 组件
+  toolbar: {
+    show: true,
+    cancelText: '取消',
+    confirmText: '确认',
+    cancelColor: '#909193',
+    confirmColor: '#3c9cff',
+    title: ''
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 165 */
+/*!*********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tooltip.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:25:14
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/tooltip.js
+ */
+var _default = {
+  // tooltip 组件
+  tooltip: {
+    text: '',
+    copyText: '',
+    size: 14,
+    color: '#606266',
+    bgColor: 'transparent',
+    direction: 'top',
+    zIndex: 10071,
+    showCopy: true,
+    buttons: function buttons() {
+      return [];
+    },
+    overlay: true,
+    showToast: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 166 */
+/*!************************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/transition.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 16:59:00
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/transition.js
+ */
+var _default = {
+  // transition动画组件的props
+  transition: {
+    show: false,
+    mode: 'fade',
+    duration: '300',
+    timingFunction: 'ease-out'
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 167 */
+/*!********************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/upload.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-20 16:44:21
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-20 17:09:50
+ * @FilePath     : /u-view2.0/uview-ui/libs/config/props/upload.js
+ */
+var _default = {
+  // upload组件
+  upload: {
+    accept: 'image',
+    capture: function capture() {
+      return ['album', 'camera'];
+    },
+    compressed: true,
+    camera: 'back',
+    maxDuration: 60,
+    uploadIcon: 'camera-fill',
+    uploadIconColor: '#D3D4D6',
+    useBeforeRead: false,
+    previewFullImage: true,
+    maxCount: 52,
+    disabled: false,
+    imageMode: 'aspectFill',
+    name: '',
+    sizeType: function sizeType() {
+      return ['original', 'compressed'];
+    },
+    multiple: false,
+    deletable: true,
+    maxSize: Number.MAX_VALUE,
+    fileList: function fileList() {
+      return [];
+    },
+    uploadText: '',
+    width: 80,
+    height: 80,
+    previewImage: true
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 168 */
+/*!**************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/zIndex.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+// uniapp在H5中各API的z-index值如下：
+/**
+ * actionsheet: 999
+ * modal: 999
+ * navigate: 998
+ * tabbar: 998
+ * toast: 999
+ */
+var _default = {
+  toast: 10090,
+  noNetwork: 10080,
+  // popup包含popup，actionsheet，keyboard，picker的值
+  popup: 10075,
+  mask: 10070,
+  navbar: 980,
+  topTips: 975,
+  sticky: 970,
+  indexListSticky: 965
+};
+exports.default = _default;
+
+/***/ }),
+/* 169 */
+/*!******************************************************************************!*\
+  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/platform.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/**
+ * 注意：
+ * 此部分内容，在vue-cli模式下，需要在vue.config.js加入如下内容才有效：
+ * module.exports = {
+ *     transpileDependencies: ['uview-v2']
+ * }
+ */
+
+var platform = 'none';
+platform = 'vue2';
+platform = 'weixin';
+platform = 'mp';
+var _default = platform;
+exports.default = _default;
+
+/***/ }),
+/* 170 */
+/*!********************************************************!*\
+  !*** E:/code/baba_statistics/uni.promisify.adaptor.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(uni) {var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ 13);
+uni.addInterceptor({
+  returnValue: function returnValue(res) {
+    if (!(!!res && (_typeof(res) === "object" || typeof res === "function") && typeof res.then === "function")) {
+      return res;
+    }
+    return new Promise(function (resolve, reject) {
+      res.then(function (res) {
+        return res[0] ? reject(res[0]) : resolve(res[1]);
+      });
+    });
+  }
+});
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */
 /*!**************************************************!*\
   !*** E:/code/baba_statistics/static/aoligei.jpg ***!
   \**************************************************/
@@ -28238,7 +28259,7 @@ exports.default = _default;
 module.exports = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAK+AdQDASIAAhEBAxEB/8QAHgABAAAGAwEAAAAAAAAAAAAAAAIDBAUGCQEHCAr/xABSEAABAwMCBAMEBwUEBwMLBQEBAAIDBAURBiEHCBIxE0FRCSJhcQoUMkKBkaEVI1Kx0RZicsEXJDOCktLhQ1OiGBolNERUZHOywvAZY3SDk+L/xAAbAQEAAgMBAQAAAAAAAAAAAAAAAgMBBAYFB//EADURAAICAgAFAgQFBAEEAwAAAAABAgMEEQUSITFRE0EUIjJhQlJxgZEGFSOxoTNDU/DB0eH/2gAMAwEAAhEDEQA/AN/iIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAihe/oAPSTn0TxMHfCAiRcZdntsuQc7hAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREBDLnpBHqrTqbWGnNIUYrdQ3WKkY77PiPALsenqrrLjAy7G/wCa1ce195ptV6T4gWvSlgvUjKSoqKmJ8/RsDCRmJvo7fcrRz8p4lHMl1N/huGs7IVbekbPbNfbRfqJlxtFfFPDI3LXxvBB/JVbS0HAd+q0TcKeebjfoOuZXaZ1xWxAEFsMs5cxv+5nC9ccDPbOaqo3w2zi9paK5wdTWyXCh92Uep6exWlRxqielYtHp5P8ATmTXt1NSRsjJA7lAQexXUvBPnE4FcfKVjdF6zhFUcF9DWOEcrfh8V2o1wcMh+ATs7/8AO69aF1di3F7PBtptpny2R0yci4jILdjn4rlWlYREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAQTNLm4xkZ3C11+2x5a6C9cPp9e2eKV1ZE43CnZFHkRmMgz/APGC38lsVkPurrnmb0TbNecGL3YrlD1MfSvwGsy4DG4C1MylXUOJuYN7oyYyR879oujqcsLT0hwBwB5+hWY2jUJd0tLhkfDt8liGo7S2x6mutob9iluk8Y/u4kcAPyVXaah/u9W2DhcRJaZ9Frlrqdpaa1pd7LO2ttVzlgljcHMljeWlpHmCvWXLR7Vbi3wsdT2LiE7+0VoYWg/WXYqYm9iWv89vJeILdWzADpAPzKvNLWPY8u95oc3H7s7/AKqVV9tEtweiV+Nj5cOW2OzedwC5seEHMXZG3Hh5qJr6kMBqLdUANniPn7udx8V2VHI53oRnyK0GaQ13qHRd2p7/AKbvFVQVlPI18FVSTFjmEfofxXvTlD9rS6Y0uiOY+NpLiI4dRQM777eK0ee/cDyXRYXGK7dQt6P/AIOR4h/T1tK56Oq8e5sBeXdmuAPofNRNzjdWvTmp7FqyzxX3Tt1grqOoaHU9RTSBzXN+YV062gDJ+WV7qaa2jm2nF6ZyiAg9kWTAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREBC/GNxlYdx5vdDpnhDqC/V9c2ngprZK98jvL3Vl9Q9scXW44A81r59rdzrRUehKzgPouu6qi5E09bJEcF0QPvuHw9PVaWdkwxqHJvr7G/w7EtzMmMYe3c1batdFddT3S7j/2q6Tys/vAyOIKkUcL2u97zOcKoqvABa1zdmtw0lcRTU7GlzCN1xO9o+hxh00vYudG7oZk9ldaaR/QHM/MqyUtZGGt/XKqHXU4Aa4gegUWbEd67F+FwLQI3u3HcKoprw6PAJHSN3EnYDzWLOurs9/xVVTVxcA4dwcjdQ0zO17nprlN56eKvLPeoY7JXC4WKZ+amzVT3GNzc7lm/uO+C2m8uvNPwr5k9JC/aFurW1cbQay2VJxNTu8wR5/gtFNDXuD/EDz1HuVnnCTjLrnhLqik1bw/v09FcaR3WPDkIEjc/eH3m+RC9TB4pbjNRn1ieLxLgtOdHnh0mb5aeXxCe+Pj5/FTV5g5J/aH6I5kLdTaU1XUU9o1U2MeLSl+Iqvy64yfM/wAK9Mxz9UpadgOxXW0ZFV9alB9DhcjGuxbHCxaZOREV5QEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAUDpg3OW9u5yo1R3OspqGCWtralkUEMbnzOecANA3J+AWG+VbYSbekdNc6nNJprgBw5rjVXDw6+ajc6Bg7u8ukHsHH+S0r8W+I144pavrNY36dxfVTOkhaCf3MeTiMfALu32lHNQ7mB4311v03XPGnLPUugo2Aktq5GktdJ8gRgfBeZ6ytHR09Q6s7t+C4fiGVPMyHr6UfROEYMcLETa+Z9yjq3BxMbiMnzVuqpDH7rDt54VXWTMHv9XcK2VFQ1xOPNah6Enpk+KvLW46lG26N7F+6s887mOyCpX10/wAX6KWjHOy+C4EDAOVXUVxdjJfssXZWuz9pVVPXu6ukv+SxpmOd7Mwo7mSdpMq7UdeyNrHuZ4hG+M4WGUFX1Hd3krxb68tGAfnuoSWy+DTRm+ndS3SzVsVztFwlhqIZfFimheWSREb5aQtk3IZ7Tu362jouFfH+6xUt1ADLbenH3KtuwAk/hd88LVrT1uDmKTDsbkHcDzKvenr99RjEkQa05zE93eQ+pP3SFs4eXdiS2u3g1M7Ax8+vlmuvs/B9CUVXFPGJYnBzXN6muByCPVTAcjK1tezm9pfX2OvpOCfHu8GShnf4Vnu1Q4l8B8mSH+H0K2QUVRT1NKypppmvjkaHMe12Q4HsQuzxcqvKr5onz3OwbsG7kn+z8k5EyPVFtGmEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAF5o9qjzA1HArldugstV4V0vxFBREHfDseJ/4cr0uTgLWD7fHXtc3WOjNAGoIpmUkta6MO7uOW5/RedxS2VWHJr36Hp8IojfnwUuy6/wa/au4uq8+K8ktOAT97Hcq1V1X0E9J2UqsuA26n7EbfBWyrrwSQ1xPzXGJex9CcybUVjXNOFb5qgdjjHzUqSoc7vhU0k3xU0tFUnvqTJJcuwCpDpXNd3ClSVI3Le47Klqast97zUkuhBsqn1D89AOwKqIKthcN/wA1ZHXBrc/vve8gPRT6OujLulnY9isuPQhvqZPbqwdx+SvFFUu6gSNljNrmyRnO6vtAfex6dlU+5fAyCmm6hlknSqyGokYA0OJ37q1QvZgZCqmVTIm4BA+awbKaLzS3CaICVsn3tnZ3afVbLPZRc/B1nFFy5cVr019yhjJsFwnkP7+MAfuST5jG3zWruKrBIc4Hb491dtHavu+lNQ0N/wBOV8tLXUVWyejqopC0se05ByFt4WVLFtTXb3NHiODXm0OMu/sfRJEAZc4O57n+SqF01yM8zNv5o+AFq1+yRn7QiaKW7wtdnw6hgwc/Mb/iu5ASRldtXONkFJe583trlVY4S7o5REUysIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiKGXeM5JH4oDkkY7rVH9IAtdVBxj0Xfeg+FLZ5IOojbqDnHC2qTVdNTRGarlZG1g3dIcY+OVru9vhbtOan5frXxTstQ6qfpK5/wCtyQbx+HLhm588ZXl8Xip4bR6vBpOGdF6NU9VWmRmDturbUVjA4gOB/FY3cOLFgqWZp6lxYSS13RscHyVnqOJFmGXGpdv/AHFysa2vY7V2R8mYS3BrMtc7B9MqkmuQz7p/JYRX8WLNA0ue0l2Nst6crH7nxra7MVDTHrP2Wsd1ud8gFaqZt9ip31r3Oyqi6taDmQDbzKsV51vbLdHI6ecOLO46uywaD/S1rp4bZLDUtY8465mmIfPdZVpblW1LcHuqtW6hdH14L6Wj2z8CfNTUIV9Zsr9WdnSEWWmPik76/AKQMkMzulsQ3cPis+03HPOBmN2e/wAN1lWjeAWl9PUoprVZ44n9O00jM59e/mr23QsVraPDp+kj7bsfaVNt1cukUbNNF0VuZbbPRuBHUd/iFeqeFjNyVxFbWNG2xCmeG5rAdu+y197NqMGioY4t+y4AhTGVbCC2Vnl3VHIXOccnGFLdVFo6c99kJ8yRWunBb05d+aU9WIJOlznd+po+X+Stsk4H3VEKnPS5u3SdyfROuyDe2bDPYacbZ7DxivfBqtrZBQ32i+uUkRdt9Zbs4gf4QtqocMAZ79loq9l/q6bS/O1oatimw2oq5qeVuftMdE7+q3qMLXMBx27Lr+Dzc8NJ+xw3Hq1DN2vdEaIN90XqniBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBcEnfO3xQqX47QDkeW2fNYb0CCpq207cula1oblz37AD1JXVHE7m00Hoi11VxhvNIKalcWz3Gsl6IQQdwwd5f93K6f57vaB6I4Oxv0Fp+uju19kaeuz0s4Aj/wDmvHYerfNa0uKXHTXvF66/tTVt9NQxshMFHCOmmpRn7MbBsP8ANeBn8XVUuSrqzpuF8CnkR9S7oj1txv8AadOuV6mPDmlqbpI7LYq+4zFsMW/eNrMZH+JeZOOPE7V/MpZ6jT3Fi/1FzoKn7dHFJ4MRAOQC1uM4PqsBpqp/hmNkrsA5aM7H5+quEdeGgNY5rfXbf81zd2VffLcpM7CjBxceKjCJ0xqbkZ4a1ErpLPVV1GB9ljJMtA9BkrGZuRzS0DwJr5cJWk9uof1XpP62ySMxhwON91Lc2mcwSeFnHo1FlXJdzEsHHb3ynnm38mXDmkd4tRQzVDgdvFe7+qySycvuibG/qt2lqdjxv1PiBP6rtt8FOD1OG3fuqWQM6zjb03WHk3PuzCw6YvojEqbRNLRtwIGNGN2huAqyCx08TuoMA8uyvU72N3fv8lQVEx6TK0Dp9PNUuUpdzajXFIliCKMHYfAqmuUbJGdLSFFU1TXBpBI9QqGpqY8F/id+wRJthvXQtlbCIc9LlRGpABY47ZVTWuY8n38ZVrrS8fYerktIolLRUPmj6g4tDh57qnqXCQHwowCPQqjNQ8Axk/qoZKsteCBtjdZIc++hNkcSRv8AquA4gjLepv3hnuFSyVTX9pBv6riOqLT4Yf8Aaafe8gpJPZVs9A+zwhmrecjh+Ixubu7paPJojK38MZ0sA75C0Z+x+0u3VfPLpGUxeKy2xz1EoPZo8JwB/NbzGuI+HbGV1fBk1i7+5xnH5c2Ul9iNu4GFygIIyEXrnhhERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREATKKXO0lowCfxQEZIC8V+0o9olTcEaCXg1wlro59T1cP+uV0cjS23MOxH+P+S7S9oLzfW7lV4NzXG3VLXaiuoNPZqYkZa8g5kI/hG60t6m1fd9U36s1HqS6PrLhVVLqirrXuJMmTnzXO8X4i6/8ADW+vudNwLhSvfr2r5V2Xkqb1qi7X64zXK6XKWonllc+SSc5fI53clx/kre2rAJDXYAGOgdgfUFUP1xjm4Y8lpOQuPrTRuTt6Ll2m3s7bt2LtT14H3v1VSy4jAOPxWPG4xg4yhuLmjY7LGmZTMlbdunZo7qYy6PcOgTYysW/aco3CmR3bp+29Y0zPOZHJcxjp6s/iqd9zLSQHbFWR9zI+y7KlPr392Hv3TQ5kXOruJaf3bsjzVFUVryejq7qhmuDycHA9VSTV7idnLKi2w5rRWTXIRn4+aoKmta5xkLsfBUlbXv68fqqSarz3OyuSSKZTSXQqamra7PvKhqakk4z8lS1dc4O2OypJa2R+VJIok99WTZ5fezk/MKmllGcguypUtU+Pdvn6qnnuLh2x29VNLSIcxPfWdIzlqlftUDr97JAGAPRWqsuY6uoSAn4Ky37WlLY6f6xKGulOfDb1bkj4eisjHbKpSUe5tP8Ao+WlbTWcUtZcT7vV07G2u2x0ERkeB0SOcHk/kcLbXS3W11W1HXwybZPRICvnk9mbzMUvDTSlxrbxwnN1kr67xn3GouMsGMAANDGOAcNu5BXtW1+0poqR8bpuE8ZbG33DRXWYOb+b917WLxOjGrVcu6PCzODZOZa7YdmbT2Oa4bOB+S5WuTQXtTdG0ld4tXUajtRld1Pic6KaAfE9RLgP1XpTgvz7cMuJMrITqy2VLHsb0zU0hje13oWPwSfkF6NPE8a7ps8nI4Lm463y7R6HRW+1X+1X2kbX2e4MqI+nJ6Hj9fRXD4r0FJSW0eU04vTCLgAjuVysmAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAqa619Ja6GW410rY4YI3SSyOOA1oGSSp7nMA3fj8V5v9qhx7n4Fcp14rLTW+Dcry5tvo+n7RD9nkfJuVr5NqoolN+xfjUvIyI1r3ZrB9oNzRXPmS5gbrqMXEustBI6hs1OHZAYxxDnD5kZyuhZqsOaC2QZB2wNsKTUTsc8skBLmDpGfP4/NU7z0j7K4NuU5OUu7Pp1UI01quPZE81O2RsR3AXAq87OGPxVF45yRn5qXJUOz7pWCfOV0lUActaoPr/l2/FW81Th59vipT6kF3Vnv2TSI8yLs6s7DxN0fWdQwXK0uqerZrtx8VCKon/tP1TSMOfUuprugbOyVD9flI9Fa3VQAyHfqoHXB4PSX/AKppGHPwXCauf65VNNWnyKo5awns79VTT1JHZ3/RZXcg5NlbNWgtyTuPiqKqqiTs/CpZqwdO+M53VHUV3SR/VTUSLfQqKipw4kvzuqaWsyD0jt5qnq7hhuwGfRW6puUkJIb5+WVNRKmyrqK0l2C7HorfW3Lw3e8Rj1yqCsvLYQZZngAA53xhYXqXXjzGYLW4uke7DWgZJz6DzVsYOfYqnZGHcvWp9bR2cOjbKHSPz0Nac/j8lBwv4aX3ihe2XW9B7bcyQEylu8mPut+Hx81N4X8DLvqWobf9YtcyIOBbSuJ6nn1d8PgvRWlrJR2iljpKeBrQ1vutAwMJZbCtcq7kqKJ5E9z7F20lZqOxW2Ght0DYoYWhsYHcD4LJo6wFwPWGjHduxKtEJkDRnpAb2wp0Ja9zoHygYGQSe685vctnsRiorRchVNGQMYJ3wME/HKU1/rLRUi4UNY+nqITmKpjkLZGH4OCtElYYYw7O5VFLXyPJDpsEdhjOUSe9h/To9X8q/tM+JnAy8w27VlY672qUtExecvA+J81tP4C8wOgOYPQlPrjQd2jqIpGDx4GvBfC8jdrh5L5+H1ZYepzffPYtOy7o5Muc7W/KnxOpdTWqtkltE0oZfLVnLZYB9rpB++0ZIXt8O4hOiajN7ic9xbhNWXW51rU1/wAm9phyNxhcrGeEfFHSPGTh/beI+ibkypt10pWTQva4EtyN2n0I7FZNkeq62LUo7RwcouEnF9wiIpEQiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCYCIgJUjWkHI+C1l+3z4i1Ul40bwvilHhRNkr6hg8yWuaP5LZrK0nIB79lpx9uNqCWp5wmUL5stpNOQhjD2GXFePxmTWJy+We1wCtSzubwmeM6iYNDZXSf7QdQ+BVNUTOb/2+ylVdXiEF490n8lQy1oYSHEY7rlNNnbb0VclWGjAk79ypElcWnPXn4K2VF5gbkl2Fa63UbIw4hwx81LkI+ojIai4lg+z3+KksuJc3AA2WJz6ugflr6wDHkpf9saeKMM8YZLcl2c7qSrZD1N9jLxcJB7+MZODhJq0tcOh+yxOLWMD8NbM3duSAcqazUjH5aXZHqsqtpmfUMlfWk7h6g+s9Rz1/irH+1g4jBx+KibcuoE+IB6LHIOcvEk+Pv7/NU8tS7+NUDq9nT/tckeSkVFzAGerA9Mpy6I8zKuWrDSepyoqu5tbswDIOd/RUNbdovtMBcT5N7qyXnVFHbYy6qqY2nyjDsuP4KSjsw5dC61VxbI90wBJ9AVjuoNZUdtYeqfpkPeIbnHx9FjF74i3G6VH7JsdK8vcfsxDMjvmPJZFoLl8vupqht11rUy09O/BFP1Ykf8C70+Cv9OMY7m9FHquU+WtbMdpKnVHEOu/Y2maUysf3Jz4bfiXd8rtzhTwEtumTFc7o365X/ekmH+z+DR2ws70lw7tGl6RlqtduZTxtaPdibjPxPxWU0lvgp2B8kPvN2GFTZkNrlj0RsUYu5c0urKS02RtO0ER+ecq7RxMjaH43wkIwwtYNz9lUs1cI8tcCHDY581o/NJnoLUSpbcehpaSPzUMt1gjbuQVZa65wAOLpOg/mrPLqKMSloP49Ss9PQ9VJ9WZRLd2P3Du3YZVO6ufMerGPirFDfI3Asa4Od8RgBcftgdRidI3bfAcpcpH1Ey8S1vQSXPUdNVFzulrukjLmA93HzVlbWiU/aU5lfjd2C7yPoiSRjnRsQ9ijzgVGk+IEnLnqi5YtN+xJYvGP+yqhnqiHoCN1tUa8ufgMwO+V84nCfXNx0BxCsWt7dOY5rXeKeojeD9nEjeo/iMr6IOGmqm630DZdXwEFlztkNSCP77Af811nBr5W0csvY4jj+KqshWR7SL+iIvYOfCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiICU/qJIYN/JaYvbkUTqXnOdM9pDajTkBacd/eK3PO2OT5HdanfpBeh6m2cU9J8R4qfEVwtxonyY+8wud/JeNxmLljJ+Ge1wGfLma8pmumtuAjYKc4wPNY5eL/AAwNcfHBAOMA75UN+vLIi54eelvmFgtdcr1qW9xaf0xb5K6tqz0Q0EDfee71J+78zsufhU5dWddKeuhVak15BRgk1LWtzjPln5qiseluMfExzJdFaHq5KeQ4bWVX7mM/Jztl3py3cld31ZrCl03adGSa61rUEFltpsmgtozsXu7ZB75K2Y8CfYl1V1o4rvzT8UalryxrzpDSnTHTxjH2XOcO/wAitmqm67/ox6eWamRk4uMt3z6+F3NPA5UuL8mH6i4j6dtTnf8AYz1YlI/4Spc/KRxUkYW2Dippetm8mCbwyfh7xX0O6P8AZp8jmhrcyjtnAK31YbgOluUzpZXn1OdvyVRqn2cvJBrKndTXjl9tkbgMeJQyOjc0fAjC3f7bn6+tfwef/eOHb16b/k+bnX3DzjVwypGVF84a1ENNG3E1bbpRUxPP8RLPsqxWLiNFXxB8NU1++PdOSD6Le7xv9iPpOSgqb5yq8T6+z1u7mWDUDxLRTf3O2fgtXvN9yDXzTWs6jS+vdDyaC1pG4/VqiNgbbrw/PfI2bn+7jutCz4jFlq+HTyjfovxstbx59fD7/sdD0WrxI0s8X3h3CudPqFjw0Hfbv5LqnUUupeGF+l0frugkoa6kcRJS4J8XfZzHfeHmoXcTo4HeBE1oeRnJJz8AArPSjNc0eqMrI5G1PoduftpmSC4Yx3BVpuuurRbGvL6oPcPutOSsBtn+kzXknhWmy1D4ycNk+wz5nO+FnGk+WO63KWOq1feJXk4LqSmAA+Rce6pcIQ6yZJW2WfRExa6cSLpdqp1vsdPI+Q4DWQNy4/PHZXjSvAzXmsnsq9SVAoKd+742nqkcPn5Lu3RvB/TmmoWRWu0RwOb54y93zJWa27TkUPvNpekgfZ75+Kqlkxj0gi+GHKb3YzBOH3BbS+jGNZa7a1rnD3pyMucfjnus9oLLDAA4QDbyPb8PRXKmoIGDqDRkfBTpHRMIZ543WlZY5PqejXTGtaSJccIZH1RgEeeT2UEsjQR0SjGPeC4nnALm7ADvlWy53COJmAR+ChFOROU1HuTKu8vpup3WGdAy0O2ysbvGrZpZTRUfVVSu3FNAwukc70ACjoYK3VTi9tT9TtcbiKuseMsZj+Enfq+C9F8nvs/ePHNFH43CXTrdOaVbKRW6zvkPS+Yj7RiH2iSPQYWxVVZbPlrW2at19ddfPbLlj/s83SaA1/c6YVl2qaOzQOGQ6sqR1D5s75Vvl4a0Rz9d4yUMbicdLKR7v1C3TcEvY38n3CqKK6a4t9z1veOkOkrL3UYjLsbkMbtj5rvm28t/LVaKFtst3AjS7KZgwBLbGOP5luV69fBclrcppfseFZx/DhL5IN/fZ87UvC/U+D/ZziLabm4bRwPf4Lv/ABFWq71GstGu8DWdiqaUeVW334Cf8Y2X0G8R+Qjky4q0j6HVnAWysdJkCa3gwPaPUFoG68gcyvsSrzp201OpOVDV0t3ij63u0VqZzXCVv8ETsd8bAkqNnCsylbWpIso41hXz1PcH/KNXVt1KydofHKHgjPU05BHzVziujSMucQcZAKncUuAl80bqCvttosNZZ71bpXftXSle0skieD7xizs5vfzI9Fhln1F4gcXBzfBf4VQ2XZ7T8l56ipdu/g9NScfun7nYdBWO6S5/YYBx/NfQ7yVVUtbyo8P6ifIcdMUo3PfDAB/JfOpomOpvN2pLTSgyOq6yGCIeZL5A0fzX0kcummH6M4FaQ0nPH0S2/T9LC9vo5sYBXu8FhJORz39QzThBGbIiL3zlgiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiLguA7oDk9u64Dhnpzk/BQvkLN8fLJWD8TuPWjeGVI4XOqMtXj3KSnaXyPPkGtG5KjKcYLbJwhOyWorZmc00cLXTTyhrW7lxOMYXgv28Np0NrHlObqH+01DHetO3RlRQwOmBMzXgte0DudlnPFbjvxZv1HPctb6ntnDnT0oPgz3GqDq+Rvq1jTlmfQjK8Wc0HHLlmr7JXW7Suja3iPe5qeSn/a+pKktiaXNILmtOAe/kvGz8uqdTrb1/wC+D3+HcMvquVnjx/8AZq71pqd0k7LdboHSy1bwKenYcudIdgwAeuV685PfZ68X7vr2zcJLBRug1dqahbW6nu8uC2xUBGQCezSRnA+8uheAfAHWXDPiW7iTqeyRVF/qK4U+irM0eLGZnu92Ut3+xnA+S39ci/Ks3lg4QMp9V1brjrXUgFbrK91PvSSTOAPgB3kxm4AHqtLFxllzS/Cu/wB/seln5ssOHNr5pdvt9zI+VvlY4Uco/DyLh5wusEbJPDH7Tvc7Aam4SY9573YzjOcBdiPLZGNhYcBg22yAuepsTfeb0Z2znO/x9PmrRrjXmj+F+k67XXEHVdDY7Nboi+4XWunDIofhk/aJ8gF0sIQrichOUrJc0ntsu43/AHjXl3kXHYKJrGvcGRvaR5l3+S1xcc/pJnKVw/1BNpnhBw6vutvAlLDcWyijikcDg9Ilbkj4qVwe+kq8qOtr9DZOMXC6+aPgmeB+1I5xWRw52yWxNzj1UvrXQw+nc2Qktla7O4B6cny+KwfmL5ceFHNNw9qeHPFiwx1MUkRFvuDIh9Yo3f8AfRvxluCAcK98MuJnD/i9oyi4jcLNX0V9stxjD6G5W+YPY/Iz0ux9l3q07hX7qeB0k4z75a0diO6hOmFi5ZdiVc51zUoPqaCfaK+z0v3CrWH+hzizC6o6JnVOgtYxAA1cIP8As3u/ixgdJ+a88aW5cdK6bmIrbM2SqY7MrpsPId5/qvom5zOVPR/OBwMunDe/UzRdmQvqdPXINHi0lYB7hafIOIAPwWjzWWn9QaM1LXaY1fbRSXmw1r6C8xdOC+Rh6Q/5HHfzXIZtFuBZyxfyPt9jtOGZVPEa9zX+SPf7mPWfSFDTRCGOBjG4wGBiyCjs8MfS0jZqjpHHr63hhDXdsearYahoySO/kvLslLZ7tcIqPQiipmMZkDI9MKZ1ti3jw31wqeSpDHHB29MKRJXNx1ElVFukisfUtYMgAepVNU1rWO6jgqkqbizp+181QzXAEnJ29VOMX7kXLSKituHQ0yZBPkCsdDKzVl6Floz4TQ3rqqkuw2GPzyfIqTqbUf1Kle6NvW8A+G0H7R9F3XyGcol75o+M9o4K9Mgopum562r2jIhpmkFsef72zfxWzVVK2ahHuzUtuhXCVk+yO+fZmezjHNBcIuKPFqzVdJw1stTi02sO6H3ypZj94fMxg9/VbYbZarTYrTS2Kw26CioaKIMo6SliEccTQMABo7Kn0zprTuidOUGj9JWqKitlrpW09BSQtDWxMaMAjHn6lVpc0Ze4H3vstG+V2uHh1YdKjHv7nA52bbnXOcu3sjgu6XEYJ6u/T3KlOewHokkGc+61u66f5yee7ls5G9JjUnHvW7aarqGf+jrBQgy1tW74Mbktb/fIwtdWt/pQF5fqA0vDDlYo/wBnBx6H3e4tdLIwfe2IxkeS20zRNuzXCQHxCZA3u0DBBQO6XGUv3aNjjO3pj1WublZ+kcctfGDUNFo/mC0VV8PqyqeIoLyJvrFC1x7dfQP3bc+bith9ovdov9qpb7p+6wVtJWwNnpK2lkD4qiN2C2SNw2cCMHZNb6mdnRvPfyDaC5xtJG40jIrNrm2Rddi1DA0B0jwMiGc499hxjftlaROZTgXq7QWr7xa9RaWktGrdN1DodRWrGG1EYO1VGPvA7nIX0cFrCSwM992XOIO5d8T6Lxb7Yjk9h4pcMG8zPD+zNfq3RcGbsIox1XK3ffa/+IsaHEfNeNxLDUo+tWvmXf7o9zhPEHVJUWdYv/g1p+y34aHmB5wdGaKD2mjguMddXPfjAiiPWMg992r6LYWCCFkMTQGxtDWdJ2wvns5Bda8A+X3jPd75reo1FS1WoI2yaXutpB6KCAnMjH4afe6yfTZbNeCnN79d6GcMeZi36ga5vSy16rPhyZ8g1x6cHy3UMLLqqrX3L+KYORkW7Xse43GQNDiQPgDlRRZDd/XzXUOiOaShnlhtnFWxP09WTYbBUueJaOc+omb7rfkSu2aaupqqBk9LMyRkjOuNzHAhzfUH0Xr1212L5Wc9bRbQ9TWieigZM156Rnf4KNW9ykIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgONiFC9zB54x5+iAHpBxvldU81PMXofl64fVmqNZXkU8DGENiid++qX4OIoh3Lj6+SrtthTBzk9JFlVU7rFCC22TOM/Gi2abtNY4X6C2W+iafr95qXhrYhjfpz9o/AZWvPmC9pxbbZWz2Tl5tkc1QXOY/Vt3j8SV583QtIw0fE4K6F5pOcjiJzM6hfPdK11DYYZibfYqd5EcTewc/8Aiee5J9V1C+oLndXV+q5LN4pZe9V9Ed3w3g1WNBSs6vwZJrfiTrbiVeH3nXWpa66zvcXOfXVDnhx9GtJICssro5S1lRKclwA6tg30aAPNUT6staQJOx/JUlZdG0ZkralwEcNO55d6YGy8nq3s9l8sUketfY+8AoeNvNFX8ZNV0BqLLw/pCyiimHUx1c4jGM7bNJP4La94jnZ3c7IJEbu7/Ukry57HvhAzhVyR2W7XCkLbjqmtmuVfK4bub1EM/wDDheoup32TsA3rA+Hou5wMf0MeMUv1PnfFMl5WbKXsui/Yo9Q6jsWkrJWam1Nd4aK1WukfUV1VUnDI4Wty5xPwAOy+eH2rftPNfc93Far05YbnV27hlY6l0NgsVPMWx15a4/61OPv9WxaDsAtjn0ibm7reC3K3b+AOj7iIL5xHq+mp6HnqhoI/ednHYPILVodqJWte2KIuHSzoY0+TR5/h2W3H/JN+EaDeoEw1bvCfG8gsecStH3f8J8lEys8KMNjma4h2SMYB+fx/RUQm6XHqwfXC4bMxzs4x8Ff+hVo9XezL9pVxL9n5xcpbrR3Ge4aBuVSyPVml5Z3OjETjgzwN7RyNznYAEAr6MtAa70lxQ0NaeIug7yyvst+oY6611sbstkhkaHMd/wBF8k9JM1kw6z7pGC3yd8Ct1v0a/m5rtccJtTcomsLuZazR8zbjpgyPJd9RlyXQNz92MNH5o+xhdGbRmu6yGeL4b2/alaOzvRauPbfculJoTi9YuYvTdtDLdrCN1FfgxmGtqmYbG848yMklbQonh4DujGV0P7TPg/Dxq5KdaWOKkMlfZ6I3W2PA3bLF6fhleXxTH+IxJeV1PU4ZkPGzYS9n0ZpHt1bLTufbpHEyxSODyT5q4R3B4HdY1WXEi4U9QGgNq6YPDx5kdwrhFXuMYGdlxXePU+hxkk9F1lupLPC68fgqaW4Paz7QO6oJ6zG4O6pXVr3OLPVY5UZlPqXGWtcW7tyrfXXFsQMZPdS5qwtZgv6T81ZL7cnRxCVsmTlTiiicjmzvgver4WVfvUVvzU1QPmW7tW6L2MPLqOFfLF/pev1J0X3X1S+qLnNw+KjacMiz3xlvUtNPAPTNZxGvMNgo6Uy1OotQQWqnaPQvxlfSHorStDoPRdl0RbIwyls9rhpw1vbIjAP/AIsroOC0J2ysft0Oc49kONMal79WXP137Lpnny5yNG8jHLhd+O2qxHPVQj6rp619eHV1c/aNnr0g/aI8l3DnOGMPV1e5IPiey0V/SKubGp4t82VHy8WK5ulsXDy3BtXBGfdluchcHuPxaOgrom3vRy3c8U8wnMTxV5leKNz4x8YdUSXS/XOZxkfPISKRhJIhhb2Y1oONsZxldfTzSADMjvcOzWgb/MqGeoEri7s4HDpD3cVKe5x885+KsW4rRW+pWw1T8eG9jZC47xOaCzA+Hn+K2S+ws9qRf+CPEy2cpvGvVE9ZoXU1QINO1lxnL32WtIIEbHHOIXbADyJWssTlrsAYIVxttyrKOpirrdVOhqqaVk9HKw7smY4OYf8AiARrYb0j64g3wR0Z96P3XH0H+agraGgudHNartCyopKymdFVteMtdE4Yc0jzyNl0J7MDmhdzdckuiuK1dVCS70tG216heTu6qp2hjyf8RyV3/gOLgdj1bt+Kg0n3JxbNEvOXwIuXLbzHaz4M0/7umguDrlYH4IL6aU9ZDfLA6sLCrHdqqMtlppjG4hpYWjpd8dxuvent3OFrKO58PeP9PTAPlfPZbq8D7pw9pK180cxglkpdi2KXpZ8lw+bT8PlSij6Hw3I+JxIS9+zO9uD/ADpcceEJjp7fqd10tmemaz3k/WYi3/fz0/Nq95cjPtHeFurrvT6OulbLp6pqsA2a41BfTF5Penld7wz/AAuIA8lqpZVYaBsplLdpqGZtTDK9hEo6Xh24d5Fvos42bbjyT3tFmZw7HzK3GS6n0eUVQ2ojbPE8Pjkb1Me07EHt2U/LTsCFrT9mD7TOvbXUPL3x5vzpI5X+FYr7VSEvjeT7sMxPkfIn0WySN7ZYxLFhwcARjzHquuxsmvJq54nz/Mw7cK7kn+z8lSEQdkWyaoREQBERAEREAREQBERAEREAREQBERAEREAXDj0tyuVC8lrT8tsoCz611rY9AaVr9ZamrGU1DbaR9RUzPdgBjWknv57LSDzxc3mo+a3i3Wainq5YrFSTOjsdsMh6GxDbrI/id3JXs322vNK/TGlbfy36Wujoqi8ZqL66KXcU4wAwj4nBWreprTJO6T3u/u/JcnxbMd1vpR7L/Z2v9PYEaqvXmvmfb9CsfWSuc50shOQB+HkFA6rw30VC6rlP2vyQ1O2DsvFkdN0KiWtjIAmDh72CW+is9QZruye0seXfW5Y6YAnze7p/zVRU1JDHjI8un5pw1bBdNe2ykqX4jOqKBhPl/tm7K6iKlZFfdGrkS1Bv7M+gfgvpqPR3B7SWj6aJsbKDTtJH4eMb+G3OfxWRTbQ9fm1+SD6ei4pY2UtFSwMH2aGFrfkGhTYWg1MUTx1buBcfQr6BrSPmTe2aBfpEPGv/AElc/wDUaHpJA6m0XZo7cACdpCS8/Ds9eAauZznYJ3J8vT0+S9He1hulTcfaHcXJ66Tqkbql0fX6gRsx+i81Sy4LhnJHY/FQxl/iX3MWb5iB0hadwN1wXZd32Uokl3vKJvfLTkeSvTIFXFM55aw4DQckr157ErjJWcG/aPcPLiawx0eoHz2StZ1YE3jgNYHeuMbLx6w5YW53xtsu3uR65T2vnH4UV8c2CzXtuZGB5O6+6yurMPp1PqgA6J5Iz92RwAHpnZUWp7RBf9L3SwVEYfFXWyohlYRkOBicFWOJEwJOSYWuPzIBXNKBJIGF/TmOTP8Awla9q3W0XQbTTPm74rWj+yWqZ7G8Fv7MvlXSdLvuhr9h+qpaavD4/tfmsj5yGx0PHHXFO12GxcQavwz8C4ZWD0lc1rPdPf0XBSWtr7s+jVy3FP7IvJrGdPvHdSX1kZ7OwVROqw8ZJHyKkyVQb3PyUF3Ldk6qrfcPU7b4rF9V3Ux07uhx90Hp/JXO51oEXT1DOVhurri400regj3CPxV9cU5I15y2metPZG6Pj1hzP8K7VLH1MbcpbhKMZyYyDn8FvxmP+sS9ZyHTuzjt3Wjz2GsEUvODw7Y4b/2YrnNHxIat4Mod1yNLsjrPb5rp+ER5cZ/ds5Tjc95aT8Ip664R2q31t3kaAyjpZah3V94Mjcc/nhfKfzE8Tbpxd46624o19Q58981RV1bZC7JDS7pxv/hX1Gccqmag4Laxq4JXRywaXqnxO/hHQV8nc8wfLJO5xJlmlf8AiZHL049bP2PFf0kl7vukDOP1UGcNJB38lDL4nWSW7+She8bAbq4gATnqf5qroZHCUYzjyx6+SpDhx6SeyqIXOYD0kAfxeiA3L/ReeKdVX6J4p8FrjVudHRVtJcaCnLj7nUx5kIHxOFtbdnqDyMkMx/1+a0q/RhamsbzLcRqRoIY7SbXPA7ZwMLdW3bY98bqD7konlf2ymkItS8iV6vAg8Sex3GGriJGenLmtJ/LK08sqojdZQwbOaC35rdp7UFrH8hPEZr8YFrjOD5fvRutHVJUNN5kgY7PTBG4H5juuT43HWUn9jsOAT3iteGX9tQ4twSPkoX1PUQJCCGjGCqVr9uonfzXEkoJ6ur8F4x03sXW2XSehqo6qKoexzXtIkY8hwIOQQfIhblvZO85f/lHcIf8AR/q66GTU+l4mxVLpn5kqafOGSnPfyC0qw1A8QOlBLG7vaO7h6D4rvj2f/MTduXfmT09rKKv6aGqnbR3hjn4EkMrg3J/w916PDcmWPevDPI4vhrLxmvddUb7QcjIXAJPcKRbbjSXKgir6OUPilia+N47FpGQfyVRkFdmuqPnzWnoIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAKnudZFbqGWvqHtbHDG573E7AAZyp0hd2G23ddcc2esf7B8t+tNTmYtNPp6q8N2cEOMTgP1VN9np1Sl4RZTW7bow8tGk3no403DjfzMar1zLVukjfdn01E0nLY4oj4eB8+nK6amn984O3UVNv10qKuR1bMep1TI6d+fMu3/zVrbNI7cjAxsPRcHKTm+Z+59LrjGqKhHsuhWOqMOGf5qXLVb/9VT+MS0+9uFJfI5x3colvOTp6vpk6e+wdhUeg7w+g1WK1jg36teqKqefQNmGT+iTytYHuB97p8lj9tme3UFwo42lzqm3PMTB5vYC4H8CrqXy2p/cou+eLX6n0s6Zubbzpy13eMhzKi1UszHD0MQVYekPY57se9l2PILq3ki4l0fFrlK0BrijqRN49gip6h7Dk+JCBG4H45C7Pk6Xk494PHvH5eS71STWz5vOLUmvB82XtlNH1Wi/aS8VbdWU7mNrbuK6m6vvMdG0Z/MLyhURjq+19pvVstpX0mbl9qNMcxWkOY62UWLbq+yfs2vna3ZtVC57ySfUtwFq5qmBjnDoORt/hHlj4KGO3ya8GLE97KR7fIO2XMYIAH+aPYw9lGwENGy2CsmRdJPSBudgu+fZs6Mrdd89nCbTdFTGV7tbUc8jQM4jY7L3fguiIAw46W7+votjv0b7l3l4lc5tfxsrraX23QNke6OdzfdNTUNIj37ZBaUXR7MNbRvelx9ZkI+yz92Meg2/yUDZxStfVSY6IqeV7yfICNxXLSS0uIx1kucPiVhfMbxEouEfL/rbiRXzsjis+maqYdZx75YWt3+ZCoteq5P7F0IuU1Fe58+nNvf23/ilqm8U72mO4a8q5o3DzYHhYbSVTWxhSOIl1qbjV2sVWfrE3iVlSz0dI4nq+apYJ3sb0rhn8y35PoUPlSXhIu8lX7vUD+CpZq49BB7/NUr6ws90n8VR1Vwb2Lj+Cjyom3tEy51jiMFyxTU1SZIHNDtznv8irnX1z+nDy0HyIO34rD9WahoKIhklQHS4PuR9vzV9K+ZdCi1pQ2e5/Yt6zgsXNfwnuFVOGMqGVduc7Pm/pAC30ydbZpQ5uwkcB8feK+ZLkH4ys0Rf9Ma5pqgRy6U1tTVM4DwSyndIOr8Nl9NVJc4LzSQXq1va+CrpoqmF2cjEjA/b810XCm1TKL9mcxxqO7ozXui166szdU6EvulyPduFlqIPziccfovky1jY6nTWp7pp+sp3RT2+7VEE8ThgscJHbfqF9cQlYyYStjLgDhwI+GHD9V82vtkOXOt5bOf7W+m2W8x2zUdV+37O8Nwx8M5IwPXBYcr018s/2PHa3FnlKbpc/q6hn0UI6M9t0mjZC7qcCZMbj7p+IUtwdgODcHzwrisjwM481OpM+MC5pOPL1UkYLsAblVdEPAkL3El0bS8Y8wBk/oj6A21/RdNDVdRrTitxHlp3CngoKShhlxsXyMcS38MLcMxnnnyXhv6P/AMu1XwR5DaLWl7o3w3LiBcnXYsczB8BpPgd/Isfle5Wl2CQ0dTSSWO+8FW2iUe55s9rbfqTTvIJraeoeA64sho4mk+ZkaVpFoqgzapreiPAhZHH39ButrXt8OJdHY+Auj+EENYDUalv76meJru0ETOrJ+HUFqY0rUyXKervD9hPUPLflnZcnxiSlla8I7PgUGsPm8syXxvh+Cg8QnspAn2wXLh0n97b4Lxz39vRU+IGgue7AAyMearKCpmJHQC2TJdE5pwWuG4VrZJk79iqqleGVIcHdR74BUo9yEm2tM3/+z44qzcYuU7R+sqms8Wf9n/VqnffrjPRv+S7rj898rw/7CXVlTfeVOtsFRO4i0318TGH7oc3r/wA17gjGG4x5rusWbsojJ+D5xm1qvLnFeSJERbBqhERAEREAREQBERAEREAREQBERAEREBBK4N6cjuV0H7TSonp+S7W5g7m29J+RO679fvhdP8+GlpNX8pWu7LA3Lxp+olbt5sYXf5LUzY7xp/obOE9ZkP1R8/Ne92Q8ntGA1p9MKkL2YJB2PZTriZGFrnH3w0RuHxVvMxaC092nBXEa6I+jb6kwlw+12UqSTBypU1Thp3Uh85d5pysyTZpgWuIPksfq6qO1X+lvf1jofTzAY/jY44cPyVznmaG7HcnsrPfqf63E+CRo6XN7+f4KcUkyuTXsbefYL8dob/wZ1Py7XGuDa7S92Nbb4C8E/UpQHF4Hp1OAXvfIwXjZh95jj26vRaAPZ3c2lXyqcxOnOLddJJ+z4pBaNWwtP+1opD7rj/hd0n8Fv4t1xtl2tdPebNXsq6WshbNSVEbssqIXjLHNwuw4df6+Ml7rocVxbHdGU5e0uqPP3tROTOm52+UHUXCmjoWO1BRM/aemHlvvMq4veMY8/fA6fxXzQ6nsF50/dauxajts1HX0dU+nrqWZha+Gdh6XxkHcAEHGV9czndDzI2fBa7McnTkx/H/Ja3fa7exIouZm51fMdyp26it2u/B/9N6dlPhU99Gc+Iw7hs2D5DfC23uufMuz7nndJQ0zRQ6Bkbf3renP2h/CuWsdno6CAN8n0WZcTeCfFjgrqGbS3FLhjfNO3ClmdGYLrbnsa7Bxlu3vD0K44Y8F+KPGPUEWlOFPDC96huM0wDKW10D5SSfU42/orYzg0VuMkY7Y7PcLpXwUdooJamrqZ2Q0tJEwufPK5wa1oaNzuR2X0i+yH5HjyPcoVr0nqOgbDqzVDxeNWHp9+KeQBzaU+eI8kY+K84+yK9h43lzvlt5m+beio6/WlO3xtO6YjBfDZXEbSS9g+UZx0kbLZgXOyHSPzI7JdI05J/6nyWd77mNdSMuAOHOAGfteS8O+3a48x6E5YrXwHttYGXPiBdOiaFrsPFDHjxCR3x1YXt2ruFuoKGorrlVspaSmgdPV1MxAbHEwdTpCT2AA/RaDPaf85P8A5S/MfqLitS17hZrU99k0YHvBaY2Hplnb8Hlodn4ryuK3+lj8i7y6Hr8Ix/WylJ9o9Webr9cI7rquqrI3+5FiGH/C3YKWagsjJBz8liNTrez2yLpim8VzQS6TPdY9c+LVVXz/AFK0QOfI44DKNvU4/Nc36U2lpHVO+tSZ2HVXiGFhfLUsaW7kF2FjN44k2qi6zDIZOkY6h2H5qy0Wh+KWtqiN9RTMooD9+b3nY/w+RWcaS5aLPHKKrUEk9fKTkeK4gD8Fnlrr+p7Mc11n0LX6nW79Tat1lUmmsFtnla7s+Jh6B8yVcKTgdqS4H69qa4uazuYIW99vMlehbLw9ttuibTUVvZFGwfZYzAP4qO8aaa2AtazbyA8lj4vX0LSMrD5us+p05wZsdt0brip0bE7wKa+0DoQXvP8At27t39SV9FXsruYhvMZyU6V1DcKkOvGn2Os1+iLsuinj+zn/AHA1fO1xPtVdZqht5tcZFRRTCeE436m7gLYP7ErnjsnBnjfFpbVl08HRvEinbFO5zwGUN0BAD3ehdgN/Fenw/I5b/m7S/wBnlcTxfUxny94/6N05b1uLnOI2xj4f1Wv72/8AyGXPmd5c6bjrwysRqtXcOo3Pkp6eIulq7W7/AGjQBu4sbkgfFbA3MdE8xydwd1x4bHNLXdB62kBsrcscPNpH3gR5Lo3HmRyyeup8h1TT5lb4cbuo/ZicMFrfPPoQdiCqeRk31npaPc/iW5X2pnsCLhrPUVx4+8jVupo6qtkdUX3QM0pYyWVxJdLSu3xnOfDHnutWWteVvmJ4eXybTmteAutLbWwyFjoJ7FJ7xBxlp+834orenzdGR5dvoddx04w6R3dgBK779nnyZax53+Z3T/BzTttkdbRVRVmp7k2NxjoqJjupxc4bDr6SzB9VlXKT7JLnb5stRUtNpbhRX6csrpwKzUmp6d1NTxx+b2NcP3hHkPNb2uQn2f8AwZ9n7wij4ccNac1d1rmtk1LqiVhM9xmxvufsRg5w0KXMpLoNa7ncek9L2LQml7ZojSdCymtNnoIqK2xRjDYoY2hrAPjgbq6gOlMcDXZkIy0Hu4Hz+SgDfsnHvB+A0dh6Lp/nw5pbLyhctN/4qXKob+1JKU0OmqUY66itf7sfSPMMcQSq7JqqDm/YtrhK2ajHuzVh7bLmNg4u82F3sGnq1stu0RQiy2/wXZDqmQtdKRj03B+S8uabpW0Frjpy7ZsYBx6q2agul11lrCW6XirNRWGpkr7rO458arlcXOB+XUR+CurC8Ma37rWZcuHybHbY5+Tv8SlUUxgvYrHnAz1D5I13ujHf0VKZQ7BYdlz42/cLXS2be2VXVtn81Po5OmYPb+qoGynfby9VXW73nMOfNSjFmGzbl9H9lfJwN1gX741GzJHr4LVsEaT2PovD3sIdKS2TlTrdSyQ9P7Zvb5Wn1DAGf5L3C053+K7XBTWLDfg+e8SalnTa8nKIi3DRCIiAIiIAiIgCIiAIiIAiIgCIiAIi46seWT6BAc4Vr1pp+l1XpS46ZrWAxXChlp5QfNr2Fp/mrk6QjctwPUqXNUwxsL55GxtA+29wAUZRUouL9zMZOMk0fOJzJcO7pwm406j4d3OB0U1svc8ZicMERF7iz824K66qZBG3pDgN9hnt8FsM9u/wSsVp4h23mH0SWzU94d9Rvs0LSY4alrR0PeR290YWuetq4Q4gHOO58yVw91TptlBn0PGvV+PGzyv+Tmonc5uAd87KXLIY3F2fJUjrhEeztx6lUdRcX+L1Zz8AVVpmztpFwnqCGfbCoqyTxm+EW7d+r0wqaW6swW9HSfUlUVReGvzH9ZaB5jKykR2vcnUVxdaK/wCvSxdVJO3or6fuTH2z/JbVvYwe0VtsVto+TjjfqXpLC7+wGoK2QBskW3+pvcTs4Yw0H4rUrVX+hGTJVsDjsXdXceiae4pWfTtRHDWXCY0zJ2ywzUriJaaUHIew9wQfNbuHkWY9vMuz7mhmY1OVTySfX2Z9Sb9nOhcMFp7EYKhe5jnAyM6i3sc4WtD2d3trbOzT1t4S84t/a+MRtgsvECJoLHN2DI6sD7LvLIB+K2R6evlm1XaYL9pW80tzoZ2B0NVb52zNkBGQR0k7Y9V1dN9d0VyM42/Htxp8s0SdR6O0lrGIRay0jarsBs369bopCB6dTm5/VQ6c0VovQ7DBo7SFosvX96326JhPyc1uf1V1cDFLvI1pI+yc7fgoGNy1xbh4B957BkNPphW6in9yg5y5zSPDx6lx3cfX5qOKPxZjHHE8ux09J+00fPzwqLUV/sOi7LNqPWN8o7TR00ZlkrLnUtijY0DdxycnZa1faL+2xs39n7pwr5Rb/wDV6ctfT3niNV4ELI+z2Uo83EZHVgFa9+VVjw3Jmzj4t2VLUF+/gufto/aRWuwWG4cofBPWEbKmSF54h6igePCpKYDelY8ffduCB6rRVxI4uao4n6q8DS1vbSWagzT2rr2JjG3Xj44z6rIONPGa4cTKio09p2rn/Y/1l01XU1Dy6a5TE5MkjjucnfCtGhNMPnqmBrCGuIIHTt8V4UrJWWO2ff2Xg6OqiFMFTX+78lRovhHUX9zKjUNwkqCXDMbDgH4bLuzQfCuzWemYKG1xxds5bk/mmhdJiBsJfDj3h22XZ1ms8EUYHhfqvLvvbfc9jHxYxXYt9BpqKLAbDsB6K9UdoiYQDGe3oq+OBjRhpyR8FMjkPdzQFouZ6SqUSU2ghhb1BiobhRNcD8R6K6vlLR5H4FUNeQ73mn8FiMnszyo6v4j6XfVU7wO3c4G6640BqOTQt8l0rdZJIbfXTh8U8ZwaOpByyVp8uwXe98pfrMRDW4cdi7v7vmPxXWGudAQ1vWAzDenDQB2Hot+izXRnm31S3zI3X+yL9pLScx+jqfl74zXqOLiHp6m8Ohqap4ay+0jQA2Rp26pAO4G57r284MdK9rBjpOA1wxhfLZw14jaj4cXu3eLe6yhqbTVCex3uklLZqJ47Dq7kfBbg+Q/232jtb2ui4X84lfDaL9hsVt1pC0fUrhtgGbH+zkPmAMLpMLiMZrksfXz5OUz+FzhL1aVtePBsND35DXhwLezmnBUNTC2teHVNNSyuA2fUUUcjvzc0lSbDf7Dq+3Q3rSd9pbpRzRgxVNvqWytkyM5HSTt81UNa+TIYx3WD7wAOR+a9XaZ43Lo5a4mNtMAyOJv3IWBjfyAAQykSdETRsNi7sooqaWRplax7m9XTnpI3XVXMnzrcuPKhp6S9cWuINHHVBjjS2GhmZLWVTx9xrAcA/MhRnOFcdyekShCU5csVtmfa917o/hboq5cQOIOoKe1WW10jp6+tmeGsjYBnYnuT2A7nK0We0m5/NRc6nF9uo7d9Yp9KWV8tPoOzzjAe3sayUD7xABGfRVntDPaWcTudK+NttZSy2HQ9JKX2bSUUvv1js7S1RB+Xu5IC80W2kqqqqddLk7rkkHSBnZjPJoHkAuc4jnrI+SH0nU8L4b8N/ks+r/RXWWidRQHqdl7z1yOP2nOO5J/FXAye7ucbKUwiMgHyGM+q4neCQ5p28wvF7nQb0RiXHYhReIC3vuPJU7nsaM5/RQ+K0EFru6EXJor6ecjLRjt5qutjZaiYsiiPW5n7oA93nYBWR9ZD0EZ3x2Xefs8eE9Dxs5rtMaOvEo/ZtLVC43GUjLY4YSHlrs+TtwrqK3O1R8spttUIOX2N3ns/uE0vBnlI0bomeNrZ2WxtTM3GPelPiHP/ABLuiMNaMDz8lbNN3bT1fboRp2shkp44w2JkLuzQNhj5K5M7Zwc98Lt4JRgkj53bNztcn7kaLgOJOOn8VypkAiIgCIiAIiIAiIgCIiAIiIAmQEXBIAQHORnClvkaxvU5waPM5SaWOCMyyvAaB7zj6LpPi9xeud6mqNO6KZ1RU/UKiWQEMz/FkeQUJzUFtltNM7paiZZxB492DSkckFtfHO+PIdM9/uMd6ZXRev8AjhqvUUVRLT1U1TKY3Gmp3e5Tl+Nh1ei6V4t80HBTgk+eDWevJtUX2QlzqOjc1wix2Y1w90fI7rzlxL9orxV1VK6g0NbaexUhBEWQHTlvxO7V4+VxSmta31+x0eJwWx6ev3ZmvNTScYeJXDy46X458W7XaNPzkyvtFppBCDge6HzffwQDnAWrTizr+18P9W1mlm3y3XMQyZhraOo62SMPbJxsfUeS9K6/1DqLiVVTVOtrvVXOSTPVFPKQ3f4NwF13c+BmiHMNUdIUrQ45yNzleHdl0XPbiz3IYN1MdKS0ed63jfCNoHQjPmDlW+o4u3Gpd/q0Mkh8vCp8r0QOEOlYfeprBTgD1hGP5KH/AEd2imf1xUFNH8ogoq6l9omfh7veR5wdrXWtaf8AVLLcH9W4zCWqnqaniXUN6m2OZgJ3MlT/ANF6PqtGQB2Y6do38hhWq6aRYQ4eGFL4iK9iEsWxfVJnm26M4jNJd007P8fvYVkrKbV9T0x11/MZ8hEzAPzXfOqdExuYXOH5LAb5ouWJ56Yz8FtV3xl2NWzGaMZ0DrLXnDCufPYNQPfDPtU0VWfEgf6npPr2yvSvLh7THidwEnjm4c6/1Do55f8AvqOinM9A847mI/1XnKptM1OSyWDPxUENpjqpGwRU75Hu2bGwblWPe+ZPT+xTyyUeVra8M2ncP/pE/NJQ0DaS6aw0PfAxuGzVluZTzf725yuNdfSHuaW6258Ft1toeyH+OhtjZ5B8t+61XvslNu2aPLwcdBZgtUxtghjIL4o/wCn62T+dkI42LvbqWz0jzD+0m4m8eql8/EbiFqDWM4d1R01XIYaJh+EY7rz7rDWesOI9UyfUVY0U0TcQ2+nb0RsHkOnzP95S4bTGcBjPwCvdj0Y+seHlpCpainzSe39za5W48qWl4RY7Lp+Splh8GLIGxaR2XbPDnQ8dOGCSI9fdxI2UekNDxsIc6nGR6rsSxWVlE0Atx2wtW6/ppG1RjqPUuFgtjKSEN8LOPh2WRUrY2sB7euytlKzwj1N7H4qtjn6RuvPntnqQSUSufO1kbWsd+JUL6npb3z8VRvqOpuAFB9b93oJVfKWbRVyVm3dUtRVu7YyVKlqQqeabLg4DspqCRGUkiGoeHZ3/AAKs1yooJ2kyNP5K5zvy4u81STkOOVNdCiaTMNvelYK1jmOgaeobDGx+forRRwXzTgMFula+neCJKOdnUxxH8lndTTMfuDhW2roGSOI6diPRX12yS0a8q17F84Oc23GvgbMyThhxO1Dpd2MyU9DWl9O4+hYfJegbF7bTn0tdI2mHHO1VTGMw19bYmmQfM53XlOaxQuyQzJwqZ1ijB3hH5Lahk2wWozaNWzFom9ygmejeI3tZudriVSPo9Q8xtypontLXQ6epBTdYPl1DOF0Bedb33UNxmvNRJPU1tQ4mauuNSZpnEnc5PYqkhtDY3fZwquC3Mjy/p7quy6dn1Pf6llVNNXSEUinoLafG+tyFz5Hf7SQn/JXaCFkcTejPffKgjxGMAKb19I77KiT2XpcpE5zy7GPxUuR/QMHdcGQlpIcqeeYtBw7KiZJktQ0d/wBFSzVbWAOEgPUcBqp5aljMvfKPkrTdr9T0kMlRNKGMaPtn7vw+ZViS2QcunUr7pqKltrDUVk3hMYcP33PwXrj2Y+teCFrts14rNd00Wpq95c+aOs8E00Odoz69uy18VFXd+KF9ZZbZG/6u13vdRx0t8yfivQvCvTFFoy0Q2a10zRhuXOLAHPPzWzC2GNLets1/Tlk7W9I3G8JNW65ss7rxonihDdYnbxsfOJJSfQyeQ+GF37w75vTDVQaf4sWSS31Muzaxjcwn/eWj/TuttV2F7bhab3VUb2H3DT1LgW4+GV3pwr9o1xr0OI7Tq2WHUdtjI64LlCOsD+6RhblHFIx6dUamTwVWraaZu9td2tt4oWV9rrWTQyDLJGOyCFU9bd/e7d1r75UOfjhxq++Nh4faoks1wqXg1ek9QzAQzdsmCTOAfQEr3LorXFk1vahcLU98b2HE9NK3D2HzznuPQjYr3sfJrvjuLOVy8O3ElqXYv433XKghILSQMZOVGtk0wiIgCIiAIiIAiIgCIiADPmVBJ17YPmuHSAv6d9vgus+anmF05y78M6nW2p53wUzWkGYN+z8B6uJ7DzULLIVxcpPoiyqqd1ihDuywc1HMZozhNo6suesNRx261UoLa6fIMk7/ACiiHmVqv5n/AGiXETjA+bSfD99Rp3Thc5rYqYkVE7ewL3ZyMj+a625qubLXXNRxCm1NqKeSmt0Ur22W2RyHwqaHJwenzkcO5XVsda5p6wXeIThzyckj0XHZ/E7ciTjF6id5wvhNeHWnNbkXaOb6x1Sz4L3HLj3yfUnuSp1OWNHSB8sq3eM4tBAa0Y8lMhrGMByTn5LyerPbXYuragEeFnv3XEkDS3pGFRQVDHe8XfgphrA77Djn+SjrRJvYmpA4EE7+WFS1FI3o6QBnO5IVQ+o3ALiqaWQeISHbf5pswUFdbyRkYO/orXXUDTH7zQcq+TSBzT1n8lb6gAuLQfkrItlcomI3WzRzNLXQjCxW7aREjjhhI+S7IqoGnu3O6ttRROdIe2D2V0ZuJrTq2dS3DQ8U3V+7Ix8Fav7DSU9S2an6hI3PT0nB/Art6qtIc4gNG/wVvr7NDHC98jQ0NbknOP1WxHIn5NeVCOoJ9Gysa98rnYc73pM7/jlTKXSUBOHTtcB6ELvPhhwIvHFHUdvsdFpWu1Berq7FqsVuYcvbj7TvgO5K72qfZE821IS6q5Rqp5Iz1U9yB+PoroW2Tj0i3+hryhTXLU5pP7njK1aTo2dLnBo+OQsss1koIsDLcY9QvRs/sv8Amkt73Nk5PtS5HnBLn/JUs3s7eZOhcRLyh63GP+7jJ/yVM/Wa6xf8FkJY3tOP8nUVtgpGAN8Vo27gq8UksAAY2YFdgHkg4+UW0nKzr5pHfpgccfooXcoHHOkeDNy08Qh1dsUTv6Khws/KzZVtP51/JhjJASB1jAOe6nGpAGzclZW7lY4zQv638uHEYY/+Afj+S4dy18YfLl34i7eYoH/0WOWx/hf8E/Xq/Ov5MTdI57zvj4KDxB19PnjyWYjlu4xtjHRy98Q/xtzv6KNvLRxwdF4jOXbiA70H7Ocf8k5LPyv+DLur19a/kwaSQk494j5BSpZs7Mb0/ArsFvK3x+kHWOW7XuP71ucp0XKbzF1eGx8tWuBnsTbnLKqtf4WVfEU/mX8nWb5HZADM/JSJnOb9onHyXbMXJXzTVjumm5YdaS4P/ubhhVsPs/8Am8rSGs5V9WjPbrjI/wAlJUWv8LMPIoX41/J0hL0uGfEx+ipZXsB3e0jH8QXoGH2anOTXnpj5WdQZ/wD3Z+kfyVTTeyc51bkOlnK7W59Z7qGj+SlGi9v6GQeXirvNfyeap6ylY7HjMHzeP6q31WobRBkTV8LT/wDMC9Y0fsZudi5P6TyvW1m+7qq7tAV3tvsMOdarb1u4AaQgJPapvLMhWxx73+BlPxeJ/wCRHjmmvNFVx/uKiOQ/d8N2dlWxzB7Ms3b5keqzPmX5O+InLnrGp0Rr7RX9l9Q0sRmZFTv66WtiHd8bxsRsV1zaagzU7ZHMMbun32u8z6hVyil9mi5SUkmnteUXZpHdcOmYyQsI/VSonkt68qTPIA4zPOyrJNkyWoDSek7K3VlwkYT0nKgrKsMPWXgA/Zye6sF81BHb4TNUThrTsD5k+g+Ksit9DG9LZU3i8U9GySWpkA6W5e4H7Py9V17cLrfOIN/is1mp3ZDsdH3Q3+Jx9VInrdR8Qr020WOAtjZJ3a73WD1J9fgu5eGPDGi0vTeDG3xHyAGolP2nu9fhhXNqlbfc19SvlpfSVXCrhvQ6Yt4jbF1yPOZJHHcldk0VN0RgfzPZUtroWQNbG0A4H2/VXaJhYQSNgtOUnJ7Z6EI8q0TGAseHk7kd8brl05D+rvgY97fIR2OjqHcqS6Q9IBH6qJbvoRfWnxua9julzDmN+cFh9QfJeu+SL2o+s+BmoaPTnGKtmu1iLmsbcCS6qpmbDJyf3jB/e3C8dvn9QpAnfCeouacA5Pm4emfRX0ZFmPNSga2Rj1ZNbhYuh9I3D/iPpDifpOh1roW+w3G3XCES0tVTO6mvBGfwx6FXyMvLz1Hy9FpR9l/7Q+78quv6fQGt659Roe9VHTVQPJcaGZ2AJmejc/aC3TWi6UN6oKa72upbNTVULZYJWHIexwyD+q7DDzIZdXMu/ucDn4NmFdyvt7MrERFumiEREAREQBERAEQ9tlwBjzQEmd7InOkccADJJOy01e1+50Krj1xkqOE2lLg/+zGk6h0Loon+7W1YcQ9zt9w0jAWyL2kHMM3lt5VtR61oahjLrU0/1O0MdnL5ZMNOMejS4/gtCF0u1VXVb6yrqHS1EkhkqJHHJe925JPmVzXG8luSoj+rOp/p7EW3kSX2RzJUuDnRuADeoFpb90+ijjqWHJY7fO6tzqoh+3bOSPipjajB2GMrnuVHWqWy4mrwBh2VG2pydznJVuFUc7NXIq3A7BOUltF3ZVBuxeFF+0MHww7KtAqnP2Jx+KibV+G/AGT5ZWOVsztl3+tlrcnGVA+oPSXH5q2m4NO73b+mVC6vBGAThY5Rtla6ryMFU0kvU/b81TmpL2lvi49FA6oGOku388KXKZ2mRz/NUrw1ztlHJJ1HvspEsoY7AUittHBYzPbKpLrETRyuY3Dg0n3Rkqo8QMwD5qIvYQcjOR29UIcqPYHsROKfC3RHNKz+3FZTU0+pLCaLS9ZVuH7qpDffhDuzXO8luK8WriJBqJQ9mzuqZ2R+q+ZKsjm0nX+NQV0zKV0zZRLA4tkoJgctljx2OfMLa17LL2uto4i0Ft5cOavUcFLqSFrKfTmq5MiC6xgYbHM4/Zm2A+Oy6fhGXV6fpPo0clxrDtnb68eq9/sbE/r1aG71knwxI7+qiFdWdOfrEh+chUgiRvuPDW5OTg5BB7EHz2XB29xxyPUFe24qXsc9vRP/AGjWO2lrM47Zan7QrW/+0j/hCkOcCMA/ioS8DYpyrwNvyVAuVbnHjA//ANYURudWfvt//wA2/wBFStw4EgonJHwNy8lS24VXnI0/KJv9Fz+1KsbOeAP/AJbf6Kl6h6p1D1Tkj4G35Kr9pVjtvHAHl+7H9EFzrBkNqiPkAqUv/vfquPEHxWeVew2yoNyuBPvVbj6DOP5KFtzrHHr+vSen2ipBeM7fzXBeMYxhEojZUOr6lx/9emPp+8d/VcOqapzuk1k2O+0p/qqUvIdjKja5zT1EbeXmT8EUddjBOdUSPIJfKDnGfGP590ErpXCnDpCXOLI4iSTKf4ifIKXu6RzInDOPs+Y/PYLwX7TP2tFp4R0Vx5cuWC809x1nNG6nvmoYHF1NYmE4c1r+zpiAdhkD1VWRfDHr5psuoxrcm1QrR1H7dHmA4U8Q+JemuF+kLlDX3jREFS7U9wgwY6UvaGtpur75BB23xla2KfqBdhuDI8v937IBOwGVW328V12nnNVc5al887qisrJnkvqZXHJe8ndxJ8yrc+sZAwCMZaW5yfL5Ljr7fXulZ5O4xqVjY8al7FTPXsiHhZ3wrdXV7Wgsik2+KpbhcYoAZnP6R6uKwfV/EiKgD6e3gPcdsg/ZP+ZVcIOctJE5zjWupetU6voLPTF1TKHuwQIwdz/T5rC7ZQai4n3YtoxIylY7Ek5Putb6N9T8VWaP4a6g15Vi56jkfT0mQQ07PlHff0HwXdOlNJUNmoYqaggEUTNmx9Pf4q2U40rUe5XCueQ9y6IpeH/Dm1aXoY4KGmLQ5v714HvOPxWdWy3CnwS0fgpNDSmNjcbK4wta0b5Hrhacm5PbN+EIpaRVQdLRkDyVV4oa0fJW9srGfYyuZKo4xlRJ9iudO5w7YUmeXYbqkdVkbEqV9a6iMOQxzE6SYqRLJ7vkpck/vEZVLLO3180DZU+OI+sADpI9/J7ehC3B+w85v6njDwequBWrri+e8aPa0Ukszsulozs3JPcg5Wmx8rHPy+XAadh6lekfZSca6rg3zqaSr5KrpoL3NJba1nUQD4jelmfk45C9Lht8qMheGeVxbHWRiPyupvzacjK5UppBiA6zjHdTGnI7rsjgjlERAEREAREQBcHt3XKhefdWG9IGrr6QVxcqHag0Zwapq39w2KS41UbXfeyWDI+S1myTODAzAw07HzK9fe2x1BPe+du7Uc0pcy2WyCmibnPT1AP/AM144qpA132vPC4XLm7Mqbfn/R9D4dXGrChFeP8A9Jhm97qUImLRs79FTOm27qHxD22Wsb22Vhqn4ABXImf/ABKkZId8nC5MpGCTt5oNlW2rzsHYUTatx7P7Kg8dodkdkZJ1HY7IZ5uhWOlaR4h+0PipkU7C3r69/RUAlLWHKPnYzdp3+CDmZWz1L24czHyUEk7pGg9vkqQzuHvF3fyUP1zHn+iDmZVukcPv5UD52/e7+qp/rQYMk7KF9THtlCJPfK3IOc/j2XDJ+l5yM49VTPlBPu+igE/bpO+UM7ZFXxtqgfGx09ODgb4+astRTVFH0ljnOj6w9pzhzHjs8EdiPI/BXUylwId+KkuY0u91xd/dI2U4ycWVyipI92ezz9tbq/gxSUnB/mzfVag0rD0RW/Uo6pa23R4wBLjeVg29MBbW+GnErh9xg0fBr3hbq2ivlmrIxJT11FMHBrSM4eO7Hf3SvmulouiUVUcbg7P2Adn/AAPwXYHLlzccfuVTVjNTcGOI9VbHmTNVbaiRzqOqH8D4/sgfEAFe/icWcEoW9V5OdzeDRm3Oro/HsfRYQOvoZ1F3mC3ClyZbnqx+K8E8rnt3+DOvRT6X5n9NP0VeZOlhvNGHTW6Vx89suZ67+q9u6H19oLihaI77w01rar/QyMDmS2ysbK4g+rQSR8ivdqvruScHs567Huolqa0Xhp6dnbemN8rkuJ2UJY2n2e5zCTjw3jBC5yrSkZHquHOAGQVC/wC0oQQexTYI/E+ChQb9k88Y39EBy0kZ6W5PooS8vPVHk77jzXMY8YljCeryLRkj8FbtYay0bw8tLtRcQtVW2x0MbSXVFyq2wlwHnhxBPyCw2kuoSb6IuOHEOfkbHAyf5+itmttdaJ4Z6ZqNc8Q9W0VktNAwvqLjXzBjG479OftH4BeKeZ726PAfhx9Z07y26efry+xDAukzXQW+lPqeoAvx32WtLmZ5y+PHNNqJ2ouNvEWqu4jfmhssEpjt9IM5GIxjr/3srzMnidVHSPVnq4nB8jJXNP5Y/f8A+D15z/8AtotQ8VbfW8JeUusnsOmJOqG56zlDo6y4jO7adpwY2nt1b5BK133C8/W2ywU0kjInSF8ji8l80hOS97ju4qRX3KSpcZql+W92NxgNPwA2AVpul6pbfG59VMGNAyAdsrnb8i3Jnub2dRj41GHXy1r9/crKmrbG3Adtn3sncj4DzVjv+rKK0xO8eYYBy1gPvfksS1jxXjhaYaGboedmOG7z8AArVprRWo9dVLau6ySU1NIc4JJfJ/RFVpc0zDvT+WvqTLrq+/6xrTatOwulJOC1p90fMrLeH3BmnoZm3fUzTU1Pdudmx/4Qst0noK0aeohTUFG3YDqcGb/ifNZVQW5rWFkhz09tlXO/S5Y9ETrx03zS6slWezshDQwN6W/Z93sr1S0ojIz9rzJCho2MjAHTgY81VYycjutbbN2KRMbtgeimCUsGerAVN4nSdu6gfUY2LjlYJb0Vb6nOcP3Cp5ap7jjOFTyVLjsFIlqOnfKEWVb6kYxk7eagExkfgPwqJ1Q4eahFQ77QO6zoxzIqH1MgmLc7BS5agZzlSnVHc53wpPiNUtIw2VDpWuAeB73lkLJeEt/qLBxR03fqeUxvpNQUcrS09iJWkrEtnOb8VkHDagluOu7DQwty6e+UrG4+MoCvoX+RFNz3Wz6YdHXJ140rbbq/f6zQQzfLqYD/AJq6NGBhWTh7SSW/QtmoZM5itdOw/hG0K+Dsu4h9KPnM/qYREUiIREQBERAcO3G5ULmZb33wo1w9oI3WGtg0X+2WpZKTnw1S+UENlo6aRm3f3GheSK3pJLuvYHBHxWwD2+HDiXTnMtZdcshzT32xlvX0/wDasf2/ILX3Wlr5DICPfPUQ3yXC5EeXIlF+WfRMKSniQa8IkOlLtnLjxst6idx2UuUnspecnJVOkbKeio8XxG58/Nc+M97eh5VMXlrg4H5qF0jg4Oafmsco2ysZ2zn8FCZJGyY8vVU5qC04afwJUMtSY27u98+izpIzzMqpJw0dRk/BQ/WA4d1SdWQCT3XIfgd1kcxUOqS3HX59lwZi52T2HZSOvOC3uPUqLrBB6ljSMbZMfOHgAHzQze8pDnY+yVD1HOU0jG2id4uSTlQ9e53/AB9FJc6QHqaQoHSEHGe6aQZUulaHbyZURe3O2Sqdj99wFE6Qj3y4Y+CyYTTJrnNc0gqjqadsjDn+SnOc5zchwwVDISBt5oGlokMfV0Qc2GpPhOHvskHXHJ8MFZLw54zcQeE9wZduGmu75paoY8ObLYrg+NjiP4o2kArHyce873iO3VvhSXMBcZMbn4KyFk4y3F6K3GElqS2j2lwd9uLzn8P4oLdqW7WHW1HHgeBdoPq9S4fF7QTn4r0Voj6QhoWrhip+LHLVdaF+wfU2OrM7B8fewtUTYuol8jep3qVHF40ZHg1D48fwOK3IcTy4PXNv9TRs4Xg2deXX6G6Sze3S5D7o1jblVaptpxuye2A9H4q9/wD60/s8zH73FS5N2z0uthz/ACWkX6/dWOwLlJ0Ds0kLk3a5jdtcWjzIaM/yV64xkb+lGt/Y8N+7Nz989ufyF2pjn2u46pujh2+p2sH+ZC651v8ASBuG8FM53DDlpvdzwT0Vl4qjTMPz6claopLtcA8A3F4PnjCp6meao/2lU+UZzhz9gVGXFclrppE48FwY99s9w8Xfbp85OuGT0WjZNN6JpnghooIfrUzR/icAQfivJnE3jxxL4vV7rnxW4j37VtQ5/UXXi5SGAfBsJJaFhRqoYnbS5fjHx/6q13PU9DbwXVNX0uHdoGXY+S1LMnJvfzSbN2vGxcf6YpF7r7y+oHhRDwqfypotmhWm4XSmoIzPPUMijx36s/hhYLqrjJR2wOFNI1jXDZ3Vlx/3VgFy13qXUs7m2+me1h/7aXJHzwkMWcur6IxZlQT0urOxtVcX7fa2PZTTt9378v8AkF17c9Xal1jXGG2QymJ53nldkD5BQWnRc9wqPrN1nfWPPcy7hvyWdaZ0e2LpaymDQMdgtnVVMexrr1bpab6Fu0Hw4pY523C4E1UztzK4diu3NM2EwMDXYLcDBVBYbK2FgZjHqAsst0IjYP3YGBhaV1vOz0KqowWkisp6fw2gKsiDBhSo3NICeKQfe/RavubKWkVYkYG7uxuj5AJMiTfGyozUN7DBHnlcSVIaS/A/BAVT6gNGXKQ+sa73h+ikOrI3NwVTvmy792dvipco2VLqkkkNdupMtQ3q33UkyZPdQFzc7bn4qRCUkTZJwBjGFx9Yx5H81TyPLj7vdQtJP4d1LRHaKh0oyuWO3GD3VOA4uBztn0U+PGds91JRRF9yoia8u9wZJ+z8F3f7PvhXWcYubvQej6CkdK39rtrKmMDZsUB8Qk/kV0tRRl2W5IJcC0gZLj6fBbTPYD8qtZBUXnml1Pb+iOVv7O0/4jMdYAzJK31BDsZ+BW5hUu29RRo59yoxpSNnkMTYo2QxgANbs0DyGynjt2ULY2t3HmohtsuvS0cIERFkBERAEREAQ9tkRAeKPbfcvlTxY5XTxBsVtdLc9H1Qq2+FHl7oXe44euB1ZWky5RiJ/XFsHdgF9OmsNP2jVtirdLagpWTUNwpXwVETxkOa5pB/RfP97QPlOvvKXx+uuia+3yi0VU76jT9Z0ERzUznHpbn+Jo2K5bi2O68j1Eukv9nV8DylOh0t9V2/Q89yOHX0E7qUXAkn4qbUMaCd/e8lTvHUA7OF5SR7pz1hwPSd0EmPtHCkOkcDgO7KHqOdynKjOyd19XY7qF8hLx1d1KbNh/zTxPEGRtgrGmNsnyBgaPe970UPW5SxJ1tOTuuWu23KwNsmtf0t2XD5B36lLfM0bY3Cl9Tn9zsFlIbZP8Qn7yNcQpIcMYDsI6owNvzWWjPMyc+RoHTn9FLkIOHA9lKdOHDO648UdJ6iiiRb2Tut3fK5a9v8OT6KSJm4C4fPn7JxhOVAqY3Bz+2Djsjy7O/YKmZMfs9W6hfOBv1rDXUzvoT8tByUc7OOkbBUr61rdvP4qU64tyclNMwVrnhuyhE7cH3m5+at892jaMOfgfxeioK6/wBHTN8SSWPHqXbrKi2N6L5JWMYcSD8hlSJrjEG+65p39d/yWH3LiNbaVrvCmL8D+LCxC+caY43ujhma12dmRDqerYUWS9iqV9cO7O0qu+U1L+9nka1o+852Fj974n2WhDix/W71DukBdUVur9Xaim8O3258bSdpah5cP+EqVFou6XGXq1Bc5nefgt2aVsxxkvqZrSybJ/QjJtRcbnTA09HI6V++I6fuPmVis901vqGTIldQwu++wl0h+edlkNs0bS0mBSULGZ74Gcq+UGlXPI6mdP8Auq1enWuiIcllj+Ywq2aIp+ts9Wx00pP+2kOT/RZRatKt62tY0tPxbsspt2ko42jrj3+SvlFYYYSAIhnyyFTK9dkWwx9exY7PpZsbmh8fzwFk9sszYGNw39FU0lIIzh7QFXxMwQXEBasrHJm1GKiTKGmYzHufiVcWPDG4c5ULZgHbdgohOQc5/Aqp9S1NIuDalnSB1rh9YTs7+SoGydW3Wj3/AN5R5TPOVTqnIy13ZQCq6gRlUpqCD0ZJULpunsFJIw5FU6o8h3UHjeYKozUPJzgKJkvU3JcpJEdsqHSHyKl+K55wFLdKewcVx4oz7p3WUtGCa1zs4CiDi3y7qQCB3eo2yRE9EspGexCz3BVMJ8TwvMKspoMPbkDLuw9VRxN90Oc5rR5PJ7fFemuQ72b/ABs51b/HWUFsqrLo6OYC46pq6UhjsYy2Dqx1O/qrqq52S5YrbK7bYUwcpvSLfyJclOvucPi3T6N0/ST09lgkDtQ3nwSY6SEblmTt1u2AGchb8eEvDPSPB/QFp4b6HtUdHbLTRsp6WKNnSCGjHUfiTufmsZ5buWrhbytcNqbhpwpsMNPSxM6qmpIzNWSkDqlld3JK7Gpsl/X1EjyGPP1XT4OH8NXt92cbxHPlmT0vpX/uyeiIt880IiIAiIgCIiALh7ulucrlSqokMOPRAUtbWx04Mj8Ad8rzZz/csnCvnI4TVWhdS1ENFfKVpl07enN3pp+4a4/wOxuF3hrWskip3Oa8jA3C86cXta1FBUvhjkd9rc52x8VVbTXfBwmtosqtsosU4PTRpF4z8Jta8Dte3Dh7xEsk9HcaGqdFGXMIZUMDsCWM/fYe+QsPnmEZJlfkHOOlbTOaXTPDPmE05PaeJ1rZPWRxkUNzgYBUUjvLpPmPgVrg40cA9T8K7lK6x3CK/W4F37+laQ6MA/eB8/XC5vK4ZdTNuHVHWYfFqLoJWPUjCny+p2HbfuoPGjcMjZWWTUYY/wCry5a5n2g4Yx8N1BJfmNd1Zx+G36Lz3XNex6qshJbTL51x/wAZUTJmM7Z+asX9pIj2e0/EINQQu3625+axySZnmRfRO0uHSNyfNROlAcc+nkrE7UVPkAvHcdikuoY4PeJJDhsSFj02OaJefrLMY6VCahpyerGPirFJfqZu5l7+ecBUdbruzUAPj3SBv+OUKSqm30RB3Vx7syR9ZCyTpdIPgFzLWQsOA7t6rALlxm0RTzNe+6seQO0ZyqF/Gy3VD8UVDM/+8SMLZhgZU30iatnEsSvvI7JfXhoyHA/EKCSuYSGluc+QK6+j4peO0+PA5px2Yqum15SugIlp5JXSfYHZbC4Tkvwar43hx7bMz+viM+E57c+nmuf2mCMNIGe3qFiNNrqlNKyKosMYfI44k6nZAXJ1/azE9lPYA4g4D+pysXBr/KIf37G32ZlbrmD9hhz5lSprp0hoA283ErFJNYQiqYyO2MDZGYPvOUiu1LSxMfHUWr3fUPdun9mu8ow+O435WZLU6hpGROcaxp97s0dlbavWkLZD9UhkfkbYbsFjlZqfTkRbPR2CXAZhzS47n1VtfrGmja0NszmgknOSj4VdH7ko8Zx5e+i5aj11eI4+iGnm6j2ayLc/isXqjxAv8v8Aq9sLGu+/PuQq6TipQUFY17rRNIGkHp6Mq4t46aROPFt88Lj9r93kBVvGyK+0Cay8S7vYWKHhVf7iAb1eXytPdjDhoV7s/Cq20DA2KkaSOznDJVdT8aeHjngftdkbz5PZjCroOJujqojwdQUufIdWP5qqfxPvFo2ISxF2kiGk0dHEAHMG3bZXCl0vTRtx0AeZ2UVLqe0VTDJFdaV3w8do/wA1Ojv8BHTHKx3+F4Kqfre6L4zp9mTqayQU4aOgH0GOyuNLQwtdksGFbmXl3Tjo+XmpovT2x4ETs/4SoOFjLFKGi6xwxh3UBt6Kf1MaesYVnhvchBAid+SG5SuOHRv/AACqdcvBL1EXn61GPeDQSoxVtezcb+isra5wOeh/4tUyCuLiX+G7bvkJ6T8DnReW1xA6cgKIVW+XEfgrPJcPveC45/ulRNrDjPhuH4J6bXsZ5ol28cOG38lH4pMeXn8la21zMbg/kov2gyOPBLvxCcsvA5o+S4dbHbh52ULpiDvlW2S+U0A65HD+SpptZWtoJdUxNDe/VIApKqx9kYdkF3ZfDOwDJwuPrG2zRgdisdn15YImZkuUDR5ZlCpJuJVgZ7rLkw/3WHKmsa2XZMrll0LvJGVGpyO/6qU6tijlwJOk/FmVjEGsWXH3aWCR2TsfJZDp2yzXydsdbdzA0+TI84V8OH5UvwmtPimHX+ImvukMLRJPKAB9p7vsrM+EHA3jFxzusVr4Y6Fra0SOw64SsLKZg9XPIwFmHB/RXCrTdbHdbjpdtfUN+0+teXNd8Q3OP0XqHh9ximtdMyisvg0lIwAxQU0Yib8j04yvRo4Q+9jPMv46v+1H+TPOTn2S3A/QdXS6t5pNUxauumA+HTtBL4dDDjfEhzib8MLYfpXX2idO22ksGmKSkoKCkYI6WgoowyOJo8gAvCmn+L1fcYacuqA6RrgQYhjoPoPguyNKcQrpXuD+o+L19mgr1qcamhaijwsjLyMmW7Ge5tM6ppbk1jmSZLuw9Asmp5GyD3Sug+Cl5ute2J9RHI0Bu4d8l3laOvwGvd5jZXmuV5BIwCuR23XDTkZK5QBERAEREAREQBQTN6hj4KNcOGQgLVd7NTV8DopmB3kV13rTl70NqgO+uUzw97e4cQu1ZIwRg+apamkD27jzQHlvW3s/OG+qZJHtu9dS9UfTmKV3f8103rr2NOidVscym4oXCm6gcuFMD/nuvfU9r6uzd1TOsxHkgNTuvfo4tm1PI+ai49yxSEnoeKIZGfXddbXP6MrxaY9zdPc2ELY8+6ya3tP5rdM6yjBy1Sn2Ube7+iqlTXPukWxvvh2kzSLV/RpOZyF3TR8zdjkH9+jDf5BSB9Gt5r2e63mK08fiKYH9cLd/+x/7o/JP2KHdwoLFoX4S34zK/OzR276Nbzcl/S3mL0+34/VBt+igd9Go5uKs4q+ZuztaP+6o2/0W8ltjaDkBc/sRuc9KyselfhRj4zJa05s0cM+jAcd6pvVeeaanIP2mx0oCq6b6LFqGQCW4cfWyn1kpsgrd7+x8domp+x+oYcwBWRhCPZaKZWWS7ts0wW36LvDTwAS8ZIMjzFADlXai+jKW+leDJxiaP7raAf1W4tlmHbpUYs0fdw/RTIGoij+jaWCneOris45H/uQ/qq6H6OHp6Ee/xWkwOwbRjP8ANba/2S0HLW/on7MaBuzPwwgNTY+jmaR6QyTijVHo/wDgx/VRM+jnaRhj6I+KFR0u3I+pjP8ANbZf2UMfYKC1NIyG4+CA1PM+jrcPoXDxOJFYS3z+q/8AVVH/AJu9wxx11OuK+fPkKX/qtrTbQwndmVF+x2f92UBqjb9Hg4RNdmW/1hb8Af6qVJ9Ha4LveS+43F4PYhzhj9VtgdaGH7IT9jM848oDUlV/RxeC9SXPgvVew4299xIP5q11X0ajhFUZcNW3EOd3JYf6rcD+xo/KLHxQ2UHuEBppqfownCKWUvGsq5xPkYjn+apJ/otnBWo96fW12Y7OcMaQP/qW511kjLstC4/Yjf4VhrYW0aXnfRY+DksjnN4m32NmOzS7/mU2m+i2cJIQCzjFqZg8iyof/wAy3OfsNv8ACuHWJpH2Vhwi+6JKc12Zpqb9F84YQu6ouPWr4wfR7nD/AOpT/wDzYjQDWgs5kNVtx2Dmk/8A3LcU6wNO5apbrA3+HCi6q/yomrrl2kzT5F9GU0QD1HmY1Rj/APif/wDSqofoz+g9h/5TeqQPT6iD/wDctuzrJnbCh/s+z0WPQo39KJLJyF2kzUq36M/w6A9/me1SPU/s8f8AMqhn0Z7hQcB3M3qwt+9igH/OtsRsDcdlALC0AjHdRePS/wAKM/FZP52aqI/ozvBdzsO5mdZdH3QKTy/41Gfoy3Al+0nMprMevVTkfyetqgsYA6Wt3R1kkP2mlZ+Ho/KjHxWR+Zmq5n0ZPlyx/rPMXrV3xbGf+dRt+jFcsMn+15hNcv8AXEr/APnW00WJ43DFyLJJjZv6IqKl+FD4i/8AMzVkfov3Kc4jxuOOuZB6Pnf/AM6mxfReeSUf+t8RdYTepdVyb/8AiW0ptikdvg/kuf2DJ5jb5KarrXZFbssfeTNYtH9GS5FqPDpdQanlH3eqrk/5lebZ9HD5FqE5ZNf8t+++rfv/AOJbIv2F5LkWIY3GVLWuxBvZr9tfsAuSW2uyxt7fgd3Vsgb/ADWTWf2JfJxaHgw2u5ux618n9V7dFkBGMKYLGMbMWQeSrN7J3lRs/SYdM1Uvh+tW/wDqsqs3s6eXC0dJi0i8hu/S6ocV6OjseDkKcyzhu+EB0xZuT7glayPqekWMx2BlKyyxcAeG9tcBRaXhYSc9RXYcdsaNun9FV09Cxo2G/wAkBbbFpCzWZgbS0MbdsDoGyv8ATw9EQbjAHYKGOJrGgBTmggYKA57bBERAEREAREQBERAEREBw5ud8qAgEYIUxMD0QEh0LTv0qB0TCc4H5KpLQVD4Z/hQFL9Vj9FwaKMnI7+SqvCz91PDxv0oCl+qn+D9E+rY7tH5KqXBaD3CApTTgDPSPyXHhD+AKr6W+i5wPRAUXgNO5jCCBo7RhVuB6JgeiAoxCB2YFyKZw7tafwVXgei46W+iAphSuO4YFz9UcN+gfgqjo9GFAzf7BQEj6u/0/RcfVnZz0/oqrod6J0O9EBTNgLfh8cLnwnfx/oqjod6J0O9EBTiBndc+Hjsf0U/wz/Cgi9QEBI8MLkwkj/ZhTjEPL+S48F/8AGgJP1Vrt3Yz8k+qM/wDwKeI3Ad1z0FAU/wBUZ/8AgXBpcfdCqegoYzjugKU0vVsGrj6l8AqpsRHmuegoCl+pn0b+S4NIQdmA/gqvoK46HICk+qu/7sfkuPqR/wC7H5Ks6HeidDvRAUX1IDtGAVyyjI7MCrOgnu1BGfTCAozQn/uwuPqQ/u/kq7oKdH91v5ICi+osP2j+ifUI/X9FWFh8gPwTod6ICj+oR+v6LltFG3tj8lV9DvROh3ogKX6oPIA/gn1XzMefwVV0O9E6HeiApfqpz9lRR02+S1VHQ70ToKAlthA+6FGyMZ2aogz4qJAcdLR5LlEQBERAEREAREQBERAEREAREQBERAEREAwPRMD0REAwPRMD0REAwPRMD0REAwPRMD0REAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREB//9k="
 
 /***/ }),
-/* 178 */
+/* 186 */
 /*!****************************************************!*\
   !*** E:/code/baba_statistics/utils/formateDate.js ***!
   \****************************************************/
@@ -28279,14 +28300,6 @@ function formateDate(time) {
 }
 
 /***/ }),
-/* 179 */,
-/* 180 */,
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
 /* 187 */,
 /* 188 */,
 /* 189 */,
@@ -28295,7 +28308,15 @@ function formateDate(time) {
 /* 192 */,
 /* 193 */,
 /* 194 */,
-/* 195 */
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */
 /*!****************************************************!*\
   !*** E:/code/baba_statistics/static/img/first.png ***!
   \****************************************************/
@@ -28305,7 +28326,7 @@ function formateDate(time) {
 module.exports = "data:image/png;base64,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"
 
 /***/ }),
-/* 196 */
+/* 204 */
 /*!*****************************************************!*\
   !*** E:/code/baba_statistics/static/img/second.png ***!
   \*****************************************************/
@@ -28315,14 +28336,6 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 module.exports = "data:image/png;base64,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"
 
 /***/ }),
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */,
 /* 205 */,
 /* 206 */,
 /* 207 */,
@@ -28381,7 +28394,15 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 /* 260 */,
 /* 261 */,
 /* 262 */,
-/* 263 */
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */
 /*!*************************************************************!*\
   !*** E:/code/baba_statistics/static/img/default_avatar.jpg ***!
   \*************************************************************/
@@ -28391,14 +28412,6 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 module.exports = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/wAALCACEAIQBAREA/8QAGwABAAIDAQEAAAAAAAAAAAAAAAMFAgQGAQj/xAAuEAEAAgECAggGAgMAAAAAAAAAAQIDBBEFIRIVMUFRZKLhEyJhcYHBFFIjkdH/2gAIAQEAAD8A+gSIAACIAAAAAAAAiACIAAAAAAAAAAAAQ6vVU0mH4l+c90eMqDPrtRqLb2vaI8I5QhrkvjtvS9on6WWnD+KWm8YtRbfflF/+rcAAABz/ABbPOXXTXux/JH6aIOl4dnnPoqWtzmOU/hsgAAA5jWxMa7NE/wB5QAvuDRMaKZ8bz+lgAAACk4zpZrmjUV7L8p+ysGVa2yXila7zPKHTaXDGn01MX9Y5/dMAAADHLirmxTjvXekuXzY/g5r4+3ozMf6Rrjgunr0Z1E8532p9FsAAAA09ZxLFp6zWtunk8I7vu5+1pyXm9uczO8sW/wAO4h/EmaXrvjnn9pXmLLjzU6eO1bx9GYAACHUavFpadLJbn3R3ypdXxTNqN60/x08I7Z/DRASYc+TBfp4rWpK40nGKZdq5/knx7vdY9vOHoAA5TLlvmyTkvbeZYAALrguW9seTHa29a7bfndaAACptwKs3ma59o8Ojv+3nUXmPR7nUXmPR7nUXmPR7nUXmPR7nUXmPR7HUXmPR7nUXmPR7t3Q6KuipeIv05t2z2djaAAAAAAAAAAAAAAAAAAAAAAAB/9k="
 
 /***/ }),
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
 /* 272 */,
 /* 273 */,
 /* 274 */,
@@ -29148,8 +29161,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.changeUnits = void 0;
 exports.getImage = getImage;
 exports.rpx2px = exports.resolveImage = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 58));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 60));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var windowWidth = uni.getSystemInfoSync().windowWidth;
 // uni-app@2.9起, 屏幕最多适配到960, 超出则按375计算
 if (windowWidth > 960) windowWidth = 375;
@@ -41725,11 +41738,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 58));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 170));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 171));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 172));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 60));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 32));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 33));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 34));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
@@ -44286,8 +44299,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 58));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 60));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
 var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 574));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {

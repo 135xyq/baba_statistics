@@ -54,6 +54,13 @@
   justify-content: space-between;
   align-items: center;
 }
+.wx-logined .header .set {
+  display: flex;
+  align-items: center;
+}
+.wx-logined .header .set-set {
+  margin-right: 30rpx;
+}
 .wx-logined .header .user-info {
   display: flex;
   align-items: center;
@@ -82,5 +89,9 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #dfdfdf;
+}
+.wx-logined .item .user-item {
+  width: 1000px;
+  overflow: hidden;
 }
 
