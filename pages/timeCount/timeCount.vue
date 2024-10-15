@@ -23,6 +23,7 @@
 				minutes: 0, // 分
 				hours: 0, // 时
 				tempCount: 0,
+				count: 0,
 				intervalId: null, // 用于保存定时器ID
 				isRunning: false // 判断秒表是否在运行
 			};
@@ -40,14 +41,18 @@
 					this.startTime =  new Date().getTime()
 					this.intervalId = setInterval(() => {
 						this.seconds = this.tempCount +  Math.floor((new Date().getTime() - this.startTime) / 1000)
-						if (this.seconds >= 60) {
-							this.seconds = 0;
-							this.minutes++;
-						}
-						if (this.minutes >= 60) {
-							this.minutes = 0;
-							this.hours++;
-						}
+						this.count = this.seconds
+						this.hours = Math.max(Math.floor(this.seconds / 3600),0)
+						this.minutes = Math.max(Math.floor((this.seconds - this.hours*3600) / 60),0)
+						this.seconds = this.seconds % 60
+						// if (this.seconds >= 60) {
+						// 	this.seconds = 0;
+						// 	this.minutes++;
+						// }
+						// if (this.minutes >= 60) {
+						// 	this.minutes = 0;
+						// 	this.hours++;
+						// }
 					}, 500); // 每秒更新一次
 				}
 			},
@@ -56,7 +61,7 @@
 			pauseStopwatch() {
 				if (this.isRunning) {
 					clearInterval(this.intervalId);
-					this.tempCount = this.seconds
+					this.tempCount = this.count
 					this.isRunning = false;
 				}
 			},
@@ -68,6 +73,7 @@
 				this.seconds = 0;
 				this.minutes = 0;
 				this.hours = 0;
+				this.count = 0
 				this.tempCount = 0
 				this.isRunning = false;
 			}

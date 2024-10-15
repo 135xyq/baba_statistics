@@ -83,7 +83,7 @@
 					avatar: avatarUrl,
 					nickName: ''
 				}, //用户信息
-				personArr: ['13124', '各五个'],
+				personArr: [],
 				index: 0,
 			}
 		},
