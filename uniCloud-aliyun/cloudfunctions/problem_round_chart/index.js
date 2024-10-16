@@ -6,8 +6,8 @@ exports.main = async (event, context) => {
 	const collection = db.collection("problem");
   
   const now = new Date(event.date);
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).getTime();
-  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime();
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).getTime()- (8 * 60 * 60 * 1000);
+  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime()- (8 * 60 * 60 * 1000);
   
   const result = await db.collection('problem')
     .aggregate()

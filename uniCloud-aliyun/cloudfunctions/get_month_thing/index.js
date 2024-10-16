@@ -10,8 +10,10 @@ exports.main = async (event, context) => {
 	const year = date.year
 	const month = date.month
 	// 获取当前月的第一天和最后一天
-	const firstDay = new Date(year, month - 1, 1).getTime();
-	const lastDay = new Date(year, month, 0, 23,59,59,999).getTime();
+	const firstDay = new Date(year, month - 1, 1).getTime()- (8 * 60 * 60 * 1000);
+	const lastDay = new Date(year, month, 0, 23,59,59,999).getTime()- (8 * 60 * 60 * 1000);
+
+  
 	
 	console.log(lastDay);
 
@@ -21,19 +23,25 @@ exports.main = async (event, context) => {
 			time: _.gte(firstDay).lte(lastDay),
 			openid: openid,
 		})
-		.group({
-			_id: {
-				$dateToString: {
-					format: '%Y-%m-%d',
-					date: {
-						$toDate: '$time'
+		// 在这里增加时区处理
+			.addFields({
+				adjustedTime: {
+					$add: ['$time', 28800000] // 将时间调整为 UTC+8
+				}
+			})
+			.group({
+				_id: {
+					$dateToString: {
+						format: '%Y-%m-%d',
+						date: {
+							$toDate: '$adjustedTime' // 使用调整后的时间进行分组
+						}
 					}
-				} // 按天分组
-			},
-			count: {
-				$sum: 1
-			}
-		})
+				},
+				count: {
+					$sum: 1
+				}
+			})
 		.end();
 
 	console.log(result);

@@ -11,8 +11,8 @@ exports.main = async (event, context) => {
 	const month = currentDate.getMonth() + 1; // 月份从 0 开始
 
 	// 获取当前月的第一天和最后一天
-	const firstDay = new Date(year, month - 1, 1).getTime();
-	const lastDay = new Date(year, month, 0).getTime();
+	const firstDay = new Date(year, month - 1, 1).getTime()- (8 * 60 * 60 * 1000);
+	const lastDay = new Date(year, month, 0).getTime()- (8 * 60 * 60 * 1000);
 
 	const result = await db.collection('problem')
 		.aggregate()
@@ -20,15 +20,21 @@ exports.main = async (event, context) => {
 			time: _.gte(firstDay).lte(lastDay),
 			openid: openid,
 		})
+    // 在这里增加时区处理
+    .addFields({
+      adjustedTime: {
+        $add: ['$time', 28800000] // 将时间调整为 UTC+8
+      }
+    })
 		.group({
-			_id: {
-				$dateToString: {
-					format: '%Y-%m-%d',
-					date: {
-						$toDate: '$time'
-					}
-				} // 按天分组
-			},
+      _id: {
+        $dateToString: {
+          format: '%Y-%m-%d',
+          date: {
+            $toDate: '$adjustedTime'
+          }
+        } // 按天分组
+      },
 			totalNumber: {
 				$sum: "$totalNumber"
 			},
@@ -47,19 +53,24 @@ exports.main = async (event, context) => {
 			time: _.gte(firstDay).lte(lastDay),
 			openid: openid
 		})
+    .addFields({
+      adjustedTime: {
+        $add: ['$time', 28800000] // 将时间调整为 UTC+8
+      }
+    })
 		.group({
 			_id: {
 				date: {
 					$dateToString: {
 						format: '%Y-%m-%d',
-						date: '$time'
+						date: '$adjustedTime'
 					}
 				},
 				date: {
 					$dateToString: {
 						format: '%Y-%m-%d',
 						date: {
-							$toDate: '$time'
+							$toDate: '$adjustedTime'
 						}
 					} // 按天分组
 				},

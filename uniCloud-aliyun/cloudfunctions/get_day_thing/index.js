@@ -6,13 +6,14 @@ exports.main = async (event, context) => {
 	const collection = db.collection("thing");
   
   const now = new Date(event.date);
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
-  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() - (8 * 60 * 60 * 1000); // 加上8小时
+  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime() - (8 * 60 * 60 * 1000);
   
   const data = await collection.where({
     openid : event.openid,
-    time: dbCmd.gte(startOfDay.getTime()).and(dbCmd.lte(endOfDay.getTime()))
-  } ).get()
+    time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
+  } ).orderBy('time','asc').get()
 
 	//返回数据给客户端
 	return {

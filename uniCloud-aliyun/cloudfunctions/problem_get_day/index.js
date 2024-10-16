@@ -6,13 +6,12 @@ exports.main = async (event, context) => {
 	const collection = db.collection("problem");
   
   const now = new Date(event.date);
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
-  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).getTime()- (8 * 60 * 60 * 1000);
+  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime()- (8 * 60 * 60 * 1000);
   
-  console.log(event.date,startOfDay, endOfDay,startOfDay.getTime(),endOfDay.getTime());
   const data = await collection.where({
     openid : event.openid,
-    time: dbCmd.gte(startOfDay.getTime()).and(dbCmd.lte(endOfDay.getTime()))
+    time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
   } ).orderBy('time','asc').get()
   
   console.log(data);
