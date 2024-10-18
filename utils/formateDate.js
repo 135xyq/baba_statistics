@@ -23,3 +23,14 @@ export  function formateDate(time) {
     const day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
     return `${year}-${month}-${day}`
 }
+
+
+/**格式化时间
+ * @param {Object} time 时间戳
+ */
+export  function formateDateHMS(time) {
+  let hours = Math.max(Math.floor(time / 3600), 0)
+  let minutes = Math.max(Math.floor((time - hours * 3600) / 60), 0)
+  let seconds = time % 60
+  return `${hours > 10?hours:('0'+hours)}:${minutes > 10?minutes:'0'+minutes}:${seconds > 10?seconds:'0'+seconds}`
+}

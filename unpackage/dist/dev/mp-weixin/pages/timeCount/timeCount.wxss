@@ -38,6 +38,7 @@
 .buttons.data-v-1650d568 {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 .buttons button.data-v-1650d568 {
   margin: 10px;
@@ -45,11 +46,14 @@
   font-size: 18px;
   border: none;
   border-radius: 5px;
-  background-color: #42b983;
+  background: linear-gradient(to right, #5ed88f, #d0d573);
   color: white;
 }
 .buttons .cancle.data-v-1650d568 {
-  background-color: #ccc;
+  background: linear-gradient(to right, #d0c2d8, #d5b9c1);
+}
+.buttons .save.data-v-1650d568 {
+  background: linear-gradient(to right, #4253d8, #d533ba);
 }
 .buttons .stop.data-v-1650d568 {
   background-color: #d81e06;
@@ -60,10 +64,11 @@
 .time.data-v-1650d568 {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .time__custom.data-v-1650d568 {
-  width: 68px;
-  height: 68px;
+  width: 100px;
+  height: 80px;
   background-color: #0e0c0cf0;
   border-radius: 4px;
   display: flex;
@@ -72,12 +77,12 @@
 }
 .time__custom__item.data-v-1650d568 {
   color: #fff;
-  font-size: 40px;
+  font-size: 56px;
   text-align: center;
 }
 .time__doc.data-v-1650d568 {
   color: #0e0c0cf0;
-  font-size: 40px;
+  font-size: 50px;
   padding: 0px 4px;
 }
 .time__item.data-v-1650d568 {

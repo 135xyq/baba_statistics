@@ -30,6 +30,7 @@
 
 			<!-- 控制按钮 -->
 			<view class="buttons">
+				<button class="save" @click="onSaveProblem">保存做题记录</button>
 				<button class="cancle" @click="resetStopwatch">重置</button>
 				<button @click="startStopwatch" v-if="!isRunning">开始</button>
 				<button class="stop" @click="pauseStopwatch" v-if="isRunning">暂停</button>
@@ -55,7 +56,7 @@
 			</u-count-down>
 			<!-- 时间选择 -->
 			<u-picker :show="timeShow" ref="uPicker" :columns="timeColumns" @confirm="onTimePickerConfirm"
-				@cancel="timeShow = false"></u-picker>
+				@cancel="timeShow = false" confirmColor="#d81e06"></u-picker>
 			<!-- 控制按钮 -->
 			<view class="buttons time-buttons">
 				<button class="cancle" @click="onResetTime">选择时间</button>
@@ -340,6 +341,14 @@
 				// this.isRunningTime = false
 				this.timeShow = false
 				// this.onStartTime()
+			},
+			/**
+			 * 保存做题记录
+			 */
+			onSaveProblem() {
+				uni.navigateTo({
+					url: '/pages/addProblem/addProblem?useTime='+this.count
+				})
 			}
 		}
 	};
@@ -362,6 +371,7 @@
 	.buttons {
 		display: flex;
 		justify-content: center;
+		margin-top: 20px;
 	}
 
 	.buttons button {
@@ -370,12 +380,16 @@
 		font-size: 18px;
 		border: none;
 		border-radius: 5px;
-		background-color: #42b983;
+		background: linear-gradient(to right, rgb(94, 216, 143), rgb(208, 213, 115));
 		color: white;
 	}
 
 	.buttons .cancle {
-		background-color: #ccc;
+		background: linear-gradient(to right, rgb(208, 194, 216), rgb(213, 185, 193));
+	}
+	
+	.buttons .save {
+		background: linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186));
 	}
 
 	.buttons .stop {
@@ -389,10 +403,11 @@
 	.time {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 
 		&__custom {
-			width: 68px;
-			height: 68px;
+			width: 100px;
+			height: 80px;
 			background-color: #0e0c0cf0;
 			border-radius: 4px;
 			/* #ifndef APP-NVUE */
@@ -403,14 +418,14 @@
 
 			&__item {
 				color: #fff;
-				font-size: 40px;
+				font-size: 56px;
 				text-align: center;
 			}
 		}
 
 		&__doc {
 			color: #0e0c0cf0;
-			font-size: 40px;
+			font-size: 50px;
 			padding: 0px 4px;
 		}
 

@@ -5,6 +5,8 @@
 			<uni-fab :pattern="pattern" horizontal="right" vertical="bottom" :pop-menu="false"
 				@fabClick="onAddRecord"></uni-fab>
 		</view>
+		<view v-if="dataList.length > 0" class="use-time">今日做题时长：<text class="use-time-text">{{formateDateHMS(useTimeAll)}}</text></view>
+		<view class="use-time" style="text-align: center;" v-else>今日还没做题</view>
 		<view class="list">
 			<uni-card v-for="(item,index) in dataList" :key="index" :title="item.typeName"
 				:extra="formateTime(item.time)">
@@ -16,6 +18,10 @@
 					<view class="list-body-item">
 						<text class="list-body-item__label">错题数量：</text>
 						<text class="list-body-item__value list-body-item__value--error">{{item.errorNumber}} </text>
+					</view>
+					<view class="list-body-item">
+						<text class="list-body-item__label">答题时长：</text>
+						<text class="list-body-item__value list-body-item__value--warning"">{{formateDateHMS(item.useTime || 0)}} </text>
 					</view>
 					<view class="list-body-item">
 						<text class="list-body-item__label">正确率：</text>
@@ -45,7 +51,8 @@
 
 <script>
 	import {
-		formateDate
+		formateDate,
+		formateDateHMS
 	} from "@/utils/formateDate.js"
 	import formateTime from "@/utils/formateDate.js"
 	const colorList = ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4",
@@ -66,6 +73,8 @@
 					iconColor: '#fff'
 				},
 				dataList: [],
+				// 做题时间
+				useTimeAll:0,
 				date: formateDate(new Date().getTime()),
 				monthDate: {
 					year: (new Date()).getFullYear(),
@@ -166,6 +175,7 @@
 		},
 
 		methods: {
+			formateDateHMS,
 			formateTime,
 			monthSwitch(date) {
 				this.monthDate = {
@@ -216,7 +226,8 @@
 					},
 					success: (res) => {
 						// console.log(res);
-						this.dataList = res.result.data
+						this.dataList = res.result.data.list
+						this.useTimeAll = res.result.data.useTimeAll
 					}
 				})
 			},
@@ -235,7 +246,8 @@
 					},
 					success: (res) => {
 						// console.log(res);
-						this.dataList = res.result.data
+						this.dataList = res.result.data.list
+						this.useTimeAll = res.result.data.useTimeAll
 					}
 				})
 				this.getRoundChartsData()
@@ -355,6 +367,10 @@
 					&--error {
 						color: #fa3534;
 					}
+					
+					&--warning{
+						color:#ff9900
+					}
 
 					&--rotate {
 						color: #19be6b;
@@ -378,6 +394,19 @@
 		.chart1 {
 			width: 100%;
 			height: 380px;	
+		}
+	}
+	
+	.use-time{
+		padding: 10px 15px;
+		font-size: 18px;
+		font-weight: 700;
+		display: flex;
+		align-items: center;
+		
+		&-text{
+			color: #e8990a;
+			font-size: 22px;
 		}
 	}
 </style>

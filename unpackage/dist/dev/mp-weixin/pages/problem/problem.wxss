@@ -42,6 +42,9 @@
 .list-body-item__value--error.data-v-dccca774 {
   color: #fa3534;
 }
+.list-body-item__value--warning.data-v-dccca774 {
+  color: #ff9900;
+}
 .list-body-item__value--rotate.data-v-dccca774 {
   color: #19be6b;
 }
@@ -59,5 +62,16 @@
 .list .chart1.data-v-dccca774 {
   width: 100%;
   height: 380px;
+}
+.use-time.data-v-dccca774 {
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.use-time-text.data-v-dccca774 {
+  color: #e8990a;
+  font-size: 22px;
 }
 

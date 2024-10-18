@@ -16,13 +16,14 @@ function formate(time) {
 exports.main = async (event, context) => {
 	//event为客户端上传的参数
 	const collection = db.collection("problem");
-	const {openid, type, totalNumber, errorNumber, typeName, time} = event
+	const {openid, type, totalNumber, errorNumber, typeName, time,useTime} = event
 	const data = {
 		openid: openid,
 		type, 
 		totalNumber, 
 		errorNumber,
 		typeName,
+		useTime,
 		time:new Date(time).getTime() || new Date().getTime(),
 		create_time: formate(new Date().getTime())
 	}

@@ -9,6 +9,7 @@ exports.main = async (event, context) => {
 		time,
 		totalNumber,
 		errorNumber,
+		useTime
 	} = event
 	const res = await db.collection("problem").doc(_id).update({
 		type,
@@ -16,6 +17,7 @@ exports.main = async (event, context) => {
 		typeName,
 		totalNumber,
 		errorNumber,
+		useTime
 	});
 	//返回数据给客户端
 	return {

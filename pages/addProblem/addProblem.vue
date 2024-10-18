@@ -10,8 +10,14 @@
 			<uni-forms-item label="错题数量:" name="errorNumber" required>
 				<uni-number-box :min=0 :max="1000" v-model="dataInfo.errorNumber"></uni-number-box>
 			</uni-forms-item>
-			<uni-forms-item label="做题时间:"  required>
-				<uni-datetime-picker returnType="timestamp" v-model="dataInfo.time" :clear-icon="false"/>
+			<uni-forms-item label="做题时间:" required>
+				<uni-datetime-picker returnType="timestamp" v-model="dataInfo.time" :clear-icon="false" />
+			</uni-forms-item>
+			<uni-forms-item label="做题时长:">
+				<view class="form-time" @click="timeShow = true">{{dataInfo.useTime}}</view>
+				<!-- 时间选择 -->
+				<u-picker :show="timeShow" ref="uPicker" :columns="timeColumns" @confirm="onTimePickerConfirm"
+					@cancel="timeShow = false" confirmColor="#d81e06" title='选择做题时长'></u-picker>
 			</uni-forms-item>
 		</uni-forms>
 		<u-button :text="type==='add'? '新增记录' : '修改记录'" @click="onAdd" :disabled="loading"
@@ -20,6 +26,7 @@
 </template>
 
 <script>
+	import {formateDateHMS} from "@/utils/formateDate.js"
 	export default {
 		data() {
 			return {
@@ -31,6 +38,7 @@
 					totalNumber: 0,
 					errorNumber: 0,
 					time: new Date(),
+					useTime: '00:00:00',
 				},
 				typeList: [{
 					text: '言语理解',
@@ -47,7 +55,7 @@
 				}, {
 					text: '常识判断',
 					value: 5
-				},{
+				}, {
 					text: '申论',
 					value: 6
 				}],
@@ -91,7 +99,14 @@
 						validateTrigger: 'submit'
 					}
 				},
-				actiobs: []
+				actiobs: [],
+				timeColumns: [
+					[],
+					[],
+					[]
+				],
+				timeShow: false,
+
 			}
 		},
 		onReady() {
@@ -110,27 +125,56 @@
 		},
 		onLoad(query) {
 			console.log(query.data);
-			if(query.date){
+			for (let i = 0; i < 24; i++) {
+				if (i < 10) {
+					this.timeColumns[0][i] = '0' + i
+				} else {
+					this.timeColumns[0][i] = i + ''
+				}
+
+			}
+			for (let i = 0; i <= 59; i++) {
+				if (i < 10) {
+					this.timeColumns[1][i] = '0' + i
+					this.timeColumns[2][i] = '0' + i
+				} else {
+					this.timeColumns[1][i] = i + ''
+					this.timeColumns[2][i] = i + ''
+				}
+			}
+			if (query.date) {
 				const now = new Date()
-				const hour  = now.getHours()
-				const  minutes = now.getMinutes()
+				const hour = now.getHours()
+				const minutes = now.getMinutes()
 				const seconds = now.getSeconds()
-				const [year, month,day] = query.date.split('-')
-				this.dataInfo.time = new Date(year, month -  1, day,hour,minutes,seconds)
+				const [year, month, day] = query.date.split('-')
+				this.dataInfo.time = new Date(year, month - 1, day, hour, minutes, seconds)
+			}
+			if (query.useTime) {
+				this.dataInfo.useTime = formateDateHMS(query.useTime)
+			}else{
+				this.dataInfo.useTime  = '00:00:00'
 			}
 			if (query.data) {
 				const problemData = JSON.parse(query.data)
+				let useTime =  '00:00:00'
+				if (problemData.useTime) {
+					useTime = formateDateHMS(problemData.useTime)
+				}
+		
 				this.dataInfo = {
 					type: problemData.type,
 					totalNumber: problemData.totalNumber,
 					errorNumber: problemData.errorNumber,
 					time: problemData.time,
+					useTime:useTime,
 					_id: problemData._id
 				}
 
 				this.type = 'edit'
 			} else {
-				this.taInfo = {
+				this.dataInfo = {
+					...this.dataInfo,
 					type: '',
 					totalNumber: 0,
 					errorNumber: 0
@@ -140,6 +184,10 @@
 			}
 		},
 		methods: {
+			onTimePickerConfirm(e) {
+				this.timeShow = false
+				this.dataInfo.useTime = e.value.join(':')
+			},
 			getText(value) {
 				for (let key in this.typeList) {
 					if (value === this.typeList[key].value) {
@@ -163,12 +211,15 @@
 							})
 							return
 						}
+						const [hours, minutes, seconds] = this.dataInfo.useTime.split(':')
+						const useTime = (Number((hours * 3600)) + Number((minutes * 60)) + Number(seconds))
 						if (this.type === 'add') {
 							uniCloud.callFunction({
 								name: "problem_add",
 								data: {
 									openid: this.openId,
 									...this.dataInfo,
+									useTime: useTime,
 									typeName: this.getText(this.dataInfo.type)
 								},
 								success: (res) => {
@@ -186,6 +237,7 @@
 								name: "problem_edit",
 								data: {
 									...this.dataInfo,
+									useTime: useTime,
 									typeName: this.getText(this.dataInfo.type)
 								},
 								success: (res) => {
@@ -212,5 +264,9 @@
 <style scoped>
 	.container {
 		padding: 20rpx 30rpx;
+	}
+
+	.form-time {
+		line-height: 36px;
 	}
 </style>
