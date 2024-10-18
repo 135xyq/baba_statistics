@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="operate">
-      <!-- <u-avatar :src="imgSrc" size="150" @click="onAdd"></u-avatar> -->
+      <u-avatar :src="imgSrc" size="150" @click="onAdd"></u-avatar>
     </view>
     <view class="count">你总共拉了<span style="color: red">{{total}}</span>次粑粑了！</view>
     <view class="list" v-if="dataList.length > 0">
