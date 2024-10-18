@@ -1,16 +1,21 @@
 <template>
   <view>
     <view class="operate">
-      <u-avatar :src="imgSrc" size="150" @click="onAdd"></u-avatar>
+      <!-- <u-avatar :src="imgSrc" size="150" @click="onAdd"></u-avatar> -->
     </view>
     <view class="count">你总共拉了<span style="color: red">{{total}}</span>次粑粑了！</view>
     <view class="list" v-if="dataList.length > 0">
       <view class="title">今日拉粑粑的记录：</view>
-      <u-list >
+      <u-list>
         <u-list-item v-for="(item, index) in dataList" :key="index">
           <u-cell :title="`第${index + 1}次拉粑粑`" :value="formateDate(item.time)" @click="onDelete(item)"></u-cell>
         </u-list-item>
       </u-list>
+    </view>
+    <view>
+      <!-- 前往计时器页面 -->
+      <uni-fab :pattern="pattern" horizontal="right" vertical="bottom" :pop-menu="false"
+        @fabClick="onAddRecord"></uni-fab>
     </view>
   </view>
 </template>
@@ -24,7 +29,16 @@
         imgSrc: img,
         openid: '',
         total: 0,
-        dataList: []
+        dataList: [],
+        // 悬浮按钮配置
+        pattern: {
+          color: '#7A7E83',
+          backgroundColor: '#fff',
+          selectedColor: '#d81e06',
+          buttonColor: '#d81e06',
+          iconColor: '#fff',
+          icon: 'calendar'
+        },
       }
     },
     onShow() {
@@ -163,7 +177,15 @@
           }
         });
 
-      }
+      },
+      /**
+       * 前往定时器页面
+       */
+      onAddRecord() {
+        uni.navigateTo({
+          url: '/pages/timeCount/timeCount'
+        })
+      },
     }
   }
 </script>

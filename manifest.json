@@ -56,6 +56,7 @@
             "minified" : true,
             "es6" : true
         },
+        "requiredBackgroundModes" : [ "audio" ],
         "usingComponents" : true
     },
     "mp-alipay" : {
