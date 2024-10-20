@@ -376,7 +376,7 @@
 
 	.buttons button {
 		margin: 10px;
-		padding: 5px 20px;
+		padding: 5px 15px;
 		font-size: 18px;
 		border: none;
 		border-radius: 5px;
@@ -393,7 +393,7 @@
 	}
 
 	.buttons .stop {
-		background-color: #d81e06;
+		background: linear-gradient(to right, rgb(216, 131, 125), rgb(192, 94, 77));
 	}
 
 	.time-buttons {
