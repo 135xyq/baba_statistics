@@ -42,7 +42,7 @@
 }
 .buttons button.data-v-1650d568 {
   margin: 10px;
-  padding: 5px 20px;
+  padding: 5px 15px;
   font-size: 18px;
   border: none;
   border-radius: 5px;
@@ -56,7 +56,7 @@
   background: linear-gradient(to right, #4253d8, #d533ba);
 }
 .buttons .stop.data-v-1650d568 {
-  background-color: #d81e06;
+  background: linear-gradient(to right, #d8837d, #c05e4d);
 }
 .time-buttons.data-v-1650d568 {
   margin-top: 20px;

@@ -13,7 +13,8 @@
     "pages/problemMonthChart/problemMonthChart",
     "pages/login/login",
     "pages/problem/problem",
-    "pages/timeCount/timeCount"
+    "pages/timeCount/timeCount",
+    "pages/map/map"
   ],
   "subPackages": [],
   "window": {
@@ -63,5 +64,13 @@
   "requiredBackgroundModes": [
     "audio"
   ],
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "共享位置信息"
+    }
+  },
   "usingComponents": {}
 }

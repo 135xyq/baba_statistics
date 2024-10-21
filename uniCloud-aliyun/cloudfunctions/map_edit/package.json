@@ -1,0 +1,7 @@
+{
+  "name": "map_set",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

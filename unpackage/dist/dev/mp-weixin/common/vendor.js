@@ -780,8 +780,8 @@ function populateParameters(result) {
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.8.7",
-    uniRuntimeVersion: "3.8.7",
+    uniCompileVersion: "3.96",
+    uniRuntimeVersion: "3.96",
     uniPlatform: undefined || "mp-weixin",
     deviceBrand: deviceBrand,
     deviceModel: model,
@@ -9477,9 +9477,9 @@ internalMixin(Vue);
 
 /***/ }),
 /* 26 */
-/*!******************************************!*\
-  !*** E:/code/baba_statistics/pages.json ***!
-  \******************************************/
+/*!*******************************************!*\
+  !*** E:/githubCode/statistics/pages.json ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9501,22 +9501,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 30));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 28));
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ 29));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 31));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 33));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 32));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 33));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 34));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 35));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 34));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 35));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 36));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 37));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _uniI18n = __webpack_require__(/*! @dcloudio/uni-i18n */ 22);
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 37));
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e35) { throw _e35; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e36) { didErr = true; err = _e36; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 39));
+var _excluded = ["spaceAppId", "accessKey"];
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e34) { throw _e34; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e35) { didErr = true; err = _e35; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -9524,10 +9525,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2.default)(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2.default)(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2.default)(this, result); }; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self && self;
-function n(e) {
+function t(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
-function s(e, t, n) {
+function n(e, t, n) {
   return e(n = {
     path: t,
     exports: {},
@@ -9538,7 +9539,7 @@ function s(e, t, n) {
     }
   }, n.exports), n.exports;
 }
-var r = s(function (e, t) {
+var s = n(function (e, t) {
     var n;
     e.exports = (n = n || function (e, t) {
       var n = Object.create || function () {
@@ -9648,7 +9649,7 @@ var r = s(function (e, t) {
             return new o.init(n, t);
           }
         },
-        h = a.Utf8 = {
+        l = a.Utf8 = {
           stringify: function stringify(e) {
             try {
               return decodeURIComponent(escape(u.stringify(e)));
@@ -9660,12 +9661,12 @@ var r = s(function (e, t) {
             return u.parse(unescape(encodeURIComponent(e)));
           }
         },
-        l = r.BufferedBlockAlgorithm = i.extend({
+        h = r.BufferedBlockAlgorithm = i.extend({
           reset: function reset() {
             this._data = new o.init(), this._nDataBytes = 0;
           },
           _append: function _append(e) {
-            "string" == typeof e && (e = h.parse(e)), this._data.concat(e), this._nDataBytes += e.sigBytes;
+            "string" == typeof e && (e = l.parse(e)), this._data.concat(e), this._nDataBytes += e.sigBytes;
           },
           _process: function _process(t) {
             var n = this._data,
@@ -9676,13 +9677,13 @@ var r = s(function (e, t) {
               c = (a = t ? e.ceil(a) : e.max((0 | a) - this._minBufferSize, 0)) * i,
               u = e.min(4 * c, r);
             if (c) {
-              for (var h = 0; h < c; h += i) {
-                this._doProcessBlock(s, h);
+              for (var l = 0; l < c; l += i) {
+                this._doProcessBlock(s, l);
               }
-              var l = s.splice(0, c);
+              var h = s.splice(0, c);
               n.sigBytes -= u;
             }
-            return new o.init(l, u);
+            return new o.init(h, u);
           },
           clone: function clone() {
             var e = i.clone.call(this);
@@ -9690,13 +9691,13 @@ var r = s(function (e, t) {
           },
           _minBufferSize: 0
         });
-      r.Hasher = l.extend({
+      r.Hasher = h.extend({
         cfg: i.extend(),
         init: function init(e) {
           this.cfg = this.cfg.extend(e), this.reset();
         },
         reset: function reset() {
-          l.reset.call(this), this._doReset();
+          h.reset.call(this), this._doReset();
         },
         update: function update(e) {
           return this._append(e), this._process(), this;
@@ -9720,10 +9721,10 @@ var r = s(function (e, t) {
       return s;
     }(Math), n);
   }),
-  i = r,
-  o = (s(function (e, t) {
+  r = s,
+  i = (n(function (e, t) {
     var n;
-    e.exports = (n = i, function (e) {
+    e.exports = (n = r, function (e) {
       var t = n,
         s = t.lib,
         r = s.WordArray,
@@ -9760,13 +9761,13 @@ var r = s(function (e, t) {
             S = e[t + 11],
             b = e[t + 12],
             k = e[t + 13],
-            C = e[t + 14],
-            T = e[t + 15],
-            P = i[0],
-            A = i[1],
-            E = i[2],
+            A = e[t + 14],
+            P = e[t + 15],
+            T = i[0],
+            C = i[1],
+            x = i[2],
             O = i[3];
-          P = u(P, A, E, O, o, 7, a[0]), O = u(O, P, A, E, c, 12, a[1]), E = u(E, O, P, A, p, 17, a[2]), A = u(A, E, O, P, f, 22, a[3]), P = u(P, A, E, O, g, 7, a[4]), O = u(O, P, A, E, m, 12, a[5]), E = u(E, O, P, A, y, 17, a[6]), A = u(A, E, O, P, _, 22, a[7]), P = u(P, A, E, O, w, 7, a[8]), O = u(O, P, A, E, v, 12, a[9]), E = u(E, O, P, A, I, 17, a[10]), A = u(A, E, O, P, S, 22, a[11]), P = u(P, A, E, O, b, 7, a[12]), O = u(O, P, A, E, k, 12, a[13]), E = u(E, O, P, A, C, 17, a[14]), P = h(P, A = u(A, E, O, P, T, 22, a[15]), E, O, c, 5, a[16]), O = h(O, P, A, E, y, 9, a[17]), E = h(E, O, P, A, S, 14, a[18]), A = h(A, E, O, P, o, 20, a[19]), P = h(P, A, E, O, m, 5, a[20]), O = h(O, P, A, E, I, 9, a[21]), E = h(E, O, P, A, T, 14, a[22]), A = h(A, E, O, P, g, 20, a[23]), P = h(P, A, E, O, v, 5, a[24]), O = h(O, P, A, E, C, 9, a[25]), E = h(E, O, P, A, f, 14, a[26]), A = h(A, E, O, P, w, 20, a[27]), P = h(P, A, E, O, k, 5, a[28]), O = h(O, P, A, E, p, 9, a[29]), E = h(E, O, P, A, _, 14, a[30]), P = l(P, A = h(A, E, O, P, b, 20, a[31]), E, O, m, 4, a[32]), O = l(O, P, A, E, w, 11, a[33]), E = l(E, O, P, A, S, 16, a[34]), A = l(A, E, O, P, C, 23, a[35]), P = l(P, A, E, O, c, 4, a[36]), O = l(O, P, A, E, g, 11, a[37]), E = l(E, O, P, A, _, 16, a[38]), A = l(A, E, O, P, I, 23, a[39]), P = l(P, A, E, O, k, 4, a[40]), O = l(O, P, A, E, o, 11, a[41]), E = l(E, O, P, A, f, 16, a[42]), A = l(A, E, O, P, y, 23, a[43]), P = l(P, A, E, O, v, 4, a[44]), O = l(O, P, A, E, b, 11, a[45]), E = l(E, O, P, A, T, 16, a[46]), P = d(P, A = l(A, E, O, P, p, 23, a[47]), E, O, o, 6, a[48]), O = d(O, P, A, E, _, 10, a[49]), E = d(E, O, P, A, C, 15, a[50]), A = d(A, E, O, P, m, 21, a[51]), P = d(P, A, E, O, b, 6, a[52]), O = d(O, P, A, E, f, 10, a[53]), E = d(E, O, P, A, I, 15, a[54]), A = d(A, E, O, P, c, 21, a[55]), P = d(P, A, E, O, w, 6, a[56]), O = d(O, P, A, E, T, 10, a[57]), E = d(E, O, P, A, y, 15, a[58]), A = d(A, E, O, P, k, 21, a[59]), P = d(P, A, E, O, g, 6, a[60]), O = d(O, P, A, E, S, 10, a[61]), E = d(E, O, P, A, p, 15, a[62]), A = d(A, E, O, P, v, 21, a[63]), i[0] = i[0] + P | 0, i[1] = i[1] + A | 0, i[2] = i[2] + E | 0, i[3] = i[3] + O | 0;
+          T = u(T, C, x, O, o, 7, a[0]), O = u(O, T, C, x, c, 12, a[1]), x = u(x, O, T, C, p, 17, a[2]), C = u(C, x, O, T, f, 22, a[3]), T = u(T, C, x, O, g, 7, a[4]), O = u(O, T, C, x, m, 12, a[5]), x = u(x, O, T, C, y, 17, a[6]), C = u(C, x, O, T, _, 22, a[7]), T = u(T, C, x, O, w, 7, a[8]), O = u(O, T, C, x, v, 12, a[9]), x = u(x, O, T, C, I, 17, a[10]), C = u(C, x, O, T, S, 22, a[11]), T = u(T, C, x, O, b, 7, a[12]), O = u(O, T, C, x, k, 12, a[13]), x = u(x, O, T, C, A, 17, a[14]), T = l(T, C = u(C, x, O, T, P, 22, a[15]), x, O, c, 5, a[16]), O = l(O, T, C, x, y, 9, a[17]), x = l(x, O, T, C, S, 14, a[18]), C = l(C, x, O, T, o, 20, a[19]), T = l(T, C, x, O, m, 5, a[20]), O = l(O, T, C, x, I, 9, a[21]), x = l(x, O, T, C, P, 14, a[22]), C = l(C, x, O, T, g, 20, a[23]), T = l(T, C, x, O, v, 5, a[24]), O = l(O, T, C, x, A, 9, a[25]), x = l(x, O, T, C, f, 14, a[26]), C = l(C, x, O, T, w, 20, a[27]), T = l(T, C, x, O, k, 5, a[28]), O = l(O, T, C, x, p, 9, a[29]), x = l(x, O, T, C, _, 14, a[30]), T = h(T, C = l(C, x, O, T, b, 20, a[31]), x, O, m, 4, a[32]), O = h(O, T, C, x, w, 11, a[33]), x = h(x, O, T, C, S, 16, a[34]), C = h(C, x, O, T, A, 23, a[35]), T = h(T, C, x, O, c, 4, a[36]), O = h(O, T, C, x, g, 11, a[37]), x = h(x, O, T, C, _, 16, a[38]), C = h(C, x, O, T, I, 23, a[39]), T = h(T, C, x, O, k, 4, a[40]), O = h(O, T, C, x, o, 11, a[41]), x = h(x, O, T, C, f, 16, a[42]), C = h(C, x, O, T, y, 23, a[43]), T = h(T, C, x, O, v, 4, a[44]), O = h(O, T, C, x, b, 11, a[45]), x = h(x, O, T, C, P, 16, a[46]), T = d(T, C = h(C, x, O, T, p, 23, a[47]), x, O, o, 6, a[48]), O = d(O, T, C, x, _, 10, a[49]), x = d(x, O, T, C, A, 15, a[50]), C = d(C, x, O, T, m, 21, a[51]), T = d(T, C, x, O, b, 6, a[52]), O = d(O, T, C, x, f, 10, a[53]), x = d(x, O, T, C, I, 15, a[54]), C = d(C, x, O, T, c, 21, a[55]), T = d(T, C, x, O, w, 6, a[56]), O = d(O, T, C, x, P, 10, a[57]), x = d(x, O, T, C, y, 15, a[58]), C = d(C, x, O, T, k, 21, a[59]), T = d(T, C, x, O, g, 6, a[60]), O = d(O, T, C, x, S, 10, a[61]), x = d(x, O, T, C, p, 15, a[62]), C = d(C, x, O, T, v, 21, a[63]), i[0] = i[0] + T | 0, i[1] = i[1] + C | 0, i[2] = i[2] + x | 0, i[3] = i[3] + O | 0;
         },
         _doFinalize: function _doFinalize() {
           var t = this._data,
@@ -9778,8 +9779,8 @@ var r = s(function (e, t) {
             o = s;
           n[15 + (r + 64 >>> 9 << 4)] = 16711935 & (i << 8 | i >>> 24) | 4278255360 & (i << 24 | i >>> 8), n[14 + (r + 64 >>> 9 << 4)] = 16711935 & (o << 8 | o >>> 24) | 4278255360 & (o << 24 | o >>> 8), t.sigBytes = 4 * (n.length + 1), this._process();
           for (var a = this._hash, c = a.words, u = 0; u < 4; u++) {
-            var h = c[u];
-            c[u] = 16711935 & (h << 8 | h >>> 24) | 4278255360 & (h << 24 | h >>> 8);
+            var l = c[u];
+            c[u] = 16711935 & (l << 8 | l >>> 24) | 4278255360 & (l << 24 | l >>> 8);
           }
           return a;
         },
@@ -9792,11 +9793,11 @@ var r = s(function (e, t) {
         var a = e + (t & n | ~t & s) + r + o;
         return (a << i | a >>> 32 - i) + t;
       }
-      function h(e, t, n, s, r, i, o) {
+      function l(e, t, n, s, r, i, o) {
         var a = e + (t & s | n & ~s) + r + o;
         return (a << i | a >>> 32 - i) + t;
       }
-      function l(e, t, n, s, r, i, o) {
+      function h(e, t, n, s, r, i, o) {
         var a = e + (t ^ n ^ s) + r + o;
         return (a << i | a >>> 32 - i) + t;
       }
@@ -9806,9 +9807,9 @@ var r = s(function (e, t) {
       }
       t.MD5 = i._createHelper(c), t.HmacMD5 = i._createHmacHelper(c);
     }(Math), n.MD5);
-  }), s(function (e, t) {
+  }), n(function (e, t) {
     var n;
-    e.exports = (n = i, void function () {
+    e.exports = (n = r, void function () {
       var e = n,
         t = e.lib.Base,
         s = e.enc.Utf8;
@@ -9837,15 +9838,15 @@ var r = s(function (e, t) {
         }
       });
     }());
-  }), s(function (e, t) {
-    e.exports = i.HmacMD5;
+  }), n(function (e, t) {
+    e.exports = r.HmacMD5;
   })),
-  a = s(function (e, t) {
-    e.exports = i.enc.Utf8;
+  o = n(function (e, t) {
+    e.exports = r.enc.Utf8;
   }),
-  c = s(function (e, t) {
+  a = n(function (e, t) {
     var n;
-    e.exports = (n = i, function () {
+    e.exports = (n = r, function () {
       var e = n,
         t = e.lib.WordArray;
       function s(e, n, s) {
@@ -9896,22 +9897,22 @@ var r = s(function (e, t) {
       };
     }(), n.enc.Base64);
   });
-var u = "FUNCTION",
-  h = "OBJECT",
+var c = "FUNCTION",
+  u = "OBJECT",
   l = "CLIENT_DB",
-  d = "pending",
-  p = "fullfilled",
-  f = "rejected";
-function g(e) {
+  h = "pending",
+  d = "fulfilled",
+  p = "rejected";
+function f(e) {
   return Object.prototype.toString.call(e).slice(8, -1).toLowerCase();
 }
-function m(e) {
-  return "object" === g(e);
+function g(e) {
+  return "object" === f(e);
 }
-function y(e) {
+function m(e) {
   return "function" == typeof e;
 }
-function _(e) {
+function y(e) {
   return function () {
     try {
       return e.apply(e, arguments);
@@ -9920,167 +9921,168 @@ function _(e) {
     }
   };
 }
-var w = "REJECTED",
-  v = "NOT_PENDING";
-var I = /*#__PURE__*/function () {
-  function I() {
+var _ = "REJECTED",
+  w = "NOT_PENDING";
+var v = /*#__PURE__*/function () {
+  function v() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       e = _ref.createPromise,
       _ref$retryRule = _ref.retryRule,
-      t = _ref$retryRule === void 0 ? w : _ref$retryRule;
-    (0, _classCallCheck2.default)(this, I);
+      t = _ref$retryRule === void 0 ? _ : _ref$retryRule;
+    (0, _classCallCheck2.default)(this, v);
     this.createPromise = e, this.status = null, this.promise = null, this.retryRule = t;
   }
-  (0, _createClass2.default)(I, [{
+  (0, _createClass2.default)(v, [{
     key: "needRetry",
     get: function get() {
       if (!this.status) return !0;
       switch (this.retryRule) {
+        case _:
+          return this.status === p;
         case w:
-          return this.status === f;
-        case v:
-          return this.status !== d;
+          return this.status !== h;
       }
     }
   }, {
     key: "exec",
     value: function exec() {
       var _this = this;
-      return this.needRetry ? (this.status = d, this.promise = this.createPromise().then(function (e) {
-        return _this.status = p, Promise.resolve(e);
+      return this.needRetry ? (this.status = h, this.promise = this.createPromise().then(function (e) {
+        return _this.status = d, Promise.resolve(e);
       }, function (e) {
-        return _this.status = f, Promise.reject(e);
+        return _this.status = p, Promise.reject(e);
       }), this.promise) : this.promise;
     }
   }]);
-  return I;
+  return v;
 }();
-function S(e) {
+function I(e) {
   return e && "string" == typeof e ? JSON.parse(e) : e;
 }
-var b = "development" === "development",
-  k = "mp-weixin",
-  C = "true" === undefined || !0 === undefined,
-  T = S([]),
-  P = "h5" === k ? "web" : "app-plus" === k ? "app" : k,
-  A = S({
+var S = "development" === "development",
+  b = "mp-weixin",
+  k = "true" === undefined || !0 === undefined,
+  A = I([]),
+  P = "h5" === b ? "web" : "app-plus" === b ? "app" : b,
+  T = I({
     "address": [
         "127.0.0.1",
-        "192.168.2.213"
+        "10.47.93.99",
+        "172.31.32.1"
     ],
     "debugPort": 9000,
     "initialLaunchType": "local",
     "servePort": 7000,
     "skipFiles": [
         "<node_internals>/**",
-        "D:/mySoft/HBuilderX/plugins/unicloud/**/*.js"
+        "D:/MySoft/HBuilderX.3.8.7.20230703/HBuilderX/plugins/unicloud/**/*.js"
     ]
 }
 ),
-  E = S([{"provider":"aliyun","spaceName":"statistics","spaceId":"mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608","clientSecret":"59wAJNcC2buZhFaPNnXmHw==","endpoint":"https://api.next.bspapp.com"}]) || [],
-  O = true;
-var x = "";
+  C = I([{"provider":"aliyun","spaceName":"statistics","spaceId":"mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608","clientSecret":"59wAJNcC2buZhFaPNnXmHw==","endpoint":"https://api.next.bspapp.com"}]) || [],
+  x = true;
+var O = "";
 try {
-  x = (__webpack_require__(/*! uni-stat-config */ 38).default || __webpack_require__(/*! uni-stat-config */ 38)).appid;
+  O = (__webpack_require__(/*! uni-stat-config */ 40).default || __webpack_require__(/*! uni-stat-config */ 40)).appid;
 } catch (e) {}
-var R = {};
-function U(e) {
+var E = {};
+function L(e) {
   var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var n, s;
-  return n = R, s = e, Object.prototype.hasOwnProperty.call(n, s) || (R[e] = t), R[e];
+  return n = E, s = e, Object.prototype.hasOwnProperty.call(n, s) || (E[e] = t), E[e];
 }
-"app" === P && (R = uni._globalUniCloudObj ? uni._globalUniCloudObj : uni._globalUniCloudObj = {});
-var L = ["invoke", "success", "fail", "complete"],
-  N = U("_globalUniCloudInterceptor");
-function D(e, t) {
-  N[e] || (N[e] = {}), m(t) && Object.keys(t).forEach(function (n) {
-    L.indexOf(n) > -1 && function (e, t, n) {
-      var s = N[e][t];
-      s || (s = N[e][t] = []), -1 === s.indexOf(n) && y(n) && s.push(n);
+"app" === P && (E = uni._globalUniCloudObj ? uni._globalUniCloudObj : uni._globalUniCloudObj = {});
+var R = ["invoke", "success", "fail", "complete"],
+  U = L("_globalUniCloudInterceptor");
+function N(e, t) {
+  U[e] || (U[e] = {}), g(t) && Object.keys(t).forEach(function (n) {
+    R.indexOf(n) > -1 && function (e, t, n) {
+      var s = U[e][t];
+      s || (s = U[e][t] = []), -1 === s.indexOf(n) && m(n) && s.push(n);
     }(e, n, t[n]);
   });
 }
-function F(e, t) {
-  N[e] || (N[e] = {}), m(t) ? Object.keys(t).forEach(function (n) {
-    L.indexOf(n) > -1 && function (e, t, n) {
-      var s = N[e][t];
+function D(e, t) {
+  U[e] || (U[e] = {}), g(t) ? Object.keys(t).forEach(function (n) {
+    R.indexOf(n) > -1 && function (e, t, n) {
+      var s = U[e][t];
       if (!s) return;
       var r = s.indexOf(n);
       r > -1 && s.splice(r, 1);
     }(e, n, t[n]);
-  }) : delete N[e];
+  }) : delete U[e];
 }
-function q(e, t) {
+function M(e, t) {
   return e && 0 !== e.length ? e.reduce(function (e, n) {
     return e.then(function () {
       return n(t);
     });
   }, Promise.resolve()) : Promise.resolve();
 }
-function M(e, t) {
-  return N[e] && N[e][t] || [];
+function q(e, t) {
+  return U[e] && U[e][t] || [];
 }
-function K(e) {
-  D("callObject", e);
+function F(e) {
+  N("callObject", e);
 }
-var j = U("_globalUniCloudListener"),
-  B = "response",
-  $ = "needLogin",
-  W = "refreshToken",
-  z = "clientdb",
-  J = "cloudfunction",
-  H = "cloudobject";
-function G(e) {
-  return j[e] || (j[e] = []), j[e];
+var K = L("_globalUniCloudListener"),
+  j = "response",
+  B = "needLogin",
+  $ = "refreshToken",
+  W = "clientdb",
+  H = "cloudfunction",
+  z = "cloudobject";
+function J(e) {
+  return K[e] || (K[e] = []), K[e];
 }
 function V(e, t) {
-  var n = G(e);
+  var n = J(e);
   n.includes(t) || n.push(t);
 }
-function Y(e, t) {
-  var n = G(e),
+function G(e, t) {
+  var n = J(e),
     s = n.indexOf(t);
   -1 !== s && n.splice(s, 1);
 }
-function Q(e, t) {
-  var n = G(e);
+function Y(e, t) {
+  var n = J(e);
   for (var _e2 = 0; _e2 < n.length; _e2++) {
     (0, n[_e2])(t);
   }
 }
-var X,
-  Z = !1;
-function ee() {
-  return X || (X = new Promise(function (e) {
-    Z && e(), function t() {
+var Q,
+  X = !1;
+function Z() {
+  return Q || (Q = new Promise(function (e) {
+    X && e(), function t() {
       if ("function" == typeof getCurrentPages) {
         var _t2 = getCurrentPages();
-        _t2 && _t2[0] && (Z = !0, e());
+        _t2 && _t2[0] && (X = !0, e());
       }
-      Z || setTimeout(function () {
+      X || setTimeout(function () {
         t();
       }, 30);
     }();
-  }), X);
+  }), Q);
 }
-function te(e) {
+function ee(e) {
   var t = {};
   for (var _n2 in e) {
     var _s2 = e[_n2];
-    y(_s2) && (t[_n2] = _(_s2));
+    m(_s2) && (t[_n2] = y(_s2));
   }
   return t;
 }
-var ne = /*#__PURE__*/function (_Error) {
-  (0, _inherits2.default)(ne, _Error);
-  var _super = _createSuper(ne);
-  function ne(e) {
+var te = /*#__PURE__*/function (_Error) {
+  (0, _inherits2.default)(te, _Error);
+  var _super = _createSuper(te);
+  function te(e) {
     var _this2;
-    (0, _classCallCheck2.default)(this, ne);
+    (0, _classCallCheck2.default)(this, te);
     _this2 = _super.call(this, e.message), _this2.errMsg = e.message || e.errMsg || "unknown system error", _this2.code = _this2.errCode = e.code || e.errCode || "SYSTEM_ERROR", _this2.errSubject = _this2.subject = e.subject || e.errSubject, _this2.cause = e.cause, _this2.requestId = e.requestId;
     return _this2;
   }
-  (0, _createClass2.default)(ne, [{
+  (0, _createClass2.default)(te, [{
     key: "toJson",
     value: function toJson() {
       var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -10092,9 +10094,9 @@ var ne = /*#__PURE__*/function (_Error) {
       };
     }
   }]);
-  return ne;
+  return te;
 }( /*#__PURE__*/(0, _wrapNativeSuper2.default)(Error));
-var se = {
+var ne = {
   request: function request(e) {
     return uni.request(e);
   },
@@ -10114,23 +10116,23 @@ var se = {
     return uni.clearStorageSync();
   }
 };
-function re() {
+function se() {
   return {
-    token: se.getStorageSync("uni_id_token") || se.getStorageSync("uniIdToken"),
-    tokenExpired: se.getStorageSync("uni_id_token_expired")
+    token: ne.getStorageSync("uni_id_token") || ne.getStorageSync("uniIdToken"),
+    tokenExpired: ne.getStorageSync("uni_id_token_expired")
   };
 }
-function ie() {
+function re() {
   var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
     e = _ref2.token,
     t = _ref2.tokenExpired;
-  e && se.setStorageSync("uni_id_token", e), t && se.setStorageSync("uni_id_token_expired", t);
+  e && ne.setStorageSync("uni_id_token", e), t && ne.setStorageSync("uni_id_token_expired", t);
 }
-var oe, ae;
+var ie, oe;
+function ae() {
+  return ie || (ie = uni.getSystemInfoSync()), ie;
+}
 function ce() {
-  return oe || (oe = uni.getSystemInfoSync()), oe;
-}
-function ue() {
   var e, t;
   try {
     if (uni.getLaunchOptionsSync) {
@@ -10146,13 +10148,13 @@ function ue() {
     scene: t
   };
 }
-function he() {
+function ue() {
   var e = uni.getLocale && uni.getLocale() || "en";
-  if (ae) return _objectSpread(_objectSpread({}, ae), {}, {
+  if (oe) return _objectSpread(_objectSpread({}, oe), {}, {
     locale: e,
     LOCALE: e
   });
-  var t = ce(),
+  var t = ae(),
     n = t.deviceId,
     s = t.osName,
     r = t.uniPlatform,
@@ -10161,101 +10163,74 @@ function he() {
   for (var _e3 = 0; _e3 < o.length; _e3++) {
     delete t[o[_e3]];
   }
-  return ae = _objectSpread(_objectSpread({
+  return oe = _objectSpread(_objectSpread({
     PLATFORM: r,
     OS: s,
     APPID: i,
     DEVICEID: n
-  }, ue()), t), _objectSpread(_objectSpread({}, ae), {}, {
+  }, ce()), t), _objectSpread(_objectSpread({}, oe), {}, {
     locale: e,
     LOCALE: e
   });
 }
 var le = {
-    sign: function sign(e, t) {
-      var n = "";
-      return Object.keys(e).sort().forEach(function (t) {
-        e[t] && (n = n + "&" + t + "=" + e[t]);
-      }), n = n.slice(1), o(n, t).toString();
-    },
-    wrappedRequest: function wrappedRequest(e, t) {
-      return new Promise(function (n, s) {
-        t(Object.assign(e, {
-          complete: function complete(e) {
-            e || (e = {}), b && "web" === P && e.errMsg && 0 === e.errMsg.indexOf("request:fail") && console.warn("发布H5，需要在uniCloud后台操作，绑定安全域名，否则会因为跨域问题而无法访问。教程参考：https://uniapp.dcloud.io/uniCloud/quickstart?id=useinh5");
-            var t = e.data && e.data.header && e.data.header["x-serverless-request-id"] || e.header && e.header["request-id"];
-            if (!e.statusCode || e.statusCode >= 400) return s(new ne({
-              code: "SYS_ERR",
-              message: e.errMsg || "request:fail",
-              requestId: t
-            }));
-            var r = e.data;
-            if (r.error) return s(new ne({
-              code: r.error.code,
-              message: r.error.message,
-              requestId: t
-            }));
-            r.result = r.data, r.requestId = t, delete r.data, n(r);
-          }
-        }));
-      });
-    },
-    toBase64: function toBase64(e) {
-      return c.stringify(a.parse(e));
-    }
+  sign: function sign(e, t) {
+    var n = "";
+    return Object.keys(e).sort().forEach(function (t) {
+      e[t] && (n = n + "&" + t + "=" + e[t]);
+    }), n = n.slice(1), i(n, t).toString();
   },
-  de = {
-    "uniCloud.init.paramRequired": "{param} required",
-    "uniCloud.uploadFile.fileError": "filePath should be instance of File"
-  };
-var _e4 = (0, _uniI18n.initVueI18n)({
-    "zh-Hans": {
-      "uniCloud.init.paramRequired": "缺少参数：{param}",
-      "uniCloud.uploadFile.fileError": "filePath应为File对象"
-    },
-    "zh-Hant": {
-      "uniCloud.init.paramRequired": "缺少参数：{param}",
-      "uniCloud.uploadFile.fileError": "filePath应为File对象"
-    },
-    en: de,
-    fr: {
-      "uniCloud.init.paramRequired": "{param} required",
-      "uniCloud.uploadFile.fileError": "filePath should be instance of File"
-    },
-    es: {
-      "uniCloud.init.paramRequired": "{param} required",
-      "uniCloud.uploadFile.fileError": "filePath should be instance of File"
-    },
-    ja: de
-  }, "zh-Hans"),
-  pe = _e4.t;
-var fe = /*#__PURE__*/function () {
-  function fe(e) {
-    var _this3 = this;
-    (0, _classCallCheck2.default)(this, fe);
-    ["spaceId", "clientSecret"].forEach(function (t) {
-      if (!Object.prototype.hasOwnProperty.call(e, t)) throw new Error(pe("uniCloud.init.paramRequired", {
-        param: t
+  wrappedRequest: function wrappedRequest(e, t) {
+    return new Promise(function (n, s) {
+      t(Object.assign(e, {
+        complete: function complete(e) {
+          e || (e = {}), S && "web" === P && e.errMsg && 0 === e.errMsg.indexOf("request:fail") && console.warn("发布H5，需要在uniCloud后台操作，绑定安全域名，否则会因为跨域问题而无法访问。教程参考：https://uniapp.dcloud.io/uniCloud/quickstart?id=useinh5");
+          var t = e.data && e.data.header && e.data.header["x-serverless-request-id"] || e.header && e.header["request-id"];
+          if (!e.statusCode || e.statusCode >= 400) return s(new te({
+            code: "SYS_ERR",
+            message: e.errMsg || "request:fail",
+            requestId: t
+          }));
+          var r = e.data;
+          if (r.error) return s(new te({
+            code: r.error.code,
+            message: r.error.message,
+            requestId: t
+          }));
+          r.result = r.data, r.requestId = t, delete r.data, n(r);
+        }
       }));
+    });
+  },
+  toBase64: function toBase64(e) {
+    return a.stringify(o.parse(e));
+  }
+};
+var he = /*#__PURE__*/function () {
+  function he(e) {
+    var _this3 = this;
+    (0, _classCallCheck2.default)(this, he);
+    ["spaceId", "clientSecret"].forEach(function (t) {
+      if (!Object.prototype.hasOwnProperty.call(e, t)) throw new Error("".concat(t, " required"));
     }), this.config = Object.assign({}, {
       endpoint: 0 === e.spaceId.indexOf("mp-") ? "https://api.next.bspapp.com" : "https://api.bspapp.com"
-    }, e), this.config.provider = "aliyun", this.config.requestUrl = this.config.endpoint + "/client", this.config.envType = this.config.envType || "public", this.config.accessTokenKey = "access_token_" + this.config.spaceId, this.adapter = se, this._getAccessTokenPromiseHub = new I({
+    }, e), this.config.provider = "aliyun", this.config.requestUrl = this.config.endpoint + "/client", this.config.envType = this.config.envType || "public", this.config.accessTokenKey = "access_token_" + this.config.spaceId, this.adapter = ne, this._getAccessTokenPromiseHub = new v({
       createPromise: function createPromise() {
         return _this3.requestAuth(_this3.setupRequest({
           method: "serverless.auth.user.anonymousAuthorize",
           params: "{}"
         }, "auth")).then(function (e) {
-          if (!e.result || !e.result.accessToken) throw new ne({
+          if (!e.result || !e.result.accessToken) throw new te({
             code: "AUTH_FAILED",
             message: "获取accessToken失败"
           });
           _this3.setAccessToken(e.result.accessToken);
         });
       },
-      retryRule: v
+      retryRule: w
     });
   }
-  (0, _createClass2.default)(fe, [{
+  (0, _createClass2.default)(he, [{
     key: "hasAccessToken",
     get: function get() {
       return !!this.accessToken;
@@ -10388,13 +10363,13 @@ var fe = /*#__PURE__*/function () {
             "X-OSS-server-side-encrpytion": "AES256"
           },
           success: function success(e) {
-            e && e.statusCode < 400 ? o(e) : a(new ne({
+            e && e.statusCode < 400 ? o(e) : a(new te({
               code: "UPLOAD_FAILED",
               message: "文件上传失败"
             }));
           },
           fail: function fail(e) {
-            a(new ne({
+            a(new te({
               code: e.code || "UPLOAD_FAILED",
               message: e.message || e.errMsg || "文件上传失败"
             }));
@@ -10421,17 +10396,17 @@ var fe = /*#__PURE__*/function () {
     key: "uploadFile",
     value: function () {
       var _uploadFile = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(_ref4) {
-        var e, t, _ref4$fileType, n, _ref4$cloudPathAsReal, s, r, i, o, a, c, u, h, l, d, p, f, m, y, _, _e5, w;
+        var e, t, _ref4$fileType, n, _ref4$cloudPathAsReal, s, r, i, o, a, c, u, l, h, d, p, g, m, y, _, _e4, w;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 e = _ref4.filePath, t = _ref4.cloudPath, _ref4$fileType = _ref4.fileType, n = _ref4$fileType === void 0 ? "image" : _ref4$fileType, _ref4$cloudPathAsReal = _ref4.cloudPathAsRealPath, s = _ref4$cloudPathAsReal === void 0 ? !1 : _ref4$cloudPathAsReal, r = _ref4.onUploadProgress, i = _ref4.config;
-                if (!("string" !== g(t))) {
+                if (!("string" !== f(t))) {
                   _context2.next = 3;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "INVALID_PARAM",
                   message: "cloudPath必须为字符串类型"
                 });
@@ -10440,7 +10415,7 @@ var fe = /*#__PURE__*/function () {
                   _context2.next = 5;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "INVALID_PARAM",
                   message: "cloudPath不可为空"
                 });
@@ -10449,7 +10424,7 @@ var fe = /*#__PURE__*/function () {
                   _context2.next = 7;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "INVALID_PARAM",
                   message: "cloudPath不合法"
                 });
@@ -10459,7 +10434,7 @@ var fe = /*#__PURE__*/function () {
                   _context2.next = 10;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "INVALID_PARAM",
                   message: "使用cloudPath作为路径时，cloudPath不可包含“\\”"
                 });
@@ -10474,34 +10449,34 @@ var fe = /*#__PURE__*/function () {
                 a = _context2.sent.result;
                 c = "https://" + a.cdnDomain + "/" + a.ossPath;
                 u = a.securityToken;
-                h = a.accessKeyId;
-                l = a.signature;
+                l = a.accessKeyId;
+                h = a.signature;
                 d = a.host;
                 p = a.ossPath;
-                f = a.id;
+                g = a.id;
                 m = a.policy;
                 y = a.ossCallbackUrl;
                 _ = {
                   "Cache-Control": "max-age=2592000",
                   "Content-Disposition": "attachment",
-                  OSSAccessKeyId: h,
-                  Signature: l,
+                  OSSAccessKeyId: l,
+                  Signature: h,
                   host: d,
-                  id: f,
+                  id: g,
                   key: p,
                   policy: m,
                   success_action_status: 200
                 };
                 if (u && (_["x-oss-security-token"] = u), y) {
-                  _e5 = JSON.stringify({
+                  _e4 = JSON.stringify({
                     callbackUrl: y,
                     callbackBody: JSON.stringify({
-                      fileId: f,
+                      fileId: g,
                       spaceId: this.config.spaceId
                     }),
                     callbackBodyType: "application/json"
                   });
-                  _.callback = le.toBase64(_e5);
+                  _.callback = le.toBase64(_e4);
                 }
                 w = {
                   url: "https://" + a.host,
@@ -10528,7 +10503,7 @@ var fe = /*#__PURE__*/function () {
               case 29:
                 _context2.next = 31;
                 return this.reportOSSUpload({
-                  id: f
+                  id: g
                 });
               case 31:
                 if (!_context2.sent.success) {
@@ -10541,7 +10516,7 @@ var fe = /*#__PURE__*/function () {
                   fileID: c
                 });
               case 33:
-                throw new ne({
+                throw new te({
                   code: "UPLOAD_FAILED",
                   message: "文件上传失败"
                 });
@@ -10563,7 +10538,7 @@ var fe = /*#__PURE__*/function () {
       var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
         e = _ref5.fileList;
       return new Promise(function (t, n) {
-        Array.isArray(e) && 0 !== e.length || n(new ne({
+        Array.isArray(e) && 0 !== e.length || n(new te({
           code: "INVALID_PARAM",
           message: "fileList的元素必须是非空的字符串"
         })), t({
@@ -10593,7 +10568,7 @@ var fe = /*#__PURE__*/function () {
                   _context3.next = 3;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "INVALID_PARAM",
                   message: "fileList的元素必须是非空的字符串"
                 });
@@ -10626,11 +10601,11 @@ var fe = /*#__PURE__*/function () {
       return getFileInfo;
     }()
   }]);
-  return fe;
+  return he;
 }();
-var ge = {
+var de = {
   init: function init(e) {
-    var t = new fe(e),
+    var t = new he(e),
       n = {
         signInAnonymously: function signInAnonymously() {
           return t.authorize();
@@ -10644,18 +10619,82 @@ var ge = {
     }, t.customAuth = t.auth, t;
   }
 };
-var me = "undefined" != typeof location && "http:" === location.protocol ? "http:" : "https:";
-var ye;
+var pe = "undefined" != typeof location && "http:" === location.protocol ? "http:" : "https:";
+var fe;
 !function (e) {
   e.local = "local", e.none = "none", e.session = "session";
-}(ye || (ye = {}));
-var _e = function _e() {};
+}(fe || (fe = {}));
+var ge = function ge() {},
+  me = n(function (e, t) {
+    var n;
+    e.exports = (n = r, function (e) {
+      var t = n,
+        s = t.lib,
+        r = s.WordArray,
+        i = s.Hasher,
+        o = t.algo,
+        a = [],
+        c = [];
+      !function () {
+        function t(t) {
+          for (var n = e.sqrt(t), s = 2; s <= n; s++) {
+            if (!(t % s)) return !1;
+          }
+          return !0;
+        }
+        function n(e) {
+          return 4294967296 * (e - (0 | e)) | 0;
+        }
+        for (var s = 2, r = 0; r < 64;) {
+          t(s) && (r < 8 && (a[r] = n(e.pow(s, .5))), c[r] = n(e.pow(s, 1 / 3)), r++), s++;
+        }
+      }();
+      var u = [],
+        l = o.SHA256 = i.extend({
+          _doReset: function _doReset() {
+            this._hash = new r.init(a.slice(0));
+          },
+          _doProcessBlock: function _doProcessBlock(e, t) {
+            for (var n = this._hash.words, s = n[0], r = n[1], i = n[2], o = n[3], a = n[4], l = n[5], h = n[6], d = n[7], p = 0; p < 64; p++) {
+              if (p < 16) u[p] = 0 | e[t + p];else {
+                var f = u[p - 15],
+                  g = (f << 25 | f >>> 7) ^ (f << 14 | f >>> 18) ^ f >>> 3,
+                  m = u[p - 2],
+                  y = (m << 15 | m >>> 17) ^ (m << 13 | m >>> 19) ^ m >>> 10;
+                u[p] = g + u[p - 7] + y + u[p - 16];
+              }
+              var _ = s & r ^ s & i ^ r & i,
+                w = (s << 30 | s >>> 2) ^ (s << 19 | s >>> 13) ^ (s << 10 | s >>> 22),
+                v = d + ((a << 26 | a >>> 6) ^ (a << 21 | a >>> 11) ^ (a << 7 | a >>> 25)) + (a & l ^ ~a & h) + c[p] + u[p];
+              d = h, h = l, l = a, a = o + v | 0, o = i, i = r, r = s, s = v + (w + _) | 0;
+            }
+            n[0] = n[0] + s | 0, n[1] = n[1] + r | 0, n[2] = n[2] + i | 0, n[3] = n[3] + o | 0, n[4] = n[4] + a | 0, n[5] = n[5] + l | 0, n[6] = n[6] + h | 0, n[7] = n[7] + d | 0;
+          },
+          _doFinalize: function _doFinalize() {
+            var t = this._data,
+              n = t.words,
+              s = 8 * this._nDataBytes,
+              r = 8 * t.sigBytes;
+            return n[r >>> 5] |= 128 << 24 - r % 32, n[14 + (r + 64 >>> 9 << 4)] = e.floor(s / 4294967296), n[15 + (r + 64 >>> 9 << 4)] = s, t.sigBytes = 4 * n.length, this._process(), this._hash;
+          },
+          clone: function clone() {
+            var e = i.clone.call(this);
+            return e._hash = this._hash.clone(), e;
+          }
+        });
+      t.SHA256 = i._createHelper(l), t.HmacSHA256 = i._createHmacHelper(l);
+    }(Math), n.SHA256);
+  }),
+  ye = me,
+  _e = n(function (e, t) {
+    e.exports = r.HmacSHA256;
+  });
 var we = function we() {
   var e;
   if (!Promise) {
     e = function e() {}, e.promise = {};
     var _t3 = function _t3() {
-      throw new ne({
+      throw new te({
         message: 'Your Node runtime does support ES6 Promises. Set "global.Promise" to your preferred implementation of promises.'
       });
     };
@@ -10666,8 +10705,8 @@ var we = function we() {
     }), e;
   }
   var t = new Promise(function (t, n) {
-    e = function e(_e6, s) {
-      return _e6 ? n(_e6) : t(s);
+    e = function e(_e5, s) {
+      return _e5 ? n(_e5) : t(s);
     };
   });
   return e.promise = t, e;
@@ -10686,10 +10725,10 @@ function be(e) {
     _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var _e7 = _step.value;
-      var _t4 = _e7.isMatch,
-        _n4 = _e7.genAdapter,
-        _s4 = _e7.runtime;
+      var _e6 = _step.value;
+      var _t4 = _e6.isMatch,
+        _n4 = _e6.genAdapter,
+        _s4 = _e6.runtime;
       if (_t4()) return {
         adapter: _n4(),
         runtime: _s4
@@ -10708,17 +10747,17 @@ var ke = {
     adapter: null,
     runtime: void 0
   },
-  Ce = ["anonymousUuidKey"];
-var Te = /*#__PURE__*/function (_e8) {
-  (0, _inherits2.default)(Te, _e8);
-  var _super2 = _createSuper(Te);
-  function Te() {
+  Ae = ["anonymousUuidKey"];
+var Pe = /*#__PURE__*/function (_ge) {
+  (0, _inherits2.default)(Pe, _ge);
+  var _super2 = _createSuper(Pe);
+  function Pe() {
     var _this6;
-    (0, _classCallCheck2.default)(this, Te);
+    (0, _classCallCheck2.default)(this, Pe);
     _this6 = _super2.call(this), ke.adapter.root.tcbObject || (ke.adapter.root.tcbObject = {});
     return _this6;
   }
-  (0, _createClass2.default)(Te, [{
+  (0, _createClass2.default)(Pe, [{
     key: "setItem",
     value: function setItem(e, t) {
       ke.adapter.root.tcbObject[e] = t;
@@ -10739,23 +10778,23 @@ var Te = /*#__PURE__*/function (_e8) {
       delete ke.adapter.root.tcbObject;
     }
   }]);
-  return Te;
-}(_e);
-function Pe(e, t) {
+  return Pe;
+}(ge);
+function Te(e, t) {
   switch (e) {
     case "local":
-      return t.localStorage || new Te();
+      return t.localStorage || new Pe();
     case "none":
-      return new Te();
+      return new Pe();
     default:
-      return t.sessionStorage || new Te();
+      return t.sessionStorage || new Pe();
   }
 }
-var Ae = /*#__PURE__*/function () {
-  function Ae(e) {
-    (0, _classCallCheck2.default)(this, Ae);
+var Ce = /*#__PURE__*/function () {
+  function Ce(e) {
+    (0, _classCallCheck2.default)(this, Ce);
     if (!this._storage) {
-      this._persistence = ke.adapter.primaryStorage || e.persistence, this._storage = Pe(this._persistence, ke.adapter);
+      this._persistence = ke.adapter.primaryStorage || e.persistence, this._storage = Te(this._persistence, ke.adapter);
       var _t5 = "access_token_".concat(e.env),
         _n5 = "access_token_expire_".concat(e.env),
         _s5 = "refresh_token_".concat(e.env),
@@ -10772,16 +10811,16 @@ var Ae = /*#__PURE__*/function () {
       };
     }
   }
-  (0, _createClass2.default)(Ae, [{
+  (0, _createClass2.default)(Ce, [{
     key: "updatePersistence",
     value: function updatePersistence(e) {
       if (e === this._persistence) return;
       var t = "local" === this._persistence;
       this._persistence = e;
-      var n = Pe(e, ke.adapter);
-      for (var _e9 in this.keys) {
-        var _s6 = this.keys[_e9];
-        if (t && Ce.includes(_e9)) continue;
+      var n = Te(e, ke.adapter);
+      for (var _e7 in this.keys) {
+        var _s6 = this.keys[_e7];
+        if (t && Ae.includes(_e7)) continue;
         var _r2 = this._storage.getItem(_s6);
         ve(_r2) || Ie(_r2) || (n.setItem(_s6, _r2), this._storage.removeItem(_s6));
       }
@@ -10824,32 +10863,32 @@ var Ae = /*#__PURE__*/function () {
       this._storage.removeItem(e);
     }
   }]);
-  return Ae;
+  return Ce;
 }();
-var Ee = {},
+var xe = {},
   Oe = {};
-function xe(e) {
-  return Ee[e];
+function Ee(e) {
+  return xe[e];
 }
-var Re = /*#__PURE__*/(0, _createClass2.default)(function Re(e, t) {
-  (0, _classCallCheck2.default)(this, Re);
+var Le = /*#__PURE__*/(0, _createClass2.default)(function Le(e, t) {
+  (0, _classCallCheck2.default)(this, Le);
   this.data = t || null, this.name = e;
 });
-var Ue = /*#__PURE__*/function (_Re) {
-  (0, _inherits2.default)(Ue, _Re);
-  var _super3 = _createSuper(Ue);
-  function Ue(e, t) {
+var Re = /*#__PURE__*/function (_Le) {
+  (0, _inherits2.default)(Re, _Le);
+  var _super3 = _createSuper(Re);
+  function Re(e, t) {
     var _this7;
-    (0, _classCallCheck2.default)(this, Ue);
+    (0, _classCallCheck2.default)(this, Re);
     _this7 = _super3.call(this, "error", {
       error: e,
       data: t
     }), _this7.error = e;
     return _this7;
   }
-  return (0, _createClass2.default)(Ue);
-}(Re);
-var Le = new ( /*#__PURE__*/function () {
+  return (0, _createClass2.default)(Re);
+}(Le);
+var Ue = new ( /*#__PURE__*/function () {
   function _class() {
     (0, _classCallCheck2.default)(this, _class);
     this._listeners = {};
@@ -10874,13 +10913,13 @@ var Le = new ( /*#__PURE__*/function () {
   }, {
     key: "fire",
     value: function fire(e, t) {
-      if (e instanceof Ue) return console.error(e.error), this;
-      var n = "string" == typeof e ? new Re(e, t || {}) : e;
+      if (e instanceof Re) return console.error(e.error), this;
+      var n = "string" == typeof e ? new Le(e, t || {}) : e;
       var s = n.name;
       if (this._listens(s)) {
         n.target = this;
-        var _e10 = this._listeners[s] ? (0, _toConsumableArray2.default)(this._listeners[s]) : [];
-        var _iterator2 = _createForOfIteratorHelper(_e10),
+        var _e8 = this._listeners[s] ? (0, _toConsumableArray2.default)(this._listeners[s]) : [];
+        var _iterator2 = _createForOfIteratorHelper(_e8),
           _step2;
         try {
           for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
@@ -10904,17 +10943,17 @@ var Le = new ( /*#__PURE__*/function () {
   return _class;
 }())();
 function Ne(e, t) {
-  Le.on(e, t);
+  Ue.on(e, t);
 }
 function De(e) {
   var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  Le.fire(e, t);
+  Ue.fire(e, t);
 }
-function Fe(e, t) {
-  Le.off(e, t);
+function Me(e, t) {
+  Ue.off(e, t);
 }
 var qe = "loginStateChanged",
-  Me = "loginStateExpire",
+  Fe = "loginStateExpire",
   Ke = "loginTypeChanged",
   je = "anonymousConverted",
   Be = "refreshAccessToken";
@@ -10923,10 +10962,10 @@ var $e;
   e.ANONYMOUS = "ANONYMOUS", e.WECHAT = "WECHAT", e.WECHAT_PUBLIC = "WECHAT-PUBLIC", e.WECHAT_OPEN = "WECHAT-OPEN", e.CUSTOM = "CUSTOM", e.EMAIL = "EMAIL", e.USERNAME = "USERNAME", e.NULL = "NULL";
 }($e || ($e = {}));
 var We = ["auth.getJwt", "auth.logout", "auth.signInWithTicket", "auth.signInAnonymously", "auth.signIn", "auth.fetchAccessTokenWithRefreshToken", "auth.signUpWithEmailAndPassword", "auth.activateEndUserMail", "auth.sendPasswordResetEmail", "auth.resetPasswordWithToken", "auth.isUsernameRegistered"],
-  ze = {
+  He = {
     "X-SDK-Version": "1.3.5"
   };
-function Je(e, t, n) {
+function ze(e, t, n) {
   var s = e[t];
   e[t] = function (t) {
     var r = {},
@@ -10940,35 +10979,35 @@ function Je(e, t, n) {
     var o = t.data;
     return o && function () {
       var e;
-      if (e = o, "[object FormData]" !== Object.prototype.toString.call(e)) t.data = _objectSpread(_objectSpread({}, o), r);else for (var _e11 in r) {
-        o.append(_e11, r[_e11]);
+      if (e = o, "[object FormData]" !== Object.prototype.toString.call(e)) t.data = _objectSpread(_objectSpread({}, o), r);else for (var _e9 in r) {
+        o.append(_e9, r[_e9]);
       }
     }(), t.headers = _objectSpread(_objectSpread({}, t.headers || {}), i), s.call(e, t);
   };
 }
-function He() {
+function Je() {
   var e = Math.random().toString(16).slice(2);
   return {
     data: {
       seqId: e
     },
-    headers: _objectSpread(_objectSpread({}, ze), {}, {
+    headers: _objectSpread(_objectSpread({}, He), {}, {
       "x-seqid": e
     })
   };
 }
-var Ge = /*#__PURE__*/function () {
-  function Ge() {
+var Ve = /*#__PURE__*/function () {
+  function Ve() {
     var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    (0, _classCallCheck2.default)(this, Ge);
+    (0, _classCallCheck2.default)(this, Ve);
     var t;
     this.config = e, this._reqClass = new ke.adapter.reqClass({
       timeout: this.config.timeout,
       timeoutMsg: "\u8BF7\u6C42\u5728".concat(this.config.timeout / 1e3, "s\u5185\u672A\u5B8C\u6210\uFF0C\u5DF2\u4E2D\u65AD"),
       restrictedMethods: ["post"]
-    }), this._cache = xe(this.config.env), this._localCache = (t = this.config.env, Oe[t]), Je(this._reqClass, "post", [He]), Je(this._reqClass, "upload", [He]), Je(this._reqClass, "download", [He]);
+    }), this._cache = Ee(this.config.env), this._localCache = (t = this.config.env, Oe[t]), ze(this._reqClass, "post", [Je]), ze(this._reqClass, "upload", [Je]), ze(this._reqClass, "download", [Je]);
   }
-  (0, _createClass2.default)(Ge, [{
+  (0, _createClass2.default)(Ve, [{
     key: "post",
     value: function () {
       var _post = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(e) {
@@ -11085,7 +11124,7 @@ var Ge = /*#__PURE__*/function () {
     key: "_refreshAccessToken",
     value: function () {
       var _refreshAccessToken3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
-        var _this$_cache$keys, e, t, n, s, r, i, o, a, _e12, _e13, _t7, _s8;
+        var _this$_cache$keys, e, t, n, s, r, i, o, a, _e10, _e11, _t7, _s8;
         return _regenerator.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -11097,7 +11136,7 @@ var Ge = /*#__PURE__*/function () {
                   _context8.next = 5;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   message: "未登录CloudBase"
                 });
               case 5:
@@ -11112,29 +11151,29 @@ var Ge = /*#__PURE__*/function () {
                   _context8.next = 21;
                   break;
                 }
-                _e12 = a.data.code;
-                if (!("SIGN_PARAM_INVALID" === _e12 || "REFRESH_TOKEN_EXPIRED" === _e12 || "INVALID_REFRESH_TOKEN" === _e12)) {
+                _e10 = a.data.code;
+                if (!("SIGN_PARAM_INVALID" === _e10 || "REFRESH_TOKEN_EXPIRED" === _e10 || "INVALID_REFRESH_TOKEN" === _e10)) {
                   _context8.next = 20;
                   break;
                 }
-                if (!(this._cache.getStore(s) === $e.ANONYMOUS && "INVALID_REFRESH_TOKEN" === _e12)) {
+                if (!(this._cache.getStore(s) === $e.ANONYMOUS && "INVALID_REFRESH_TOKEN" === _e10)) {
                   _context8.next = 19;
                   break;
                 }
-                _e13 = this._cache.getStore(r);
+                _e11 = this._cache.getStore(r);
                 _t7 = this._cache.getStore(n);
                 _context8.next = 17;
                 return this.send("auth.signInAnonymously", {
-                  anonymous_uuid: _e13,
+                  anonymous_uuid: _e11,
                   refresh_token: _t7
                 });
               case 17:
                 _s8 = _context8.sent;
                 return _context8.abrupt("return", (this.setRefreshToken(_s8.refresh_token), this._refreshAccessToken()));
               case 19:
-                De(Me), this._cache.removeStore(n);
+                De(Fe), this._cache.removeStore(n);
               case 20:
-                throw new ne({
+                throw new te({
                   code: a.data.code,
                   message: "\u5237\u65B0access token\u5931\u8D25\uFF1A".concat(a.data.code)
                 });
@@ -11175,7 +11214,7 @@ var Ge = /*#__PURE__*/function () {
                   _context9.next = 3;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   message: "refresh token不存在，登录状态异常"
                 });
               case 3:
@@ -11217,7 +11256,7 @@ var Ge = /*#__PURE__*/function () {
     key: "request",
     value: function () {
       var _request = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee10(e, t, n) {
-        var s, r, i, _e14, o, _e15, _e16, a, c, u, h, l, d, p, f, g;
+        var s, r, i, _e12, o, _e13, _e14, a, c, u, l, h, d, p, f, g;
         return _regenerator.default.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -11233,8 +11272,8 @@ var Ge = /*#__PURE__*/function () {
                   _context10.next = 10;
                   break;
                 }
-                _e14 = this._cache.keys.refreshTokenKey;
-                _context10.t0 = this._cache.getStore(_e14);
+                _e12 = this._cache.keys.refreshTokenKey;
+                _context10.t0 = this._cache.getStore(_e12);
                 if (!_context10.t0) {
                   _context10.next = 10;
                   break;
@@ -11246,14 +11285,14 @@ var Ge = /*#__PURE__*/function () {
               case 10:
                 if ("storage.uploadFile" === e) {
                   o = new FormData();
-                  for (_e15 in o) {
-                    o.hasOwnProperty(_e15) && void 0 !== o[_e15] && o.append(_e15, i[_e15]);
+                  for (_e13 in o) {
+                    o.hasOwnProperty(_e13) && void 0 !== o[_e13] && o.append(_e13, i[_e13]);
                   }
                   r = "multipart/form-data";
                 } else {
                   r = "application/json", o = {};
-                  for (_e16 in i) {
-                    void 0 !== i[_e16] && (o[_e16] = i[_e16]);
+                  for (_e14 in i) {
+                    void 0 !== i[_e14] && (o[_e14] = i[_e14]);
                   }
                 }
                 a = {
@@ -11264,21 +11303,21 @@ var Ge = /*#__PURE__*/function () {
                 n && n.onUploadProgress && (a.onUploadProgress = n.onUploadProgress);
                 c = this._localCache.getStore(s);
                 c && (a.headers["X-TCB-Trace"] = c);
-                u = t.parse, h = t.inQuery, l = t.search;
+                u = t.parse, l = t.inQuery, h = t.search;
                 d = {
                   env: this.config.env
                 };
-                u && (d.parse = !0), h && (d = _objectSpread(_objectSpread({}, h), d));
+                u && (d.parse = !0), l && (d = _objectSpread(_objectSpread({}, l), d));
                 p = function (e, t) {
                   var n = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                   var s = /\?/.test(t);
                   var r = "";
-                  for (var _e17 in n) {
-                    "" === r ? !s && (t += "?") : r += "&", r += "".concat(_e17, "=").concat(encodeURIComponent(n[_e17]));
+                  for (var _e15 in n) {
+                    "" === r ? !s && (t += "?") : r += "&", r += "".concat(_e15, "=").concat(encodeURIComponent(n[_e15]));
                   }
                   return /^http(s)?\:\/\//.test(t += r) ? t : "".concat(e).concat(t);
-                }(me, "//tcb-api.tencentcloudapi.com/web", d);
-                l && (p += l);
+                }(pe, "//tcb-api.tencentcloudapi.com/web", d);
+                h && (p += h);
                 _context10.next = 22;
                 return this.post(_objectSpread({
                   url: p,
@@ -11291,7 +11330,7 @@ var Ge = /*#__PURE__*/function () {
                   _context10.next = 26;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "NETWORK_ERROR",
                   message: "network request error"
                 });
@@ -11345,7 +11384,7 @@ var Ge = /*#__PURE__*/function () {
                   _context11.next = 12;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: _n6.data.code,
                   message: _n6.data.message
                 });
@@ -11356,7 +11395,7 @@ var Ge = /*#__PURE__*/function () {
                   _context11.next = 15;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: n.data.code,
                   message: n.data.message
                 });
@@ -11384,16 +11423,16 @@ var Ge = /*#__PURE__*/function () {
       this._cache.removeStore(t), this._cache.removeStore(n), this._cache.setStore(s, e);
     }
   }]);
-  return Ge;
+  return Ve;
 }();
-var Ve = {};
+var Ge = {};
 function Ye(e) {
-  return Ve[e];
+  return Ge[e];
 }
 var Qe = /*#__PURE__*/function () {
   function Qe(e) {
     (0, _classCallCheck2.default)(this, Qe);
-    this.config = e, this._cache = xe(e.env), this._request = Ye(e.env);
+    this.config = e, this._cache = Ee(e.env), this._request = Ye(e.env);
   }
   (0, _createClass2.default)(Qe, [{
     key: "setRefreshToken",
@@ -11451,16 +11490,16 @@ var Qe = /*#__PURE__*/function () {
 var Xe = /*#__PURE__*/function () {
   function Xe(e) {
     (0, _classCallCheck2.default)(this, Xe);
-    if (!e) throw new ne({
+    if (!e) throw new te({
       code: "PARAM_ERROR",
       message: "envId is not defined"
     });
-    this._envId = e, this._cache = xe(this._envId), this._request = Ye(this._envId), this.setUserInfo();
+    this._envId = e, this._cache = Ee(this._envId), this._request = Ye(this._envId), this.setUserInfo();
   }
   (0, _createClass2.default)(Xe, [{
     key: "linkWithTicket",
     value: function linkWithTicket(e) {
-      if ("string" != typeof e) throw new ne({
+      if ("string" != typeof e) throw new te({
         code: "PARAM_ERROR",
         message: "ticket must be string"
       });
@@ -11491,7 +11530,7 @@ var Xe = /*#__PURE__*/function () {
   }, {
     key: "updateUsername",
     value: function updateUsername(e) {
-      if ("string" != typeof e) throw new ne({
+      if ("string" != typeof e) throw new te({
         code: "PARAM_ERROR",
         message: "username must be a string"
       });
@@ -11640,11 +11679,11 @@ var Xe = /*#__PURE__*/function () {
 var Ze = /*#__PURE__*/function () {
   function Ze(e) {
     (0, _classCallCheck2.default)(this, Ze);
-    if (!e) throw new ne({
+    if (!e) throw new te({
       code: "PARAM_ERROR",
       message: "envId is not defined"
     });
-    this._cache = xe(e);
+    this._cache = Ee(e);
     var _this$_cache$keys6 = this._cache.keys,
       t = _this$_cache$keys6.refreshTokenKey,
       n = _this$_cache$keys6.accessTokenKey,
@@ -11692,7 +11731,7 @@ var et = /*#__PURE__*/function (_Qe) {
     key: "signIn",
     value: function () {
       var _signIn = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee16() {
-        var _this$_cache$keys7, e, t, n, s, r, _e18;
+        var _this$_cache$keys7, e, t, n, s, r, _e16;
         return _regenerator.default.wrap(function _callee16$(_context16) {
           while (1) {
             switch (_context16.prev = _context16.next) {
@@ -11725,13 +11764,13 @@ var et = /*#__PURE__*/function (_Qe) {
                   loginType: $e.ANONYMOUS,
                   persistence: "local"
                 });
-                _e18 = new Ze(this.config.env);
+                _e16 = new Ze(this.config.env);
                 _context16.next = 19;
-                return _e18.user.refresh();
+                return _e16.user.refresh();
               case 19:
-                return _context16.abrupt("return", _e18);
+                return _context16.abrupt("return", _e16);
               case 20:
-                throw new ne({
+                throw new te({
                   message: "匿名登录失败"
                 });
               case 21:
@@ -11790,7 +11829,7 @@ var et = /*#__PURE__*/function (_Qe) {
                   }
                 });
               case 16:
-                throw new ne({
+                throw new te({
                   message: "匿名转化失败"
                 });
               case 17:
@@ -11841,7 +11880,7 @@ var tt = /*#__PURE__*/function (_Qe2) {
                   _context18.next = 2;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "PARAM_ERROR",
                   message: "ticket must be a string"
                 });
@@ -11873,7 +11912,7 @@ var tt = /*#__PURE__*/function (_Qe2) {
               case 14:
                 return _context18.abrupt("return", new Ze(this.config.env));
               case 15:
-                throw new ne({
+                throw new te({
                   message: "自定义登录失败"
                 });
               case 16:
@@ -11911,7 +11950,7 @@ var nt = /*#__PURE__*/function (_Qe3) {
                   _context19.next = 2;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "PARAM_ERROR",
                   message: "email must be a string"
                 });
@@ -11956,10 +11995,10 @@ var nt = /*#__PURE__*/function (_Qe3) {
                 });
                 return _context19.abrupt("return", new Ze(this.config.env));
               case 22:
-                throw s.code ? new ne({
+                throw s.code ? new te({
                   code: s.code,
                   message: "\u90AE\u7BB1\u767B\u5F55\u5931\u8D25: ".concat(s.message)
-                }) : new ne({
+                }) : new te({
                   message: "邮箱登录失败"
                 });
               case 23:
@@ -12044,7 +12083,7 @@ var st = /*#__PURE__*/function (_Qe4) {
                   _context22.next = 2;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "PARAM_ERROR",
                   message: "username must be a string"
                 });
@@ -12090,10 +12129,10 @@ var st = /*#__PURE__*/function (_Qe4) {
                 });
                 return _context22.abrupt("return", new Ze(this.config.env));
               case 23:
-                throw s.code ? new ne({
+                throw s.code ? new te({
                   code: s.code,
                   message: "\u7528\u6237\u540D\u5BC6\u7801\u767B\u5F55\u5931\u8D25: ".concat(s.message)
-                }) : new ne({
+                }) : new te({
                   message: "用户名密码登录失败"
                 });
               case 24:
@@ -12114,7 +12153,7 @@ var st = /*#__PURE__*/function (_Qe4) {
 var rt = /*#__PURE__*/function () {
   function rt(e) {
     (0, _classCallCheck2.default)(this, rt);
-    this.config = e, this._cache = xe(e.env), this._request = Ye(e.env), this._onAnonymousConverted = this._onAnonymousConverted.bind(this), this._onLoginTypeChanged = this._onLoginTypeChanged.bind(this), Ne(Ke, this._onLoginTypeChanged);
+    this.config = e, this._cache = Ee(e.env), this._request = Ye(e.env), this._onAnonymousConverted = this._onAnonymousConverted.bind(this), this._onLoginTypeChanged = this._onLoginTypeChanged.bind(this), Ne(Ke, this._onLoginTypeChanged);
   }
   (0, _createClass2.default)(rt, [{
     key: "currentUser",
@@ -12232,7 +12271,7 @@ var rt = /*#__PURE__*/function () {
                   _context26.next = 2;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   message: "匿名用户不支持登出操作"
                 });
               case 2:
@@ -12327,7 +12366,7 @@ var rt = /*#__PURE__*/function () {
   }, {
     key: "onLoginStateExpired",
     value: function onLoginStateExpired(e) {
-      Ne(Me, e.bind(this));
+      Ne(Fe, e.bind(this));
     }
   }, {
     key: "onAccessTokenRefreshed",
@@ -12396,7 +12435,7 @@ var rt = /*#__PURE__*/function () {
                   _context30.next = 2;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   code: "PARAM_ERROR",
                   message: "username must be a string"
                 });
@@ -12505,13 +12544,13 @@ var it = function it(e, t) {
         a = _e$data2.url,
         c = _e$data2.authorization,
         u = _e$data2.token,
-        h = _e$data2.fileId,
-        l = _e$data2.cosFileId,
+        l = _e$data2.fileId,
+        h = _e$data2.cosFileId,
         d = e.requestId,
         p = {
           key: s,
           signature: c,
-          "x-cos-meta-fileid": l,
+          "x-cos-meta-fileid": h,
           success_action_status: "201",
           "x-cos-security-token": u
         };
@@ -12524,9 +12563,9 @@ var it = function it(e, t) {
         onUploadProgress: i
       }).then(function (e) {
         201 === e.statusCode ? t(null, {
-          fileID: h,
+          fileID: l,
           requestId: d
-        }) : t(new ne({
+        }) : t(new te({
           code: "STORAGE_REQUEST_FAIL",
           message: "STORAGE_REQUEST_FAIL: ".concat(e.data)
         }));
@@ -12678,7 +12717,7 @@ var it = function it(e, t) {
       return _ref10.apply(this, arguments);
     };
   }(),
-  ht = function ht(_ref11, i) {
+  lt = function lt(_ref11, i) {
     var e = _ref11.name,
       t = _ref11.data,
       n = _ref11.query,
@@ -12691,7 +12730,7 @@ var it = function it(e, t) {
     } catch (e) {
       return Promise.reject(e);
     }
-    if (!e) return Promise.reject(new ne({
+    if (!e) return Promise.reject(new te({
       code: "PARAM_ERROR",
       message: "函数名不能为空"
     }));
@@ -12714,7 +12753,7 @@ var it = function it(e, t) {
             requestId: e.requestId
           });
         } catch (e) {
-          o(new ne({
+          o(new te({
             message: "response data must be json"
           }));
         }
@@ -12724,7 +12763,7 @@ var it = function it(e, t) {
       o(e);
     }), o.promise;
   },
-  lt = {
+  ht = {
     timeout: 15e3,
     persistence: "session"
   },
@@ -12740,7 +12779,7 @@ var pt = /*#__PURE__*/function () {
       switch (ke.adapter || (this.requestClient = new ke.adapter.reqClass({
         timeout: e.timeout || 5e3,
         timeoutMsg: "\u8BF7\u6C42\u5728".concat((e.timeout || 5e3) / 1e3, "s\u5185\u672A\u5B8C\u6210\uFF0C\u5DF2\u4E2D\u65AD")
-      })), this.config = _objectSpread(_objectSpread({}, lt), e), !0) {
+      })), this.config = _objectSpread(_objectSpread({}, ht), e), !0) {
         case this.config.timeout > 6e5:
           console.warn("timeout大于可配置上限[10分钟]，已重置为上限数值"), this.config.timeout = 6e5;
           break;
@@ -12755,14 +12794,14 @@ var pt = /*#__PURE__*/function () {
       var _ref12 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
         e = _ref12.persistence;
       if (this.authObj) return this.authObj;
-      var t = e || ke.adapter.primaryStorage || lt.persistence;
+      var t = e || ke.adapter.primaryStorage || ht.persistence;
       var n;
       return t !== this.config.persistence && (this.config.persistence = t), function (e) {
         var t = e.env;
-        Ee[t] = new Ae(e), Oe[t] = new Ae(_objectSpread(_objectSpread({}, e), {}, {
+        xe[t] = new Ce(e), Oe[t] = new Ce(_objectSpread(_objectSpread({}, e), {}, {
           persistence: "local"
         }));
-      }(this.config), n = this.config, Ve[n.env] = new Ge(n), this.authObj = new rt(this.config), this.authObj;
+      }(this.config), n = this.config, Ge[n.env] = new Ve(n), this.authObj = new rt(this.config), this.authObj;
     }
   }, {
     key: "on",
@@ -12772,12 +12811,12 @@ var pt = /*#__PURE__*/function () {
   }, {
     key: "off",
     value: function off(e, t) {
-      return Fe.apply(this, [e, t]);
+      return Me.apply(this, [e, t]);
     }
   }, {
     key: "callFunction",
     value: function callFunction(e, t) {
-      return ht.apply(this, [e, t]);
+      return lt.apply(this, [e, t]);
     }
   }, {
     key: "deleteFile",
@@ -12823,7 +12862,7 @@ var pt = /*#__PURE__*/function () {
                   _context33.next = 3;
                   break;
                 }
-                throw new ne({
+                throw new te({
                   message: "\u6269\u5C55".concat(e, " \u5FC5\u987B\u5148\u6CE8\u518C")
                 });
               case 3:
@@ -12875,7 +12914,7 @@ var mt = /*#__PURE__*/function () {
         n = e.data,
         s = e.headers;
       return new Promise(function (e, r) {
-        se.request({
+        ne.request({
           url: gt("https:", t),
           data: n,
           method: "POST",
@@ -12898,7 +12937,7 @@ var mt = /*#__PURE__*/function () {
           i = e.data,
           o = e.headers,
           a = e.fileType,
-          c = se.uploadFile({
+          c = ne.uploadFile({
             url: gt("https:", s),
             name: "file",
             formData: Object.assign({}, i),
@@ -12929,16 +12968,16 @@ var mt = /*#__PURE__*/function () {
 }();
 var yt = {
   setItem: function setItem(e, t) {
-    se.setStorageSync(e, t);
+    ne.setStorageSync(e, t);
   },
   getItem: function getItem(e) {
-    return se.getStorageSync(e);
+    return ne.getStorageSync(e);
   },
   removeItem: function removeItem(e) {
-    se.removeStorageSync(e);
+    ne.removeStorageSync(e);
   },
   clear: function clear() {
-    se.clearStorageSync();
+    ne.clearStorageSync();
   }
 };
 var _t = {
@@ -12969,10 +13008,10 @@ wt.init = function (e) {
       var n;
       t[e] = (n = t[e], function (e) {
         e = e || {};
-        var _te = te(e),
-          t = _te.success,
-          s = _te.fail,
-          r = _te.complete;
+        var _ee = ee(e),
+          t = _ee.success,
+          s = _ee.fail,
+          r = _ee.complete;
         if (!(t || s || r)) return n.call(this, e);
         n.call(this, e).then(function (e) {
           t && t(e), r && r(e);
@@ -12984,8 +13023,8 @@ wt.init = function (e) {
   }, t.customAuth = t.auth, t;
 };
 var It = wt;
-var St = /*#__PURE__*/function (_fe) {
-  (0, _inherits2.default)(St, _fe);
+var St = /*#__PURE__*/function (_he) {
+  (0, _inherits2.default)(St, _he);
   var _super8 = _createSuper(St);
   function St() {
     (0, _classCallCheck2.default)(this, St);
@@ -13011,10 +13050,10 @@ var St = /*#__PURE__*/function (_fe) {
           "Content-Type": "application/json"
         };
       "auth" !== t && (n.token = this.accessToken, s["x-basement-token"] = this.accessToken), s["x-serverless-sign"] = le.sign(n, this.config.clientSecret);
-      var r = he();
+      var r = ue();
       s["x-client-info"] = encodeURIComponent(JSON.stringify(r));
-      var _re = re(),
-        i = _re.token;
+      var _se = se(),
+        i = _se.token;
       return s["x-client-token"] = i, {
         url: this.config.requestUrl,
         method: "POST",
@@ -13041,13 +13080,13 @@ var St = /*#__PURE__*/function (_fe) {
           filePath: s,
           fileType: r,
           success: function success(e) {
-            e && e.statusCode < 400 ? o(e) : a(new ne({
+            e && e.statusCode < 400 ? o(e) : a(new te({
               code: "UPLOAD_FAILED",
               message: "文件上传失败"
             }));
           },
           fail: function fail(e) {
-            a(new ne({
+            a(new te({
               code: e.code || "UPLOAD_FAILED",
               message: e.message || e.errMsg || "文件上传失败"
             }));
@@ -13070,7 +13109,7 @@ var St = /*#__PURE__*/function (_fe) {
         _ref15$fileType = _ref15.fileType,
         n = _ref15$fileType === void 0 ? "image" : _ref15$fileType,
         s = _ref15.onUploadProgress;
-      if (!t) throw new ne({
+      if (!t) throw new te({
         code: "CLOUDPATH_REQUIRED",
         message: "cloudPath不可为空"
       });
@@ -13103,7 +13142,7 @@ var St = /*#__PURE__*/function (_fe) {
             success: !0,
             filePath: e,
             fileID: r
-          }) : s(new ne({
+          }) : s(new te({
             code: "UPLOAD_FAILED",
             message: "文件上传失败"
           }));
@@ -13122,7 +13161,7 @@ var St = /*#__PURE__*/function (_fe) {
       };
       return this.request(this.setupRequest(t)).then(function (e) {
         if (e.success) return e.result;
-        throw new ne({
+        throw new te({
           code: "DELETE_FILE_FAILED",
           message: "删除文件失败"
         });
@@ -13132,18 +13171,20 @@ var St = /*#__PURE__*/function (_fe) {
     key: "getTempFileURL",
     value: function getTempFileURL() {
       var _ref17 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        e = _ref17.fileList;
-      if (!Array.isArray(e) || 0 === e.length) throw new ne({
+        e = _ref17.fileList,
+        t = _ref17.maxAge;
+      if (!Array.isArray(e) || 0 === e.length) throw new te({
         code: "INVALID_PARAM",
         message: "fileList的元素必须是非空的字符串"
       });
-      var t = {
+      var n = {
         method: "serverless.file.resource.getTempFileURL",
         params: JSON.stringify({
-          fileList: e
+          fileList: e,
+          maxAge: t
         })
       };
-      return this.request(this.setupRequest(t)).then(function (e) {
+      return this.request(this.setupRequest(n)).then(function (e) {
         if (e.success) return {
           fileList: e.result.fileList.map(function (e) {
             return {
@@ -13152,7 +13193,7 @@ var St = /*#__PURE__*/function (_fe) {
             };
           })
         };
-        throw new ne({
+        throw new te({
           code: "GET_TEMP_FILE_URL_FAILED",
           message: "获取临时文件链接失败"
         });
@@ -13160,44 +13201,512 @@ var St = /*#__PURE__*/function (_fe) {
     }
   }]);
   return St;
-}(fe);
+}(he);
 var bt = {
+    init: function init(e) {
+      var t = new St(e),
+        n = {
+          signInAnonymously: function signInAnonymously() {
+            return t.authorize();
+          },
+          getLoginState: function getLoginState() {
+            return Promise.resolve(!1);
+          }
+        };
+      return t.auth = function () {
+        return n;
+      }, t.customAuth = t.auth, t;
+    }
+  },
+  kt = n(function (e, t) {
+    e.exports = r.enc.Hex;
+  });
+function At() {
+  var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+  var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var n = t.data,
+    s = t.functionName,
+    r = t.method,
+    i = t.headers,
+    _t$signHeaderKeys = t.signHeaderKeys,
+    o = _t$signHeaderKeys === void 0 ? [] : _t$signHeaderKeys,
+    a = t.config,
+    c = Date.now(),
+    u = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (e) {
+      var t = 16 * Math.random() | 0;
+      return ("x" === e ? t : 3 & t | 8).toString(16);
+    }),
+    l = Object.assign({}, i, {
+      "x-from-app-id": a.appId,
+      "x-from-env-id": a.envId,
+      "x-to-env-id": a.envId,
+      "x-from-instance-id": c,
+      "x-from-function-name": s,
+      "x-client-timestamp": c,
+      "x-alipay-source": "client",
+      "x-request-id": u,
+      "x-alipay-callid": u
+    }),
+    h = ["x-from-app-id", "x-from-env-id", "x-to-env-id", "x-from-instance-id", "x-from-function-name", "x-client-timestamp"].concat(o),
+    _ref18 = e.split("?") || [],
+    _ref19 = (0, _slicedToArray2.default)(_ref18, 2),
+    _ref19$ = _ref19[0],
+    d = _ref19$ === void 0 ? "" : _ref19$,
+    _ref19$2 = _ref19[1],
+    p = _ref19$2 === void 0 ? "" : _ref19$2,
+    f = function (e) {
+      var t = e.signedHeaders.join(";"),
+        n = e.signedHeaders.map(function (t) {
+          return "".concat(t.toLowerCase(), ":").concat(e.headers[t], "\n");
+        }).join(""),
+        s = ye(e.body).toString(kt),
+        r = "".concat(e.method.toUpperCase(), "\n").concat(e.path, "\n").concat(e.query, "\n").concat(n, "\n").concat(t, "\n").concat(s, "\n"),
+        i = ye(r).toString(kt),
+        o = "HMAC-SHA256\n".concat(e.timestamp, "\n").concat(i, "\n"),
+        a = _e(o, e.secretKey).toString(kt);
+      return "HMAC-SHA256 Credential=".concat(e.secretId, ", SignedHeaders=").concat(t, ", Signature=").concat(a);
+    }({
+      path: d,
+      query: p,
+      method: r,
+      headers: l,
+      timestamp: c,
+      body: JSON.stringify(n),
+      secretId: a.secretId,
+      secretKey: a.secretKey,
+      signedHeaders: h.sort()
+    });
+  return {
+    url: "".concat(a.endpoint).concat(e.replace(/^\//, "")),
+    headers: Object.assign({}, l, {
+      Authorization: f
+    })
+  };
+}
+function Pt(_ref20) {
+  var e = _ref20.url,
+    t = _ref20.data,
+    _ref20$method = _ref20.method,
+    n = _ref20$method === void 0 ? "POST" : _ref20$method,
+    _ref20$headers = _ref20.headers,
+    s = _ref20$headers === void 0 ? {} : _ref20$headers;
+  return new Promise(function (r, i) {
+    ne.request({
+      url: e,
+      method: n,
+      data: t,
+      header: s,
+      dataType: "json",
+      complete: function complete() {
+        var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        if (!e.statusCode || e.statusCode >= 400) {
+          var _ref21 = e.data || {},
+            _t10 = _ref21.errMsg;
+          return i(new te({
+            code: "SYS_ERR",
+            message: _t10 || e.errMsg || "request:fail"
+          }));
+        }
+        r({
+          status: e.statusCode,
+          data: e.data,
+          headers: e.header
+        });
+      }
+    });
+  });
+}
+function Tt(e, t) {
+  var n = e.path,
+    s = e.data,
+    _e$method = e.method,
+    r = _e$method === void 0 ? "GET" : _e$method,
+    _At = At(n, {
+      functionName: "",
+      data: s,
+      method: r,
+      headers: {
+        "x-alipay-cloud-mode": "oss",
+        "x-data-api-type": "oss",
+        "x-expire-timestamp": Date.now() + 6e4
+      },
+      signHeaderKeys: ["x-data-api-type", "x-expire-timestamp"],
+      config: t
+    }),
+    i = _At.url,
+    o = _At.headers;
+  return Pt({
+    url: i,
+    data: s,
+    method: r,
+    headers: o
+  }).then(function (e) {
+    var t = e.data || {};
+    if (!t.success) throw new te({
+      code: e.code,
+      message: e.message,
+      requestId: e.trace_id
+    });
+    return t.data || {};
+  }).catch(function (e) {
+    throw new te({
+      code: e.errCode,
+      message: e.errMsg,
+      requestId: e.requestId
+    });
+  });
+}
+function Ct() {
+  var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+  var t = e.trim().replace(/^cloud:\/\//, ""),
+    n = t.indexOf("/");
+  if (n <= 0) throw new te({
+    code: "INVALID_PARAM",
+    message: "fileID不合法"
+  });
+  var s = t.substring(0, n),
+    r = t.substring(n + 1);
+  return s !== this.config.envId && console.warn("file ".concat(e, " does not belong to env ").concat(this.config.envId)), r;
+}
+var xt = /*#__PURE__*/function () {
+  function xt(e) {
+    (0, _classCallCheck2.default)(this, xt);
+    ["spaceId", "spaceAppId", "accessKey", "secretKey"].forEach(function (t) {
+      if (!Object.prototype.hasOwnProperty.call(e, t)) throw new Error("".concat(t, " required"));
+    });
+    var t = e.spaceAppId,
+      n = e.accessKey,
+      s = (0, _objectWithoutProperties2.default)(e, _excluded);
+    this.config = Object.assign({}, {
+      endpoint: e.endpoint || "https://".concat(e.envId, ".api-hz.cloudbasefunction.cn/"),
+      envId: e.spaceId,
+      appId: t,
+      secretId: n
+    }, s);
+  }
+  (0, _createClass2.default)(xt, [{
+    key: "callFunction",
+    value: function callFunction(e) {
+      return function (e, t) {
+        var n = e.name,
+          s = e.data,
+          r = "POST",
+          _At2 = At("/functions/invokeFunction", {
+            functionName: n,
+            data: s,
+            method: r,
+            headers: {
+              "x-to-function-name": n
+            },
+            signHeaderKeys: ["x-to-function-name"],
+            config: t
+          }),
+          i = _At2.url,
+          o = _At2.headers;
+        return Pt({
+          url: i,
+          data: s,
+          method: r,
+          headers: o
+        }).then(function (e) {
+          return e.errCode = 0, e.success = !0, e.requestId = e.requestID || e.requestId, e.result = e.data, delete e.requestID, delete e.data, e;
+        }).catch(function (e) {
+          throw new te({
+            code: e.errCode,
+            message: e.errMsg,
+            requestId: e.requestId
+          });
+        });
+      }(e, this.config);
+    }
+  }, {
+    key: "uploadFileToOSS",
+    value: function uploadFileToOSS(_ref22) {
+      var e = _ref22.url,
+        t = _ref22.filePath,
+        n = _ref22.fileType,
+        s = _ref22.formData,
+        r = _ref22.onUploadProgress;
+      return new Promise(function (i, o) {
+        var a = ne.uploadFile({
+          url: e,
+          filePath: t,
+          fileType: n,
+          formData: s,
+          success: function success(e) {
+            e && e.statusCode < 400 ? i(e) : o(new te({
+              code: "UPLOAD_FAILED",
+              message: "文件上传失败"
+            }));
+          },
+          fail: function fail(e) {
+            o(new te({
+              code: e.code || "UPLOAD_FAILED",
+              message: e.message || e.errMsg || "文件上传失败"
+            }));
+          }
+        });
+        "function" == typeof r && a && "function" == typeof a.onProgressUpdate && a.onProgressUpdate(function (e) {
+          r({
+            loaded: e.totalBytesSent,
+            total: e.totalBytesExpectedToSend
+          });
+        });
+      });
+    }
+  }, {
+    key: "uploadFile",
+    value: function () {
+      var _uploadFile2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee34(_ref23) {
+        var e, _ref23$cloudPath, t, _ref23$fileType, n, s, r, i, o, a, c;
+        return _regenerator.default.wrap(function _callee34$(_context34) {
+          while (1) {
+            switch (_context34.prev = _context34.next) {
+              case 0:
+                e = _ref23.filePath, _ref23$cloudPath = _ref23.cloudPath, t = _ref23$cloudPath === void 0 ? "" : _ref23$cloudPath, _ref23$fileType = _ref23.fileType, n = _ref23$fileType === void 0 ? "image" : _ref23$fileType, s = _ref23.onUploadProgress;
+                if (!("string" !== f(t))) {
+                  _context34.next = 3;
+                  break;
+                }
+                throw new te({
+                  code: "INVALID_PARAM",
+                  message: "cloudPath必须为字符串类型"
+                });
+              case 3:
+                if (t = t.trim()) {
+                  _context34.next = 5;
+                  break;
+                }
+                throw new te({
+                  code: "INVALID_PARAM",
+                  message: "cloudPath不可为空"
+                });
+              case 5:
+                if (!/:\/\//.test(t)) {
+                  _context34.next = 7;
+                  break;
+                }
+                throw new te({
+                  code: "INVALID_PARAM",
+                  message: "cloudPath不合法"
+                });
+              case 7:
+                _context34.next = 9;
+                return Tt({
+                  path: "/".concat(t.replace(/^\//, ""), "?post_url")
+                }, this.config);
+              case 9:
+                r = _context34.sent;
+                i = r.file_id;
+                o = r.upload_url;
+                a = r.form_data;
+                c = a && a.reduce(function (e, t) {
+                  return e[t.key] = t.value, e;
+                }, {});
+                return _context34.abrupt("return", this.uploadFileToOSS({
+                  url: o,
+                  filePath: e,
+                  fileType: n,
+                  formData: c,
+                  onUploadProgress: s
+                }).then(function () {
+                  return {
+                    fileID: i
+                  };
+                }));
+              case 15:
+              case "end":
+                return _context34.stop();
+            }
+          }
+        }, _callee34, this);
+      }));
+      function uploadFile(_x31) {
+        return _uploadFile2.apply(this, arguments);
+      }
+      return uploadFile;
+    }()
+  }, {
+    key: "getTempFileURL",
+    value: function () {
+      var _getTempFileURL = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee35(_ref24) {
+        var _this14 = this;
+        var e;
+        return _regenerator.default.wrap(function _callee35$(_context35) {
+          while (1) {
+            switch (_context35.prev = _context35.next) {
+              case 0:
+                e = _ref24.fileList;
+                return _context35.abrupt("return", new Promise(function (t, n) {
+                  (!e || e.length < 0) && n(new te({
+                    errCode: "INVALID_PARAM",
+                    errMsg: "fileList不能为空数组"
+                  })), e.length > 50 && n(new te({
+                    errCode: "INVALID_PARAM",
+                    errMsg: "fileList数组长度不能超过50"
+                  }));
+                  var s = [];
+                  var _iterator5 = _createForOfIteratorHelper(e),
+                    _step5;
+                  try {
+                    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                      var _t11 = _step5.value;
+                      "string" !== f(_t11) && n(new te({
+                        errCode: "INVALID_PARAM",
+                        errMsg: "fileList的元素必须是非空的字符串"
+                      }));
+                      var _e17 = Ct.call(_this14, _t11);
+                      s.push({
+                        file_id: _e17,
+                        expire: 600
+                      });
+                    }
+                  } catch (err) {
+                    _iterator5.e(err);
+                  } finally {
+                    _iterator5.f();
+                  }
+                  Tt({
+                    path: "/?download_url",
+                    data: {
+                      file_list: s
+                    },
+                    method: "POST"
+                  }, _this14.config).then(function (e) {
+                    var _e$file_list = e.file_list,
+                      n = _e$file_list === void 0 ? [] : _e$file_list;
+                    t({
+                      fileList: n.map(function (e) {
+                        return {
+                          fileID: e.file_id,
+                          tempFileURL: e.download_url
+                        };
+                      })
+                    });
+                  }).catch(function (e) {
+                    return n(e);
+                  });
+                }));
+              case 2:
+              case "end":
+                return _context35.stop();
+            }
+          }
+        }, _callee35);
+      }));
+      function getTempFileURL(_x32) {
+        return _getTempFileURL.apply(this, arguments);
+      }
+      return getTempFileURL;
+    }()
+  }, {
+    key: "deleteFile",
+    value: function () {
+      var _deleteFile = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee36(_ref25) {
+        var _this15 = this;
+        var e;
+        return _regenerator.default.wrap(function _callee36$(_context36) {
+          while (1) {
+            switch (_context36.prev = _context36.next) {
+              case 0:
+                e = _ref25.fileList;
+                return _context36.abrupt("return", new Promise(function (t, n) {
+                  (!e || e.length < 0) && n(new te({
+                    errCode: "INVALID_PARAM",
+                    errMsg: "fileList不能为空数组"
+                  })), e.length > 50 && n(new te({
+                    errCode: "INVALID_PARAM",
+                    errMsg: "fileList数组长度不能超过50"
+                  }));
+                  var s = [];
+                  var _iterator6 = _createForOfIteratorHelper(e),
+                    _step6;
+                  try {
+                    for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                      var _t12 = _step6.value;
+                      "string" !== f(_t12) && n(new te({
+                        errCode: "INVALID_PARAM",
+                        errMsg: "fileList的元素必须是非空的字符串"
+                      })), s.push(Ct.call(_this15, _t12));
+                    }
+                  } catch (err) {
+                    _iterator6.e(err);
+                  } finally {
+                    _iterator6.f();
+                  }
+                  Tt({
+                    path: "/?delete",
+                    data: {
+                      file_list: s
+                    },
+                    method: "POST"
+                  }, _this15.config).then(function (e) {
+                    var _e$file_list2 = e.file_list,
+                      n = _e$file_list2 === void 0 ? [] : _e$file_list2;
+                    t({
+                      fileList: n.map(function (e) {
+                        return {
+                          fileID: e.file_id,
+                          tempFileURL: e.download_url
+                        };
+                      })
+                    });
+                  }).catch(function (e) {
+                    return n(e);
+                  });
+                }));
+              case 2:
+              case "end":
+                return _context36.stop();
+            }
+          }
+        }, _callee36);
+      }));
+      function deleteFile(_x33) {
+        return _deleteFile.apply(this, arguments);
+      }
+      return deleteFile;
+    }()
+  }]);
+  return xt;
+}();
+var Ot = {
   init: function init(e) {
-    var t = new St(e),
-      n = {
+    e.envId = e.spaceId, e.provider = "alipay";
+    var t = new xt(e);
+    return t.auth = function () {
+      return {
         signInAnonymously: function signInAnonymously() {
-          return t.authorize();
+          return Promise.resolve();
         },
         getLoginState: function getLoginState() {
-          return Promise.resolve(!1);
+          return Promise.resolve(!0);
         }
       };
-    return t.auth = function () {
-      return n;
-    }, t.customAuth = t.auth, t;
+    }, t;
   }
 };
-function kt(_ref18) {
-  var e = _ref18.data;
+function Et(_ref26) {
+  var e = _ref26.data;
   var t;
-  t = he();
+  t = ue();
   var n = JSON.parse(JSON.stringify(e || {}));
   if (Object.assign(n, {
     clientInfo: t
   }), !n.uniIdToken) {
-    var _re2 = re(),
-      _e19 = _re2.token;
-    _e19 && (n.uniIdToken = _e19);
+    var _se2 = se(),
+      _e18 = _se2.token;
+    _e18 && (n.uniIdToken = _e18);
   }
   return n;
 }
-function Ct() {
-  return _Ct.apply(this, arguments);
+function Lt() {
+  return _Lt.apply(this, arguments);
 }
-function _Ct() {
-  _Ct = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee54() {
-    var _this26 = this;
-    var _ref60,
+function _Lt() {
+  _Lt = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee57() {
+    var _this28 = this;
+    var _ref68,
       e,
       t,
       _this$__dev__,
@@ -13208,20 +13717,21 @@ function _Ct() {
       o,
       a,
       _args6 = arguments;
-    return _regenerator.default.wrap(function _callee54$(_context54) {
+    return _regenerator.default.wrap(function _callee57$(_context57) {
       while (1) {
-        switch (_context54.prev = _context54.next) {
+        switch (_context57.prev = _context57.next) {
           case 0:
-            _ref60 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, e = _ref60.name, t = _ref60.data;
-            _context54.next = 3;
+            _ref68 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, e = _ref68.name, t = _ref68.data;
+            _context57.next = 3;
             return this.__dev__.initLocalNetwork();
           case 3:
             _this$__dev__ = this.__dev__, n = _this$__dev__.localAddress, s = _this$__dev__.localPort, r = {
               aliyun: "aliyun",
-              tencent: "tcb"
+              tencent: "tcb",
+              alipay: "alipay"
             }[this.config.provider], i = this.config.spaceId, o = "http://".concat(n, ":").concat(s, "/system/check-function"), a = "http://".concat(n, ":").concat(s, "/cloudfunctions/").concat(e);
-            return _context54.abrupt("return", new Promise(function (t, n) {
-              se.request({
+            return _context57.abrupt("return", new Promise(function (t, n) {
+              ne.request({
                 method: "POST",
                 url: o,
                 data: {
@@ -13244,18 +13754,18 @@ function _Ct() {
                 }
               });
             }).then(function () {
-              var _ref61 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-                e = _ref61.data;
-              var _ref62 = e || {},
-                t = _ref62.code,
-                n = _ref62.message;
+              var _ref69 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+                e = _ref69.data;
+              var _ref70 = e || {},
+                t = _ref70.code,
+                n = _ref70.message;
               return {
                 code: 0 === t ? 0 : t || "SYS_ERR",
                 message: n || "SYS_ERR"
               };
-            }).then(function (_ref63) {
-              var n = _ref63.code,
-                s = _ref63.message;
+            }).then(function (_ref71) {
+              var n = _ref71.code,
+                s = _ref71.message;
               if (0 !== n) {
                 switch (n) {
                   case "MODULE_ENCRYPTED":
@@ -13269,27 +13779,27 @@ function _Ct() {
                     break;
                   case "NETWORK_ERROR":
                     {
-                      var _e31 = "连接本地调试服务失败，请检查客户端是否和主机在同一局域网下";
-                      throw console.error(_e31), new Error(_e31);
+                      var _e30 = "连接本地调试服务失败，请检查客户端是否和主机在同一局域网下";
+                      throw console.error(_e30), new Error(_e30);
                     }
                   case "SWITCH_TO_CLOUD":
                     break;
                   default:
                     {
-                      var _e32 = "\u68C0\u6D4B\u672C\u5730\u8C03\u8BD5\u670D\u52A1\u51FA\u73B0\u9519\u8BEF\uFF1A".concat(s, "\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u73AF\u5883\u6216\u91CD\u542F\u5BA2\u6237\u7AEF\u518D\u8BD5");
-                      throw console.error(_e32), new Error(_e32);
+                      var _e31 = "\u68C0\u6D4B\u672C\u5730\u8C03\u8BD5\u670D\u52A1\u51FA\u73B0\u9519\u8BEF\uFF1A".concat(s, "\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u73AF\u5883\u6216\u91CD\u542F\u5BA2\u6237\u7AEF\u518D\u8BD5");
+                      throw console.error(_e31), new Error(_e31);
                     }
                 }
-                return _this26._callCloudFunction({
+                return _this28._callCloudFunction({
                   name: e,
                   data: t
                 });
               }
               return new Promise(function (e, n) {
-                var s = kt.call(_this26, {
+                var s = Et.call(_this28, {
                   data: t
                 });
-                se.request({
+                ne.request({
                   method: "POST",
                   url: a,
                   data: {
@@ -13298,10 +13808,10 @@ function _Ct() {
                     param: s
                   },
                   success: function success() {
-                    var _ref64 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-                      t = _ref64.statusCode,
-                      s = _ref64.data;
-                    return !t || t >= 400 ? n(new ne({
+                    var _ref72 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+                      t = _ref72.statusCode,
+                      s = _ref72.data;
+                    return !t || t >= 400 ? n(new te({
                       code: s.code || "SYS_ERR",
                       message: s.message || "request:fail"
                     })) : e({
@@ -13309,7 +13819,7 @@ function _Ct() {
                     });
                   },
                   fail: function fail(e) {
-                    n(new ne({
+                    n(new te({
                       code: e.code || e.errCode || "SYS_ERR",
                       message: e.message || e.errMsg || "request:fail"
                     }));
@@ -13319,45 +13829,45 @@ function _Ct() {
             }));
           case 5:
           case "end":
-            return _context54.stop();
+            return _context57.stop();
         }
       }
-    }, _callee54, this);
+    }, _callee57, this);
   }));
-  return _Ct.apply(this, arguments);
+  return _Lt.apply(this, arguments);
 }
-var Tt = [{
+var Rt = [{
   rule: /fc_function_not_found|FUNCTION_NOT_FOUND/,
   content: "，云函数[{functionName}]在云端不存在，请检查此云函数名称是否正确以及该云函数是否已上传到服务空间",
   mode: "append"
 }];
-var Pt = /[\\^$.*+?()[\]{}|]/g,
-  At = RegExp(Pt.source);
-function Et(e, t, n) {
-  return e.replace(new RegExp((s = t) && At.test(s) ? s.replace(Pt, "\\$&") : s, "g"), n);
+var Ut = /[\\^$.*+?()[\]{}|]/g,
+  Nt = RegExp(Ut.source);
+function Dt(e, t, n) {
+  return e.replace(new RegExp((s = t) && Nt.test(s) ? s.replace(Ut, "\\$&") : s, "g"), n);
   var s;
 }
-var Ot = "none",
-  xt = "request",
-  Rt = "response",
-  Ut = "both";
-var Lt = /*#__PURE__*/function () {
-  function Lt() {
-    var _ref19 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      e = _ref19.secretType,
-      t = _ref19.uniCloudIns;
-    (0, _classCallCheck2.default)(this, Lt);
-    this.clientType = "", this.secretType = e || Ot, this.uniCloudIns = t;
+var Mt = "none",
+  qt = "request",
+  Ft = "response",
+  Kt = "both";
+var jt = /*#__PURE__*/function () {
+  function jt() {
+    var _ref27 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      e = _ref27.secretType,
+      t = _ref27.uniCloudIns;
+    (0, _classCallCheck2.default)(this, jt);
+    this.clientType = "", this.secretType = e || Mt, this.uniCloudIns = t;
     var _this$uniCloudIns$con = this.uniCloudIns.config,
       n = _this$uniCloudIns$con.provider,
       s = _this$uniCloudIns$con.spaceId;
     var r;
-    this.provider = n, this.spaceId = s, this.scopedGlobalCache = (r = this.uniCloudIns, U("_globalUniCloudSecureNetworkCache__{spaceId}".replace("{spaceId}", r.config.spaceId)));
+    this.provider = n, this.spaceId = s, this.scopedGlobalCache = (r = this.uniCloudIns, L("_globalUniCloudSecureNetworkCache__{spaceId}".replace("{spaceId}", r.config.spaceId)));
   }
-  (0, _createClass2.default)(Lt, [{
+  (0, _createClass2.default)(jt, [{
     key: "getSystemInfo",
     value: function getSystemInfo() {
-      return this._systemInfo || (this._systemInfo = ce()), this._systemInfo;
+      return this._systemInfo || (this._systemInfo = ae()), this._systemInfo;
     }
   }, {
     key: "appId",
@@ -13372,20 +13882,20 @@ var Lt = /*#__PURE__*/function () {
   }, {
     key: "encryptData",
     value: function () {
-      var _encryptData = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee34(e) {
-        return _regenerator.default.wrap(function _callee34$(_context34) {
+      var _encryptData = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee37(e) {
+        return _regenerator.default.wrap(function _callee37$(_context37) {
           while (1) {
-            switch (_context34.prev = _context34.next) {
+            switch (_context37.prev = _context37.next) {
               case 0:
-                return _context34.abrupt("return", this.secretType === Ot ? e : this.platformEncryptData(e));
+                return _context37.abrupt("return", this.secretType === Mt ? e : this.platformEncryptData(e));
               case 1:
               case "end":
-                return _context34.stop();
+                return _context37.stop();
             }
           }
-        }, _callee34, this);
+        }, _callee37, this);
       }));
-      function encryptData(_x31) {
+      function encryptData(_x34) {
         return _encryptData.apply(this, arguments);
       }
       return encryptData;
@@ -13393,28 +13903,28 @@ var Lt = /*#__PURE__*/function () {
   }, {
     key: "decryptResult",
     value: function () {
-      var _decryptResult = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee35(e) {
-        var _ref20, t, n;
-        return _regenerator.default.wrap(function _callee35$(_context35) {
+      var _decryptResult = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee38(e) {
+        var _ref28, t, n;
+        return _regenerator.default.wrap(function _callee38$(_context38) {
           while (1) {
-            switch (_context35.prev = _context35.next) {
+            switch (_context38.prev = _context38.next) {
               case 0:
-                if (!(this.secretType === Ot)) {
-                  _context35.next = 2;
+                if (!(this.secretType === Mt)) {
+                  _context38.next = 2;
                   break;
                 }
-                return _context35.abrupt("return", e);
+                return _context38.abrupt("return", e);
               case 2:
-                _ref20 = e || {}, t = _ref20.errCode, n = _ref20.content;
-                return _context35.abrupt("return", t || !n ? e : this.secretType === xt ? n : this.platformDecryptResult(e));
+                _ref28 = e || {}, t = _ref28.errCode, n = _ref28.content;
+                return _context38.abrupt("return", t || !n ? e : this.secretType === qt ? n : this.platformDecryptResult(e));
               case 4:
               case "end":
-                return _context35.stop();
+                return _context38.stop();
             }
           }
-        }, _callee35, this);
+        }, _callee38, this);
       }));
-      function decryptResult(_x32) {
+      function decryptResult(_x35) {
         return _decryptResult.apply(this, arguments);
       }
       return decryptResult;
@@ -13423,164 +13933,164 @@ var Lt = /*#__PURE__*/function () {
     key: "wrapVerifyClientCallFunction",
     value: function wrapVerifyClientCallFunction(e) {
       var t = this;
-      return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee36() {
-        var _ref22,
+      return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee39() {
+        var _ref30,
           n,
-          _ref22$data,
+          _ref30$data,
           s,
           r,
-          _args36 = arguments;
-        return _regenerator.default.wrap(function _callee36$(_context36) {
+          _args39 = arguments;
+        return _regenerator.default.wrap(function _callee39$(_context39) {
           while (1) {
-            switch (_context36.prev = _context36.next) {
+            switch (_context39.prev = _context39.next) {
               case 0:
-                _ref22 = _args36.length > 0 && _args36[0] !== undefined ? _args36[0] : {}, n = _ref22.name, _ref22$data = _ref22.data, s = _ref22$data === void 0 ? {} : _ref22$data;
-                _context36.next = 3;
+                _ref30 = _args39.length > 0 && _args39[0] !== undefined ? _args39[0] : {}, n = _ref30.name, _ref30$data = _ref30.data, s = _ref30$data === void 0 ? {} : _ref30$data;
+                _context39.next = 3;
                 return t.prepare();
               case 3:
-                _context36.next = 5;
+                _context39.next = 5;
                 return t.platformGetSignOption();
               case 5:
-                (s = JSON.parse(JSON.stringify(s)))._uniCloudOptions = _context36.sent;
-                _context36.next = 8;
+                (s = JSON.parse(JSON.stringify(s)))._uniCloudOptions = _context39.sent;
+                _context39.next = 8;
                 return e({
                   name: n,
                   data: s
                 });
               case 8:
-                r = _context36.sent;
-                _context36.t0 = t.isClientKeyNotFound(r);
-                if (!_context36.t0) {
-                  _context36.next = 19;
+                r = _context39.sent;
+                _context39.t0 = t.isClientKeyNotFound(r);
+                if (!_context39.t0) {
+                  _context39.next = 19;
                   break;
                 }
-                _context36.next = 13;
+                _context39.next = 13;
                 return t.prepare({
                   forceUpdate: !0
                 });
               case 13:
-                _context36.next = 15;
+                _context39.next = 15;
                 return t.platformGetSignOption();
               case 15:
-                s._uniCloudOptions = _context36.sent;
-                _context36.next = 18;
+                s._uniCloudOptions = _context39.sent;
+                _context39.next = 18;
                 return e({
                   name: n,
                   data: s
                 });
               case 18:
-                r = _context36.sent;
+                r = _context39.sent;
               case 19:
-                return _context36.abrupt("return", r);
+                return _context39.abrupt("return", r);
               case 20:
               case "end":
-                return _context36.stop();
+                return _context39.stop();
             }
           }
-        }, _callee36);
+        }, _callee39);
       }));
     }
   }, {
     key: "wrapEncryptDataCallFunction",
     value: function wrapEncryptDataCallFunction(e) {
       var t = this;
-      return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee37() {
-        var _ref24,
+      return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee40() {
+        var _ref32,
           n,
-          _ref24$data,
+          _ref32$data,
           s,
           r,
           i,
           _r3,
-          _args37 = arguments;
-        return _regenerator.default.wrap(function _callee37$(_context37) {
+          _args40 = arguments;
+        return _regenerator.default.wrap(function _callee40$(_context40) {
           while (1) {
-            switch (_context37.prev = _context37.next) {
+            switch (_context40.prev = _context40.next) {
               case 0:
-                _ref24 = _args37.length > 0 && _args37[0] !== undefined ? _args37[0] : {}, n = _ref24.name, _ref24$data = _ref24.data, s = _ref24$data === void 0 ? {} : _ref24$data;
-                _context37.next = 3;
+                _ref32 = _args40.length > 0 && _args40[0] !== undefined ? _args40[0] : {}, n = _ref32.name, _ref32$data = _ref32.data, s = _ref32$data === void 0 ? {} : _ref32$data;
+                _context40.next = 3;
                 return t.prepare();
               case 3:
-                _context37.next = 5;
+                _context40.next = 5;
                 return t.encryptData(s);
               case 5:
-                r = _context37.sent;
-                _context37.next = 8;
+                r = _context40.sent;
+                _context40.next = 8;
                 return e({
                   name: n,
                   data: r
                 });
               case 8:
-                i = _context37.sent;
+                i = _context40.sent;
                 if (!t.isClientKeyNotFound(i)) {
-                  _context37.next = 21;
+                  _context40.next = 21;
                   break;
                 }
-                _context37.next = 12;
+                _context40.next = 12;
                 return t.prepare({
                   forceUpdate: !0
                 });
               case 12:
-                _context37.next = 14;
+                _context40.next = 14;
                 return t.encryptData(s);
               case 14:
-                _r3 = _context37.sent;
-                _context37.next = 17;
+                _r3 = _context40.sent;
+                _context40.next = 17;
                 return t.platformGetSignOption();
               case 17:
-                s._uniCloudOptions = _context37.sent;
-                _context37.next = 20;
+                s._uniCloudOptions = _context40.sent;
+                _context40.next = 20;
                 return e({
                   name: n,
                   data: _r3
                 });
               case 20:
-                i = _context37.sent;
+                i = _context40.sent;
               case 21:
-                _context37.next = 23;
+                _context40.next = 23;
                 return t.decryptResult(i.result);
               case 23:
-                i.result = _context37.sent;
-                return _context37.abrupt("return", i);
+                i.result = _context40.sent;
+                return _context40.abrupt("return", i);
               case 25:
               case "end":
-                return _context37.stop();
+                return _context40.stop();
             }
           }
-        }, _callee37);
+        }, _callee40);
       }));
     }
   }]);
-  return Lt;
+  return jt;
 }();
 /*! MIT License. Copyright 2015-2018 Richard Moore <me@ricmoo.com>. See LICENSE.txt. */
-function Nt(e) {
+function Bt(e) {
   return parseInt(e) === e;
 }
-function Dt(e) {
-  if (!Nt(e.length)) return !1;
+function $t(e) {
+  if (!Bt(e.length)) return !1;
   for (var t = 0; t < e.length; t++) {
-    if (!Nt(e[t]) || e[t] < 0 || e[t] > 255) return !1;
+    if (!Bt(e[t]) || e[t] < 0 || e[t] > 255) return !1;
   }
   return !0;
 }
-function Ft(e, t) {
+function Wt(e, t) {
   if (e.buffer && "Uint8Array" === e.name) return t && (e = e.slice ? e.slice() : Array.prototype.slice.call(e)), e;
   if (Array.isArray(e)) {
-    if (!Dt(e)) throw new Error("Array contains invalid value: " + e);
+    if (!$t(e)) throw new Error("Array contains invalid value: " + e);
     return new Uint8Array(e);
   }
-  if (Nt(e.length) && Dt(e)) return new Uint8Array(e);
+  if (Bt(e.length) && $t(e)) return new Uint8Array(e);
   throw new Error("unsupported array-like object");
 }
-function qt(e) {
+function Ht(e) {
   return new Uint8Array(e);
 }
-function Mt(e, t, n, s, r) {
+function zt(e, t, n, s, r) {
   null == s && null == r || (e = e.slice ? e.slice(s, r) : Array.prototype.slice.call(e, s, r)), t.set(e, n);
 }
-var Kt,
-  jt = {
+var Jt,
+  Vt = {
     toBytes: function toBytes(e) {
       var t = [],
         n = 0;
@@ -13588,7 +14098,7 @@ var Kt,
         var s = e.charCodeAt(n++);
         37 === s ? (t.push(parseInt(e.substr(n, 2), 16)), n += 2) : t.push(s);
       }
-      return Ft(t);
+      return Wt(t);
     },
     fromBytes: function fromBytes(e) {
       for (var t = [], n = 0; n < e.length;) {
@@ -13598,7 +14108,7 @@ var Kt,
       return t.join("");
     }
   },
-  Bt = (Kt = "0123456789abcdef", {
+  Gt = (Jt = "0123456789abcdef", {
     toBytes: function toBytes(e) {
       for (var t = [], n = 0; n < e.length; n += 2) {
         t.push(parseInt(e.substr(n, 2), 16));
@@ -13608,49 +14118,49 @@ var Kt,
     fromBytes: function fromBytes(e) {
       for (var t = [], n = 0; n < e.length; n++) {
         var s = e[n];
-        t.push(Kt[(240 & s) >> 4] + Kt[15 & s]);
+        t.push(Jt[(240 & s) >> 4] + Jt[15 & s]);
       }
       return t.join("");
     }
   }),
-  $t = {
+  Yt = {
     16: 10,
     24: 12,
     32: 14
   },
-  Wt = [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77, 154, 47, 94, 188, 99, 198, 151, 53, 106, 212, 179, 125, 250, 239, 197, 145],
-  zt = [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22],
-  Jt = [82, 9, 106, 213, 48, 54, 165, 56, 191, 64, 163, 158, 129, 243, 215, 251, 124, 227, 57, 130, 155, 47, 255, 135, 52, 142, 67, 68, 196, 222, 233, 203, 84, 123, 148, 50, 166, 194, 35, 61, 238, 76, 149, 11, 66, 250, 195, 78, 8, 46, 161, 102, 40, 217, 36, 178, 118, 91, 162, 73, 109, 139, 209, 37, 114, 248, 246, 100, 134, 104, 152, 22, 212, 164, 92, 204, 93, 101, 182, 146, 108, 112, 72, 80, 253, 237, 185, 218, 94, 21, 70, 87, 167, 141, 157, 132, 144, 216, 171, 0, 140, 188, 211, 10, 247, 228, 88, 5, 184, 179, 69, 6, 208, 44, 30, 143, 202, 63, 15, 2, 193, 175, 189, 3, 1, 19, 138, 107, 58, 145, 17, 65, 79, 103, 220, 234, 151, 242, 207, 206, 240, 180, 230, 115, 150, 172, 116, 34, 231, 173, 53, 133, 226, 249, 55, 232, 28, 117, 223, 110, 71, 241, 26, 113, 29, 41, 197, 137, 111, 183, 98, 14, 170, 24, 190, 27, 252, 86, 62, 75, 198, 210, 121, 32, 154, 219, 192, 254, 120, 205, 90, 244, 31, 221, 168, 51, 136, 7, 199, 49, 177, 18, 16, 89, 39, 128, 236, 95, 96, 81, 127, 169, 25, 181, 74, 13, 45, 229, 122, 159, 147, 201, 156, 239, 160, 224, 59, 77, 174, 42, 245, 176, 200, 235, 187, 60, 131, 83, 153, 97, 23, 43, 4, 126, 186, 119, 214, 38, 225, 105, 20, 99, 85, 33, 12, 125],
-  Ht = [3328402341, 4168907908, 4000806809, 4135287693, 4294111757, 3597364157, 3731845041, 2445657428, 1613770832, 33620227, 3462883241, 1445669757, 3892248089, 3050821474, 1303096294, 3967186586, 2412431941, 528646813, 2311702848, 4202528135, 4026202645, 2992200171, 2387036105, 4226871307, 1101901292, 3017069671, 1604494077, 1169141738, 597466303, 1403299063, 3832705686, 2613100635, 1974974402, 3791519004, 1033081774, 1277568618, 1815492186, 2118074177, 4126668546, 2211236943, 1748251740, 1369810420, 3521504564, 4193382664, 3799085459, 2883115123, 1647391059, 706024767, 134480908, 2512897874, 1176707941, 2646852446, 806885416, 932615841, 168101135, 798661301, 235341577, 605164086, 461406363, 3756188221, 3454790438, 1311188841, 2142417613, 3933566367, 302582043, 495158174, 1479289972, 874125870, 907746093, 3698224818, 3025820398, 1537253627, 2756858614, 1983593293, 3084310113, 2108928974, 1378429307, 3722699582, 1580150641, 327451799, 2790478837, 3117535592, 0, 3253595436, 1075847264, 3825007647, 2041688520, 3059440621, 3563743934, 2378943302, 1740553945, 1916352843, 2487896798, 2555137236, 2958579944, 2244988746, 3151024235, 3320835882, 1336584933, 3992714006, 2252555205, 2588757463, 1714631509, 293963156, 2319795663, 3925473552, 67240454, 4269768577, 2689618160, 2017213508, 631218106, 1269344483, 2723238387, 1571005438, 2151694528, 93294474, 1066570413, 563977660, 1882732616, 4059428100, 1673313503, 2008463041, 2950355573, 1109467491, 537923632, 3858759450, 4260623118, 3218264685, 2177748300, 403442708, 638784309, 3287084079, 3193921505, 899127202, 2286175436, 773265209, 2479146071, 1437050866, 4236148354, 2050833735, 3362022572, 3126681063, 840505643, 3866325909, 3227541664, 427917720, 2655997905, 2749160575, 1143087718, 1412049534, 999329963, 193497219, 2353415882, 3354324521, 1807268051, 672404540, 2816401017, 3160301282, 369822493, 2916866934, 3688947771, 1681011286, 1949973070, 336202270, 2454276571, 201721354, 1210328172, 3093060836, 2680341085, 3184776046, 1135389935, 3294782118, 965841320, 831886756, 3554993207, 4068047243, 3588745010, 2345191491, 1849112409, 3664604599, 26054028, 2983581028, 2622377682, 1235855840, 3630984372, 2891339514, 4092916743, 3488279077, 3395642799, 4101667470, 1202630377, 268961816, 1874508501, 4034427016, 1243948399, 1546530418, 941366308, 1470539505, 1941222599, 2546386513, 3421038627, 2715671932, 3899946140, 1042226977, 2521517021, 1639824860, 227249030, 260737669, 3765465232, 2084453954, 1907733956, 3429263018, 2420656344, 100860677, 4160157185, 470683154, 3261161891, 1781871967, 2924959737, 1773779408, 394692241, 2579611992, 974986535, 664706745, 3655459128, 3958962195, 731420851, 571543859, 3530123707, 2849626480, 126783113, 865375399, 765172662, 1008606754, 361203602, 3387549984, 2278477385, 2857719295, 1344809080, 2782912378, 59542671, 1503764984, 160008576, 437062935, 1707065306, 3622233649, 2218934982, 3496503480, 2185314755, 697932208, 1512910199, 504303377, 2075177163, 2824099068, 1841019862, 739644986],
-  Gt = [2781242211, 2230877308, 2582542199, 2381740923, 234877682, 3184946027, 2984144751, 1418839493, 1348481072, 50462977, 2848876391, 2102799147, 434634494, 1656084439, 3863849899, 2599188086, 1167051466, 2636087938, 1082771913, 2281340285, 368048890, 3954334041, 3381544775, 201060592, 3963727277, 1739838676, 4250903202, 3930435503, 3206782108, 4149453988, 2531553906, 1536934080, 3262494647, 484572669, 2923271059, 1783375398, 1517041206, 1098792767, 49674231, 1334037708, 1550332980, 4098991525, 886171109, 150598129, 2481090929, 1940642008, 1398944049, 1059722517, 201851908, 1385547719, 1699095331, 1587397571, 674240536, 2704774806, 252314885, 3039795866, 151914247, 908333586, 2602270848, 1038082786, 651029483, 1766729511, 3447698098, 2682942837, 454166793, 2652734339, 1951935532, 775166490, 758520603, 3000790638, 4004797018, 4217086112, 4137964114, 1299594043, 1639438038, 3464344499, 2068982057, 1054729187, 1901997871, 2534638724, 4121318227, 1757008337, 0, 750906861, 1614815264, 535035132, 3363418545, 3988151131, 3201591914, 1183697867, 3647454910, 1265776953, 3734260298, 3566750796, 3903871064, 1250283471, 1807470800, 717615087, 3847203498, 384695291, 3313910595, 3617213773, 1432761139, 2484176261, 3481945413, 283769337, 100925954, 2180939647, 4037038160, 1148730428, 3123027871, 3813386408, 4087501137, 4267549603, 3229630528, 2315620239, 2906624658, 3156319645, 1215313976, 82966005, 3747855548, 3245848246, 1974459098, 1665278241, 807407632, 451280895, 251524083, 1841287890, 1283575245, 337120268, 891687699, 801369324, 3787349855, 2721421207, 3431482436, 959321879, 1469301956, 4065699751, 2197585534, 1199193405, 2898814052, 3887750493, 724703513, 2514908019, 2696962144, 2551808385, 3516813135, 2141445340, 1715741218, 2119445034, 2872807568, 2198571144, 3398190662, 700968686, 3547052216, 1009259540, 2041044702, 3803995742, 487983883, 1991105499, 1004265696, 1449407026, 1316239930, 504629770, 3683797321, 168560134, 1816667172, 3837287516, 1570751170, 1857934291, 4014189740, 2797888098, 2822345105, 2754712981, 936633572, 2347923833, 852879335, 1133234376, 1500395319, 3084545389, 2348912013, 1689376213, 3533459022, 3762923945, 3034082412, 4205598294, 133428468, 634383082, 2949277029, 2398386810, 3913789102, 403703816, 3580869306, 2297460856, 1867130149, 1918643758, 607656988, 4049053350, 3346248884, 1368901318, 600565992, 2090982877, 2632479860, 557719327, 3717614411, 3697393085, 2249034635, 2232388234, 2430627952, 1115438654, 3295786421, 2865522278, 3633334344, 84280067, 33027830, 303828494, 2747425121, 1600795957, 4188952407, 3496589753, 2434238086, 1486471617, 658119965, 3106381470, 953803233, 334231800, 3005978776, 857870609, 3151128937, 1890179545, 2298973838, 2805175444, 3056442267, 574365214, 2450884487, 550103529, 1233637070, 4289353045, 2018519080, 2057691103, 2399374476, 4166623649, 2148108681, 387583245, 3664101311, 836232934, 3330556482, 3100665960, 3280093505, 2955516313, 2002398509, 287182607, 3413881008, 4238890068, 3597515707, 975967766],
-  Vt = [1671808611, 2089089148, 2006576759, 2072901243, 4061003762, 1807603307, 1873927791, 3310653893, 810573872, 16974337, 1739181671, 729634347, 4263110654, 3613570519, 2883997099, 1989864566, 3393556426, 2191335298, 3376449993, 2106063485, 4195741690, 1508618841, 1204391495, 4027317232, 2917941677, 3563566036, 2734514082, 2951366063, 2629772188, 2767672228, 1922491506, 3227229120, 3082974647, 4246528509, 2477669779, 644500518, 911895606, 1061256767, 4144166391, 3427763148, 878471220, 2784252325, 3845444069, 4043897329, 1905517169, 3631459288, 827548209, 356461077, 67897348, 3344078279, 593839651, 3277757891, 405286936, 2527147926, 84871685, 2595565466, 118033927, 305538066, 2157648768, 3795705826, 3945188843, 661212711, 2999812018, 1973414517, 152769033, 2208177539, 745822252, 439235610, 455947803, 1857215598, 1525593178, 2700827552, 1391895634, 994932283, 3596728278, 3016654259, 695947817, 3812548067, 795958831, 2224493444, 1408607827, 3513301457, 0, 3979133421, 543178784, 4229948412, 2982705585, 1542305371, 1790891114, 3410398667, 3201918910, 961245753, 1256100938, 1289001036, 1491644504, 3477767631, 3496721360, 4012557807, 2867154858, 4212583931, 1137018435, 1305975373, 861234739, 2241073541, 1171229253, 4178635257, 33948674, 2139225727, 1357946960, 1011120188, 2679776671, 2833468328, 1374921297, 2751356323, 1086357568, 2408187279, 2460827538, 2646352285, 944271416, 4110742005, 3168756668, 3066132406, 3665145818, 560153121, 271589392, 4279952895, 4077846003, 3530407890, 3444343245, 202643468, 322250259, 3962553324, 1608629855, 2543990167, 1154254916, 389623319, 3294073796, 2817676711, 2122513534, 1028094525, 1689045092, 1575467613, 422261273, 1939203699, 1621147744, 2174228865, 1339137615, 3699352540, 577127458, 712922154, 2427141008, 2290289544, 1187679302, 3995715566, 3100863416, 339486740, 3732514782, 1591917662, 186455563, 3681988059, 3762019296, 844522546, 978220090, 169743370, 1239126601, 101321734, 611076132, 1558493276, 3260915650, 3547250131, 2901361580, 1655096418, 2443721105, 2510565781, 3828863972, 2039214713, 3878868455, 3359869896, 928607799, 1840765549, 2374762893, 3580146133, 1322425422, 2850048425, 1823791212, 1459268694, 4094161908, 3928346602, 1706019429, 2056189050, 2934523822, 135794696, 3134549946, 2022240376, 628050469, 779246638, 472135708, 2800834470, 3032970164, 3327236038, 3894660072, 3715932637, 1956440180, 522272287, 1272813131, 3185336765, 2340818315, 2323976074, 1888542832, 1044544574, 3049550261, 1722469478, 1222152264, 50660867, 4127324150, 236067854, 1638122081, 895445557, 1475980887, 3117443513, 2257655686, 3243809217, 489110045, 2662934430, 3778599393, 4162055160, 2561878936, 288563729, 1773916777, 3648039385, 2391345038, 2493985684, 2612407707, 505560094, 2274497927, 3911240169, 3460925390, 1442818645, 678973480, 3749357023, 2358182796, 2717407649, 2306869641, 219617805, 3218761151, 3862026214, 1120306242, 1756942440, 1103331905, 2578459033, 762796589, 252780047, 2966125488, 1425844308, 3151392187, 372911126],
-  Yt = [1667474886, 2088535288, 2004326894, 2071694838, 4075949567, 1802223062, 1869591006, 3318043793, 808472672, 16843522, 1734846926, 724270422, 4278065639, 3621216949, 2880169549, 1987484396, 3402253711, 2189597983, 3385409673, 2105378810, 4210693615, 1499065266, 1195886990, 4042263547, 2913856577, 3570689971, 2728590687, 2947541573, 2627518243, 2762274643, 1920112356, 3233831835, 3082273397, 4261223649, 2475929149, 640051788, 909531756, 1061110142, 4160160501, 3435941763, 875846760, 2779116625, 3857003729, 4059105529, 1903268834, 3638064043, 825316194, 353713962, 67374088, 3351728789, 589522246, 3284360861, 404236336, 2526454071, 84217610, 2593830191, 117901582, 303183396, 2155911963, 3806477791, 3958056653, 656894286, 2998062463, 1970642922, 151591698, 2206440989, 741110872, 437923380, 454765878, 1852748508, 1515908788, 2694904667, 1381168804, 993742198, 3604373943, 3014905469, 690584402, 3823320797, 791638366, 2223281939, 1398011302, 3520161977, 0, 3991743681, 538992704, 4244381667, 2981218425, 1532751286, 1785380564, 3419096717, 3200178535, 960056178, 1246420628, 1280103576, 1482221744, 3486468741, 3503319995, 4025428677, 2863326543, 4227536621, 1128514950, 1296947098, 859002214, 2240123921, 1162203018, 4193849577, 33687044, 2139062782, 1347481760, 1010582648, 2678045221, 2829640523, 1364325282, 2745433693, 1077985408, 2408548869, 2459086143, 2644360225, 943212656, 4126475505, 3166494563, 3065430391, 3671750063, 555836226, 269496352, 4294908645, 4092792573, 3537006015, 3452783745, 202118168, 320025894, 3974901699, 1600119230, 2543297077, 1145359496, 387397934, 3301201811, 2812801621, 2122220284, 1027426170, 1684319432, 1566435258, 421079858, 1936954854, 1616945344, 2172753945, 1330631070, 3705438115, 572679748, 707427924, 2425400123, 2290647819, 1179044492, 4008585671, 3099120491, 336870440, 3739122087, 1583276732, 185277718, 3688593069, 3772791771, 842159716, 976899700, 168435220, 1229577106, 101059084, 606366792, 1549591736, 3267517855, 3553849021, 2897014595, 1650632388, 2442242105, 2509612081, 3840161747, 2038008818, 3890688725, 3368567691, 926374254, 1835907034, 2374863873, 3587531953, 1313788572, 2846482505, 1819063512, 1448540844, 4109633523, 3941213647, 1701162954, 2054852340, 2930698567, 134748176, 3132806511, 2021165296, 623210314, 774795868, 471606328, 2795958615, 3031746419, 3334885783, 3907527627, 3722280097, 1953799400, 522133822, 1263263126, 3183336545, 2341176845, 2324333839, 1886425312, 1044267644, 3048588401, 1718004428, 1212733584, 50529542, 4143317495, 235803164, 1633788866, 892690282, 1465383342, 3115962473, 2256965911, 3250673817, 488449850, 2661202215, 3789633753, 4177007595, 2560144171, 286339874, 1768537042, 3654906025, 2391705863, 2492770099, 2610673197, 505291324, 2273808917, 3924369609, 3469625735, 1431699370, 673740880, 3755965093, 2358021891, 2711746649, 2307489801, 218961690, 3217021541, 3873845719, 1111672452, 1751693520, 1094828930, 2576986153, 757954394, 252645662, 2964376443, 1414855848, 3149649517, 370555436],
-  Qt = [1374988112, 2118214995, 437757123, 975658646, 1001089995, 530400753, 2902087851, 1273168787, 540080725, 2910219766, 2295101073, 4110568485, 1340463100, 3307916247, 641025152, 3043140495, 3736164937, 632953703, 1172967064, 1576976609, 3274667266, 2169303058, 2370213795, 1809054150, 59727847, 361929877, 3211623147, 2505202138, 3569255213, 1484005843, 1239443753, 2395588676, 1975683434, 4102977912, 2572697195, 666464733, 3202437046, 4035489047, 3374361702, 2110667444, 1675577880, 3843699074, 2538681184, 1649639237, 2976151520, 3144396420, 4269907996, 4178062228, 1883793496, 2403728665, 2497604743, 1383856311, 2876494627, 1917518562, 3810496343, 1716890410, 3001755655, 800440835, 2261089178, 3543599269, 807962610, 599762354, 33778362, 3977675356, 2328828971, 2809771154, 4077384432, 1315562145, 1708848333, 101039829, 3509871135, 3299278474, 875451293, 2733856160, 92987698, 2767645557, 193195065, 1080094634, 1584504582, 3178106961, 1042385657, 2531067453, 3711829422, 1306967366, 2438237621, 1908694277, 67556463, 1615861247, 429456164, 3602770327, 2302690252, 1742315127, 2968011453, 126454664, 3877198648, 2043211483, 2709260871, 2084704233, 4169408201, 0, 159417987, 841739592, 504459436, 1817866830, 4245618683, 260388950, 1034867998, 908933415, 168810852, 1750902305, 2606453969, 607530554, 202008497, 2472011535, 3035535058, 463180190, 2160117071, 1641816226, 1517767529, 470948374, 3801332234, 3231722213, 1008918595, 303765277, 235474187, 4069246893, 766945465, 337553864, 1475418501, 2943682380, 4003061179, 2743034109, 4144047775, 1551037884, 1147550661, 1543208500, 2336434550, 3408119516, 3069049960, 3102011747, 3610369226, 1113818384, 328671808, 2227573024, 2236228733, 3535486456, 2935566865, 3341394285, 496906059, 3702665459, 226906860, 2009195472, 733156972, 2842737049, 294930682, 1206477858, 2835123396, 2700099354, 1451044056, 573804783, 2269728455, 3644379585, 2362090238, 2564033334, 2801107407, 2776292904, 3669462566, 1068351396, 742039012, 1350078989, 1784663195, 1417561698, 4136440770, 2430122216, 775550814, 2193862645, 2673705150, 1775276924, 1876241833, 3475313331, 3366754619, 270040487, 3902563182, 3678124923, 3441850377, 1851332852, 3969562369, 2203032232, 3868552805, 2868897406, 566021896, 4011190502, 3135740889, 1248802510, 3936291284, 699432150, 832877231, 708780849, 3332740144, 899835584, 1951317047, 4236429990, 3767586992, 866637845, 4043610186, 1106041591, 2144161806, 395441711, 1984812685, 1139781709, 3433712980, 3835036895, 2664543715, 1282050075, 3240894392, 1181045119, 2640243204, 25965917, 4203181171, 4211818798, 3009879386, 2463879762, 3910161971, 1842759443, 2597806476, 933301370, 1509430414, 3943906441, 3467192302, 3076639029, 3776767469, 2051518780, 2631065433, 1441952575, 404016761, 1942435775, 1408749034, 1610459739, 3745345300, 2017778566, 3400528769, 3110650942, 941896748, 3265478751, 371049330, 3168937228, 675039627, 4279080257, 967311729, 135050206, 3635733660, 1683407248, 2076935265, 3576870512, 1215061108, 3501741890],
-  Xt = [1347548327, 1400783205, 3273267108, 2520393566, 3409685355, 4045380933, 2880240216, 2471224067, 1428173050, 4138563181, 2441661558, 636813900, 4233094615, 3620022987, 2149987652, 2411029155, 1239331162, 1730525723, 2554718734, 3781033664, 46346101, 310463728, 2743944855, 3328955385, 3875770207, 2501218972, 3955191162, 3667219033, 768917123, 3545789473, 692707433, 1150208456, 1786102409, 2029293177, 1805211710, 3710368113, 3065962831, 401639597, 1724457132, 3028143674, 409198410, 2196052529, 1620529459, 1164071807, 3769721975, 2226875310, 486441376, 2499348523, 1483753576, 428819965, 2274680428, 3075636216, 598438867, 3799141122, 1474502543, 711349675, 129166120, 53458370, 2592523643, 2782082824, 4063242375, 2988687269, 3120694122, 1559041666, 730517276, 2460449204, 4042459122, 2706270690, 3446004468, 3573941694, 533804130, 2328143614, 2637442643, 2695033685, 839224033, 1973745387, 957055980, 2856345839, 106852767, 1371368976, 4181598602, 1033297158, 2933734917, 1179510461, 3046200461, 91341917, 1862534868, 4284502037, 605657339, 2547432937, 3431546947, 2003294622, 3182487618, 2282195339, 954669403, 3682191598, 1201765386, 3917234703, 3388507166, 0, 2198438022, 1211247597, 2887651696, 1315723890, 4227665663, 1443857720, 507358933, 657861945, 1678381017, 560487590, 3516619604, 975451694, 2970356327, 261314535, 3535072918, 2652609425, 1333838021, 2724322336, 1767536459, 370938394, 182621114, 3854606378, 1128014560, 487725847, 185469197, 2918353863, 3106780840, 3356761769, 2237133081, 1286567175, 3152976349, 4255350624, 2683765030, 3160175349, 3309594171, 878443390, 1988838185, 3704300486, 1756818940, 1673061617, 3403100636, 272786309, 1075025698, 545572369, 2105887268, 4174560061, 296679730, 1841768865, 1260232239, 4091327024, 3960309330, 3497509347, 1814803222, 2578018489, 4195456072, 575138148, 3299409036, 446754879, 3629546796, 4011996048, 3347532110, 3252238545, 4270639778, 915985419, 3483825537, 681933534, 651868046, 2755636671, 3828103837, 223377554, 2607439820, 1649704518, 3270937875, 3901806776, 1580087799, 4118987695, 3198115200, 2087309459, 2842678573, 3016697106, 1003007129, 2802849917, 1860738147, 2077965243, 164439672, 4100872472, 32283319, 2827177882, 1709610350, 2125135846, 136428751, 3874428392, 3652904859, 3460984630, 3572145929, 3593056380, 2939266226, 824852259, 818324884, 3224740454, 930369212, 2801566410, 2967507152, 355706840, 1257309336, 4148292826, 243256656, 790073846, 2373340630, 1296297904, 1422699085, 3756299780, 3818836405, 457992840, 3099667487, 2135319889, 77422314, 1560382517, 1945798516, 788204353, 1521706781, 1385356242, 870912086, 325965383, 2358957921, 2050466060, 2388260884, 2313884476, 4006521127, 901210569, 3990953189, 1014646705, 1503449823, 1062597235, 2031621326, 3212035895, 3931371469, 1533017514, 350174575, 2256028891, 2177544179, 1052338372, 741876788, 1606591296, 1914052035, 213705253, 2334669897, 1107234197, 1899603969, 3725069491, 2631447780, 2422494913, 1635502980, 1893020342, 1950903388, 1120974935],
-  Zt = [2807058932, 1699970625, 2764249623, 1586903591, 1808481195, 1173430173, 1487645946, 59984867, 4199882800, 1844882806, 1989249228, 1277555970, 3623636965, 3419915562, 1149249077, 2744104290, 1514790577, 459744698, 244860394, 3235995134, 1963115311, 4027744588, 2544078150, 4190530515, 1608975247, 2627016082, 2062270317, 1507497298, 2200818878, 567498868, 1764313568, 3359936201, 2305455554, 2037970062, 1047239e3, 1910319033, 1337376481, 2904027272, 2892417312, 984907214, 1243112415, 830661914, 861968209, 2135253587, 2011214180, 2927934315, 2686254721, 731183368, 1750626376, 4246310725, 1820824798, 4172763771, 3542330227, 48394827, 2404901663, 2871682645, 671593195, 3254988725, 2073724613, 145085239, 2280796200, 2779915199, 1790575107, 2187128086, 472615631, 3029510009, 4075877127, 3802222185, 4107101658, 3201631749, 1646252340, 4270507174, 1402811438, 1436590835, 3778151818, 3950355702, 3963161475, 4020912224, 2667994737, 273792366, 2331590177, 104699613, 95345982, 3175501286, 2377486676, 1560637892, 3564045318, 369057872, 4213447064, 3919042237, 1137477952, 2658625497, 1119727848, 2340947849, 1530455833, 4007360968, 172466556, 266959938, 516552836, 0, 2256734592, 3980931627, 1890328081, 1917742170, 4294704398, 945164165, 3575528878, 958871085, 3647212047, 2787207260, 1423022939, 775562294, 1739656202, 3876557655, 2530391278, 2443058075, 3310321856, 547512796, 1265195639, 437656594, 3121275539, 719700128, 3762502690, 387781147, 218828297, 3350065803, 2830708150, 2848461854, 428169201, 122466165, 3720081049, 1627235199, 648017665, 4122762354, 1002783846, 2117360635, 695634755, 3336358691, 4234721005, 4049844452, 3704280881, 2232435299, 574624663, 287343814, 612205898, 1039717051, 840019705, 2708326185, 793451934, 821288114, 1391201670, 3822090177, 376187827, 3113855344, 1224348052, 1679968233, 2361698556, 1058709744, 752375421, 2431590963, 1321699145, 3519142200, 2734591178, 188127444, 2177869557, 3727205754, 2384911031, 3215212461, 2648976442, 2450346104, 3432737375, 1180849278, 331544205, 3102249176, 4150144569, 2952102595, 2159976285, 2474404304, 766078933, 313773861, 2570832044, 2108100632, 1668212892, 3145456443, 2013908262, 418672217, 3070356634, 2594734927, 1852171925, 3867060991, 3473416636, 3907448597, 2614737639, 919489135, 164948639, 2094410160, 2997825956, 590424639, 2486224549, 1723872674, 3157750862, 3399941250, 3501252752, 3625268135, 2555048196, 3673637356, 1343127501, 4130281361, 3599595085, 2957853679, 1297403050, 81781910, 3051593425, 2283490410, 532201772, 1367295589, 3926170974, 895287692, 1953757831, 1093597963, 492483431, 3528626907, 1446242576, 1192455638, 1636604631, 209336225, 344873464, 1015671571, 669961897, 3375740769, 3857572124, 2973530695, 3747192018, 1933530610, 3464042516, 935293895, 3454686199, 2858115069, 1863638845, 3683022916, 4085369519, 3292445032, 875313188, 1080017571, 3279033885, 621591778, 1233856572, 2504130317, 24197544, 3017672716, 3835484340, 3247465558, 2220981195, 3060847922, 1551124588, 1463996600],
-  en = [4104605777, 1097159550, 396673818, 660510266, 2875968315, 2638606623, 4200115116, 3808662347, 821712160, 1986918061, 3430322568, 38544885, 3856137295, 718002117, 893681702, 1654886325, 2975484382, 3122358053, 3926825029, 4274053469, 796197571, 1290801793, 1184342925, 3556361835, 2405426947, 2459735317, 1836772287, 1381620373, 3196267988, 1948373848, 3764988233, 3385345166, 3263785589, 2390325492, 1480485785, 3111247143, 3780097726, 2293045232, 548169417, 3459953789, 3746175075, 439452389, 1362321559, 1400849762, 1685577905, 1806599355, 2174754046, 137073913, 1214797936, 1174215055, 3731654548, 2079897426, 1943217067, 1258480242, 529487843, 1437280870, 3945269170, 3049390895, 3313212038, 923313619, 679998e3, 3215307299, 57326082, 377642221, 3474729866, 2041877159, 133361907, 1776460110, 3673476453, 96392454, 878845905, 2801699524, 777231668, 4082475170, 2330014213, 4142626212, 2213296395, 1626319424, 1906247262, 1846563261, 562755902, 3708173718, 1040559837, 3871163981, 1418573201, 3294430577, 114585348, 1343618912, 2566595609, 3186202582, 1078185097, 3651041127, 3896688048, 2307622919, 425408743, 3371096953, 2081048481, 1108339068, 2216610296, 0, 2156299017, 736970802, 292596766, 1517440620, 251657213, 2235061775, 2933202493, 758720310, 265905162, 1554391400, 1532285339, 908999204, 174567692, 1474760595, 4002861748, 2610011675, 3234156416, 3693126241, 2001430874, 303699484, 2478443234, 2687165888, 585122620, 454499602, 151849742, 2345119218, 3064510765, 514443284, 4044981591, 1963412655, 2581445614, 2137062819, 19308535, 1928707164, 1715193156, 4219352155, 1126790795, 600235211, 3992742070, 3841024952, 836553431, 1669664834, 2535604243, 3323011204, 1243905413, 3141400786, 4180808110, 698445255, 2653899549, 2989552604, 2253581325, 3252932727, 3004591147, 1891211689, 2487810577, 3915653703, 4237083816, 4030667424, 2100090966, 865136418, 1229899655, 953270745, 3399679628, 3557504664, 4118925222, 2061379749, 3079546586, 2915017791, 983426092, 2022837584, 1607244650, 2118541908, 2366882550, 3635996816, 972512814, 3283088770, 1568718495, 3499326569, 3576539503, 621982671, 2895723464, 410887952, 2623762152, 1002142683, 645401037, 1494807662, 2595684844, 1335535747, 2507040230, 4293295786, 3167684641, 367585007, 3885750714, 1865862730, 2668221674, 2960971305, 2763173681, 1059270954, 2777952454, 2724642869, 1320957812, 2194319100, 2429595872, 2815956275, 77089521, 3973773121, 3444575871, 2448830231, 1305906550, 4021308739, 2857194700, 2516901860, 3518358430, 1787304780, 740276417, 1699839814, 1592394909, 2352307457, 2272556026, 188821243, 1729977011, 3687994002, 274084841, 3594982253, 3613494426, 2701949495, 4162096729, 322734571, 2837966542, 1640576439, 484830689, 1202797690, 3537852828, 4067639125, 349075736, 3342319475, 4157467219, 4255800159, 1030690015, 1155237496, 2951971274, 1757691577, 607398968, 2738905026, 499347990, 3794078908, 1011452712, 227885567, 2818666809, 213114376, 3034881240, 1455525988, 3414450555, 850817237, 1817998408, 3092726480],
-  tn = [0, 235474187, 470948374, 303765277, 941896748, 908933415, 607530554, 708780849, 1883793496, 2118214995, 1817866830, 1649639237, 1215061108, 1181045119, 1417561698, 1517767529, 3767586992, 4003061179, 4236429990, 4069246893, 3635733660, 3602770327, 3299278474, 3400528769, 2430122216, 2664543715, 2362090238, 2193862645, 2835123396, 2801107407, 3035535058, 3135740889, 3678124923, 3576870512, 3341394285, 3374361702, 3810496343, 3977675356, 4279080257, 4043610186, 2876494627, 2776292904, 3076639029, 3110650942, 2472011535, 2640243204, 2403728665, 2169303058, 1001089995, 899835584, 666464733, 699432150, 59727847, 226906860, 530400753, 294930682, 1273168787, 1172967064, 1475418501, 1509430414, 1942435775, 2110667444, 1876241833, 1641816226, 2910219766, 2743034109, 2976151520, 3211623147, 2505202138, 2606453969, 2302690252, 2269728455, 3711829422, 3543599269, 3240894392, 3475313331, 3843699074, 3943906441, 4178062228, 4144047775, 1306967366, 1139781709, 1374988112, 1610459739, 1975683434, 2076935265, 1775276924, 1742315127, 1034867998, 866637845, 566021896, 800440835, 92987698, 193195065, 429456164, 395441711, 1984812685, 2017778566, 1784663195, 1683407248, 1315562145, 1080094634, 1383856311, 1551037884, 101039829, 135050206, 437757123, 337553864, 1042385657, 807962610, 573804783, 742039012, 2531067453, 2564033334, 2328828971, 2227573024, 2935566865, 2700099354, 3001755655, 3168937228, 3868552805, 3902563182, 4203181171, 4102977912, 3736164937, 3501741890, 3265478751, 3433712980, 1106041591, 1340463100, 1576976609, 1408749034, 2043211483, 2009195472, 1708848333, 1809054150, 832877231, 1068351396, 766945465, 599762354, 159417987, 126454664, 361929877, 463180190, 2709260871, 2943682380, 3178106961, 3009879386, 2572697195, 2538681184, 2236228733, 2336434550, 3509871135, 3745345300, 3441850377, 3274667266, 3910161971, 3877198648, 4110568485, 4211818798, 2597806476, 2497604743, 2261089178, 2295101073, 2733856160, 2902087851, 3202437046, 2968011453, 3936291284, 3835036895, 4136440770, 4169408201, 3535486456, 3702665459, 3467192302, 3231722213, 2051518780, 1951317047, 1716890410, 1750902305, 1113818384, 1282050075, 1584504582, 1350078989, 168810852, 67556463, 371049330, 404016761, 841739592, 1008918595, 775550814, 540080725, 3969562369, 3801332234, 4035489047, 4269907996, 3569255213, 3669462566, 3366754619, 3332740144, 2631065433, 2463879762, 2160117071, 2395588676, 2767645557, 2868897406, 3102011747, 3069049960, 202008497, 33778362, 270040487, 504459436, 875451293, 975658646, 675039627, 641025152, 2084704233, 1917518562, 1615861247, 1851332852, 1147550661, 1248802510, 1484005843, 1451044056, 933301370, 967311729, 733156972, 632953703, 260388950, 25965917, 328671808, 496906059, 1206477858, 1239443753, 1543208500, 1441952575, 2144161806, 1908694277, 1675577880, 1842759443, 3610369226, 3644379585, 3408119516, 3307916247, 4011190502, 3776767469, 4077384432, 4245618683, 2809771154, 2842737049, 3144396420, 3043140495, 2673705150, 2438237621, 2203032232, 2370213795],
-  nn = [0, 185469197, 370938394, 487725847, 741876788, 657861945, 975451694, 824852259, 1483753576, 1400783205, 1315723890, 1164071807, 1950903388, 2135319889, 1649704518, 1767536459, 2967507152, 3152976349, 2801566410, 2918353863, 2631447780, 2547432937, 2328143614, 2177544179, 3901806776, 3818836405, 4270639778, 4118987695, 3299409036, 3483825537, 3535072918, 3652904859, 2077965243, 1893020342, 1841768865, 1724457132, 1474502543, 1559041666, 1107234197, 1257309336, 598438867, 681933534, 901210569, 1052338372, 261314535, 77422314, 428819965, 310463728, 3409685355, 3224740454, 3710368113, 3593056380, 3875770207, 3960309330, 4045380933, 4195456072, 2471224067, 2554718734, 2237133081, 2388260884, 3212035895, 3028143674, 2842678573, 2724322336, 4138563181, 4255350624, 3769721975, 3955191162, 3667219033, 3516619604, 3431546947, 3347532110, 2933734917, 2782082824, 3099667487, 3016697106, 2196052529, 2313884476, 2499348523, 2683765030, 1179510461, 1296297904, 1347548327, 1533017514, 1786102409, 1635502980, 2087309459, 2003294622, 507358933, 355706840, 136428751, 53458370, 839224033, 957055980, 605657339, 790073846, 2373340630, 2256028891, 2607439820, 2422494913, 2706270690, 2856345839, 3075636216, 3160175349, 3573941694, 3725069491, 3273267108, 3356761769, 4181598602, 4063242375, 4011996048, 3828103837, 1033297158, 915985419, 730517276, 545572369, 296679730, 446754879, 129166120, 213705253, 1709610350, 1860738147, 1945798516, 2029293177, 1239331162, 1120974935, 1606591296, 1422699085, 4148292826, 4233094615, 3781033664, 3931371469, 3682191598, 3497509347, 3446004468, 3328955385, 2939266226, 2755636671, 3106780840, 2988687269, 2198438022, 2282195339, 2501218972, 2652609425, 1201765386, 1286567175, 1371368976, 1521706781, 1805211710, 1620529459, 2105887268, 1988838185, 533804130, 350174575, 164439672, 46346101, 870912086, 954669403, 636813900, 788204353, 2358957921, 2274680428, 2592523643, 2441661558, 2695033685, 2880240216, 3065962831, 3182487618, 3572145929, 3756299780, 3270937875, 3388507166, 4174560061, 4091327024, 4006521127, 3854606378, 1014646705, 930369212, 711349675, 560487590, 272786309, 457992840, 106852767, 223377554, 1678381017, 1862534868, 1914052035, 2031621326, 1211247597, 1128014560, 1580087799, 1428173050, 32283319, 182621114, 401639597, 486441376, 768917123, 651868046, 1003007129, 818324884, 1503449823, 1385356242, 1333838021, 1150208456, 1973745387, 2125135846, 1673061617, 1756818940, 2970356327, 3120694122, 2802849917, 2887651696, 2637442643, 2520393566, 2334669897, 2149987652, 3917234703, 3799141122, 4284502037, 4100872472, 3309594171, 3460984630, 3545789473, 3629546796, 2050466060, 1899603969, 1814803222, 1730525723, 1443857720, 1560382517, 1075025698, 1260232239, 575138148, 692707433, 878443390, 1062597235, 243256656, 91341917, 409198410, 325965383, 3403100636, 3252238545, 3704300486, 3620022987, 3874428392, 3990953189, 4042459122, 4227665663, 2460449204, 2578018489, 2226875310, 2411029155, 3198115200, 3046200461, 2827177882, 2743944855],
-  sn = [0, 218828297, 437656594, 387781147, 875313188, 958871085, 775562294, 590424639, 1750626376, 1699970625, 1917742170, 2135253587, 1551124588, 1367295589, 1180849278, 1265195639, 3501252752, 3720081049, 3399941250, 3350065803, 3835484340, 3919042237, 4270507174, 4085369519, 3102249176, 3051593425, 2734591178, 2952102595, 2361698556, 2177869557, 2530391278, 2614737639, 3145456443, 3060847922, 2708326185, 2892417312, 2404901663, 2187128086, 2504130317, 2555048196, 3542330227, 3727205754, 3375740769, 3292445032, 3876557655, 3926170974, 4246310725, 4027744588, 1808481195, 1723872674, 1910319033, 2094410160, 1608975247, 1391201670, 1173430173, 1224348052, 59984867, 244860394, 428169201, 344873464, 935293895, 984907214, 766078933, 547512796, 1844882806, 1627235199, 2011214180, 2062270317, 1507497298, 1423022939, 1137477952, 1321699145, 95345982, 145085239, 532201772, 313773861, 830661914, 1015671571, 731183368, 648017665, 3175501286, 2957853679, 2807058932, 2858115069, 2305455554, 2220981195, 2474404304, 2658625497, 3575528878, 3625268135, 3473416636, 3254988725, 3778151818, 3963161475, 4213447064, 4130281361, 3599595085, 3683022916, 3432737375, 3247465558, 3802222185, 4020912224, 4172763771, 4122762354, 3201631749, 3017672716, 2764249623, 2848461854, 2331590177, 2280796200, 2431590963, 2648976442, 104699613, 188127444, 472615631, 287343814, 840019705, 1058709744, 671593195, 621591778, 1852171925, 1668212892, 1953757831, 2037970062, 1514790577, 1463996600, 1080017571, 1297403050, 3673637356, 3623636965, 3235995134, 3454686199, 4007360968, 3822090177, 4107101658, 4190530515, 2997825956, 3215212461, 2830708150, 2779915199, 2256734592, 2340947849, 2627016082, 2443058075, 172466556, 122466165, 273792366, 492483431, 1047239e3, 861968209, 612205898, 695634755, 1646252340, 1863638845, 2013908262, 1963115311, 1446242576, 1530455833, 1277555970, 1093597963, 1636604631, 1820824798, 2073724613, 1989249228, 1436590835, 1487645946, 1337376481, 1119727848, 164948639, 81781910, 331544205, 516552836, 1039717051, 821288114, 669961897, 719700128, 2973530695, 3157750862, 2871682645, 2787207260, 2232435299, 2283490410, 2667994737, 2450346104, 3647212047, 3564045318, 3279033885, 3464042516, 3980931627, 3762502690, 4150144569, 4199882800, 3070356634, 3121275539, 2904027272, 2686254721, 2200818878, 2384911031, 2570832044, 2486224549, 3747192018, 3528626907, 3310321856, 3359936201, 3950355702, 3867060991, 4049844452, 4234721005, 1739656202, 1790575107, 2108100632, 1890328081, 1402811438, 1586903591, 1233856572, 1149249077, 266959938, 48394827, 369057872, 418672217, 1002783846, 919489135, 567498868, 752375421, 209336225, 24197544, 376187827, 459744698, 945164165, 895287692, 574624663, 793451934, 1679968233, 1764313568, 2117360635, 1933530610, 1343127501, 1560637892, 1243112415, 1192455638, 3704280881, 3519142200, 3336358691, 3419915562, 3907448597, 3857572124, 4075877127, 4294704398, 3029510009, 3113855344, 2927934315, 2744104290, 2159976285, 2377486676, 2594734927, 2544078150],
-  rn = [0, 151849742, 303699484, 454499602, 607398968, 758720310, 908999204, 1059270954, 1214797936, 1097159550, 1517440620, 1400849762, 1817998408, 1699839814, 2118541908, 2001430874, 2429595872, 2581445614, 2194319100, 2345119218, 3034881240, 3186202582, 2801699524, 2951971274, 3635996816, 3518358430, 3399679628, 3283088770, 4237083816, 4118925222, 4002861748, 3885750714, 1002142683, 850817237, 698445255, 548169417, 529487843, 377642221, 227885567, 77089521, 1943217067, 2061379749, 1640576439, 1757691577, 1474760595, 1592394909, 1174215055, 1290801793, 2875968315, 2724642869, 3111247143, 2960971305, 2405426947, 2253581325, 2638606623, 2487810577, 3808662347, 3926825029, 4044981591, 4162096729, 3342319475, 3459953789, 3576539503, 3693126241, 1986918061, 2137062819, 1685577905, 1836772287, 1381620373, 1532285339, 1078185097, 1229899655, 1040559837, 923313619, 740276417, 621982671, 439452389, 322734571, 137073913, 19308535, 3871163981, 4021308739, 4104605777, 4255800159, 3263785589, 3414450555, 3499326569, 3651041127, 2933202493, 2815956275, 3167684641, 3049390895, 2330014213, 2213296395, 2566595609, 2448830231, 1305906550, 1155237496, 1607244650, 1455525988, 1776460110, 1626319424, 2079897426, 1928707164, 96392454, 213114376, 396673818, 514443284, 562755902, 679998e3, 865136418, 983426092, 3708173718, 3557504664, 3474729866, 3323011204, 4180808110, 4030667424, 3945269170, 3794078908, 2507040230, 2623762152, 2272556026, 2390325492, 2975484382, 3092726480, 2738905026, 2857194700, 3973773121, 3856137295, 4274053469, 4157467219, 3371096953, 3252932727, 3673476453, 3556361835, 2763173681, 2915017791, 3064510765, 3215307299, 2156299017, 2307622919, 2459735317, 2610011675, 2081048481, 1963412655, 1846563261, 1729977011, 1480485785, 1362321559, 1243905413, 1126790795, 878845905, 1030690015, 645401037, 796197571, 274084841, 425408743, 38544885, 188821243, 3613494426, 3731654548, 3313212038, 3430322568, 4082475170, 4200115116, 3780097726, 3896688048, 2668221674, 2516901860, 2366882550, 2216610296, 3141400786, 2989552604, 2837966542, 2687165888, 1202797690, 1320957812, 1437280870, 1554391400, 1669664834, 1787304780, 1906247262, 2022837584, 265905162, 114585348, 499347990, 349075736, 736970802, 585122620, 972512814, 821712160, 2595684844, 2478443234, 2293045232, 2174754046, 3196267988, 3079546586, 2895723464, 2777952454, 3537852828, 3687994002, 3234156416, 3385345166, 4142626212, 4293295786, 3841024952, 3992742070, 174567692, 57326082, 410887952, 292596766, 777231668, 660510266, 1011452712, 893681702, 1108339068, 1258480242, 1343618912, 1494807662, 1715193156, 1865862730, 1948373848, 2100090966, 2701949495, 2818666809, 3004591147, 3122358053, 2235061775, 2352307457, 2535604243, 2653899549, 3915653703, 3764988233, 4219352155, 4067639125, 3444575871, 3294430577, 3746175075, 3594982253, 836553431, 953270745, 600235211, 718002117, 367585007, 484830689, 133361907, 251657213, 2041877159, 1891211689, 1806599355, 1654886325, 1568718495, 1418573201, 1335535747, 1184342925];
-function on(e) {
+  Qt = [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77, 154, 47, 94, 188, 99, 198, 151, 53, 106, 212, 179, 125, 250, 239, 197, 145],
+  Xt = [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22],
+  Zt = [82, 9, 106, 213, 48, 54, 165, 56, 191, 64, 163, 158, 129, 243, 215, 251, 124, 227, 57, 130, 155, 47, 255, 135, 52, 142, 67, 68, 196, 222, 233, 203, 84, 123, 148, 50, 166, 194, 35, 61, 238, 76, 149, 11, 66, 250, 195, 78, 8, 46, 161, 102, 40, 217, 36, 178, 118, 91, 162, 73, 109, 139, 209, 37, 114, 248, 246, 100, 134, 104, 152, 22, 212, 164, 92, 204, 93, 101, 182, 146, 108, 112, 72, 80, 253, 237, 185, 218, 94, 21, 70, 87, 167, 141, 157, 132, 144, 216, 171, 0, 140, 188, 211, 10, 247, 228, 88, 5, 184, 179, 69, 6, 208, 44, 30, 143, 202, 63, 15, 2, 193, 175, 189, 3, 1, 19, 138, 107, 58, 145, 17, 65, 79, 103, 220, 234, 151, 242, 207, 206, 240, 180, 230, 115, 150, 172, 116, 34, 231, 173, 53, 133, 226, 249, 55, 232, 28, 117, 223, 110, 71, 241, 26, 113, 29, 41, 197, 137, 111, 183, 98, 14, 170, 24, 190, 27, 252, 86, 62, 75, 198, 210, 121, 32, 154, 219, 192, 254, 120, 205, 90, 244, 31, 221, 168, 51, 136, 7, 199, 49, 177, 18, 16, 89, 39, 128, 236, 95, 96, 81, 127, 169, 25, 181, 74, 13, 45, 229, 122, 159, 147, 201, 156, 239, 160, 224, 59, 77, 174, 42, 245, 176, 200, 235, 187, 60, 131, 83, 153, 97, 23, 43, 4, 126, 186, 119, 214, 38, 225, 105, 20, 99, 85, 33, 12, 125],
+  en = [3328402341, 4168907908, 4000806809, 4135287693, 4294111757, 3597364157, 3731845041, 2445657428, 1613770832, 33620227, 3462883241, 1445669757, 3892248089, 3050821474, 1303096294, 3967186586, 2412431941, 528646813, 2311702848, 4202528135, 4026202645, 2992200171, 2387036105, 4226871307, 1101901292, 3017069671, 1604494077, 1169141738, 597466303, 1403299063, 3832705686, 2613100635, 1974974402, 3791519004, 1033081774, 1277568618, 1815492186, 2118074177, 4126668546, 2211236943, 1748251740, 1369810420, 3521504564, 4193382664, 3799085459, 2883115123, 1647391059, 706024767, 134480908, 2512897874, 1176707941, 2646852446, 806885416, 932615841, 168101135, 798661301, 235341577, 605164086, 461406363, 3756188221, 3454790438, 1311188841, 2142417613, 3933566367, 302582043, 495158174, 1479289972, 874125870, 907746093, 3698224818, 3025820398, 1537253627, 2756858614, 1983593293, 3084310113, 2108928974, 1378429307, 3722699582, 1580150641, 327451799, 2790478837, 3117535592, 0, 3253595436, 1075847264, 3825007647, 2041688520, 3059440621, 3563743934, 2378943302, 1740553945, 1916352843, 2487896798, 2555137236, 2958579944, 2244988746, 3151024235, 3320835882, 1336584933, 3992714006, 2252555205, 2588757463, 1714631509, 293963156, 2319795663, 3925473552, 67240454, 4269768577, 2689618160, 2017213508, 631218106, 1269344483, 2723238387, 1571005438, 2151694528, 93294474, 1066570413, 563977660, 1882732616, 4059428100, 1673313503, 2008463041, 2950355573, 1109467491, 537923632, 3858759450, 4260623118, 3218264685, 2177748300, 403442708, 638784309, 3287084079, 3193921505, 899127202, 2286175436, 773265209, 2479146071, 1437050866, 4236148354, 2050833735, 3362022572, 3126681063, 840505643, 3866325909, 3227541664, 427917720, 2655997905, 2749160575, 1143087718, 1412049534, 999329963, 193497219, 2353415882, 3354324521, 1807268051, 672404540, 2816401017, 3160301282, 369822493, 2916866934, 3688947771, 1681011286, 1949973070, 336202270, 2454276571, 201721354, 1210328172, 3093060836, 2680341085, 3184776046, 1135389935, 3294782118, 965841320, 831886756, 3554993207, 4068047243, 3588745010, 2345191491, 1849112409, 3664604599, 26054028, 2983581028, 2622377682, 1235855840, 3630984372, 2891339514, 4092916743, 3488279077, 3395642799, 4101667470, 1202630377, 268961816, 1874508501, 4034427016, 1243948399, 1546530418, 941366308, 1470539505, 1941222599, 2546386513, 3421038627, 2715671932, 3899946140, 1042226977, 2521517021, 1639824860, 227249030, 260737669, 3765465232, 2084453954, 1907733956, 3429263018, 2420656344, 100860677, 4160157185, 470683154, 3261161891, 1781871967, 2924959737, 1773779408, 394692241, 2579611992, 974986535, 664706745, 3655459128, 3958962195, 731420851, 571543859, 3530123707, 2849626480, 126783113, 865375399, 765172662, 1008606754, 361203602, 3387549984, 2278477385, 2857719295, 1344809080, 2782912378, 59542671, 1503764984, 160008576, 437062935, 1707065306, 3622233649, 2218934982, 3496503480, 2185314755, 697932208, 1512910199, 504303377, 2075177163, 2824099068, 1841019862, 739644986],
+  tn = [2781242211, 2230877308, 2582542199, 2381740923, 234877682, 3184946027, 2984144751, 1418839493, 1348481072, 50462977, 2848876391, 2102799147, 434634494, 1656084439, 3863849899, 2599188086, 1167051466, 2636087938, 1082771913, 2281340285, 368048890, 3954334041, 3381544775, 201060592, 3963727277, 1739838676, 4250903202, 3930435503, 3206782108, 4149453988, 2531553906, 1536934080, 3262494647, 484572669, 2923271059, 1783375398, 1517041206, 1098792767, 49674231, 1334037708, 1550332980, 4098991525, 886171109, 150598129, 2481090929, 1940642008, 1398944049, 1059722517, 201851908, 1385547719, 1699095331, 1587397571, 674240536, 2704774806, 252314885, 3039795866, 151914247, 908333586, 2602270848, 1038082786, 651029483, 1766729511, 3447698098, 2682942837, 454166793, 2652734339, 1951935532, 775166490, 758520603, 3000790638, 4004797018, 4217086112, 4137964114, 1299594043, 1639438038, 3464344499, 2068982057, 1054729187, 1901997871, 2534638724, 4121318227, 1757008337, 0, 750906861, 1614815264, 535035132, 3363418545, 3988151131, 3201591914, 1183697867, 3647454910, 1265776953, 3734260298, 3566750796, 3903871064, 1250283471, 1807470800, 717615087, 3847203498, 384695291, 3313910595, 3617213773, 1432761139, 2484176261, 3481945413, 283769337, 100925954, 2180939647, 4037038160, 1148730428, 3123027871, 3813386408, 4087501137, 4267549603, 3229630528, 2315620239, 2906624658, 3156319645, 1215313976, 82966005, 3747855548, 3245848246, 1974459098, 1665278241, 807407632, 451280895, 251524083, 1841287890, 1283575245, 337120268, 891687699, 801369324, 3787349855, 2721421207, 3431482436, 959321879, 1469301956, 4065699751, 2197585534, 1199193405, 2898814052, 3887750493, 724703513, 2514908019, 2696962144, 2551808385, 3516813135, 2141445340, 1715741218, 2119445034, 2872807568, 2198571144, 3398190662, 700968686, 3547052216, 1009259540, 2041044702, 3803995742, 487983883, 1991105499, 1004265696, 1449407026, 1316239930, 504629770, 3683797321, 168560134, 1816667172, 3837287516, 1570751170, 1857934291, 4014189740, 2797888098, 2822345105, 2754712981, 936633572, 2347923833, 852879335, 1133234376, 1500395319, 3084545389, 2348912013, 1689376213, 3533459022, 3762923945, 3034082412, 4205598294, 133428468, 634383082, 2949277029, 2398386810, 3913789102, 403703816, 3580869306, 2297460856, 1867130149, 1918643758, 607656988, 4049053350, 3346248884, 1368901318, 600565992, 2090982877, 2632479860, 557719327, 3717614411, 3697393085, 2249034635, 2232388234, 2430627952, 1115438654, 3295786421, 2865522278, 3633334344, 84280067, 33027830, 303828494, 2747425121, 1600795957, 4188952407, 3496589753, 2434238086, 1486471617, 658119965, 3106381470, 953803233, 334231800, 3005978776, 857870609, 3151128937, 1890179545, 2298973838, 2805175444, 3056442267, 574365214, 2450884487, 550103529, 1233637070, 4289353045, 2018519080, 2057691103, 2399374476, 4166623649, 2148108681, 387583245, 3664101311, 836232934, 3330556482, 3100665960, 3280093505, 2955516313, 2002398509, 287182607, 3413881008, 4238890068, 3597515707, 975967766],
+  nn = [1671808611, 2089089148, 2006576759, 2072901243, 4061003762, 1807603307, 1873927791, 3310653893, 810573872, 16974337, 1739181671, 729634347, 4263110654, 3613570519, 2883997099, 1989864566, 3393556426, 2191335298, 3376449993, 2106063485, 4195741690, 1508618841, 1204391495, 4027317232, 2917941677, 3563566036, 2734514082, 2951366063, 2629772188, 2767672228, 1922491506, 3227229120, 3082974647, 4246528509, 2477669779, 644500518, 911895606, 1061256767, 4144166391, 3427763148, 878471220, 2784252325, 3845444069, 4043897329, 1905517169, 3631459288, 827548209, 356461077, 67897348, 3344078279, 593839651, 3277757891, 405286936, 2527147926, 84871685, 2595565466, 118033927, 305538066, 2157648768, 3795705826, 3945188843, 661212711, 2999812018, 1973414517, 152769033, 2208177539, 745822252, 439235610, 455947803, 1857215598, 1525593178, 2700827552, 1391895634, 994932283, 3596728278, 3016654259, 695947817, 3812548067, 795958831, 2224493444, 1408607827, 3513301457, 0, 3979133421, 543178784, 4229948412, 2982705585, 1542305371, 1790891114, 3410398667, 3201918910, 961245753, 1256100938, 1289001036, 1491644504, 3477767631, 3496721360, 4012557807, 2867154858, 4212583931, 1137018435, 1305975373, 861234739, 2241073541, 1171229253, 4178635257, 33948674, 2139225727, 1357946960, 1011120188, 2679776671, 2833468328, 1374921297, 2751356323, 1086357568, 2408187279, 2460827538, 2646352285, 944271416, 4110742005, 3168756668, 3066132406, 3665145818, 560153121, 271589392, 4279952895, 4077846003, 3530407890, 3444343245, 202643468, 322250259, 3962553324, 1608629855, 2543990167, 1154254916, 389623319, 3294073796, 2817676711, 2122513534, 1028094525, 1689045092, 1575467613, 422261273, 1939203699, 1621147744, 2174228865, 1339137615, 3699352540, 577127458, 712922154, 2427141008, 2290289544, 1187679302, 3995715566, 3100863416, 339486740, 3732514782, 1591917662, 186455563, 3681988059, 3762019296, 844522546, 978220090, 169743370, 1239126601, 101321734, 611076132, 1558493276, 3260915650, 3547250131, 2901361580, 1655096418, 2443721105, 2510565781, 3828863972, 2039214713, 3878868455, 3359869896, 928607799, 1840765549, 2374762893, 3580146133, 1322425422, 2850048425, 1823791212, 1459268694, 4094161908, 3928346602, 1706019429, 2056189050, 2934523822, 135794696, 3134549946, 2022240376, 628050469, 779246638, 472135708, 2800834470, 3032970164, 3327236038, 3894660072, 3715932637, 1956440180, 522272287, 1272813131, 3185336765, 2340818315, 2323976074, 1888542832, 1044544574, 3049550261, 1722469478, 1222152264, 50660867, 4127324150, 236067854, 1638122081, 895445557, 1475980887, 3117443513, 2257655686, 3243809217, 489110045, 2662934430, 3778599393, 4162055160, 2561878936, 288563729, 1773916777, 3648039385, 2391345038, 2493985684, 2612407707, 505560094, 2274497927, 3911240169, 3460925390, 1442818645, 678973480, 3749357023, 2358182796, 2717407649, 2306869641, 219617805, 3218761151, 3862026214, 1120306242, 1756942440, 1103331905, 2578459033, 762796589, 252780047, 2966125488, 1425844308, 3151392187, 372911126],
+  sn = [1667474886, 2088535288, 2004326894, 2071694838, 4075949567, 1802223062, 1869591006, 3318043793, 808472672, 16843522, 1734846926, 724270422, 4278065639, 3621216949, 2880169549, 1987484396, 3402253711, 2189597983, 3385409673, 2105378810, 4210693615, 1499065266, 1195886990, 4042263547, 2913856577, 3570689971, 2728590687, 2947541573, 2627518243, 2762274643, 1920112356, 3233831835, 3082273397, 4261223649, 2475929149, 640051788, 909531756, 1061110142, 4160160501, 3435941763, 875846760, 2779116625, 3857003729, 4059105529, 1903268834, 3638064043, 825316194, 353713962, 67374088, 3351728789, 589522246, 3284360861, 404236336, 2526454071, 84217610, 2593830191, 117901582, 303183396, 2155911963, 3806477791, 3958056653, 656894286, 2998062463, 1970642922, 151591698, 2206440989, 741110872, 437923380, 454765878, 1852748508, 1515908788, 2694904667, 1381168804, 993742198, 3604373943, 3014905469, 690584402, 3823320797, 791638366, 2223281939, 1398011302, 3520161977, 0, 3991743681, 538992704, 4244381667, 2981218425, 1532751286, 1785380564, 3419096717, 3200178535, 960056178, 1246420628, 1280103576, 1482221744, 3486468741, 3503319995, 4025428677, 2863326543, 4227536621, 1128514950, 1296947098, 859002214, 2240123921, 1162203018, 4193849577, 33687044, 2139062782, 1347481760, 1010582648, 2678045221, 2829640523, 1364325282, 2745433693, 1077985408, 2408548869, 2459086143, 2644360225, 943212656, 4126475505, 3166494563, 3065430391, 3671750063, 555836226, 269496352, 4294908645, 4092792573, 3537006015, 3452783745, 202118168, 320025894, 3974901699, 1600119230, 2543297077, 1145359496, 387397934, 3301201811, 2812801621, 2122220284, 1027426170, 1684319432, 1566435258, 421079858, 1936954854, 1616945344, 2172753945, 1330631070, 3705438115, 572679748, 707427924, 2425400123, 2290647819, 1179044492, 4008585671, 3099120491, 336870440, 3739122087, 1583276732, 185277718, 3688593069, 3772791771, 842159716, 976899700, 168435220, 1229577106, 101059084, 606366792, 1549591736, 3267517855, 3553849021, 2897014595, 1650632388, 2442242105, 2509612081, 3840161747, 2038008818, 3890688725, 3368567691, 926374254, 1835907034, 2374863873, 3587531953, 1313788572, 2846482505, 1819063512, 1448540844, 4109633523, 3941213647, 1701162954, 2054852340, 2930698567, 134748176, 3132806511, 2021165296, 623210314, 774795868, 471606328, 2795958615, 3031746419, 3334885783, 3907527627, 3722280097, 1953799400, 522133822, 1263263126, 3183336545, 2341176845, 2324333839, 1886425312, 1044267644, 3048588401, 1718004428, 1212733584, 50529542, 4143317495, 235803164, 1633788866, 892690282, 1465383342, 3115962473, 2256965911, 3250673817, 488449850, 2661202215, 3789633753, 4177007595, 2560144171, 286339874, 1768537042, 3654906025, 2391705863, 2492770099, 2610673197, 505291324, 2273808917, 3924369609, 3469625735, 1431699370, 673740880, 3755965093, 2358021891, 2711746649, 2307489801, 218961690, 3217021541, 3873845719, 1111672452, 1751693520, 1094828930, 2576986153, 757954394, 252645662, 2964376443, 1414855848, 3149649517, 370555436],
+  rn = [1374988112, 2118214995, 437757123, 975658646, 1001089995, 530400753, 2902087851, 1273168787, 540080725, 2910219766, 2295101073, 4110568485, 1340463100, 3307916247, 641025152, 3043140495, 3736164937, 632953703, 1172967064, 1576976609, 3274667266, 2169303058, 2370213795, 1809054150, 59727847, 361929877, 3211623147, 2505202138, 3569255213, 1484005843, 1239443753, 2395588676, 1975683434, 4102977912, 2572697195, 666464733, 3202437046, 4035489047, 3374361702, 2110667444, 1675577880, 3843699074, 2538681184, 1649639237, 2976151520, 3144396420, 4269907996, 4178062228, 1883793496, 2403728665, 2497604743, 1383856311, 2876494627, 1917518562, 3810496343, 1716890410, 3001755655, 800440835, 2261089178, 3543599269, 807962610, 599762354, 33778362, 3977675356, 2328828971, 2809771154, 4077384432, 1315562145, 1708848333, 101039829, 3509871135, 3299278474, 875451293, 2733856160, 92987698, 2767645557, 193195065, 1080094634, 1584504582, 3178106961, 1042385657, 2531067453, 3711829422, 1306967366, 2438237621, 1908694277, 67556463, 1615861247, 429456164, 3602770327, 2302690252, 1742315127, 2968011453, 126454664, 3877198648, 2043211483, 2709260871, 2084704233, 4169408201, 0, 159417987, 841739592, 504459436, 1817866830, 4245618683, 260388950, 1034867998, 908933415, 168810852, 1750902305, 2606453969, 607530554, 202008497, 2472011535, 3035535058, 463180190, 2160117071, 1641816226, 1517767529, 470948374, 3801332234, 3231722213, 1008918595, 303765277, 235474187, 4069246893, 766945465, 337553864, 1475418501, 2943682380, 4003061179, 2743034109, 4144047775, 1551037884, 1147550661, 1543208500, 2336434550, 3408119516, 3069049960, 3102011747, 3610369226, 1113818384, 328671808, 2227573024, 2236228733, 3535486456, 2935566865, 3341394285, 496906059, 3702665459, 226906860, 2009195472, 733156972, 2842737049, 294930682, 1206477858, 2835123396, 2700099354, 1451044056, 573804783, 2269728455, 3644379585, 2362090238, 2564033334, 2801107407, 2776292904, 3669462566, 1068351396, 742039012, 1350078989, 1784663195, 1417561698, 4136440770, 2430122216, 775550814, 2193862645, 2673705150, 1775276924, 1876241833, 3475313331, 3366754619, 270040487, 3902563182, 3678124923, 3441850377, 1851332852, 3969562369, 2203032232, 3868552805, 2868897406, 566021896, 4011190502, 3135740889, 1248802510, 3936291284, 699432150, 832877231, 708780849, 3332740144, 899835584, 1951317047, 4236429990, 3767586992, 866637845, 4043610186, 1106041591, 2144161806, 395441711, 1984812685, 1139781709, 3433712980, 3835036895, 2664543715, 1282050075, 3240894392, 1181045119, 2640243204, 25965917, 4203181171, 4211818798, 3009879386, 2463879762, 3910161971, 1842759443, 2597806476, 933301370, 1509430414, 3943906441, 3467192302, 3076639029, 3776767469, 2051518780, 2631065433, 1441952575, 404016761, 1942435775, 1408749034, 1610459739, 3745345300, 2017778566, 3400528769, 3110650942, 941896748, 3265478751, 371049330, 3168937228, 675039627, 4279080257, 967311729, 135050206, 3635733660, 1683407248, 2076935265, 3576870512, 1215061108, 3501741890],
+  on = [1347548327, 1400783205, 3273267108, 2520393566, 3409685355, 4045380933, 2880240216, 2471224067, 1428173050, 4138563181, 2441661558, 636813900, 4233094615, 3620022987, 2149987652, 2411029155, 1239331162, 1730525723, 2554718734, 3781033664, 46346101, 310463728, 2743944855, 3328955385, 3875770207, 2501218972, 3955191162, 3667219033, 768917123, 3545789473, 692707433, 1150208456, 1786102409, 2029293177, 1805211710, 3710368113, 3065962831, 401639597, 1724457132, 3028143674, 409198410, 2196052529, 1620529459, 1164071807, 3769721975, 2226875310, 486441376, 2499348523, 1483753576, 428819965, 2274680428, 3075636216, 598438867, 3799141122, 1474502543, 711349675, 129166120, 53458370, 2592523643, 2782082824, 4063242375, 2988687269, 3120694122, 1559041666, 730517276, 2460449204, 4042459122, 2706270690, 3446004468, 3573941694, 533804130, 2328143614, 2637442643, 2695033685, 839224033, 1973745387, 957055980, 2856345839, 106852767, 1371368976, 4181598602, 1033297158, 2933734917, 1179510461, 3046200461, 91341917, 1862534868, 4284502037, 605657339, 2547432937, 3431546947, 2003294622, 3182487618, 2282195339, 954669403, 3682191598, 1201765386, 3917234703, 3388507166, 0, 2198438022, 1211247597, 2887651696, 1315723890, 4227665663, 1443857720, 507358933, 657861945, 1678381017, 560487590, 3516619604, 975451694, 2970356327, 261314535, 3535072918, 2652609425, 1333838021, 2724322336, 1767536459, 370938394, 182621114, 3854606378, 1128014560, 487725847, 185469197, 2918353863, 3106780840, 3356761769, 2237133081, 1286567175, 3152976349, 4255350624, 2683765030, 3160175349, 3309594171, 878443390, 1988838185, 3704300486, 1756818940, 1673061617, 3403100636, 272786309, 1075025698, 545572369, 2105887268, 4174560061, 296679730, 1841768865, 1260232239, 4091327024, 3960309330, 3497509347, 1814803222, 2578018489, 4195456072, 575138148, 3299409036, 446754879, 3629546796, 4011996048, 3347532110, 3252238545, 4270639778, 915985419, 3483825537, 681933534, 651868046, 2755636671, 3828103837, 223377554, 2607439820, 1649704518, 3270937875, 3901806776, 1580087799, 4118987695, 3198115200, 2087309459, 2842678573, 3016697106, 1003007129, 2802849917, 1860738147, 2077965243, 164439672, 4100872472, 32283319, 2827177882, 1709610350, 2125135846, 136428751, 3874428392, 3652904859, 3460984630, 3572145929, 3593056380, 2939266226, 824852259, 818324884, 3224740454, 930369212, 2801566410, 2967507152, 355706840, 1257309336, 4148292826, 243256656, 790073846, 2373340630, 1296297904, 1422699085, 3756299780, 3818836405, 457992840, 3099667487, 2135319889, 77422314, 1560382517, 1945798516, 788204353, 1521706781, 1385356242, 870912086, 325965383, 2358957921, 2050466060, 2388260884, 2313884476, 4006521127, 901210569, 3990953189, 1014646705, 1503449823, 1062597235, 2031621326, 3212035895, 3931371469, 1533017514, 350174575, 2256028891, 2177544179, 1052338372, 741876788, 1606591296, 1914052035, 213705253, 2334669897, 1107234197, 1899603969, 3725069491, 2631447780, 2422494913, 1635502980, 1893020342, 1950903388, 1120974935],
+  an = [2807058932, 1699970625, 2764249623, 1586903591, 1808481195, 1173430173, 1487645946, 59984867, 4199882800, 1844882806, 1989249228, 1277555970, 3623636965, 3419915562, 1149249077, 2744104290, 1514790577, 459744698, 244860394, 3235995134, 1963115311, 4027744588, 2544078150, 4190530515, 1608975247, 2627016082, 2062270317, 1507497298, 2200818878, 567498868, 1764313568, 3359936201, 2305455554, 2037970062, 1047239e3, 1910319033, 1337376481, 2904027272, 2892417312, 984907214, 1243112415, 830661914, 861968209, 2135253587, 2011214180, 2927934315, 2686254721, 731183368, 1750626376, 4246310725, 1820824798, 4172763771, 3542330227, 48394827, 2404901663, 2871682645, 671593195, 3254988725, 2073724613, 145085239, 2280796200, 2779915199, 1790575107, 2187128086, 472615631, 3029510009, 4075877127, 3802222185, 4107101658, 3201631749, 1646252340, 4270507174, 1402811438, 1436590835, 3778151818, 3950355702, 3963161475, 4020912224, 2667994737, 273792366, 2331590177, 104699613, 95345982, 3175501286, 2377486676, 1560637892, 3564045318, 369057872, 4213447064, 3919042237, 1137477952, 2658625497, 1119727848, 2340947849, 1530455833, 4007360968, 172466556, 266959938, 516552836, 0, 2256734592, 3980931627, 1890328081, 1917742170, 4294704398, 945164165, 3575528878, 958871085, 3647212047, 2787207260, 1423022939, 775562294, 1739656202, 3876557655, 2530391278, 2443058075, 3310321856, 547512796, 1265195639, 437656594, 3121275539, 719700128, 3762502690, 387781147, 218828297, 3350065803, 2830708150, 2848461854, 428169201, 122466165, 3720081049, 1627235199, 648017665, 4122762354, 1002783846, 2117360635, 695634755, 3336358691, 4234721005, 4049844452, 3704280881, 2232435299, 574624663, 287343814, 612205898, 1039717051, 840019705, 2708326185, 793451934, 821288114, 1391201670, 3822090177, 376187827, 3113855344, 1224348052, 1679968233, 2361698556, 1058709744, 752375421, 2431590963, 1321699145, 3519142200, 2734591178, 188127444, 2177869557, 3727205754, 2384911031, 3215212461, 2648976442, 2450346104, 3432737375, 1180849278, 331544205, 3102249176, 4150144569, 2952102595, 2159976285, 2474404304, 766078933, 313773861, 2570832044, 2108100632, 1668212892, 3145456443, 2013908262, 418672217, 3070356634, 2594734927, 1852171925, 3867060991, 3473416636, 3907448597, 2614737639, 919489135, 164948639, 2094410160, 2997825956, 590424639, 2486224549, 1723872674, 3157750862, 3399941250, 3501252752, 3625268135, 2555048196, 3673637356, 1343127501, 4130281361, 3599595085, 2957853679, 1297403050, 81781910, 3051593425, 2283490410, 532201772, 1367295589, 3926170974, 895287692, 1953757831, 1093597963, 492483431, 3528626907, 1446242576, 1192455638, 1636604631, 209336225, 344873464, 1015671571, 669961897, 3375740769, 3857572124, 2973530695, 3747192018, 1933530610, 3464042516, 935293895, 3454686199, 2858115069, 1863638845, 3683022916, 4085369519, 3292445032, 875313188, 1080017571, 3279033885, 621591778, 1233856572, 2504130317, 24197544, 3017672716, 3835484340, 3247465558, 2220981195, 3060847922, 1551124588, 1463996600],
+  cn = [4104605777, 1097159550, 396673818, 660510266, 2875968315, 2638606623, 4200115116, 3808662347, 821712160, 1986918061, 3430322568, 38544885, 3856137295, 718002117, 893681702, 1654886325, 2975484382, 3122358053, 3926825029, 4274053469, 796197571, 1290801793, 1184342925, 3556361835, 2405426947, 2459735317, 1836772287, 1381620373, 3196267988, 1948373848, 3764988233, 3385345166, 3263785589, 2390325492, 1480485785, 3111247143, 3780097726, 2293045232, 548169417, 3459953789, 3746175075, 439452389, 1362321559, 1400849762, 1685577905, 1806599355, 2174754046, 137073913, 1214797936, 1174215055, 3731654548, 2079897426, 1943217067, 1258480242, 529487843, 1437280870, 3945269170, 3049390895, 3313212038, 923313619, 679998e3, 3215307299, 57326082, 377642221, 3474729866, 2041877159, 133361907, 1776460110, 3673476453, 96392454, 878845905, 2801699524, 777231668, 4082475170, 2330014213, 4142626212, 2213296395, 1626319424, 1906247262, 1846563261, 562755902, 3708173718, 1040559837, 3871163981, 1418573201, 3294430577, 114585348, 1343618912, 2566595609, 3186202582, 1078185097, 3651041127, 3896688048, 2307622919, 425408743, 3371096953, 2081048481, 1108339068, 2216610296, 0, 2156299017, 736970802, 292596766, 1517440620, 251657213, 2235061775, 2933202493, 758720310, 265905162, 1554391400, 1532285339, 908999204, 174567692, 1474760595, 4002861748, 2610011675, 3234156416, 3693126241, 2001430874, 303699484, 2478443234, 2687165888, 585122620, 454499602, 151849742, 2345119218, 3064510765, 514443284, 4044981591, 1963412655, 2581445614, 2137062819, 19308535, 1928707164, 1715193156, 4219352155, 1126790795, 600235211, 3992742070, 3841024952, 836553431, 1669664834, 2535604243, 3323011204, 1243905413, 3141400786, 4180808110, 698445255, 2653899549, 2989552604, 2253581325, 3252932727, 3004591147, 1891211689, 2487810577, 3915653703, 4237083816, 4030667424, 2100090966, 865136418, 1229899655, 953270745, 3399679628, 3557504664, 4118925222, 2061379749, 3079546586, 2915017791, 983426092, 2022837584, 1607244650, 2118541908, 2366882550, 3635996816, 972512814, 3283088770, 1568718495, 3499326569, 3576539503, 621982671, 2895723464, 410887952, 2623762152, 1002142683, 645401037, 1494807662, 2595684844, 1335535747, 2507040230, 4293295786, 3167684641, 367585007, 3885750714, 1865862730, 2668221674, 2960971305, 2763173681, 1059270954, 2777952454, 2724642869, 1320957812, 2194319100, 2429595872, 2815956275, 77089521, 3973773121, 3444575871, 2448830231, 1305906550, 4021308739, 2857194700, 2516901860, 3518358430, 1787304780, 740276417, 1699839814, 1592394909, 2352307457, 2272556026, 188821243, 1729977011, 3687994002, 274084841, 3594982253, 3613494426, 2701949495, 4162096729, 322734571, 2837966542, 1640576439, 484830689, 1202797690, 3537852828, 4067639125, 349075736, 3342319475, 4157467219, 4255800159, 1030690015, 1155237496, 2951971274, 1757691577, 607398968, 2738905026, 499347990, 3794078908, 1011452712, 227885567, 2818666809, 213114376, 3034881240, 1455525988, 3414450555, 850817237, 1817998408, 3092726480],
+  un = [0, 235474187, 470948374, 303765277, 941896748, 908933415, 607530554, 708780849, 1883793496, 2118214995, 1817866830, 1649639237, 1215061108, 1181045119, 1417561698, 1517767529, 3767586992, 4003061179, 4236429990, 4069246893, 3635733660, 3602770327, 3299278474, 3400528769, 2430122216, 2664543715, 2362090238, 2193862645, 2835123396, 2801107407, 3035535058, 3135740889, 3678124923, 3576870512, 3341394285, 3374361702, 3810496343, 3977675356, 4279080257, 4043610186, 2876494627, 2776292904, 3076639029, 3110650942, 2472011535, 2640243204, 2403728665, 2169303058, 1001089995, 899835584, 666464733, 699432150, 59727847, 226906860, 530400753, 294930682, 1273168787, 1172967064, 1475418501, 1509430414, 1942435775, 2110667444, 1876241833, 1641816226, 2910219766, 2743034109, 2976151520, 3211623147, 2505202138, 2606453969, 2302690252, 2269728455, 3711829422, 3543599269, 3240894392, 3475313331, 3843699074, 3943906441, 4178062228, 4144047775, 1306967366, 1139781709, 1374988112, 1610459739, 1975683434, 2076935265, 1775276924, 1742315127, 1034867998, 866637845, 566021896, 800440835, 92987698, 193195065, 429456164, 395441711, 1984812685, 2017778566, 1784663195, 1683407248, 1315562145, 1080094634, 1383856311, 1551037884, 101039829, 135050206, 437757123, 337553864, 1042385657, 807962610, 573804783, 742039012, 2531067453, 2564033334, 2328828971, 2227573024, 2935566865, 2700099354, 3001755655, 3168937228, 3868552805, 3902563182, 4203181171, 4102977912, 3736164937, 3501741890, 3265478751, 3433712980, 1106041591, 1340463100, 1576976609, 1408749034, 2043211483, 2009195472, 1708848333, 1809054150, 832877231, 1068351396, 766945465, 599762354, 159417987, 126454664, 361929877, 463180190, 2709260871, 2943682380, 3178106961, 3009879386, 2572697195, 2538681184, 2236228733, 2336434550, 3509871135, 3745345300, 3441850377, 3274667266, 3910161971, 3877198648, 4110568485, 4211818798, 2597806476, 2497604743, 2261089178, 2295101073, 2733856160, 2902087851, 3202437046, 2968011453, 3936291284, 3835036895, 4136440770, 4169408201, 3535486456, 3702665459, 3467192302, 3231722213, 2051518780, 1951317047, 1716890410, 1750902305, 1113818384, 1282050075, 1584504582, 1350078989, 168810852, 67556463, 371049330, 404016761, 841739592, 1008918595, 775550814, 540080725, 3969562369, 3801332234, 4035489047, 4269907996, 3569255213, 3669462566, 3366754619, 3332740144, 2631065433, 2463879762, 2160117071, 2395588676, 2767645557, 2868897406, 3102011747, 3069049960, 202008497, 33778362, 270040487, 504459436, 875451293, 975658646, 675039627, 641025152, 2084704233, 1917518562, 1615861247, 1851332852, 1147550661, 1248802510, 1484005843, 1451044056, 933301370, 967311729, 733156972, 632953703, 260388950, 25965917, 328671808, 496906059, 1206477858, 1239443753, 1543208500, 1441952575, 2144161806, 1908694277, 1675577880, 1842759443, 3610369226, 3644379585, 3408119516, 3307916247, 4011190502, 3776767469, 4077384432, 4245618683, 2809771154, 2842737049, 3144396420, 3043140495, 2673705150, 2438237621, 2203032232, 2370213795],
+  ln = [0, 185469197, 370938394, 487725847, 741876788, 657861945, 975451694, 824852259, 1483753576, 1400783205, 1315723890, 1164071807, 1950903388, 2135319889, 1649704518, 1767536459, 2967507152, 3152976349, 2801566410, 2918353863, 2631447780, 2547432937, 2328143614, 2177544179, 3901806776, 3818836405, 4270639778, 4118987695, 3299409036, 3483825537, 3535072918, 3652904859, 2077965243, 1893020342, 1841768865, 1724457132, 1474502543, 1559041666, 1107234197, 1257309336, 598438867, 681933534, 901210569, 1052338372, 261314535, 77422314, 428819965, 310463728, 3409685355, 3224740454, 3710368113, 3593056380, 3875770207, 3960309330, 4045380933, 4195456072, 2471224067, 2554718734, 2237133081, 2388260884, 3212035895, 3028143674, 2842678573, 2724322336, 4138563181, 4255350624, 3769721975, 3955191162, 3667219033, 3516619604, 3431546947, 3347532110, 2933734917, 2782082824, 3099667487, 3016697106, 2196052529, 2313884476, 2499348523, 2683765030, 1179510461, 1296297904, 1347548327, 1533017514, 1786102409, 1635502980, 2087309459, 2003294622, 507358933, 355706840, 136428751, 53458370, 839224033, 957055980, 605657339, 790073846, 2373340630, 2256028891, 2607439820, 2422494913, 2706270690, 2856345839, 3075636216, 3160175349, 3573941694, 3725069491, 3273267108, 3356761769, 4181598602, 4063242375, 4011996048, 3828103837, 1033297158, 915985419, 730517276, 545572369, 296679730, 446754879, 129166120, 213705253, 1709610350, 1860738147, 1945798516, 2029293177, 1239331162, 1120974935, 1606591296, 1422699085, 4148292826, 4233094615, 3781033664, 3931371469, 3682191598, 3497509347, 3446004468, 3328955385, 2939266226, 2755636671, 3106780840, 2988687269, 2198438022, 2282195339, 2501218972, 2652609425, 1201765386, 1286567175, 1371368976, 1521706781, 1805211710, 1620529459, 2105887268, 1988838185, 533804130, 350174575, 164439672, 46346101, 870912086, 954669403, 636813900, 788204353, 2358957921, 2274680428, 2592523643, 2441661558, 2695033685, 2880240216, 3065962831, 3182487618, 3572145929, 3756299780, 3270937875, 3388507166, 4174560061, 4091327024, 4006521127, 3854606378, 1014646705, 930369212, 711349675, 560487590, 272786309, 457992840, 106852767, 223377554, 1678381017, 1862534868, 1914052035, 2031621326, 1211247597, 1128014560, 1580087799, 1428173050, 32283319, 182621114, 401639597, 486441376, 768917123, 651868046, 1003007129, 818324884, 1503449823, 1385356242, 1333838021, 1150208456, 1973745387, 2125135846, 1673061617, 1756818940, 2970356327, 3120694122, 2802849917, 2887651696, 2637442643, 2520393566, 2334669897, 2149987652, 3917234703, 3799141122, 4284502037, 4100872472, 3309594171, 3460984630, 3545789473, 3629546796, 2050466060, 1899603969, 1814803222, 1730525723, 1443857720, 1560382517, 1075025698, 1260232239, 575138148, 692707433, 878443390, 1062597235, 243256656, 91341917, 409198410, 325965383, 3403100636, 3252238545, 3704300486, 3620022987, 3874428392, 3990953189, 4042459122, 4227665663, 2460449204, 2578018489, 2226875310, 2411029155, 3198115200, 3046200461, 2827177882, 2743944855],
+  hn = [0, 218828297, 437656594, 387781147, 875313188, 958871085, 775562294, 590424639, 1750626376, 1699970625, 1917742170, 2135253587, 1551124588, 1367295589, 1180849278, 1265195639, 3501252752, 3720081049, 3399941250, 3350065803, 3835484340, 3919042237, 4270507174, 4085369519, 3102249176, 3051593425, 2734591178, 2952102595, 2361698556, 2177869557, 2530391278, 2614737639, 3145456443, 3060847922, 2708326185, 2892417312, 2404901663, 2187128086, 2504130317, 2555048196, 3542330227, 3727205754, 3375740769, 3292445032, 3876557655, 3926170974, 4246310725, 4027744588, 1808481195, 1723872674, 1910319033, 2094410160, 1608975247, 1391201670, 1173430173, 1224348052, 59984867, 244860394, 428169201, 344873464, 935293895, 984907214, 766078933, 547512796, 1844882806, 1627235199, 2011214180, 2062270317, 1507497298, 1423022939, 1137477952, 1321699145, 95345982, 145085239, 532201772, 313773861, 830661914, 1015671571, 731183368, 648017665, 3175501286, 2957853679, 2807058932, 2858115069, 2305455554, 2220981195, 2474404304, 2658625497, 3575528878, 3625268135, 3473416636, 3254988725, 3778151818, 3963161475, 4213447064, 4130281361, 3599595085, 3683022916, 3432737375, 3247465558, 3802222185, 4020912224, 4172763771, 4122762354, 3201631749, 3017672716, 2764249623, 2848461854, 2331590177, 2280796200, 2431590963, 2648976442, 104699613, 188127444, 472615631, 287343814, 840019705, 1058709744, 671593195, 621591778, 1852171925, 1668212892, 1953757831, 2037970062, 1514790577, 1463996600, 1080017571, 1297403050, 3673637356, 3623636965, 3235995134, 3454686199, 4007360968, 3822090177, 4107101658, 4190530515, 2997825956, 3215212461, 2830708150, 2779915199, 2256734592, 2340947849, 2627016082, 2443058075, 172466556, 122466165, 273792366, 492483431, 1047239e3, 861968209, 612205898, 695634755, 1646252340, 1863638845, 2013908262, 1963115311, 1446242576, 1530455833, 1277555970, 1093597963, 1636604631, 1820824798, 2073724613, 1989249228, 1436590835, 1487645946, 1337376481, 1119727848, 164948639, 81781910, 331544205, 516552836, 1039717051, 821288114, 669961897, 719700128, 2973530695, 3157750862, 2871682645, 2787207260, 2232435299, 2283490410, 2667994737, 2450346104, 3647212047, 3564045318, 3279033885, 3464042516, 3980931627, 3762502690, 4150144569, 4199882800, 3070356634, 3121275539, 2904027272, 2686254721, 2200818878, 2384911031, 2570832044, 2486224549, 3747192018, 3528626907, 3310321856, 3359936201, 3950355702, 3867060991, 4049844452, 4234721005, 1739656202, 1790575107, 2108100632, 1890328081, 1402811438, 1586903591, 1233856572, 1149249077, 266959938, 48394827, 369057872, 418672217, 1002783846, 919489135, 567498868, 752375421, 209336225, 24197544, 376187827, 459744698, 945164165, 895287692, 574624663, 793451934, 1679968233, 1764313568, 2117360635, 1933530610, 1343127501, 1560637892, 1243112415, 1192455638, 3704280881, 3519142200, 3336358691, 3419915562, 3907448597, 3857572124, 4075877127, 4294704398, 3029510009, 3113855344, 2927934315, 2744104290, 2159976285, 2377486676, 2594734927, 2544078150],
+  dn = [0, 151849742, 303699484, 454499602, 607398968, 758720310, 908999204, 1059270954, 1214797936, 1097159550, 1517440620, 1400849762, 1817998408, 1699839814, 2118541908, 2001430874, 2429595872, 2581445614, 2194319100, 2345119218, 3034881240, 3186202582, 2801699524, 2951971274, 3635996816, 3518358430, 3399679628, 3283088770, 4237083816, 4118925222, 4002861748, 3885750714, 1002142683, 850817237, 698445255, 548169417, 529487843, 377642221, 227885567, 77089521, 1943217067, 2061379749, 1640576439, 1757691577, 1474760595, 1592394909, 1174215055, 1290801793, 2875968315, 2724642869, 3111247143, 2960971305, 2405426947, 2253581325, 2638606623, 2487810577, 3808662347, 3926825029, 4044981591, 4162096729, 3342319475, 3459953789, 3576539503, 3693126241, 1986918061, 2137062819, 1685577905, 1836772287, 1381620373, 1532285339, 1078185097, 1229899655, 1040559837, 923313619, 740276417, 621982671, 439452389, 322734571, 137073913, 19308535, 3871163981, 4021308739, 4104605777, 4255800159, 3263785589, 3414450555, 3499326569, 3651041127, 2933202493, 2815956275, 3167684641, 3049390895, 2330014213, 2213296395, 2566595609, 2448830231, 1305906550, 1155237496, 1607244650, 1455525988, 1776460110, 1626319424, 2079897426, 1928707164, 96392454, 213114376, 396673818, 514443284, 562755902, 679998e3, 865136418, 983426092, 3708173718, 3557504664, 3474729866, 3323011204, 4180808110, 4030667424, 3945269170, 3794078908, 2507040230, 2623762152, 2272556026, 2390325492, 2975484382, 3092726480, 2738905026, 2857194700, 3973773121, 3856137295, 4274053469, 4157467219, 3371096953, 3252932727, 3673476453, 3556361835, 2763173681, 2915017791, 3064510765, 3215307299, 2156299017, 2307622919, 2459735317, 2610011675, 2081048481, 1963412655, 1846563261, 1729977011, 1480485785, 1362321559, 1243905413, 1126790795, 878845905, 1030690015, 645401037, 796197571, 274084841, 425408743, 38544885, 188821243, 3613494426, 3731654548, 3313212038, 3430322568, 4082475170, 4200115116, 3780097726, 3896688048, 2668221674, 2516901860, 2366882550, 2216610296, 3141400786, 2989552604, 2837966542, 2687165888, 1202797690, 1320957812, 1437280870, 1554391400, 1669664834, 1787304780, 1906247262, 2022837584, 265905162, 114585348, 499347990, 349075736, 736970802, 585122620, 972512814, 821712160, 2595684844, 2478443234, 2293045232, 2174754046, 3196267988, 3079546586, 2895723464, 2777952454, 3537852828, 3687994002, 3234156416, 3385345166, 4142626212, 4293295786, 3841024952, 3992742070, 174567692, 57326082, 410887952, 292596766, 777231668, 660510266, 1011452712, 893681702, 1108339068, 1258480242, 1343618912, 1494807662, 1715193156, 1865862730, 1948373848, 2100090966, 2701949495, 2818666809, 3004591147, 3122358053, 2235061775, 2352307457, 2535604243, 2653899549, 3915653703, 3764988233, 4219352155, 4067639125, 3444575871, 3294430577, 3746175075, 3594982253, 836553431, 953270745, 600235211, 718002117, 367585007, 484830689, 133361907, 251657213, 2041877159, 1891211689, 1806599355, 1654886325, 1568718495, 1418573201, 1335535747, 1184342925];
+function pn(e) {
   for (var t = [], n = 0; n < e.length; n += 4) {
     t.push(e[n] << 24 | e[n + 1] << 16 | e[n + 2] << 8 | e[n + 3]);
   }
   return t;
 }
-var an = /*#__PURE__*/function () {
-  function an(e) {
-    (0, _classCallCheck2.default)(this, an);
-    if (!(this instanceof an)) throw Error("AES must be instanitated with `new`");
+var fn = /*#__PURE__*/function () {
+  function fn(e) {
+    (0, _classCallCheck2.default)(this, fn);
+    if (!(this instanceof fn)) throw Error("AES must be instanitated with `new`");
     Object.defineProperty(this, "key", {
-      value: Ft(e, !0)
+      value: Wt(e, !0)
     }), this._prepare();
   }
-  (0, _createClass2.default)(an, [{
+  (0, _createClass2.default)(fn, [{
     key: "_prepare",
     value: function _prepare() {
-      var e = $t[this.key.length];
+      var e = Yt[this.key.length];
       if (null == e) throw new Error("invalid key size (must be 16, 24 or 32 bytes)");
       this._Ke = [], this._Kd = [];
       for (var t = 0; t <= e; t++) {
@@ -13659,29 +14169,29 @@ var an = /*#__PURE__*/function () {
       var n,
         s = 4 * (e + 1),
         r = this.key.length / 4,
-        i = on(this.key);
+        i = pn(this.key);
       for (t = 0; t < r; t++) {
         n = t >> 2, this._Ke[n][t % 4] = i[t], this._Kd[e - n][t % 4] = i[t];
       }
       for (var o, a = 0, c = r; c < s;) {
-        if (o = i[r - 1], i[0] ^= zt[o >> 16 & 255] << 24 ^ zt[o >> 8 & 255] << 16 ^ zt[255 & o] << 8 ^ zt[o >> 24 & 255] ^ Wt[a] << 24, a += 1, 8 != r) for (t = 1; t < r; t++) {
+        if (o = i[r - 1], i[0] ^= Xt[o >> 16 & 255] << 24 ^ Xt[o >> 8 & 255] << 16 ^ Xt[255 & o] << 8 ^ Xt[o >> 24 & 255] ^ Qt[a] << 24, a += 1, 8 != r) for (t = 1; t < r; t++) {
           i[t] ^= i[t - 1];
         } else {
           for (t = 1; t < r / 2; t++) {
             i[t] ^= i[t - 1];
           }
-          o = i[r / 2 - 1], i[r / 2] ^= zt[255 & o] ^ zt[o >> 8 & 255] << 8 ^ zt[o >> 16 & 255] << 16 ^ zt[o >> 24 & 255] << 24;
+          o = i[r / 2 - 1], i[r / 2] ^= Xt[255 & o] ^ Xt[o >> 8 & 255] << 8 ^ Xt[o >> 16 & 255] << 16 ^ Xt[o >> 24 & 255] << 24;
           for (t = r / 2 + 1; t < r; t++) {
             i[t] ^= i[t - 1];
           }
         }
         for (t = 0; t < r && c < s;) {
-          u = c >> 2, h = c % 4, this._Ke[u][h] = i[t], this._Kd[e - u][h] = i[t++], c++;
+          u = c >> 2, l = c % 4, this._Ke[u][l] = i[t], this._Kd[e - u][l] = i[t++], c++;
         }
       }
       for (var u = 1; u < e; u++) {
-        for (var h = 0; h < 4; h++) {
-          o = this._Kd[u][h], this._Kd[u][h] = tn[o >> 24 & 255] ^ nn[o >> 16 & 255] ^ sn[o >> 8 & 255] ^ rn[255 & o];
+        for (var l = 0; l < 4; l++) {
+          o = this._Kd[u][l], this._Kd[u][l] = un[o >> 24 & 255] ^ ln[o >> 16 & 255] ^ hn[o >> 8 & 255] ^ dn[255 & o];
         }
       }
     }
@@ -13689,19 +14199,19 @@ var an = /*#__PURE__*/function () {
     key: "encrypt",
     value: function encrypt(e) {
       if (16 != e.length) throw new Error("invalid plaintext size (must be 16 bytes)");
-      for (var t = this._Ke.length - 1, n = [0, 0, 0, 0], s = on(e), r = 0; r < 4; r++) {
+      for (var t = this._Ke.length - 1, n = [0, 0, 0, 0], s = pn(e), r = 0; r < 4; r++) {
         s[r] ^= this._Ke[0][r];
       }
       for (var i = 1; i < t; i++) {
         for (r = 0; r < 4; r++) {
-          n[r] = Ht[s[r] >> 24 & 255] ^ Gt[s[(r + 1) % 4] >> 16 & 255] ^ Vt[s[(r + 2) % 4] >> 8 & 255] ^ Yt[255 & s[(r + 3) % 4]] ^ this._Ke[i][r];
+          n[r] = en[s[r] >> 24 & 255] ^ tn[s[(r + 1) % 4] >> 16 & 255] ^ nn[s[(r + 2) % 4] >> 8 & 255] ^ sn[255 & s[(r + 3) % 4]] ^ this._Ke[i][r];
         }
         s = n.slice();
       }
       var o,
-        a = qt(16);
+        a = Ht(16);
       for (r = 0; r < 4; r++) {
-        o = this._Ke[t][r], a[4 * r] = 255 & (zt[s[r] >> 24 & 255] ^ o >> 24), a[4 * r + 1] = 255 & (zt[s[(r + 1) % 4] >> 16 & 255] ^ o >> 16), a[4 * r + 2] = 255 & (zt[s[(r + 2) % 4] >> 8 & 255] ^ o >> 8), a[4 * r + 3] = 255 & (zt[255 & s[(r + 3) % 4]] ^ o);
+        o = this._Ke[t][r], a[4 * r] = 255 & (Xt[s[r] >> 24 & 255] ^ o >> 24), a[4 * r + 1] = 255 & (Xt[s[(r + 1) % 4] >> 16 & 255] ^ o >> 16), a[4 * r + 2] = 255 & (Xt[s[(r + 2) % 4] >> 8 & 255] ^ o >> 8), a[4 * r + 3] = 255 & (Xt[255 & s[(r + 3) % 4]] ^ o);
       }
       return a;
     }
@@ -13709,109 +14219,109 @@ var an = /*#__PURE__*/function () {
     key: "decrypt",
     value: function decrypt(e) {
       if (16 != e.length) throw new Error("invalid ciphertext size (must be 16 bytes)");
-      for (var t = this._Kd.length - 1, n = [0, 0, 0, 0], s = on(e), r = 0; r < 4; r++) {
+      for (var t = this._Kd.length - 1, n = [0, 0, 0, 0], s = pn(e), r = 0; r < 4; r++) {
         s[r] ^= this._Kd[0][r];
       }
       for (var i = 1; i < t; i++) {
         for (r = 0; r < 4; r++) {
-          n[r] = Qt[s[r] >> 24 & 255] ^ Xt[s[(r + 3) % 4] >> 16 & 255] ^ Zt[s[(r + 2) % 4] >> 8 & 255] ^ en[255 & s[(r + 1) % 4]] ^ this._Kd[i][r];
+          n[r] = rn[s[r] >> 24 & 255] ^ on[s[(r + 3) % 4] >> 16 & 255] ^ an[s[(r + 2) % 4] >> 8 & 255] ^ cn[255 & s[(r + 1) % 4]] ^ this._Kd[i][r];
         }
         s = n.slice();
       }
       var o,
-        a = qt(16);
+        a = Ht(16);
       for (r = 0; r < 4; r++) {
-        o = this._Kd[t][r], a[4 * r] = 255 & (Jt[s[r] >> 24 & 255] ^ o >> 24), a[4 * r + 1] = 255 & (Jt[s[(r + 3) % 4] >> 16 & 255] ^ o >> 16), a[4 * r + 2] = 255 & (Jt[s[(r + 2) % 4] >> 8 & 255] ^ o >> 8), a[4 * r + 3] = 255 & (Jt[255 & s[(r + 1) % 4]] ^ o);
+        o = this._Kd[t][r], a[4 * r] = 255 & (Zt[s[r] >> 24 & 255] ^ o >> 24), a[4 * r + 1] = 255 & (Zt[s[(r + 3) % 4] >> 16 & 255] ^ o >> 16), a[4 * r + 2] = 255 & (Zt[s[(r + 2) % 4] >> 8 & 255] ^ o >> 8), a[4 * r + 3] = 255 & (Zt[255 & s[(r + 1) % 4]] ^ o);
       }
       return a;
     }
   }]);
-  return an;
+  return fn;
 }();
-var cn = /*#__PURE__*/function () {
-  function cn(e) {
-    (0, _classCallCheck2.default)(this, cn);
-    if (!(this instanceof cn)) throw Error("AES must be instanitated with `new`");
-    this.description = "Electronic Code Block", this.name = "ecb", this._aes = new an(e);
+var gn = /*#__PURE__*/function () {
+  function gn(e) {
+    (0, _classCallCheck2.default)(this, gn);
+    if (!(this instanceof gn)) throw Error("AES must be instanitated with `new`");
+    this.description = "Electronic Code Block", this.name = "ecb", this._aes = new fn(e);
   }
-  (0, _createClass2.default)(cn, [{
+  (0, _createClass2.default)(gn, [{
     key: "encrypt",
     value: function encrypt(e) {
-      if ((e = Ft(e)).length % 16 != 0) throw new Error("invalid plaintext size (must be multiple of 16 bytes)");
-      for (var t = qt(e.length), n = qt(16), s = 0; s < e.length; s += 16) {
-        Mt(e, n, 0, s, s + 16), Mt(n = this._aes.encrypt(n), t, s);
+      if ((e = Wt(e)).length % 16 != 0) throw new Error("invalid plaintext size (must be multiple of 16 bytes)");
+      for (var t = Ht(e.length), n = Ht(16), s = 0; s < e.length; s += 16) {
+        zt(e, n, 0, s, s + 16), zt(n = this._aes.encrypt(n), t, s);
       }
       return t;
     }
   }, {
     key: "decrypt",
     value: function decrypt(e) {
-      if ((e = Ft(e)).length % 16 != 0) throw new Error("invalid ciphertext size (must be multiple of 16 bytes)");
-      for (var t = qt(e.length), n = qt(16), s = 0; s < e.length; s += 16) {
-        Mt(e, n, 0, s, s + 16), Mt(n = this._aes.decrypt(n), t, s);
+      if ((e = Wt(e)).length % 16 != 0) throw new Error("invalid ciphertext size (must be multiple of 16 bytes)");
+      for (var t = Ht(e.length), n = Ht(16), s = 0; s < e.length; s += 16) {
+        zt(e, n, 0, s, s + 16), zt(n = this._aes.decrypt(n), t, s);
       }
       return t;
     }
   }]);
-  return cn;
+  return gn;
 }();
-var un = /*#__PURE__*/function () {
-  function un(e, t) {
-    (0, _classCallCheck2.default)(this, un);
-    if (!(this instanceof un)) throw Error("AES must be instanitated with `new`");
+var mn = /*#__PURE__*/function () {
+  function mn(e, t) {
+    (0, _classCallCheck2.default)(this, mn);
+    if (!(this instanceof mn)) throw Error("AES must be instanitated with `new`");
     if (this.description = "Cipher Block Chaining", this.name = "cbc", t) {
       if (16 != t.length) throw new Error("invalid initialation vector size (must be 16 bytes)");
-    } else t = qt(16);
-    this._lastCipherblock = Ft(t, !0), this._aes = new an(e);
+    } else t = Ht(16);
+    this._lastCipherblock = Wt(t, !0), this._aes = new fn(e);
   }
-  (0, _createClass2.default)(un, [{
+  (0, _createClass2.default)(mn, [{
     key: "encrypt",
     value: function encrypt(e) {
-      if ((e = Ft(e)).length % 16 != 0) throw new Error("invalid plaintext size (must be multiple of 16 bytes)");
-      for (var t = qt(e.length), n = qt(16), s = 0; s < e.length; s += 16) {
-        Mt(e, n, 0, s, s + 16);
+      if ((e = Wt(e)).length % 16 != 0) throw new Error("invalid plaintext size (must be multiple of 16 bytes)");
+      for (var t = Ht(e.length), n = Ht(16), s = 0; s < e.length; s += 16) {
+        zt(e, n, 0, s, s + 16);
         for (var r = 0; r < 16; r++) {
           n[r] ^= this._lastCipherblock[r];
         }
-        this._lastCipherblock = this._aes.encrypt(n), Mt(this._lastCipherblock, t, s);
+        this._lastCipherblock = this._aes.encrypt(n), zt(this._lastCipherblock, t, s);
       }
       return t;
     }
   }, {
     key: "decrypt",
     value: function decrypt(e) {
-      if ((e = Ft(e)).length % 16 != 0) throw new Error("invalid ciphertext size (must be multiple of 16 bytes)");
-      for (var t = qt(e.length), n = qt(16), s = 0; s < e.length; s += 16) {
-        Mt(e, n, 0, s, s + 16), n = this._aes.decrypt(n);
+      if ((e = Wt(e)).length % 16 != 0) throw new Error("invalid ciphertext size (must be multiple of 16 bytes)");
+      for (var t = Ht(e.length), n = Ht(16), s = 0; s < e.length; s += 16) {
+        zt(e, n, 0, s, s + 16), n = this._aes.decrypt(n);
         for (var r = 0; r < 16; r++) {
           t[s + r] = n[r] ^ this._lastCipherblock[r];
         }
-        Mt(e, this._lastCipherblock, 0, s, s + 16);
+        zt(e, this._lastCipherblock, 0, s, s + 16);
       }
       return t;
     }
   }]);
-  return un;
+  return mn;
 }();
-var hn = /*#__PURE__*/function () {
-  function hn(e, t, n) {
-    (0, _classCallCheck2.default)(this, hn);
-    if (!(this instanceof hn)) throw Error("AES must be instanitated with `new`");
+var yn = /*#__PURE__*/function () {
+  function yn(e, t, n) {
+    (0, _classCallCheck2.default)(this, yn);
+    if (!(this instanceof yn)) throw Error("AES must be instanitated with `new`");
     if (this.description = "Cipher Feedback", this.name = "cfb", t) {
       if (16 != t.length) throw new Error("invalid initialation vector size (must be 16 size)");
-    } else t = qt(16);
-    n || (n = 1), this.segmentSize = n, this._shiftRegister = Ft(t, !0), this._aes = new an(e);
+    } else t = Ht(16);
+    n || (n = 1), this.segmentSize = n, this._shiftRegister = Wt(t, !0), this._aes = new fn(e);
   }
-  (0, _createClass2.default)(hn, [{
+  (0, _createClass2.default)(yn, [{
     key: "encrypt",
     value: function encrypt(e) {
       if (e.length % this.segmentSize != 0) throw new Error("invalid plaintext size (must be segmentSize bytes)");
-      for (var t, n = Ft(e, !0), s = 0; s < n.length; s += this.segmentSize) {
+      for (var t, n = Wt(e, !0), s = 0; s < n.length; s += this.segmentSize) {
         t = this._aes.encrypt(this._shiftRegister);
         for (var r = 0; r < this.segmentSize; r++) {
           n[s + r] ^= t[r];
         }
-        Mt(this._shiftRegister, this._shiftRegister, 0, this.segmentSize), Mt(n, this._shiftRegister, 16 - this.segmentSize, s, s + this.segmentSize);
+        zt(this._shiftRegister, this._shiftRegister, 0, this.segmentSize), zt(n, this._shiftRegister, 16 - this.segmentSize, s, s + this.segmentSize);
       }
       return n;
     }
@@ -13819,31 +14329,31 @@ var hn = /*#__PURE__*/function () {
     key: "decrypt",
     value: function decrypt(e) {
       if (e.length % this.segmentSize != 0) throw new Error("invalid ciphertext size (must be segmentSize bytes)");
-      for (var t, n = Ft(e, !0), s = 0; s < n.length; s += this.segmentSize) {
+      for (var t, n = Wt(e, !0), s = 0; s < n.length; s += this.segmentSize) {
         t = this._aes.encrypt(this._shiftRegister);
         for (var r = 0; r < this.segmentSize; r++) {
           n[s + r] ^= t[r];
         }
-        Mt(this._shiftRegister, this._shiftRegister, 0, this.segmentSize), Mt(e, this._shiftRegister, 16 - this.segmentSize, s, s + this.segmentSize);
+        zt(this._shiftRegister, this._shiftRegister, 0, this.segmentSize), zt(e, this._shiftRegister, 16 - this.segmentSize, s, s + this.segmentSize);
       }
       return n;
     }
   }]);
-  return hn;
+  return yn;
 }();
-var ln = /*#__PURE__*/function () {
-  function ln(e, t) {
-    (0, _classCallCheck2.default)(this, ln);
-    if (!(this instanceof ln)) throw Error("AES must be instanitated with `new`");
+var _n = /*#__PURE__*/function () {
+  function _n(e, t) {
+    (0, _classCallCheck2.default)(this, _n);
+    if (!(this instanceof _n)) throw Error("AES must be instanitated with `new`");
     if (this.description = "Output Feedback", this.name = "ofb", t) {
       if (16 != t.length) throw new Error("invalid initialation vector size (must be 16 bytes)");
-    } else t = qt(16);
-    this._lastPrecipher = Ft(t, !0), this._lastPrecipherIndex = 16, this._aes = new an(e);
+    } else t = Ht(16);
+    this._lastPrecipher = Wt(t, !0), this._lastPrecipherIndex = 16, this._aes = new fn(e);
   }
-  (0, _createClass2.default)(ln, [{
+  (0, _createClass2.default)(_n, [{
     key: "encrypt",
     value: function encrypt(e) {
-      for (var t = Ft(e, !0), n = 0; n < t.length; n++) {
+      for (var t = Wt(e, !0), n = 0; n < t.length; n++) {
         16 === this._lastPrecipherIndex && (this._lastPrecipher = this._aes.encrypt(this._lastPrecipher), this._lastPrecipherIndex = 0), t[n] ^= this._lastPrecipher[this._lastPrecipherIndex++];
       }
       return t;
@@ -13854,15 +14364,15 @@ var ln = /*#__PURE__*/function () {
       return this.encrypt(e);
     }
   }]);
-  return ln;
+  return _n;
 }();
-var dn = /*#__PURE__*/function () {
-  function dn(e) {
-    (0, _classCallCheck2.default)(this, dn);
-    if (!(this instanceof dn)) throw Error("Counter must be instanitated with `new`");
-    0 === e || e || (e = 1), "number" == typeof e ? (this._counter = qt(16), this.setValue(e)) : this.setBytes(e);
+var wn = /*#__PURE__*/function () {
+  function wn(e) {
+    (0, _classCallCheck2.default)(this, wn);
+    if (!(this instanceof wn)) throw Error("Counter must be instanitated with `new`");
+    0 === e || e || (e = 1), "number" == typeof e ? (this._counter = Ht(16), this.setValue(e)) : this.setBytes(e);
   }
-  (0, _createClass2.default)(dn, [{
+  (0, _createClass2.default)(wn, [{
     key: "setValue",
     value: function setValue(e) {
       if ("number" != typeof e || parseInt(e) != e) throw new Error("invalid counter value (must be an integer)");
@@ -13874,7 +14384,7 @@ var dn = /*#__PURE__*/function () {
   }, {
     key: "setBytes",
     value: function setBytes(e) {
-      if (16 != (e = Ft(e, !0)).length) throw new Error("invalid counter bytes size (must be 16 bytes)");
+      if (16 != (e = Wt(e, !0)).length) throw new Error("invalid counter bytes size (must be 16 bytes)");
       this._counter = e;
     }
   }, {
@@ -13889,18 +14399,18 @@ var dn = /*#__PURE__*/function () {
       }
     }
   }]);
-  return dn;
+  return wn;
 }();
-var pn = /*#__PURE__*/function () {
-  function pn(e, t) {
-    (0, _classCallCheck2.default)(this, pn);
-    if (!(this instanceof pn)) throw Error("AES must be instanitated with `new`");
-    this.description = "Counter", this.name = "ctr", t instanceof dn || (t = new dn(t)), this._counter = t, this._remainingCounter = null, this._remainingCounterIndex = 16, this._aes = new an(e);
+var vn = /*#__PURE__*/function () {
+  function vn(e, t) {
+    (0, _classCallCheck2.default)(this, vn);
+    if (!(this instanceof vn)) throw Error("AES must be instanitated with `new`");
+    this.description = "Counter", this.name = "ctr", t instanceof wn || (t = new wn(t)), this._counter = t, this._remainingCounter = null, this._remainingCounterIndex = 16, this._aes = new fn(e);
   }
-  (0, _createClass2.default)(pn, [{
+  (0, _createClass2.default)(vn, [{
     key: "encrypt",
     value: function encrypt(e) {
-      for (var t = Ft(e, !0), n = 0; n < t.length; n++) {
+      for (var t = Wt(e, !0), n = 0; n < t.length; n++) {
         16 === this._remainingCounterIndex && (this._remainingCounter = this._aes.encrypt(this._counter._counter), this._remainingCounterIndex = 0, this._counter.increment()), t[n] ^= this._remainingCounter[this._remainingCounterIndex++];
       }
       return t;
@@ -13911,107 +14421,107 @@ var pn = /*#__PURE__*/function () {
       return this.encrypt(e);
     }
   }]);
-  return pn;
+  return vn;
 }();
-var fn = {
-  AES: an,
-  Counter: dn,
+var In = {
+  AES: fn,
+  Counter: wn,
   ModeOfOperation: {
-    ecb: cn,
-    cbc: un,
-    cfb: hn,
-    ofb: ln,
-    ctr: pn
+    ecb: gn,
+    cbc: mn,
+    cfb: yn,
+    ofb: _n,
+    ctr: vn
   },
   utils: {
-    hex: Bt,
-    utf8: jt
+    hex: Gt,
+    utf8: Vt
   },
   padding: {
     pkcs7: {
       pad: function pad(e) {
-        var t = 16 - (e = Ft(e, !0)).length % 16,
-          n = qt(e.length + t);
-        Mt(e, n);
+        var t = 16 - (e = Wt(e, !0)).length % 16,
+          n = Ht(e.length + t);
+        zt(e, n);
         for (var s = e.length; s < n.length; s++) {
           n[s] = t;
         }
         return n;
       },
       strip: function strip(e) {
-        if ((e = Ft(e, !0)).length < 16) throw new Error("PKCS#7 invalid length");
+        if ((e = Wt(e, !0)).length < 16) throw new Error("PKCS#7 invalid length");
         var t = e[e.length - 1];
         if (t > 16) throw new Error("PKCS#7 padding byte out of range");
         for (var n = e.length - t, s = 0; s < t; s++) {
           if (e[n + s] !== t) throw new Error("PKCS#7 invalid padding byte");
         }
-        var r = qt(n);
-        return Mt(e, r, 0, 0, n), r;
+        var r = Ht(n);
+        return zt(e, r, 0, 0, n), r;
       }
     }
   },
   _arrayTest: {
-    coerceArray: Ft,
-    createArray: qt,
-    copyArray: Mt
+    coerceArray: Wt,
+    createArray: Ht,
+    copyArray: zt
   }
 };
-function gn(e, t, n) {
+function Sn(e, t, n) {
   var s = new Uint8Array(uni.base64ToArrayBuffer(t)),
-    r = fn.utils.utf8.toBytes(n),
-    i = fn.utils.utf8.toBytes(e),
-    o = new fn.ModeOfOperation.cbc(s, r),
-    a = fn.padding.pkcs7.pad(i),
+    r = In.utils.utf8.toBytes(n),
+    i = In.utils.utf8.toBytes(e),
+    o = new In.ModeOfOperation.cbc(s, r),
+    a = In.padding.pkcs7.pad(i),
     c = o.encrypt(a);
   return uni.arrayBufferToBase64(c);
 }
-var mn = {
+var bn = {
     code: 2e4,
     message: "System error"
   },
-  yn = {
+  kn = {
     code: 20101,
     message: "Invalid client"
   },
-  _n = {
+  An = {
     code: 20102,
     message: "Get encrypt key failed"
   },
-  wn = {
+  Pn = {
     10001: "Secure network is not supported on current playground or unimpsdk",
     10003: "Config missing in current app. If the problem pesist, please contact DCloud.",
     10009: "Encrypt payload failed",
     10010: "Decrypt response failed"
   };
-function vn(e) {
-  var _ref25 = e || {},
-    t = _ref25.errSubject,
-    n = _ref25.subject,
-    s = _ref25.errCode,
-    r = _ref25.errMsg,
-    i = _ref25.code,
-    o = _ref25.message,
-    a = _ref25.cause;
-  return new ne({
+function Tn(e) {
+  var _ref33 = e || {},
+    t = _ref33.errSubject,
+    n = _ref33.subject,
+    s = _ref33.errCode,
+    r = _ref33.errMsg,
+    i = _ref33.code,
+    o = _ref33.message,
+    a = _ref33.cause;
+  return new te({
     subject: t || n || "uni-secure-network",
-    code: s || i || mn.code,
+    code: s || i || bn.code,
     message: r || o,
     cause: a
   });
 }
-var In,
-  Sn,
-  bn = null;
-var kn = /*#__PURE__*/function (_Lt) {
-  (0, _inherits2.default)(kn, _Lt);
-  var _super9 = _createSuper(kn);
-  function kn(e) {
-    var _this14;
-    (0, _classCallCheck2.default)(this, kn);
-    _this14 = _super9.call(this, e), _this14.clientType = "mp-weixin", _this14.userEncryptKey = null;
-    return _this14;
+var Cn,
+  xn,
+  On = null;
+var En = /*#__PURE__*/function (_jt) {
+  (0, _inherits2.default)(En, _jt);
+  var _super9 = _createSuper(En);
+  function En(e) {
+    var _this16;
+    (0, _classCallCheck2.default)(this, En);
+    _this16 = _super9.call(this, e), _this16.clientType = "mp-weixin", _this16.userEncryptKey = null;
+    return _this16;
   }
-  (0, _createClass2.default)(kn, [{
+  (0, _createClass2.default)(En, [{
     key: "isLogin",
     value: function isLogin() {
       return !!this.scopedGlobalCache.mpWeixinCode || !!this.scopedGlobalCache.mpWeixinOpenid;
@@ -14019,35 +14529,35 @@ var kn = /*#__PURE__*/function (_Lt) {
   }, {
     key: "prepare",
     value: function () {
-      var _prepare2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee38() {
-        return _regenerator.default.wrap(function _callee38$(_context38) {
+      var _prepare2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee41() {
+        return _regenerator.default.wrap(function _callee41$(_context41) {
           while (1) {
-            switch (_context38.prev = _context38.next) {
+            switch (_context41.prev = _context41.next) {
               case 0:
                 if (this.isLogin()) {
-                  _context38.next = 7;
+                  _context41.next = 7;
                   break;
                 }
                 if (this.scopedGlobalCache.initPromise) {
-                  _context38.next = 3;
+                  _context41.next = 3;
                   break;
                 }
                 throw new Error("`uniCloud.initSecureNetworkByWeixin` has not yet been called");
               case 3:
-                _context38.next = 5;
+                _context41.next = 5;
                 return this.scopedGlobalCache.initPromise;
               case 5:
                 if (this.isLogin()) {
-                  _context38.next = 7;
+                  _context41.next = 7;
                   break;
                 }
                 throw new Error("uniCloud.initSecureNetworkByWeixin` has not yet been called or successfully excuted");
               case 7:
               case "end":
-                return _context38.stop();
+                return _context41.stop();
             }
           }
-        }, _callee38, this);
+        }, _callee41, this);
       }));
       function prepare() {
         return _prepare2.apply(this, arguments);
@@ -14057,37 +14567,37 @@ var kn = /*#__PURE__*/function (_Lt) {
   }, {
     key: "getUserEncryptKey",
     value: function () {
-      var _getUserEncryptKey = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee39() {
-        var _this15 = this;
+      var _getUserEncryptKey = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee42() {
+        var _this17 = this;
         var e;
-        return _regenerator.default.wrap(function _callee39$(_context39) {
+        return _regenerator.default.wrap(function _callee42$(_context42) {
           while (1) {
-            switch (_context39.prev = _context39.next) {
+            switch (_context42.prev = _context42.next) {
               case 0:
                 if (!this.userEncryptKey) {
-                  _context39.next = 2;
+                  _context42.next = 2;
                   break;
                 }
-                return _context39.abrupt("return", this.userEncryptKey);
+                return _context42.abrupt("return", this.userEncryptKey);
               case 2:
-                if (!(bn && bn.expireTime)) {
-                  _context39.next = 6;
+                if (!(On && On.expireTime)) {
+                  _context42.next = 6;
                   break;
                 }
                 e = Date.now();
-                if (!(bn.expireTime - e > 0)) {
-                  _context39.next = 6;
+                if (!(On.expireTime - e > 0)) {
+                  _context42.next = 6;
                   break;
                 }
-                return _context39.abrupt("return", (this.userEncryptKey = bn, this.userEncryptKey));
+                return _context42.abrupt("return", (this.userEncryptKey = On, this.userEncryptKey));
               case 6:
-                return _context39.abrupt("return", new Promise(function (e, t) {
+                return _context42.abrupt("return", new Promise(function (e, t) {
                   uni.getUserCryptoManager().getLatestUserKey({
                     success: function success(t) {
-                      bn = t, _this15.userEncryptKey = t, e(_this15.userEncryptKey);
+                      On = t, _this17.userEncryptKey = t, e(_this17.userEncryptKey);
                     },
                     fail: function fail(e) {
-                      t(vn(_objectSpread(_objectSpread({}, _n), {}, {
+                      t(Tn(_objectSpread(_objectSpread({}, An), {}, {
                         cause: e
                       })));
                     }
@@ -14095,10 +14605,10 @@ var kn = /*#__PURE__*/function (_Lt) {
                 }));
               case 7:
               case "end":
-                return _context39.stop();
+                return _context42.stop();
             }
           }
-        }, _callee39, this);
+        }, _callee42, this);
       }));
       function getUserEncryptKey() {
         return _getUserEncryptKey.apply(this, arguments);
@@ -14113,26 +14623,26 @@ var kn = /*#__PURE__*/function (_Lt) {
   }, {
     key: "platformGetSignOption",
     value: function () {
-      var _platformGetSignOption = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee40() {
+      var _platformGetSignOption = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee43() {
         var _yield$this$getUserEn, e, t, n;
-        return _regenerator.default.wrap(function _callee40$(_context40) {
+        return _regenerator.default.wrap(function _callee43$(_context43) {
           while (1) {
-            switch (_context40.prev = _context40.next) {
+            switch (_context43.prev = _context43.next) {
               case 0:
-                _context40.next = 2;
+                _context43.next = 2;
                 return this.getUserEncryptKey();
               case 2:
-                _yield$this$getUserEn = _context40.sent;
+                _yield$this$getUserEn = _context43.sent;
                 e = _yield$this$getUserEn.encryptKey;
                 t = _yield$this$getUserEn.iv;
                 n = _yield$this$getUserEn.version;
-                return _context40.abrupt("return", {
-                  verifyClientSign: gn(JSON.stringify({
+                return _context43.abrupt("return", {
+                  verifyClientSign: Sn(JSON.stringify({
                     data: JSON.stringify({}),
                     appId: this.appId,
                     deviceId: this.deviceId,
                     wxAppId: this.getWxAppId(),
-                    simulator: "devtools" === ce().platform,
+                    simulator: "devtools" === ae().platform,
                     timestamp: Date.now()
                   }), e, t),
                   encryptKeyId: n,
@@ -14141,10 +14651,10 @@ var kn = /*#__PURE__*/function (_Lt) {
                 });
               case 7:
               case "end":
-                return _context40.stop();
+                return _context43.stop();
             }
           }
-        }, _callee40, this);
+        }, _callee43, this);
       }));
       function platformGetSignOption() {
         return _platformGetSignOption.apply(this, arguments);
@@ -14154,16 +14664,16 @@ var kn = /*#__PURE__*/function (_Lt) {
   }, {
     key: "platformEncryptData",
     value: function () {
-      var _platformEncryptData = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee41(e) {
+      var _platformEncryptData = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee44(e) {
         var _yield$this$getUserEn2, t, n, s, r;
-        return _regenerator.default.wrap(function _callee41$(_context41) {
+        return _regenerator.default.wrap(function _callee44$(_context44) {
           while (1) {
-            switch (_context41.prev = _context41.next) {
+            switch (_context44.prev = _context44.next) {
               case 0:
-                _context41.next = 2;
+                _context44.next = 2;
                 return this.getUserEncryptKey();
               case 2:
-                _yield$this$getUserEn2 = _context41.sent;
+                _yield$this$getUserEn2 = _context44.sent;
                 t = _yield$this$getUserEn2.encryptKey;
                 n = _yield$this$getUserEn2.iv;
                 s = _yield$this$getUserEn2.version;
@@ -14173,28 +14683,28 @@ var kn = /*#__PURE__*/function (_Lt) {
                   mpWeixinCode: this.scopedGlobalCache.mpWeixinCode,
                   mpWeixinOpenid: this.scopedGlobalCache.mpWeixinOpenid
                 };
-                return _context41.abrupt("return", this.secretType === Rt ? {
+                return _context44.abrupt("return", this.secretType === Ft ? {
                   content: e,
                   _uniCloudOptions: r
                 } : {
-                  content: gn(JSON.stringify({
+                  content: Sn(JSON.stringify({
                     data: JSON.stringify(e),
                     appId: this.appId,
                     deviceId: this.deviceId,
                     wxAppId: this.getWxAppId(),
-                    simulator: "devtools" === ce().platform,
+                    simulator: "devtools" === ae().platform,
                     timestamp: Date.now()
                   }), t, n),
                   _uniCloudOptions: r
                 });
               case 8:
               case "end":
-                return _context41.stop();
+                return _context44.stop();
             }
           }
-        }, _callee41, this);
+        }, _callee44, this);
       }));
-      function platformEncryptData(_x33) {
+      function platformEncryptData(_x36) {
         return _platformEncryptData.apply(this, arguments);
       }
       return platformEncryptData;
@@ -14202,35 +14712,35 @@ var kn = /*#__PURE__*/function (_Lt) {
   }, {
     key: "platformDecryptResult",
     value: function () {
-      var _platformDecryptResult = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee42(e) {
+      var _platformDecryptResult = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee45(e) {
         var t, _yield$this$getUserEn3, n, s;
-        return _regenerator.default.wrap(function _callee42$(_context42) {
+        return _regenerator.default.wrap(function _callee45$(_context45) {
           while (1) {
-            switch (_context42.prev = _context42.next) {
+            switch (_context45.prev = _context45.next) {
               case 0:
                 t = e.content;
-                _context42.next = 3;
+                _context45.next = 3;
                 return this.getUserEncryptKey();
               case 3:
-                _yield$this$getUserEn3 = _context42.sent;
+                _yield$this$getUserEn3 = _context45.sent;
                 n = _yield$this$getUserEn3.encryptKey;
                 s = _yield$this$getUserEn3.iv;
-                return _context42.abrupt("return", JSON.parse(function (e, t, n) {
+                return _context45.abrupt("return", JSON.parse(function (e, t, n) {
                   var s = new Uint8Array(uni.base64ToArrayBuffer(e)),
                     r = new Uint8Array(uni.base64ToArrayBuffer(t)),
-                    i = fn.utils.utf8.toBytes(n),
-                    o = new fn.ModeOfOperation.cbc(r, i),
-                    a = fn.padding.pkcs7.strip(o.decrypt(s));
-                  return fn.utils.utf8.fromBytes(a);
+                    i = In.utils.utf8.toBytes(n),
+                    o = new In.ModeOfOperation.cbc(r, i),
+                    a = In.padding.pkcs7.strip(o.decrypt(s));
+                  return In.utils.utf8.fromBytes(a);
                 }(t, n, s)));
               case 7:
               case "end":
-                return _context42.stop();
+                return _context45.stop();
             }
           }
-        }, _callee42, this);
+        }, _callee45, this);
       }));
-      function platformDecryptResult(_x34) {
+      function platformDecryptResult(_x37) {
         return _platformDecryptResult.apply(this, arguments);
       }
       return platformDecryptResult;
@@ -14241,9 +14751,9 @@ var kn = /*#__PURE__*/function (_Lt) {
       return !1;
     }
   }]);
-  return kn;
-}(Lt);
-function Cn(e) {
+  return En;
+}(jt);
+function Ln(e) {
   var t = ["hasClientKey", "encryptGetClientKeyPayload", "setClientKey", "encrypt", "decrypt"],
     n = {};
   var _loop = function _loop(_s10) {
@@ -14254,19 +14764,19 @@ function Cn(e) {
       }
       return new Promise(function (n, s) {
         "function" == typeof e[r] ? e[r].apply(e, t.concat([function () {
-          var _ref26 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-            e = _ref26.type,
-            t = _ref26.data,
-            r = _ref26.errCode,
-            i = _ref26.errMsg,
-            o = _ref26.errSubject,
-            a = _ref26.message;
-          "success" === e ? n(t) : s(vn({
+          var _ref34 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            e = _ref34.type,
+            t = _ref34.data,
+            r = _ref34.errCode,
+            i = _ref34.errMsg,
+            o = _ref34.errSubject,
+            a = _ref34.message;
+          "success" === e ? n(t) : s(Tn({
             errCode: r,
-            errMsg: wn[r] || i || a,
+            errMsg: Pn[r] || i || a,
             errSubject: o
           }));
-        }])) : s(vn({
+        }])) : s(Tn({
           message: "请检查manifest.json内是否开启安全网络模块，另外注意标准基座不支持安全网络模块"
         }));
       });
@@ -14277,37 +14787,37 @@ function Cn(e) {
   }
   return n;
 }
-var Tn = /*#__PURE__*/function (_Lt2) {
-  (0, _inherits2.default)(Tn, _Lt2);
-  var _super10 = _createSuper(Tn);
-  function Tn(e) {
-    var _this16;
-    (0, _classCallCheck2.default)(this, Tn);
-    _this16 = _super10.call(this, e), _this16.clientType = "app", _this16.appUtils = _objectSpread({}, Cn(uni.requireNativePlugin("plus"))), _this16.systemInfo = In || (In = ce());
-    return _this16;
+var Rn = /*#__PURE__*/function (_jt2) {
+  (0, _inherits2.default)(Rn, _jt2);
+  var _super10 = _createSuper(Rn);
+  function Rn(e) {
+    var _this18;
+    (0, _classCallCheck2.default)(this, Rn);
+    _this18 = _super10.call(this, e), _this18.clientType = "app", _this18.appUtils = _objectSpread({}, Ln(uni.requireNativePlugin("plus"))), _this18.systemInfo = Cn || (Cn = ae());
+    return _this18;
   }
-  (0, _createClass2.default)(Tn, [{
+  (0, _createClass2.default)(Rn, [{
     key: "hasClientKey",
     value: function () {
-      var _hasClientKey = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee43() {
-        return _regenerator.default.wrap(function _callee43$(_context43) {
+      var _hasClientKey = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee46() {
+        return _regenerator.default.wrap(function _callee46$(_context46) {
           while (1) {
-            switch (_context43.prev = _context43.next) {
+            switch (_context46.prev = _context46.next) {
               case 0:
-                _context43.next = 2;
+                _context46.next = 2;
                 return this.appUtils.hasClientKey({
                   provider: this.provider,
                   spaceId: this.spaceId
                 });
               case 2:
-                this._hasClientKey = _context43.sent;
-                return _context43.abrupt("return", this._hasClientKey);
+                this._hasClientKey = _context46.sent;
+                return _context46.abrupt("return", this._hasClientKey);
               case 4:
               case "end":
-                return _context43.stop();
+                return _context46.stop();
             }
           }
-        }, _callee43, this);
+        }, _callee46, this);
       }));
       function hasClientKey() {
         return _hasClientKey.apply(this, arguments);
@@ -14317,21 +14827,21 @@ var Tn = /*#__PURE__*/function (_Lt2) {
   }, {
     key: "getAppClientKey",
     value: function () {
-      var _getAppClientKey = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee44() {
+      var _getAppClientKey = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee47() {
         var _yield$this$appUtils$, e, t, n, s, r;
-        return _regenerator.default.wrap(function _callee44$(_context44) {
+        return _regenerator.default.wrap(function _callee47$(_context47) {
           while (1) {
-            switch (_context44.prev = _context44.next) {
+            switch (_context47.prev = _context47.next) {
               case 0:
-                _context44.next = 2;
+                _context47.next = 2;
                 return this.appUtils.encryptGetClientKeyPayload({
                   data: JSON.stringify({})
                 });
               case 2:
-                _yield$this$appUtils$ = _context44.sent;
+                _yield$this$appUtils$ = _context47.sent;
                 e = _yield$this$appUtils$.data;
                 t = _yield$this$appUtils$.key;
-                _context44.next = 7;
+                _context47.next = 7;
                 return this.uniCloudIns.callFunction({
                   name: "DCloud-clientDB",
                   data: {
@@ -14342,28 +14852,28 @@ var Tn = /*#__PURE__*/function (_Lt2) {
                   }
                 });
               case 7:
-                _context44.t0 = _context44.sent.result;
-                if (_context44.t0) {
-                  _context44.next = 10;
+                _context47.t0 = _context47.sent.result;
+                if (_context47.t0) {
+                  _context47.next = 10;
                   break;
                 }
-                _context44.t0 = {};
+                _context47.t0 = {};
               case 10:
-                n = _context44.t0;
+                n = _context47.t0;
                 if (!(0 !== n.errCode)) {
-                  _context44.next = 13;
+                  _context47.next = 13;
                   break;
                 }
                 throw function (e) {
-                  return new ne({
+                  return new te({
                     subject: e.errSubject || "uni-secure-network",
-                    code: e.errCode || e.code || mn.code,
+                    code: e.errCode || e.code || bn.code,
                     message: e.errMsg || e.message
                   });
                 }(n);
               case 13:
                 s = n.clientKey, r = n.key;
-                _context44.next = 16;
+                _context47.next = 16;
                 return this.appUtils.setClientKey({
                   provider: this.provider,
                   spaceId: this.spaceId,
@@ -14372,10 +14882,10 @@ var Tn = /*#__PURE__*/function (_Lt2) {
                 });
               case 16:
               case "end":
-                return _context44.stop();
+                return _context47.stop();
             }
           }
-        }, _callee44, this);
+        }, _callee47, this);
       }));
       function getAppClientKey() {
         return _getAppClientKey.apply(this, arguments);
@@ -14385,44 +14895,44 @@ var Tn = /*#__PURE__*/function (_Lt2) {
   }, {
     key: "ensureClientKey",
     value: function () {
-      var _ensureClientKey = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee45() {
-        var _this17 = this;
-        var _ref27,
-          _ref27$forceUpdate,
+      var _ensureClientKey = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee48() {
+        var _this19 = this;
+        var _ref35,
+          _ref35$forceUpdate,
           e,
-          _args45 = arguments;
-        return _regenerator.default.wrap(function _callee45$(_context45) {
+          _args48 = arguments;
+        return _regenerator.default.wrap(function _callee48$(_context48) {
           while (1) {
-            switch (_context45.prev = _context45.next) {
+            switch (_context48.prev = _context48.next) {
               case 0:
-                _ref27 = _args45.length > 0 && _args45[0] !== undefined ? _args45[0] : {}, _ref27$forceUpdate = _ref27.forceUpdate, e = _ref27$forceUpdate === void 0 ? !1 : _ref27$forceUpdate;
-                _context45.t1 = !0;
-                _context45.next = 4;
+                _ref35 = _args48.length > 0 && _args48[0] !== undefined ? _args48[0] : {}, _ref35$forceUpdate = _ref35.forceUpdate, e = _ref35$forceUpdate === void 0 ? !1 : _ref35$forceUpdate;
+                _context48.t1 = !0;
+                _context48.next = 4;
                 return this.hasClientKey();
               case 4:
-                _context45.t2 = _context45.sent;
-                _context45.t0 = _context45.t1 !== _context45.t2;
-                if (_context45.t0) {
-                  _context45.next = 8;
+                _context48.t2 = _context48.sent;
+                _context48.t0 = _context48.t1 !== _context48.t2;
+                if (_context48.t0) {
+                  _context48.next = 8;
                   break;
                 }
-                _context45.t0 = e;
+                _context48.t0 = e;
               case 8:
-                if (!_context45.t0) {
-                  _context45.next = 10;
+                if (!_context48.t0) {
+                  _context48.next = 10;
                   break;
                 }
-                return _context45.abrupt("return", (e && this.scopedGlobalCache.initPromise && this.scopedGlobalCache.initStatus === d || !e && this.scopedGlobalCache.initPromise && this.scopedGlobalCache.initStatus !== f || (this.scopedGlobalCache.initPromise = this.getAppClientKey(), this.scopedGlobalCache.initPromise.then(function (e) {
-                  _this17.scopedGlobalCache.initStatus = p;
+                return _context48.abrupt("return", (e && this.scopedGlobalCache.initPromise && this.scopedGlobalCache.initStatus === h || !e && this.scopedGlobalCache.initPromise && this.scopedGlobalCache.initStatus !== p || (this.scopedGlobalCache.initPromise = this.getAppClientKey(), this.scopedGlobalCache.initPromise.then(function (e) {
+                  _this19.scopedGlobalCache.initStatus = d;
                 }).catch(function (e) {
-                  throw _this17.scopedGlobalCache.initStatus = f, e;
-                }), this.scopedGlobalCache.initStatus = d), this.scopedGlobalCache.initPromise));
+                  throw _this19.scopedGlobalCache.initStatus = p, e;
+                }), this.scopedGlobalCache.initStatus = h), this.scopedGlobalCache.initPromise));
               case 10:
               case "end":
-                return _context45.stop();
+                return _context48.stop();
             }
           }
-        }, _callee45, this);
+        }, _callee48, this);
       }));
       function ensureClientKey() {
         return _ensureClientKey.apply(this, arguments);
@@ -14432,26 +14942,26 @@ var Tn = /*#__PURE__*/function (_Lt2) {
   }, {
     key: "prepare",
     value: function () {
-      var _prepare3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee46() {
-        var _ref28,
-          _ref28$forceUpdate,
+      var _prepare3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee49() {
+        var _ref36,
+          _ref36$forceUpdate,
           e,
-          _args46 = arguments;
-        return _regenerator.default.wrap(function _callee46$(_context46) {
+          _args49 = arguments;
+        return _regenerator.default.wrap(function _callee49$(_context49) {
           while (1) {
-            switch (_context46.prev = _context46.next) {
+            switch (_context49.prev = _context49.next) {
               case 0:
-                _ref28 = _args46.length > 0 && _args46[0] !== undefined ? _args46[0] : {}, _ref28$forceUpdate = _ref28.forceUpdate, e = _ref28$forceUpdate === void 0 ? !1 : _ref28$forceUpdate;
-                _context46.next = 3;
+                _ref36 = _args49.length > 0 && _args49[0] !== undefined ? _args49[0] : {}, _ref36$forceUpdate = _ref36.forceUpdate, e = _ref36$forceUpdate === void 0 ? !1 : _ref36$forceUpdate;
+                _context49.next = 3;
                 return this.ensureClientKey({
                   forceUpdate: e
                 });
               case 3:
               case "end":
-                return _context46.stop();
+                return _context49.stop();
             }
           }
-        }, _callee46, this);
+        }, _callee49, this);
       }));
       function prepare() {
         return _prepare3.apply(this, arguments);
@@ -14461,32 +14971,32 @@ var Tn = /*#__PURE__*/function (_Lt2) {
   }, {
     key: "platformGetSignOption",
     value: function () {
-      var _platformGetSignOption2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee47() {
+      var _platformGetSignOption2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee50() {
         var _yield$this$appUtils$2, e, t;
-        return _regenerator.default.wrap(function _callee47$(_context47) {
+        return _regenerator.default.wrap(function _callee50$(_context50) {
           while (1) {
-            switch (_context47.prev = _context47.next) {
+            switch (_context50.prev = _context50.next) {
               case 0:
-                _context47.next = 2;
+                _context50.next = 2;
                 return this.appUtils.encrypt({
                   provider: this.provider,
                   spaceId: this.spaceId,
                   data: JSON.stringify({})
                 });
               case 2:
-                _yield$this$appUtils$2 = _context47.sent;
+                _yield$this$appUtils$2 = _context50.sent;
                 e = _yield$this$appUtils$2.data;
                 t = _yield$this$appUtils$2.key;
-                return _context47.abrupt("return", {
+                return _context50.abrupt("return", {
                   verifyClientSign: e,
                   encryptKeyId: t
                 });
               case 6:
               case "end":
-                return _context47.stop();
+                return _context50.stop();
             }
           }
-        }, _callee47, this);
+        }, _callee50, this);
       }));
       function platformGetSignOption() {
         return _platformGetSignOption2.apply(this, arguments);
@@ -14496,27 +15006,27 @@ var Tn = /*#__PURE__*/function (_Lt2) {
   }, {
     key: "platformEncryptData",
     value: function () {
-      var _platformEncryptData2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee48(e) {
+      var _platformEncryptData2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee51(e) {
         var _yield$this$appUtils$3, t, n, s;
-        return _regenerator.default.wrap(function _callee48$(_context48) {
+        return _regenerator.default.wrap(function _callee51$(_context51) {
           while (1) {
-            switch (_context48.prev = _context48.next) {
+            switch (_context51.prev = _context51.next) {
               case 0:
-                _context48.next = 2;
+                _context51.next = 2;
                 return this.appUtils.encrypt({
                   provider: this.provider,
                   spaceId: this.spaceId,
                   data: JSON.stringify(e)
                 });
               case 2:
-                _yield$this$appUtils$3 = _context48.sent;
+                _yield$this$appUtils$3 = _context51.sent;
                 t = _yield$this$appUtils$3.data;
                 n = _yield$this$appUtils$3.key;
                 s = {
                   secretType: this.secretType,
                   encryptKeyId: n
                 };
-                return _context48.abrupt("return", this.secretType === Rt ? {
+                return _context51.abrupt("return", this.secretType === Ft ? {
                   content: e,
                   _uniCloudOptions: s
                 } : {
@@ -14525,12 +15035,12 @@ var Tn = /*#__PURE__*/function (_Lt2) {
                 });
               case 7:
               case "end":
-                return _context48.stop();
+                return _context51.stop();
             }
           }
-        }, _callee48, this);
+        }, _callee51, this);
       }));
-      function platformEncryptData(_x35) {
+      function platformEncryptData(_x38) {
         return _platformEncryptData2.apply(this, arguments);
       }
       return platformEncryptData;
@@ -14538,17 +15048,17 @@ var Tn = /*#__PURE__*/function (_Lt2) {
   }, {
     key: "platformDecryptResult",
     value: function () {
-      var _platformDecryptResult2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee49(e) {
+      var _platformDecryptResult2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee52(e) {
         var t, _e$_uniCloudOptions, n, s, r;
-        return _regenerator.default.wrap(function _callee49$(_context49) {
+        return _regenerator.default.wrap(function _callee52$(_context52) {
           while (1) {
-            switch (_context49.prev = _context49.next) {
+            switch (_context52.prev = _context52.next) {
               case 0:
                 t = e.content;
                 _e$_uniCloudOptions = e._uniCloudOptions;
                 n = _e$_uniCloudOptions === void 0 ? {} : _e$_uniCloudOptions;
                 s = n.encryptKeyId;
-                _context49.next = 6;
+                _context52.next = 6;
                 return this.appUtils.decrypt({
                   provider: this.provider,
                   spaceId: this.spaceId,
@@ -14556,16 +15066,16 @@ var Tn = /*#__PURE__*/function (_Lt2) {
                   key: s
                 });
               case 6:
-                r = _context49.sent;
-                return _context49.abrupt("return", JSON.parse(r.data));
+                r = _context52.sent;
+                return _context52.abrupt("return", JSON.parse(r.data));
               case 8:
               case "end":
-                return _context49.stop();
+                return _context52.stop();
             }
           }
-        }, _callee49, this);
+        }, _callee52, this);
       }));
-      function platformDecryptResult(_x36) {
+      function platformDecryptResult(_x39) {
         return _platformDecryptResult2.apply(this, arguments);
       }
       return platformDecryptResult;
@@ -14578,36 +15088,36 @@ var Tn = /*#__PURE__*/function (_Lt2) {
       return 70009 === t.errCode && "uni-secure-network" === t.errSubject;
     }
   }]);
-  return Tn;
-}(Lt);
-function Pn() {
-  var _ref29 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-    e = _ref29.secretType;
-  return e === xt || e === Rt || e === Ut;
+  return Rn;
+}(jt);
+function Un() {
+  var _ref37 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    e = _ref37.secretType;
+  return e === qt || e === Ft || e === Kt;
 }
-function An() {
-  var _ref30 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-    e = _ref30.name,
-    _ref30$data = _ref30.data,
-    t = _ref30$data === void 0 ? {} : _ref30$data;
+function Nn() {
+  var _ref38 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    e = _ref38.name,
+    _ref38$data = _ref38.data,
+    t = _ref38$data === void 0 ? {} : _ref38$data;
   return "app" === P && "DCloud-clientDB" === e && "encryption" === t.redirectTo && "getAppClientKey" === t.action;
 }
-function En() {
-  var _ref31 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-    e = _ref31.provider,
-    t = _ref31.spaceId,
-    n = _ref31.functionName;
-  var _ce = ce(),
-    s = _ce.appId,
-    r = _ce.uniPlatform,
-    i = _ce.osName;
+function Dn() {
+  var _ref39 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    e = _ref39.provider,
+    t = _ref39.spaceId,
+    n = _ref39.functionName;
+  var _ae = ae(),
+    s = _ae.appId,
+    r = _ae.uniPlatform,
+    i = _ae.osName;
   var o = r;
   "app" === r && (o = i);
   var a = function () {
-    var _ref32 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      e = _ref32.provider,
-      t = _ref32.spaceId;
-    var n = T;
+    var _ref40 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      e = _ref40.provider,
+      t = _ref40.spaceId;
+    var n = A;
     if (!n) return {};
     e = function (e) {
       return "tencent" === e ? "tcb" : e;
@@ -14624,7 +15134,7 @@ function En() {
   var c = a.accessControl.function || {},
     u = Object.keys(c);
   if (0 === u.length) return !0;
-  var h = function (e, t) {
+  var l = function (e, t) {
     var n, s, r;
     for (var _i2 = 0; _i2 < e.length; _i2++) {
       var _o2 = e[_i2];
@@ -14634,18 +15144,18 @@ function En() {
     }
     return n || s || r;
   }(u, n);
-  if (!h) return !1;
-  if ((c[h] || []).find(function () {
+  if (!l) return !1;
+  if ((c[l] || []).find(function () {
     var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return e.appId === s && (e.platform || "").toLowerCase() === o.toLowerCase();
   })) return !0;
-  throw console.error("\u6B64\u5E94\u7528[appId: ".concat(s, ", platform: ").concat(o, "]\u4E0D\u5728\u4E91\u7AEF\u914D\u7F6E\u7684\u5141\u8BB8\u8BBF\u95EE\u7684\u5E94\u7528\u5217\u8868\u5185\uFF0C\u53C2\u8003\uFF1Ahttps://uniapp.dcloud.net.cn/uniCloud/secure-network.html#verify-client")), vn(yn);
+  throw console.error("\u6B64\u5E94\u7528[appId: ".concat(s, ", platform: ").concat(o, "]\u4E0D\u5728\u4E91\u7AEF\u914D\u7F6E\u7684\u5141\u8BB8\u8BBF\u95EE\u7684\u5E94\u7528\u5217\u8868\u5185\uFF0C\u53C2\u8003\uFF1Ahttps://uniapp.dcloud.net.cn/uniCloud/secure-network.html#verify-client")), Tn(kn);
 }
-function On(_ref33) {
-  var e = _ref33.functionName,
-    t = _ref33.result,
-    n = _ref33.logPvd;
-  if (b && this.__dev__.debugLog && t && t.requestId) {
+function Mn(_ref41) {
+  var e = _ref41.functionName,
+    t = _ref41.result,
+    n = _ref41.logPvd;
+  if (S && this.__dev__.debugLog && t && t.requestId) {
     var _s11 = JSON.stringify({
       spaceId: this.config.spaceId,
       functionName: e,
@@ -14654,41 +15164,42 @@ function On(_ref33) {
     console.log("[".concat(n, "-request]").concat(_s11, "[/").concat(n, "-request]"));
   }
 }
-function xn(e) {
+function qn(e) {
   var t = e.callFunction,
     n = function n(_n7) {
-      var _this18 = this;
+      var _this20 = this;
       var s = _n7.name;
-      _n7.data = kt.call(e, {
+      _n7.data = Et.call(e, {
         data: _n7.data
       });
       var r = {
           aliyun: "aliyun",
           tencent: "tcb",
-          tcb: "tcb"
+          tcb: "tcb",
+          alipay: "alipay"
         }[this.config.provider],
-        i = Pn(_n7),
-        o = An(_n7),
+        i = Un(_n7),
+        o = Nn(_n7),
         a = i || o;
       return t.call(this, _n7).then(function (e) {
-        return e.errCode = 0, !a && On.call(_this18, {
+        return e.errCode = 0, !a && Mn.call(_this20, {
           functionName: s,
           result: e,
           logPvd: r
         }), Promise.resolve(e);
       }, function (e) {
-        return !a && On.call(_this18, {
+        return !a && Mn.call(_this20, {
           functionName: s,
           result: e,
           logPvd: r
         }), e && e.message && (e.message = function () {
-          var _ref34 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-            _ref34$message = _ref34.message,
-            e = _ref34$message === void 0 ? "" : _ref34$message,
-            _ref34$extraInfo = _ref34.extraInfo,
-            t = _ref34$extraInfo === void 0 ? {} : _ref34$extraInfo,
-            _ref34$formatter = _ref34.formatter,
-            n = _ref34$formatter === void 0 ? [] : _ref34$formatter;
+          var _ref42 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            _ref42$message = _ref42.message,
+            e = _ref42$message === void 0 ? "" : _ref42$message,
+            _ref42$extraInfo = _ref42.extraInfo,
+            t = _ref42$extraInfo === void 0 ? {} : _ref42$extraInfo,
+            _ref42$formatter = _ref42.formatter,
+            n = _ref42$formatter === void 0 ? [] : _ref42$formatter;
           for (var _s12 = 0; _s12 < n.length; _s12++) {
             var _n$_s = n[_s12],
               _r4 = _n$_s.rule,
@@ -14697,18 +15208,18 @@ function xn(e) {
               _a = e.match(_r4);
             if (!_a) continue;
             var _c = _i3;
-            for (var _e20 = 1; _e20 < _a.length; _e20++) {
-              _c = Et(_c, "{$".concat(_e20, "}"), _a[_e20]);
+            for (var _e19 = 1; _e19 < _a.length; _e19++) {
+              _c = Dt(_c, "{$".concat(_e19, "}"), _a[_e19]);
             }
-            for (var _e21 in t) {
-              _c = Et(_c, "{".concat(_e21, "}"), t[_e21]);
+            for (var _e20 in t) {
+              _c = Dt(_c, "{".concat(_e20, "}"), t[_e20]);
             }
             return "replace" === _o3 ? _c : e + _c;
           }
           return e;
         }({
           message: "[".concat(_n7.name, "]: ").concat(e.message),
-          formatter: Tt,
+          formatter: Rt,
           extraInfo: {
             functionName: s
           }
@@ -14721,22 +15232,22 @@ function xn(e) {
       r = _e$config.spaceId,
       i = t.name;
     var o, a;
-    if (t.data = t.data || {}, b && e.__dev__.debugInfo && !e.__dev__.debugInfo.forceRemote && E ? (e._callCloudFunction || (e._callCloudFunction = n, e._callLocalFunction = Ct), o = Ct) : o = n, o = o.bind(e), An(t)) a = n.call(e, t);else if (function (_ref35) {
-      var e = _ref35.name,
-        _ref35$data = _ref35.data,
-        t = _ref35$data === void 0 ? {} : _ref35$data;
+    if (t.data = t.data || {}, S && e.__dev__.debugInfo && !e.__dev__.debugInfo.forceRemote && C ? (e._callCloudFunction || (e._callCloudFunction = n, e._callLocalFunction = Lt), o = Lt) : o = n, o = o.bind(e), Nn(t)) a = n.call(e, t);else if (function (_ref43) {
+      var e = _ref43.name,
+        _ref43$data = _ref43.data,
+        t = _ref43$data === void 0 ? {} : _ref43$data;
       return "mp-weixin" === P && "uni-id-co" === e && "secureNetworkHandshakeByWeixin" === t.method;
-    }(t)) a = o.call(e, t);else if (Pn(t)) {
-      a = new Sn({
+    }(t)) a = o.call(e, t);else if (Un(t)) {
+      a = new xn({
         secretType: t.secretType,
         uniCloudIns: e
       }).wrapEncryptDataCallFunction(n.bind(e))(t);
-    } else if (En({
+    } else if (Dn({
       provider: s,
       spaceId: r,
       functionName: i
     })) {
-      a = new Sn({
+      a = new xn({
         secretType: t.secretType,
         uniCloudIns: e
       }).wrapVerifyClientCallFunction(n.bind(e))(t);
@@ -14748,38 +15259,38 @@ function xn(e) {
     }), a;
   };
 }
-Sn = "mp-weixin" !== P && "app" !== P ? /*#__PURE__*/function () {
+xn = "mp-weixin" !== P && "app" !== P ? /*#__PURE__*/function () {
   function _class2() {
     (0, _classCallCheck2.default)(this, _class2);
-    throw vn({
+    throw Tn({
       message: "Platform ".concat(P, " is not supported by secure network")
     });
   }
   return (0, _createClass2.default)(_class2);
-}() : C ? "mp-weixin" === P ? kn : Tn : /*#__PURE__*/function () {
+}() : k ? "mp-weixin" === P ? En : Rn : /*#__PURE__*/function () {
   function _class3() {
     (0, _classCallCheck2.default)(this, _class3);
-    throw vn({
+    throw Tn({
       message: "Platform ".concat(P, " is not enabled, please check whether secure network module is enabled in your manifest.json")
     });
   }
   return (0, _createClass2.default)(_class3);
 }();
-var Rn = Symbol("CLIENT_DB_INTERNAL");
-function Un(e, t) {
-  return e.then = "DoNotReturnProxyWithAFunctionNamedThen", e._internalType = Rn, e.inspect = null, e.__ob__ = void 0, new Proxy(e, {
+var Fn = Symbol("CLIENT_DB_INTERNAL");
+function Kn(e, t) {
+  return e.then = "DoNotReturnProxyWithAFunctionNamedThen", e._internalType = Fn, e.inspect = null, e.__ob__ = void 0, new Proxy(e, {
     get: function get(e, n, s) {
       if ("_uniClient" === n) return null;
       if ("symbol" == (0, _typeof2.default)(n)) return e[n];
       if (n in e || "string" != typeof n) {
-        var _t10 = e[n];
-        return "function" == typeof _t10 ? _t10.bind(e) : _t10;
+        var _t13 = e[n];
+        return "function" == typeof _t13 ? _t13.bind(e) : _t13;
       }
       return t.get(e, n, s);
     }
   });
 }
-function Ln(e) {
+function jn(e) {
   return {
     on: function on(t, n) {
       e[t] = e[t] || [], e[t].indexOf(n) > -1 || e[t].push(n);
@@ -14791,19 +15302,19 @@ function Ln(e) {
     }
   };
 }
-var Nn = ["db.Geo", "db.command", "command.aggregate"];
-function Dn(e, t) {
-  return Nn.indexOf("".concat(e, ".").concat(t)) > -1;
+var Bn = ["db.Geo", "db.command", "command.aggregate"];
+function $n(e, t) {
+  return Bn.indexOf("".concat(e, ".").concat(t)) > -1;
 }
-function Fn(e) {
-  switch (g(e)) {
+function Wn(e) {
+  switch (f(e)) {
     case "array":
       return e.map(function (e) {
-        return Fn(e);
+        return Wn(e);
       });
     case "object":
-      return e._internalType === Rn || Object.keys(e).forEach(function (t) {
-        e[t] = Fn(e[t]);
+      return e._internalType === Fn || Object.keys(e).forEach(function (t) {
+        e[t] = Wn(e[t]);
       }), e;
     case "regexp":
       return {
@@ -14820,15 +15331,15 @@ function Fn(e) {
       return e;
   }
 }
-function qn(e) {
+function Hn(e) {
   return e && e.content && e.content.$method;
 }
-var Mn = /*#__PURE__*/function () {
-  function Mn(e, t, n) {
-    (0, _classCallCheck2.default)(this, Mn);
+var zn = /*#__PURE__*/function () {
+  function zn(e, t, n) {
+    (0, _classCallCheck2.default)(this, zn);
     this.content = e, this.prevStage = t || null, this.udb = null, this._database = n;
   }
-  (0, _createClass2.default)(Mn, [{
+  (0, _createClass2.default)(zn, [{
     key: "toJSON",
     value: function toJSON() {
       var e = this;
@@ -14840,7 +15351,7 @@ var Mn = /*#__PURE__*/function () {
         $db: t.reverse().map(function (e) {
           return {
             $method: e.$method,
-            $param: Fn(e.$param)
+            $param: Wn(e.$param)
           };
         })
       };
@@ -14872,8 +15383,8 @@ var Mn = /*#__PURE__*/function () {
     get: function get() {
       var e = this;
       for (; e;) {
-        var t = qn(e),
-          _n8 = qn(e.prevStage);
+        var t = Hn(e),
+          _n8 = Hn(e.prevStage);
         if ("aggregate" === t && "collection" === _n8 || "pipeline" === t) return !0;
         e = e.prevStage;
       }
@@ -14884,7 +15395,7 @@ var Mn = /*#__PURE__*/function () {
     get: function get() {
       var e = this;
       for (; e;) {
-        if ("command" === qn(e)) return !0;
+        if ("command" === Hn(e)) return !0;
         e = e.prevStage;
       }
       return !1;
@@ -14894,8 +15405,8 @@ var Mn = /*#__PURE__*/function () {
     get: function get() {
       var e = this;
       for (; e;) {
-        var t = qn(e),
-          _n9 = qn(e.prevStage);
+        var t = Hn(e),
+          _n9 = Hn(e.prevStage);
         if ("aggregate" === t && "command" === _n9) return !0;
         e = e.prevStage;
       }
@@ -14906,9 +15417,9 @@ var Mn = /*#__PURE__*/function () {
     value: function getNextStageFn(e) {
       var t = this;
       return function () {
-        return Kn({
+        return Jn({
           $method: e,
-          $param: Fn(Array.from(arguments))
+          $param: Wn(Array.from(arguments))
         }, t, t._database);
       };
     }
@@ -14962,13 +15473,13 @@ var Mn = /*#__PURE__*/function () {
         s = this.getCommand();
       if (s.$db.push({
         $method: e,
-        $param: Fn(t)
-      }), b) {
-        var _e22 = s.$db.find(function (e) {
+        $param: Wn(t)
+      }), S) {
+        var _e21 = s.$db.find(function (e) {
             return "collection" === e.$method;
           }),
-          _t11 = _e22 && _e22.$param;
-        _t11 && 1 === _t11.length && "string" == typeof _e22.$param[0] && _e22.$param[0].indexOf(",") > -1 && console.warn("检测到使用JQL语法联表查询时，未使用getTemp先过滤主表数据，在主表数据量大的情况下可能会查询缓慢。\n- 如何优化请参考此文档：https://uniapp.dcloud.net.cn/uniCloud/jql?id=lookup-with-temp \n- 如果主表数据量很小请忽略此信息，项目发行时不会出现此提示。");
+          _t14 = _e21 && _e21.$param;
+        _t14 && 1 === _t14.length && "string" == typeof _e21.$param[0] && _e21.$param[0].indexOf(",") > -1 && console.warn("检测到使用JQL语法联表查询时，未使用getTemp先过滤主表数据，在主表数据量大的情况下可能会查询缓慢。\n- 如何优化请参考此文档：https://uniapp.dcloud.net.cn/uniCloud/jql?id=lookup-with-temp \n- 如果主表数据量很小请忽略此信息，项目发行时不会出现此提示。");
       }
       return this._database._callCloudFunction({
         action: n,
@@ -14976,26 +15487,26 @@ var Mn = /*#__PURE__*/function () {
       });
     }
   }]);
-  return Mn;
+  return zn;
 }();
-function Kn(e, t, n) {
-  return Un(new Mn(e, t, n), {
+function Jn(e, t, n) {
+  return Kn(new zn(e, t, n), {
     get: function get(e, t) {
       var s = "db";
-      return e && e.content && (s = e.content.$method), Dn(s, t) ? Kn({
+      return e && e.content && (s = e.content.$method), $n(s, t) ? Jn({
         $method: t
       }, e, n) : function () {
-        return Kn({
+        return Jn({
           $method: t,
-          $param: Fn(Array.from(arguments))
+          $param: Wn(Array.from(arguments))
         }, e, n);
       };
     }
   });
 }
-function jn(_ref36) {
-  var e = _ref36.path,
-    t = _ref36.method;
+function Vn(_ref44) {
+  var e = _ref44.path,
+    t = _ref44.method;
   return /*#__PURE__*/function () {
     function _class4() {
       (0, _classCallCheck2.default)(this, _class4);
@@ -15024,41 +15535,41 @@ function jn(_ref36) {
     return _class4;
   }();
 }
-function Bn(e) {
+function Gn(e) {
   var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return Un(new e(t), {
+  return Kn(new e(t), {
     get: function get(e, t) {
-      return Dn("db", t) ? Kn({
+      return $n("db", t) ? Jn({
         $method: t
       }, null, e) : function () {
-        return Kn({
+        return Jn({
           $method: t,
-          $param: Fn(Array.from(arguments))
+          $param: Wn(Array.from(arguments))
         }, null, e);
       };
     }
   });
 }
-var $n = /*#__PURE__*/function (_ref37) {
-  (0, _inherits2.default)($n, _ref37);
-  var _super11 = _createSuper($n);
-  function $n() {
-    (0, _classCallCheck2.default)(this, $n);
+var Yn = /*#__PURE__*/function (_ref45) {
+  (0, _inherits2.default)(Yn, _ref45);
+  var _super11 = _createSuper(Yn);
+  function Yn() {
+    (0, _classCallCheck2.default)(this, Yn);
     return _super11.apply(this, arguments);
   }
-  (0, _createClass2.default)($n, [{
+  (0, _createClass2.default)(Yn, [{
     key: "_parseResult",
     value: function _parseResult(e) {
       return this._isJQL ? e.result : e;
     }
   }, {
     key: "_callCloudFunction",
-    value: function _callCloudFunction(_ref38) {
-      var _this19 = this;
-      var e = _ref38.action,
-        t = _ref38.command,
-        n = _ref38.multiCommand,
-        s = _ref38.queryList;
+    value: function _callCloudFunction(_ref46) {
+      var _this21 = this;
+      var e = _ref46.action,
+        t = _ref46.command,
+        n = _ref46.multiCommand,
+        s = _ref46.queryList;
       function r(e, t) {
         if (n && s) for (var _n10 = 0; _n10 < s.length; _n10++) {
           var _r5 = s[_n10];
@@ -15068,16 +15579,16 @@ var $n = /*#__PURE__*/function (_ref37) {
       var i = this,
         o = this._isJQL ? "databaseForJQL" : "database";
       function a(e) {
-        return i._callback("error", [e]), q(M(o, "fail"), e).then(function () {
-          return q(M(o, "complete"), e);
+        return i._callback("error", [e]), M(q(o, "fail"), e).then(function () {
+          return M(q(o, "complete"), e);
         }).then(function () {
-          return r(null, e), Q(B, {
-            type: z,
+          return r(null, e), Y(j, {
+            type: W,
             content: e
           }), Promise.reject(e);
         });
       }
-      var c = q(M(o, "invoke")),
+      var c = M(q(o, "invoke")),
         u = this._uniClient;
       return c.then(function () {
         return u.callFunction({
@@ -15097,36 +15608,36 @@ var $n = /*#__PURE__*/function (_ref37) {
           c = _e$result.tokenExpired,
           _e$result$systemInfo = _e$result.systemInfo,
           u = _e$result$systemInfo === void 0 ? [] : _e$result$systemInfo;
-        if (u) for (var _e23 = 0; _e23 < u.length; _e23++) {
-          var _u$_e = u[_e23],
-            _t12 = _u$_e.level,
+        if (u) for (var _e22 = 0; _e22 < u.length; _e22++) {
+          var _u$_e = u[_e22],
+            _t15 = _u$_e.level,
             _n11 = _u$_e.message,
             _s13 = _u$_e.detail,
-            _r6 = console["app" === P && "warn" === _t12 ? "error" : _t12] || console.log;
+            _r6 = console["app" === P && "warn" === _t15 ? "error" : _t15] || console.log;
           var _i4 = "[System Info]" + _n11;
           _s13 && (_i4 = "".concat(_i4, "\n\u8BE6\u7EC6\u4FE1\u606F\uFF1A").concat(_s13)), _r6(_i4);
         }
         if (t) {
-          return a(new ne({
+          return a(new te({
             code: t,
             message: n,
             requestId: e.requestId
           }));
         }
-        e.result.errCode = e.result.errCode || e.result.code, e.result.errMsg = e.result.errMsg || e.result.message, s && c && (ie({
+        e.result.errCode = e.result.errCode || e.result.code, e.result.errMsg = e.result.errMsg || e.result.message, s && c && (re({
           token: s,
           tokenExpired: c
-        }), _this19._callbackAuth("refreshToken", [{
+        }), _this21._callbackAuth("refreshToken", [{
           token: s,
           tokenExpired: c
-        }]), _this19._callback("refreshToken", [{
+        }]), _this21._callback("refreshToken", [{
           token: s,
           tokenExpired: c
-        }]), Q(W, {
+        }]), Y($, {
           token: s,
           tokenExpired: c
         }));
-        var h = [{
+        var l = [{
           prop: "affectedDocs",
           tips: "affectedDocs不再推荐使用，请使用inserted/deleted/updated/data.length替代"
         }, {
@@ -15136,37 +15647,37 @@ var $n = /*#__PURE__*/function (_ref37) {
           prop: "message",
           tips: "message不再推荐使用，请使用errMsg替代"
         }];
-        var _loop2 = function _loop2(_t13) {
-          var _h$_t = h[_t13],
-            n = _h$_t.prop,
-            s = _h$_t.tips;
+        var _loop2 = function _loop2(_t16) {
+          var _l$_t = l[_t16],
+            n = _l$_t.prop,
+            s = _l$_t.tips;
           if (n in e.result) {
-            var _t14 = e.result[n];
+            var _t17 = e.result[n];
             Object.defineProperty(e.result, n, {
               get: function get() {
-                return console.warn(s), _t14;
+                return console.warn(s), _t17;
               }
             });
           }
         };
-        for (var _t13 = 0; _t13 < h.length; _t13++) {
-          _loop2(_t13);
+        for (var _t16 = 0; _t16 < l.length; _t16++) {
+          _loop2(_t16);
         }
         return function (e) {
-          return q(M(o, "success"), e).then(function () {
-            return q(M(o, "complete"), e);
+          return M(q(o, "success"), e).then(function () {
+            return M(q(o, "complete"), e);
           }).then(function () {
             r(e, null);
             var t = i._parseResult(e);
-            return Q(B, {
-              type: z,
+            return Y(j, {
+              type: W,
               content: t
             }), Promise.resolve(t);
           });
         }(e);
       }, function (e) {
         /fc_function_not_found|FUNCTION_NOT_FOUND/g.test(e.message) && console.warn("clientDB未初始化，请在web控制台保存一次schema以开启clientDB");
-        return a(new ne({
+        return a(new te({
           code: e.code || "SYSTEM_ERROR",
           message: e.message,
           requestId: e.requestId
@@ -15174,32 +15685,32 @@ var $n = /*#__PURE__*/function (_ref37) {
       });
     }
   }]);
-  return $n;
+  return Yn;
 }( /*#__PURE__*/function () {
   function _class5() {
-    var _ref39 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref39$uniClient = _ref39.uniClient,
-      e = _ref39$uniClient === void 0 ? {} : _ref39$uniClient,
-      _ref39$isJQL = _ref39.isJQL,
-      t = _ref39$isJQL === void 0 ? !1 : _ref39$isJQL;
+    var _ref47 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref47$uniClient = _ref47.uniClient,
+      e = _ref47$uniClient === void 0 ? {} : _ref47$uniClient,
+      _ref47$isJQL = _ref47.isJQL,
+      t = _ref47$isJQL === void 0 ? !1 : _ref47$isJQL;
     (0, _classCallCheck2.default)(this, _class5);
-    this._uniClient = e, this._authCallBacks = {}, this._dbCallBacks = {}, e._isDefault && (this._dbCallBacks = U("_globalUniCloudDatabaseCallback")), t || (this.auth = Ln(this._authCallBacks)), this._isJQL = t, Object.assign(this, Ln(this._dbCallBacks)), this.env = Un({}, {
+    this._uniClient = e, this._authCallBacks = {}, this._dbCallBacks = {}, e._isDefault && (this._dbCallBacks = L("_globalUniCloudDatabaseCallback")), t || (this.auth = jn(this._authCallBacks)), this._isJQL = t, Object.assign(this, jn(this._dbCallBacks)), this.env = Kn({}, {
       get: function get(e, t) {
         return {
           $env: t
         };
       }
-    }), this.Geo = Un({}, {
+    }), this.Geo = Kn({}, {
       get: function get(e, t) {
-        return jn({
+        return Vn({
           path: ["Geo"],
           method: t
         });
       }
-    }), this.serverDate = jn({
+    }), this.serverDate = Vn({
       path: [],
       method: "serverDate"
-    }), this.RegExp = jn({
+    }), this.RegExp = Vn({
       path: [],
       method: "RegExp"
     });
@@ -15249,41 +15760,41 @@ var $n = /*#__PURE__*/function (_ref37) {
   }]);
   return _class5;
 }());
-var Wn = "token无效，跳转登录页面",
-  zn = "token过期，跳转登录页面",
-  Jn = {
-    TOKEN_INVALID_TOKEN_EXPIRED: zn,
-    TOKEN_INVALID_INVALID_CLIENTID: Wn,
-    TOKEN_INVALID: Wn,
-    TOKEN_INVALID_WRONG_TOKEN: Wn,
-    TOKEN_INVALID_ANONYMOUS_USER: Wn
+var Qn = "token无效，跳转登录页面",
+  Xn = "token过期，跳转登录页面",
+  Zn = {
+    TOKEN_INVALID_TOKEN_EXPIRED: Xn,
+    TOKEN_INVALID_INVALID_CLIENTID: Qn,
+    TOKEN_INVALID: Qn,
+    TOKEN_INVALID_WRONG_TOKEN: Qn,
+    TOKEN_INVALID_ANONYMOUS_USER: Qn
   },
-  Hn = {
-    "uni-id-token-expired": zn,
-    "uni-id-check-token-failed": Wn,
-    "uni-id-token-not-exist": Wn,
-    "uni-id-check-device-feature-failed": Wn
+  es = {
+    "uni-id-token-expired": Xn,
+    "uni-id-check-token-failed": Qn,
+    "uni-id-token-not-exist": Qn,
+    "uni-id-check-device-feature-failed": Qn
   };
-function Gn(e, t) {
+function ts(e, t) {
   var n = "";
   return n = e ? "".concat(e, "/").concat(t) : t, n.replace(/^\//, "");
 }
-function Vn() {
+function ns() {
   var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
   var n = [],
     s = [];
   return e.forEach(function (e) {
-    !0 === e.needLogin ? n.push(Gn(t, e.path)) : !1 === e.needLogin && s.push(Gn(t, e.path));
+    !0 === e.needLogin ? n.push(ts(t, e.path)) : !1 === e.needLogin && s.push(ts(t, e.path));
   }), {
     needLoginPage: n,
     notNeedLoginPage: s
   };
 }
-function Yn(e) {
+function ss(e) {
   return e.split("?")[0].replace(/^\//, "");
 }
-function Qn() {
+function rs() {
   return function (e) {
     var t = e && e.$page && e.$page.fullPath || "";
     return t ? ("/" !== t.charAt(0) && (t = "/" + t), t) : t;
@@ -15292,40 +15803,40 @@ function Qn() {
     return e[e.length - 1];
   }());
 }
-function Xn() {
-  return Yn(Qn());
+function is() {
+  return ss(rs());
 }
-function Zn() {
+function os() {
   var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
   var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   if (!e) return !1;
   if (!(t && t.list && t.list.length)) return !1;
   var n = t.list,
-    s = Yn(e);
+    s = ss(e);
   return n.some(function (e) {
     return e.pagePath === s;
   });
 }
-var es = !!_pages.default.uniIdRouter;
-var _ref40 = function () {
-    var _ref21 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _pages.default,
-      _ref21$pages = _ref21.pages,
-      e = _ref21$pages === void 0 ? [] : _ref21$pages,
-      _ref21$subPackages = _ref21.subPackages,
-      n = _ref21$subPackages === void 0 ? [] : _ref21$subPackages,
-      _ref21$uniIdRouter = _ref21.uniIdRouter,
-      s = _ref21$uniIdRouter === void 0 ? {} : _ref21$uniIdRouter,
-      _ref21$tabBar = _ref21.tabBar,
-      r = _ref21$tabBar === void 0 ? {} : _ref21$tabBar;
+var as = !!_pages.default.uniIdRouter;
+var _ref48 = function () {
+    var _ref29 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _pages.default,
+      _ref29$pages = _ref29.pages,
+      t = _ref29$pages === void 0 ? [] : _ref29$pages,
+      _ref29$subPackages = _ref29.subPackages,
+      n = _ref29$subPackages === void 0 ? [] : _ref29$subPackages,
+      _ref29$uniIdRouter = _ref29.uniIdRouter,
+      s = _ref29$uniIdRouter === void 0 ? {} : _ref29$uniIdRouter,
+      _ref29$tabBar = _ref29.tabBar,
+      r = _ref29$tabBar === void 0 ? {} : _ref29$tabBar;
     var i = s.loginPage,
       _s$needLogin = s.needLogin,
       o = _s$needLogin === void 0 ? [] : _s$needLogin,
       _s$resToLogin = s.resToLogin,
       a = _s$resToLogin === void 0 ? !0 : _s$resToLogin,
-      _Vn = Vn(e),
-      c = _Vn.needLoginPage,
-      u = _Vn.notNeedLoginPage,
-      _ref23 = function () {
+      _ns = ns(t),
+      c = _ns.needLoginPage,
+      u = _ns.notNeedLoginPage,
+      _ref31 = function () {
         var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
         var t = [],
           n = [];
@@ -15333,35 +15844,35 @@ var _ref40 = function () {
           var s = e.root,
             _e$pages = e.pages,
             r = _e$pages === void 0 ? [] : _e$pages,
-            _Vn2 = Vn(r, s),
-            i = _Vn2.needLoginPage,
-            o = _Vn2.notNeedLoginPage;
+            _ns2 = ns(r, s),
+            i = _ns2.needLoginPage,
+            o = _ns2.notNeedLoginPage;
           t.push.apply(t, (0, _toConsumableArray2.default)(i)), n.push.apply(n, (0, _toConsumableArray2.default)(o));
         }), {
           needLoginPage: t,
           notNeedLoginPage: n
         };
       }(n),
-      h = _ref23.needLoginPage,
-      l = _ref23.notNeedLoginPage;
+      l = _ref31.needLoginPage,
+      h = _ref31.notNeedLoginPage;
     return {
       loginPage: i,
       routerNeedLogin: o,
       resToLogin: a,
-      needLoginPage: [].concat((0, _toConsumableArray2.default)(c), (0, _toConsumableArray2.default)(h)),
-      notNeedLoginPage: [].concat((0, _toConsumableArray2.default)(u), (0, _toConsumableArray2.default)(l)),
-      loginPageInTabBar: Zn(i, r)
+      needLoginPage: [].concat((0, _toConsumableArray2.default)(c), (0, _toConsumableArray2.default)(l)),
+      notNeedLoginPage: [].concat((0, _toConsumableArray2.default)(u), (0, _toConsumableArray2.default)(h)),
+      loginPageInTabBar: os(i, r)
     };
   }(),
-  ts = _ref40.loginPage,
-  ns = _ref40.routerNeedLogin,
-  ss = _ref40.resToLogin,
-  rs = _ref40.needLoginPage,
-  is = _ref40.notNeedLoginPage,
-  os = _ref40.loginPageInTabBar;
-if (rs.indexOf(ts) > -1) throw new Error("Login page [".concat(ts, "] should not be \"needLogin\", please check your pages.json"));
-function as(e) {
-  var t = Xn();
+  cs = _ref48.loginPage,
+  us = _ref48.routerNeedLogin,
+  ls = _ref48.resToLogin,
+  hs = _ref48.needLoginPage,
+  ds = _ref48.notNeedLoginPage,
+  ps = _ref48.loginPageInTabBar;
+if (hs.indexOf(cs) > -1) throw new Error("Login page [".concat(cs, "] should not be \"needLogin\", please check your pages.json"));
+function fs(e) {
+  var t = is();
   if ("/" === e.charAt(0)) return e;
   var _e$split = e.split("?"),
     _e$split2 = (0, _slicedToArray2.default)(_e$split, 2),
@@ -15370,37 +15881,37 @@ function as(e) {
     r = n.replace(/^\//, "").split("/"),
     i = t.split("/");
   i.pop();
-  for (var _e24 = 0; _e24 < r.length; _e24++) {
-    var _t15 = r[_e24];
-    ".." === _t15 ? i.pop() : "." !== _t15 && i.push(_t15);
+  for (var _e23 = 0; _e23 < r.length; _e23++) {
+    var _t18 = r[_e23];
+    ".." === _t18 ? i.pop() : "." !== _t18 && i.push(_t18);
   }
   return "" === i[0] && i.shift(), "/" + i.join("/") + (s ? "?" + s : "");
 }
-function cs(e) {
-  var t = Yn(as(e));
-  return !(is.indexOf(t) > -1) && (rs.indexOf(t) > -1 || ns.some(function (t) {
+function gs(e) {
+  var t = ss(fs(e));
+  return !(ds.indexOf(t) > -1) && (hs.indexOf(t) > -1 || us.some(function (t) {
     return function (e, t) {
       return new RegExp(t).test(e);
     }(e, t);
   }));
 }
-function us(_ref41) {
-  var e = _ref41.redirect;
-  var t = Yn(e),
-    n = Yn(ts);
-  return Xn() !== n && t !== n;
+function ms(_ref49) {
+  var e = _ref49.redirect;
+  var t = ss(e),
+    n = ss(cs);
+  return is() !== n && t !== n;
 }
-function hs() {
-  var _ref42 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-    e = _ref42.api,
-    t = _ref42.redirect;
-  if (!t || !us({
+function ys() {
+  var _ref50 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    e = _ref50.api,
+    t = _ref50.redirect;
+  if (!t || !ms({
     redirect: t
   })) return;
   var n = function (e, t) {
     return "/" !== e.charAt(0) && (e = "/" + e), t ? e.indexOf("?") > -1 ? e + "&uniIdRedirectUrl=".concat(encodeURIComponent(t)) : e + "?uniIdRedirectUrl=".concat(encodeURIComponent(t)) : e;
-  }(ts, t);
-  os ? "navigateTo" !== e && "redirectTo" !== e || (e = "switchTab") : "switchTab" === e && (e = "navigateTo");
+  }(cs, t);
+  ps ? "navigateTo" !== e && "redirectTo" !== e || (e = "switchTab") : "switchTab" === e && (e = "navigateTo");
   var s = {
     navigateTo: uni.navigateTo,
     redirectTo: uni.redirectTo,
@@ -15413,79 +15924,79 @@ function hs() {
     });
   });
 }
-function ls() {
-  var _ref43 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-    e = _ref43.url;
+function _s() {
+  var _ref51 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    e = _ref51.url;
   var t = {
       abortLoginPageJump: !1,
       autoToLoginPage: !1
     },
     n = function () {
-      var _re3 = re(),
-        e = _re3.token,
-        t = _re3.tokenExpired;
+      var _se3 = se(),
+        e = _se3.token,
+        t = _se3.tokenExpired;
       var n;
       if (e) {
         if (t < Date.now()) {
-          var _e25 = "uni-id-token-expired";
+          var _e24 = "uni-id-token-expired";
           n = {
-            errCode: _e25,
-            errMsg: Hn[_e25]
+            errCode: _e24,
+            errMsg: es[_e24]
           };
         }
       } else {
-        var _e26 = "uni-id-check-token-failed";
+        var _e25 = "uni-id-check-token-failed";
         n = {
-          errCode: _e26,
-          errMsg: Hn[_e26]
+          errCode: _e25,
+          errMsg: es[_e25]
         };
       }
       return n;
     }();
-  if (cs(e) && n) {
+  if (gs(e) && n) {
     n.uniIdRedirectUrl = e;
-    if (G($).length > 0) return setTimeout(function () {
-      Q($, n);
+    if (J(B).length > 0) return setTimeout(function () {
+      Y(B, n);
     }, 0), t.abortLoginPageJump = !0, t;
     t.autoToLoginPage = !0;
   }
   return t;
 }
-function ds() {
+function ws() {
   !function () {
-    var e = Qn(),
-      _ls = ls({
+    var e = rs(),
+      _s14 = _s({
         url: e
       }),
-      t = _ls.abortLoginPageJump,
-      n = _ls.autoToLoginPage;
-    t || n && hs({
+      t = _s14.abortLoginPageJump,
+      n = _s14.autoToLoginPage;
+    t || n && ys({
       api: "redirectTo",
       redirect: e
     });
   }();
   var e = ["navigateTo", "redirectTo", "reLaunch", "switchTab"];
-  var _loop3 = function _loop3(_t16) {
-    var n = e[_t16];
+  var _loop3 = function _loop3(_t19) {
+    var n = e[_t19];
     uni.addInterceptor(n, {
       invoke: function invoke(e) {
-        var _ls2 = ls({
+        var _s15 = _s({
             url: e.url
           }),
-          t = _ls2.abortLoginPageJump,
-          s = _ls2.autoToLoginPage;
-        return t ? e : s ? (hs({
+          t = _s15.abortLoginPageJump,
+          s = _s15.autoToLoginPage;
+        return t ? e : s ? (ys({
           api: n,
-          redirect: as(e.url)
+          redirect: fs(e.url)
         }), !1) : e;
       }
     });
   };
-  for (var _t16 = 0; _t16 < e.length; _t16++) {
-    _loop3(_t16);
+  for (var _t19 = 0; _t19 < e.length; _t19++) {
+    _loop3(_t19);
   }
 }
-function ps() {
+function vs() {
   this.onResponse(function (e) {
     var t = e.type,
       n = e.content;
@@ -15494,29 +16005,29 @@ function ps() {
       case "cloudobject":
         s = function (e) {
           if ("object" != (0, _typeof2.default)(e)) return !1;
-          var _ref44 = e || {},
-            t = _ref44.errCode;
-          return t in Hn;
+          var _ref52 = e || {},
+            t = _ref52.errCode;
+          return t in es;
         }(n);
         break;
       case "clientdb":
         s = function (e) {
           if ("object" != (0, _typeof2.default)(e)) return !1;
-          var _ref45 = e || {},
-            t = _ref45.errCode;
-          return t in Jn;
+          var _ref53 = e || {},
+            t = _ref53.errCode;
+          return t in Zn;
         }(n);
     }
     s && function () {
       var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var t = G($);
-      ee().then(function () {
-        var n = Qn();
-        if (n && us({
+      var t = J(B);
+      Z().then(function () {
+        var n = rs();
+        if (n && ms({
           redirect: n
-        })) return t.length > 0 ? Q($, Object.assign({
+        })) return t.length > 0 ? Y(B, Object.assign({
           uniIdRedirectUrl: n
-        }, e)) : void (ts && hs({
+        }, e)) : void (cs && ys({
           api: "navigateTo",
           redirect: n
         }));
@@ -15524,34 +16035,34 @@ function ps() {
     }(n);
   });
 }
-function fs(e) {
+function Is(e) {
   !function (e) {
     e.onResponse = function (e) {
-      V(B, e);
+      V(j, e);
     }, e.offResponse = function (e) {
-      Y(B, e);
+      G(j, e);
     };
   }(e), function (e) {
     e.onNeedLogin = function (e) {
-      V($, e);
+      V(B, e);
     }, e.offNeedLogin = function (e) {
-      Y($, e);
-    }, es && (U("_globalUniCloudStatus").needLoginInit || (U("_globalUniCloudStatus").needLoginInit = !0, ee().then(function () {
-      ds.call(e);
-    }), ss && ps.call(e)));
+      G(B, e);
+    }, as && (L("_globalUniCloudStatus").needLoginInit || (L("_globalUniCloudStatus").needLoginInit = !0, Z().then(function () {
+      ws.call(e);
+    }), ls && vs.call(e)));
   }(e), function (e) {
     e.onRefreshToken = function (e) {
-      V(W, e);
+      V($, e);
     }, e.offRefreshToken = function (e) {
-      Y(W, e);
+      G($, e);
     };
   }(e);
 }
-var gs;
-var ms = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-  ys = /^(?:[A-Za-z\d+/]{4})*?(?:[A-Za-z\d+/]{2}(?:==)?|[A-Za-z\d+/]{3}=?)?$/;
-function _s() {
-  var e = re().token || "",
+var Ss;
+var bs = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+  ks = /^(?:[A-Za-z\d+/]{4})*?(?:[A-Za-z\d+/]{2}(?:==)?|[A-Za-z\d+/]{3}=?)?$/;
+function As() {
+  var e = se().token || "",
     t = e.split(".");
   if (!e || 3 !== t.length) return {
     uid: null,
@@ -15561,7 +16072,7 @@ function _s() {
   };
   var n;
   try {
-    n = JSON.parse((s = t[1], decodeURIComponent(gs(s).split("").map(function (e) {
+    n = JSON.parse((s = t[1], decodeURIComponent(Ss(s).split("").map(function (e) {
       return "%" + ("00" + e.charCodeAt(0).toString(16)).slice(-2);
     }).join(""))));
   } catch (e) {
@@ -15570,16 +16081,16 @@ function _s() {
   var s;
   return n.tokenExpired = 1e3 * n.exp, delete n.exp, delete n.iat, n;
 }
-gs = "function" != typeof atob ? function (e) {
-  if (e = String(e).replace(/[\t\n\f\r ]+/g, ""), !ys.test(e)) throw new Error("Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded.");
+Ss = "function" != typeof atob ? function (e) {
+  if (e = String(e).replace(/[\t\n\f\r ]+/g, ""), !ks.test(e)) throw new Error("Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded.");
   var t;
   e += "==".slice(2 - (3 & e.length));
   for (var n, s, r = "", i = 0; i < e.length;) {
-    t = ms.indexOf(e.charAt(i++)) << 18 | ms.indexOf(e.charAt(i++)) << 12 | (n = ms.indexOf(e.charAt(i++))) << 6 | (s = ms.indexOf(e.charAt(i++))), r += 64 === n ? String.fromCharCode(t >> 16 & 255) : 64 === s ? String.fromCharCode(t >> 16 & 255, t >> 8 & 255) : String.fromCharCode(t >> 16 & 255, t >> 8 & 255, 255 & t);
+    t = bs.indexOf(e.charAt(i++)) << 18 | bs.indexOf(e.charAt(i++)) << 12 | (n = bs.indexOf(e.charAt(i++))) << 6 | (s = bs.indexOf(e.charAt(i++))), r += 64 === n ? String.fromCharCode(t >> 16 & 255) : 64 === s ? String.fromCharCode(t >> 16 & 255, t >> 8 & 255) : String.fromCharCode(t >> 16 & 255, t >> 8 & 255, 255 & t);
   }
   return r;
 } : atob;
-var ws = s(function (e, t) {
+var Ps = n(function (e, t) {
     Object.defineProperty(t, "__esModule", {
       value: !0
     });
@@ -15592,13 +16103,13 @@ var ws = s(function (e, t) {
         return e.path;
       })), e;
     }
-    function i(e, t, _ref46) {
-      var s = _ref46.onChooseFile,
-        r = _ref46.onUploadProgress;
+    function i(e, t, _ref54) {
+      var s = _ref54.onChooseFile,
+        r = _ref54.onUploadProgress;
       return t.then(function (e) {
         if (s) {
-          var _t17 = s(e);
-          if (void 0 !== _t17) return Promise.resolve(_t17).then(function (t) {
+          var _t20 = s(e);
+          if (void 0 !== _t20) return Promise.resolve(_t20).then(function (t) {
             return void 0 === t ? e : t;
           });
         }
@@ -15629,6 +16140,7 @@ var ws = s(function (e, t) {
                 filePath: u.path,
                 cloudPath: u.cloudPath,
                 fileType: u.fileType,
+                cloudPathAsRealPath: u.cloudPathAsRealPath,
                 onUploadProgress: function onUploadProgress(e) {
                   e.index = s, e.tempFile = u, e.tempFilePath = u.path, r && r(e);
                 }
@@ -15738,9 +16250,9 @@ var ws = s(function (e, t) {
       };
     };
   }),
-  vs = n(ws);
-var Is = "manual";
-function Ss(e) {
+  Ts = t(Ps);
+var Cs = "manual";
+function xs(e) {
   return {
     props: {
       localdata: {
@@ -15848,7 +16360,7 @@ function Ss(e) {
       };
     },
     created: function created() {
-      var _this20 = this;
+      var _this22 = this;
       this.mixinDatacomPage = {
         current: this.pageCurrent,
         size: this.pageSize,
@@ -15856,37 +16368,37 @@ function Ss(e) {
       }, this.$watch(function () {
         var e = [];
         return ["pageCurrent", "pageSize", "localdata", "collection", "action", "field", "orderby", "where", "getont", "getcount", "gettree", "groupby", "groupField", "distinct"].forEach(function (t) {
-          e.push(_this20[t]);
+          e.push(_this22[t]);
         }), e;
       }, function (e, t) {
-        if (_this20.loadtime === Is) return;
+        if (_this22.loadtime === Cs) return;
         var n = !1;
         var s = [];
         for (var _r7 = 2; _r7 < e.length; _r7++) {
           e[_r7] !== t[_r7] && (s.push(e[_r7]), n = !0);
         }
-        e[0] !== t[0] && (_this20.mixinDatacomPage.current = _this20.pageCurrent), _this20.mixinDatacomPage.size = _this20.pageSize, _this20.onMixinDatacomPropsChange(n, s);
+        e[0] !== t[0] && (_this22.mixinDatacomPage.current = _this22.pageCurrent), _this22.mixinDatacomPage.size = _this22.pageSize, _this22.onMixinDatacomPropsChange(n, s);
       });
     },
     methods: {
       onMixinDatacomPropsChange: function onMixinDatacomPropsChange(e, t) {},
       mixinDatacomEasyGet: function mixinDatacomEasyGet() {
-        var _this21 = this;
-        var _ref47 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          _ref47$getone = _ref47.getone,
-          e = _ref47$getone === void 0 ? !1 : _ref47$getone,
-          t = _ref47.success,
-          n = _ref47.fail;
+        var _this23 = this;
+        var _ref55 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          _ref55$getone = _ref55.getone,
+          e = _ref55$getone === void 0 ? !1 : _ref55$getone,
+          t = _ref55.success,
+          n = _ref55.fail;
         this.mixinDatacomLoading || (this.mixinDatacomLoading = !0, this.mixinDatacomErrorMessage = "", this.mixinDatacomGet().then(function (n) {
-          _this21.mixinDatacomLoading = !1;
+          _this23.mixinDatacomLoading = !1;
           var _n$result = n.result,
             s = _n$result.data,
             r = _n$result.count;
-          _this21.getcount && (_this21.mixinDatacomPage.count = r), _this21.mixinDatacomHasMore = s.length < _this21.pageSize;
+          _this23.getcount && (_this23.mixinDatacomPage.count = r), _this23.mixinDatacomHasMore = s.length < _this23.pageSize;
           var i = e ? s.length ? s[0] : void 0 : s;
-          _this21.mixinDatacomResData = i, t && t(i);
+          _this23.mixinDatacomResData = i, t && t(i);
         }).catch(function (e) {
-          _this21.mixinDatacomLoading = !1, _this21.mixinDatacomErrorMessage = e, n && n(e);
+          _this23.mixinDatacomLoading = !1, _this23.mixinDatacomErrorMessage = e, n && n(e);
         }));
       },
       mixinDatacomGet: function mixinDatacomGet() {
@@ -15908,9 +16420,9 @@ function Ss(e) {
         var u = t.groupField || this.groupField;
         u && (n = n.groupField(u));
         !0 === (void 0 !== t.distinct ? t.distinct : this.distinct) && (n = n.distinct());
-        var h = t.orderby || this.orderby;
-        h && (n = n.orderBy(h));
-        var l = void 0 !== t.pageCurrent ? t.pageCurrent : this.mixinDatacomPage.current,
+        var l = t.orderby || this.orderby;
+        l && (n = n.orderBy(l));
+        var h = void 0 !== t.pageCurrent ? t.pageCurrent : this.mixinDatacomPage.current,
           d = void 0 !== t.pageSize ? t.pageSize : this.mixinDatacomPage.size,
           p = void 0 !== t.getcount ? t.getcount : this.getcount,
           f = void 0 !== t.gettree ? t.gettree : this.gettree,
@@ -15922,12 +16434,12 @@ function Ss(e) {
             limitLevel: void 0 !== t.limitlevel ? t.limitlevel : this.limitlevel,
             startWith: void 0 !== t.startwith ? t.startwith : this.startwith
           };
-        return f && (m.getTree = y), g && (m.getTreePath = y), n = n.skip(d * (l - 1)).limit(d).get(m), n;
+        return f && (m.getTree = y), g && (m.getTreePath = y), n = n.skip(d * (h - 1)).limit(d).get(m), n;
       }
     }
   };
 }
-function bs(e) {
+function Os(e) {
   return function (t) {
     var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     n = function (e) {
@@ -15953,11 +16465,11 @@ function bs(e) {
     return new Proxy({}, {
       get: function get(s, c) {
         return function () {
-          var _ref48 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-            e = _ref48.fn,
-            t = _ref48.interceptorName,
-            n = _ref48.getCallbackArgs;
-          return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee50() {
+          var _ref56 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            e = _ref56.fn,
+            t = _ref56.interceptorName,
+            n = _ref56.getCallbackArgs;
+          return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee53() {
             var _len2,
               s,
               _key2,
@@ -15965,9 +16477,9 @@ function bs(e) {
               i,
               o,
               _args = arguments;
-            return _regenerator.default.wrap(function _callee50$(_context50) {
+            return _regenerator.default.wrap(function _callee53$(_context53) {
               while (1) {
-                switch (_context50.prev = _context50.next) {
+                switch (_context53.prev = _context53.next) {
                   case 0:
                     for (_len2 = _args.length, s = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
                       s[_key2] = _args[_key2];
@@ -15975,83 +16487,83 @@ function bs(e) {
                     r = n ? n({
                       params: s
                     }) : {};
-                    _context50.prev = 2;
-                    _context50.next = 5;
-                    return q(M(t, "invoke"), _objectSpread({}, r));
+                    _context53.prev = 2;
+                    _context53.next = 5;
+                    return M(q(t, "invoke"), _objectSpread({}, r));
                   case 5:
-                    _context50.next = 7;
+                    _context53.next = 7;
                     return e.apply(void 0, s);
                   case 7:
-                    i = _context50.sent;
-                    _context50.next = 10;
-                    return q(M(t, "success"), _objectSpread(_objectSpread({}, r), {}, {
+                    i = _context53.sent;
+                    _context53.next = 10;
+                    return M(q(t, "success"), _objectSpread(_objectSpread({}, r), {}, {
                       result: i
                     }));
                   case 10:
-                    return _context50.abrupt("return", i);
+                    return _context53.abrupt("return", i);
                   case 13:
-                    _context50.prev = 13;
-                    _context50.t0 = _context50["catch"](2);
-                    o = _context50.t0;
-                    _context50.next = 18;
-                    return q(M(t, "fail"), _objectSpread(_objectSpread({}, r), {}, {
+                    _context53.prev = 13;
+                    _context53.t0 = _context53["catch"](2);
+                    o = _context53.t0;
+                    _context53.next = 18;
+                    return M(q(t, "fail"), _objectSpread(_objectSpread({}, r), {}, {
                       error: o
                     }));
                   case 18:
                     throw o;
                   case 19:
-                    _context50.prev = 19;
-                    _context50.next = 22;
-                    return q(M(t, "complete"), o ? _objectSpread(_objectSpread({}, r), {}, {
+                    _context53.prev = 19;
+                    _context53.next = 22;
+                    return M(q(t, "complete"), o ? _objectSpread(_objectSpread({}, r), {}, {
                       error: o
                     }) : _objectSpread(_objectSpread({}, r), {}, {
                       result: i
                     }));
                   case 22:
-                    return _context50.finish(19);
+                    return _context53.finish(19);
                   case 23:
                   case "end":
-                    return _context50.stop();
+                    return _context53.stop();
                 }
               }
-            }, _callee50, null, [[2, 13, 19, 23]]);
+            }, _callee53, null, [[2, 13, 19, 23]]);
           }));
         }({
           fn: function () {
-            var _s14 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee52() {
-              var l,
+            var _s16 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee55() {
+              var h,
                 _len3,
-                u,
+                l,
                 _key3,
                 d,
                 p,
-                _ref50,
+                _ref58,
                 f,
                 g,
                 m,
                 y,
-                _e27,
+                _e26,
                 _yield,
-                _t18,
+                _t21,
                 _n14,
                 _args4 = arguments;
-              return _regenerator.default.wrap(function _callee52$(_context52) {
+              return _regenerator.default.wrap(function _callee55$(_context55) {
                 while (1) {
-                  switch (_context52.prev = _context52.next) {
+                  switch (_context55.prev = _context55.next) {
                     case 0:
                       a && uni.showLoading({
                         title: r.title,
                         mask: r.mask
                       });
-                      for (_len3 = _args4.length, u = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                        u[_key3] = _args4[_key3];
+                      for (_len3 = _args4.length, l = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                        l[_key3] = _args4[_key3];
                       }
                       d = {
                         name: t,
-                        type: h,
+                        type: u,
                         data: {
                           method: c,
-                          params: u
+                          params: l
                         }
                       };
                       "object" == (0, _typeof2.default)(n.secretMethods) && function (e, t) {
@@ -16061,85 +16573,85 @@ function bs(e) {
                         r && (t.secretType = r);
                       }(n, d);
                       p = !1;
-                      _context52.prev = 5;
-                      _context52.next = 8;
+                      _context55.prev = 5;
+                      _context55.next = 8;
                       return e.callFunction(d);
                     case 8:
-                      l = _context52.sent;
-                      _context52.next = 14;
+                      h = _context55.sent;
+                      _context55.next = 14;
                       break;
                     case 11:
-                      _context52.prev = 11;
-                      _context52.t0 = _context52["catch"](5);
-                      p = !0, l = {
-                        result: new ne(_context52.t0)
+                      _context55.prev = 11;
+                      _context55.t0 = _context55["catch"](5);
+                      p = !0, h = {
+                        result: new te(_context55.t0)
                       };
                     case 14:
-                      _ref50 = l.result || {}, f = _ref50.errSubject, g = _ref50.errCode, m = _ref50.errMsg, y = _ref50.newToken;
-                      if (!(a && uni.hideLoading(), y && y.token && y.tokenExpired && (ie(y), Q(W, _objectSpread({}, y))), g)) {
-                        _context52.next = 39;
+                      _ref58 = h.result || {}, f = _ref58.errSubject, g = _ref58.errCode, m = _ref58.errMsg, y = _ref58.newToken;
+                      if (!(a && uni.hideLoading(), y && y.token && y.tokenExpired && (re(y), Y($, _objectSpread({}, y))), g)) {
+                        _context55.next = 39;
                         break;
                       }
-                      _e27 = m;
+                      _e26 = m;
                       if (!(p && o)) {
-                        _context52.next = 24;
+                        _context55.next = 24;
                         break;
                       }
-                      _context52.next = 20;
+                      _context55.next = 20;
                       return o({
                         objectName: t,
                         methodName: c,
-                        params: u,
+                        params: l,
                         errSubject: f,
                         errCode: g,
                         errMsg: m
                       });
                     case 20:
-                      _context52.t1 = _context52.sent.errMsg;
-                      if (_context52.t1) {
-                        _context52.next = 23;
+                      _context55.t1 = _context55.sent.errMsg;
+                      if (_context55.t1) {
+                        _context55.next = 23;
                         break;
                       }
-                      _context52.t1 = m;
+                      _context55.t1 = m;
                     case 23:
-                      _e27 = _context52.t1;
+                      _e26 = _context55.t1;
                     case 24:
                       if (!a) {
-                        _context52.next = 37;
+                        _context55.next = 37;
                         break;
                       }
                       if (!("toast" === i.type)) {
-                        _context52.next = 29;
+                        _context55.next = 29;
                         break;
                       }
                       uni.showToast({
-                        title: _e27,
+                        title: _e26,
                         icon: "none"
                       });
-                      _context52.next = 37;
+                      _context55.next = 37;
                       break;
                     case 29:
                       if (!("modal" !== i.type)) {
-                        _context52.next = 31;
+                        _context55.next = 31;
                         break;
                       }
                       throw new Error("Invalid errorOptions.type: ".concat(i.type));
                     case 31:
-                      _context52.next = 33;
-                      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee51() {
-                        var _ref52,
+                      _context55.next = 33;
+                      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee54() {
+                        var _ref60,
                           e,
                           t,
                           n,
                           s,
                           r,
                           _args2 = arguments;
-                        return _regenerator.default.wrap(function _callee51$(_context51) {
+                        return _regenerator.default.wrap(function _callee54$(_context54) {
                           while (1) {
-                            switch (_context51.prev = _context51.next) {
+                            switch (_context54.prev = _context54.next) {
                               case 0:
-                                _ref52 = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {}, e = _ref52.title, t = _ref52.content, n = _ref52.showCancel, s = _ref52.cancelText, r = _ref52.confirmText;
-                                return _context51.abrupt("return", new Promise(function (i, o) {
+                                _ref60 = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {}, e = _ref60.title, t = _ref60.content, n = _ref60.showCancel, s = _ref60.cancelText, r = _ref60.confirmText;
+                                return _context54.abrupt("return", new Promise(function (i, o) {
                                   uni.showModal({
                                     title: e,
                                     content: t,
@@ -16159,57 +16671,57 @@ function bs(e) {
                                 }));
                               case 2:
                               case "end":
-                                return _context51.stop();
+                                return _context54.stop();
                             }
                           }
-                        }, _callee51);
+                        }, _callee54);
                       }))({
                         title: "提示",
-                        content: _e27,
+                        content: _e26,
                         showCancel: i.retry,
                         cancelText: "取消",
                         confirmText: i.retry ? "重试" : "确定"
                       });
                     case 33:
-                      _yield = _context52.sent;
-                      _t18 = _yield.confirm;
-                      if (!(i.retry && _t18)) {
-                        _context52.next = 37;
+                      _yield = _context55.sent;
+                      _t21 = _yield.confirm;
+                      if (!(i.retry && _t21)) {
+                        _context55.next = 37;
                         break;
                       }
-                      return _context52.abrupt("return", s.apply(void 0, u));
+                      return _context55.abrupt("return", s.apply(void 0, l));
                     case 37:
-                      _n14 = new ne({
+                      _n14 = new te({
                         subject: f,
                         code: g,
                         message: m,
-                        requestId: l.requestId
+                        requestId: h.requestId
                       });
-                      throw _n14.detail = l.result, Q(B, {
-                        type: H,
+                      throw _n14.detail = h.result, Y(j, {
+                        type: z,
                         content: _n14
                       }), _n14;
                     case 39:
-                      return _context52.abrupt("return", (Q(B, {
-                        type: H,
-                        content: l.result
-                      }), l.result));
+                      return _context55.abrupt("return", (Y(j, {
+                        type: z,
+                        content: h.result
+                      }), h.result));
                     case 40:
                     case "end":
-                      return _context52.stop();
+                      return _context55.stop();
                   }
                 }
-              }, _callee52, null, [[5, 11]]);
+              }, _callee55, null, [[5, 11]]);
             }));
             function s() {
-              return _s14.apply(this, arguments);
+              return _s16.apply(this, arguments);
             }
             return s;
           }(),
           interceptorName: "callObject",
           getCallbackArgs: function getCallbackArgs() {
-            var _ref53 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-              e = _ref53.params;
+            var _ref61 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+              e = _ref61.params;
             return {
               objectName: t,
               methodName: c,
@@ -16221,47 +16733,47 @@ function bs(e) {
     });
   };
 }
-function ks(e) {
-  return U("_globalUniCloudSecureNetworkCache__{spaceId}".replace("{spaceId}", e.config.spaceId));
+function Es(e) {
+  return L("_globalUniCloudSecureNetworkCache__{spaceId}".replace("{spaceId}", e.config.spaceId));
 }
-function Cs() {
-  return _Cs.apply(this, arguments);
+function Ls() {
+  return _Ls.apply(this, arguments);
 }
-function _Cs() {
-  _Cs = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee55() {
-    var _ref65,
+function _Ls() {
+  _Ls = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee58() {
+    var _ref73,
       e,
-      _ref65$callLoginByWei,
+      _ref73$callLoginByWei,
       t,
       n,
       s,
       r,
       _args7 = arguments;
-    return _regenerator.default.wrap(function _callee55$(_context55) {
+    return _regenerator.default.wrap(function _callee58$(_context58) {
       while (1) {
-        switch (_context55.prev = _context55.next) {
+        switch (_context58.prev = _context58.next) {
           case 0:
-            _ref65 = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : {}, e = _ref65.openid, _ref65$callLoginByWei = _ref65.callLoginByWeixin, t = _ref65$callLoginByWei === void 0 ? !1 : _ref65$callLoginByWei;
-            n = ks(this);
+            _ref73 = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : {}, e = _ref73.openid, _ref73$callLoginByWei = _ref73.callLoginByWeixin, t = _ref73$callLoginByWei === void 0 ? !1 : _ref73$callLoginByWei;
+            n = Es(this);
             if (!("mp-weixin" !== P)) {
-              _context55.next = 4;
+              _context58.next = 4;
               break;
             }
             throw new Error("[SecureNetwork] API `initSecureNetworkByWeixin` is not supported on platform `".concat(P, "`"));
           case 4:
             if (!(e && t)) {
-              _context55.next = 6;
+              _context58.next = 6;
               break;
             }
             throw new Error("[SecureNetwork] openid and callLoginByWeixin cannot be passed at the same time");
           case 6:
             if (!e) {
-              _context55.next = 8;
+              _context58.next = 8;
               break;
             }
-            return _context55.abrupt("return", (n.mpWeixinOpenid = e, {}));
+            return _context58.abrupt("return", (n.mpWeixinOpenid = e, {}));
           case 8:
-            _context55.next = 10;
+            _context58.next = 10;
             return new Promise(function (e, t) {
               uni.login({
                 success: function success(t) {
@@ -16273,63 +16785,63 @@ function _Cs() {
               });
             });
           case 10:
-            s = _context55.sent;
+            s = _context58.sent;
             r = this.importObject("uni-id-co", {
               customUI: !0
             });
-            _context55.next = 14;
+            _context58.next = 14;
             return r.secureNetworkHandshakeByWeixin({
               code: s,
               callLoginByWeixin: t
             });
           case 14:
             n.mpWeixinCode = s;
-            return _context55.abrupt("return", {
+            return _context58.abrupt("return", {
               code: s
             });
           case 16:
           case "end":
-            return _context55.stop();
+            return _context58.stop();
         }
       }
-    }, _callee55, this);
+    }, _callee58, this);
   }));
-  return _Cs.apply(this, arguments);
+  return _Ls.apply(this, arguments);
 }
-function Ts(_x37) {
-  return _Ts.apply(this, arguments);
+function Rs(_x40) {
+  return _Rs.apply(this, arguments);
 }
-function _Ts() {
-  _Ts = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee56(e) {
+function _Rs() {
+  _Rs = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee59(e) {
     var t;
-    return _regenerator.default.wrap(function _callee56$(_context56) {
+    return _regenerator.default.wrap(function _callee59$(_context59) {
       while (1) {
-        switch (_context56.prev = _context56.next) {
+        switch (_context59.prev = _context59.next) {
           case 0:
-            t = ks(this);
-            return _context56.abrupt("return", (t.initPromise || (t.initPromise = Cs.call(this, e)), t.initPromise));
+            t = Es(this);
+            return _context59.abrupt("return", (t.initPromise || (t.initPromise = Ls.call(this, e)), t.initPromise));
           case 2:
           case "end":
-            return _context56.stop();
+            return _context59.stop();
         }
       }
-    }, _callee56, this);
+    }, _callee59, this);
   }));
-  return _Ts.apply(this, arguments);
+  return _Rs.apply(this, arguments);
 }
-function Ps(e) {
+function Us(e) {
   return function () {
-    var _ref54 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      t = _ref54.openid,
-      _ref54$callLoginByWei = _ref54.callLoginByWeixin,
-      n = _ref54$callLoginByWei === void 0 ? !1 : _ref54$callLoginByWei;
-    return Ts.call(e, {
+    var _ref62 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      t = _ref62.openid,
+      _ref62$callLoginByWei = _ref62.callLoginByWeixin,
+      n = _ref62$callLoginByWei === void 0 ? !1 : _ref62$callLoginByWei;
+    return Rs.call(e, {
       openid: t,
       callLoginByWeixin: n
     });
   };
 }
-function As(e) {
+function Ns(e) {
   var t = {
     getSystemInfo: uni.getSystemInfo,
     getPushClientId: uni.getPushClientId
@@ -16347,50 +16859,50 @@ function As(e) {
     });
   };
 }
-var Es = /*#__PURE__*/function (_ref55) {
-  (0, _inherits2.default)(Es, _ref55);
-  var _super12 = _createSuper(Es);
-  function Es() {
-    var _this22;
-    (0, _classCallCheck2.default)(this, Es);
-    _this22 = _super12.call(this), _this22._uniPushMessageCallback = _this22._receivePushMessage.bind((0, _assertThisInitialized2.default)(_this22)), _this22._currentMessageId = -1, _this22._payloadQueue = [];
-    return _this22;
+var Ds = /*#__PURE__*/function (_ref63) {
+  (0, _inherits2.default)(Ds, _ref63);
+  var _super12 = _createSuper(Ds);
+  function Ds() {
+    var _this24;
+    (0, _classCallCheck2.default)(this, Ds);
+    _this24 = _super12.call(this), _this24._uniPushMessageCallback = _this24._receivePushMessage.bind((0, _assertThisInitialized2.default)(_this24)), _this24._currentMessageId = -1, _this24._payloadQueue = [];
+    return _this24;
   }
-  (0, _createClass2.default)(Es, [{
+  (0, _createClass2.default)(Ds, [{
     key: "init",
     value: function init() {
-      var _this23 = this;
-      return Promise.all([As("getSystemInfo")(), As("getPushClientId")()]).then(function () {
-        var _ref56 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [],
-          _ref57 = (0, _slicedToArray2.default)(_ref56, 2),
-          _ref57$ = _ref57[0];
-        _ref57$ = _ref57$ === void 0 ? {} : _ref57$;
-        var e = _ref57$.appId,
-          _ref57$2 = _ref57[1];
-        _ref57$2 = _ref57$2 === void 0 ? {} : _ref57$2;
-        var t = _ref57$2.cid;
+      var _this25 = this;
+      return Promise.all([Ns("getSystemInfo")(), Ns("getPushClientId")()]).then(function () {
+        var _ref64 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [],
+          _ref65 = (0, _slicedToArray2.default)(_ref64, 2),
+          _ref65$ = _ref65[0];
+        _ref65$ = _ref65$ === void 0 ? {} : _ref65$;
+        var e = _ref65$.appId,
+          _ref65$2 = _ref65[1];
+        _ref65$2 = _ref65$2 === void 0 ? {} : _ref65$2;
+        var t = _ref65$2.cid;
         if (!e) throw new Error("Invalid appId, please check the manifest.json file");
         if (!t) throw new Error("Invalid push client id");
-        _this23._appId = e, _this23._pushClientId = t, _this23._seqId = Date.now() + "-" + Math.floor(9e5 * Math.random() + 1e5), _this23.emit("open"), _this23._initMessageListener();
+        _this25._appId = e, _this25._pushClientId = t, _this25._seqId = Date.now() + "-" + Math.floor(9e5 * Math.random() + 1e5), _this25.emit("open"), _this25._initMessageListener();
       }, function (e) {
-        throw _this23.emit("error", e), _this23.close(), e;
+        throw _this25.emit("error", e), _this25.close(), e;
       });
     }
   }, {
     key: "open",
     value: function () {
-      var _open = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee53() {
-        return _regenerator.default.wrap(function _callee53$(_context53) {
+      var _open = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee56() {
+        return _regenerator.default.wrap(function _callee56$(_context56) {
           while (1) {
-            switch (_context53.prev = _context53.next) {
+            switch (_context56.prev = _context56.next) {
               case 0:
-                return _context53.abrupt("return", this.init());
+                return _context56.abrupt("return", this.init());
               case 1:
               case "end":
-                return _context53.stop();
+                return _context56.stop();
             }
           }
-        }, _callee53, this);
+        }, _callee56, this);
       }));
       function open() {
         return _open.apply(this, arguments);
@@ -16421,13 +16933,13 @@ var Es = /*#__PURE__*/function (_ref55) {
   }, {
     key: "_consumMessage",
     value: function _consumMessage() {
-      var _this24 = this;
+      var _this26 = this;
       for (;;) {
-        var _e28 = this._payloadQueue.find(function (e) {
-          return e.messageId === _this24._currentMessageId + 1;
+        var _e27 = this._payloadQueue.find(function (e) {
+          return e.messageId === _this26._currentMessageId + 1;
         });
-        if (!_e28) break;
-        this._currentMessageId++, this._parseMessagePayload(_e28);
+        if (!_e27) break;
+        this._currentMessageId++, this._parseMessagePayload(_e27);
       }
     }
   }, {
@@ -16447,17 +16959,17 @@ var Es = /*#__PURE__*/function (_ref55) {
   }, {
     key: "_appendMessage",
     value: function _appendMessage() {
-      var _ref58 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        e = _ref58.messageId,
-        t = _ref58.message;
+      var _ref66 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        e = _ref66.messageId,
+        t = _ref66.message;
       this.emit("message", t);
     }
   }, {
     key: "_end",
     value: function _end() {
-      var _ref59 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        e = _ref59.messageId,
-        t = _ref59.message;
+      var _ref67 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        e = _ref67.messageId,
+        t = _ref67.message;
       this.emit("end", t), this.close();
     }
   }, {
@@ -16485,7 +16997,7 @@ var Es = /*#__PURE__*/function (_ref55) {
       this._destroy(), this.emit("close");
     }
   }]);
-  return Es;
+  return Ds;
 }( /*#__PURE__*/function () {
   function _class6() {
     (0, _classCallCheck2.default)(this, _class6);
@@ -16532,31 +17044,31 @@ var Es = /*#__PURE__*/function (_ref55) {
       for (var _len4 = arguments.length, t = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
         t[_key4 - 1] = arguments[_key4];
       }
-      if (n) for (var _e29 = 0; _e29 < n.length; _e29++) {
-        n[_e29].apply(n, t);
+      if (n) for (var _e28 = 0; _e28 < n.length; _e28++) {
+        n[_e28].apply(n, t);
       }
     }
   }]);
   return _class6;
 }());
-function Os(_x38, _x39) {
-  return _Os.apply(this, arguments);
+function Ms(_x41, _x42) {
+  return _Ms.apply(this, arguments);
 }
-function _Os() {
-  _Os = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee57(e, t) {
-    var n, _e33, s;
-    return _regenerator.default.wrap(function _callee57$(_context57) {
+function _Ms() {
+  _Ms = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee60(e, t) {
+    var n, _e32, s;
+    return _regenerator.default.wrap(function _callee60$(_context60) {
       while (1) {
-        switch (_context57.prev = _context57.next) {
+        switch (_context60.prev = _context60.next) {
           case 0:
             n = "http://".concat(e, ":").concat(t, "/system/ping");
-            _context57.prev = 1;
-            _context57.next = 4;
+            _context60.prev = 1;
+            _context60.next = 4;
             return s = {
               url: n,
               timeout: 500
             }, new Promise(function (e, t) {
-              se.request(_objectSpread(_objectSpread({}, s), {}, {
+              ne.request(_objectSpread(_objectSpread({}, s), {}, {
                 success: function success(t) {
                   e(t);
                 },
@@ -16566,112 +17078,112 @@ function _Os() {
               }));
             });
           case 4:
-            _e33 = _context57.sent;
-            return _context57.abrupt("return", !(!_e33.data || 0 !== _e33.data.code));
+            _e32 = _context60.sent;
+            return _context60.abrupt("return", !(!_e32.data || 0 !== _e32.data.code));
           case 8:
-            _context57.prev = 8;
-            _context57.t0 = _context57["catch"](1);
-            return _context57.abrupt("return", !1);
+            _context60.prev = 8;
+            _context60.t0 = _context60["catch"](1);
+            return _context60.abrupt("return", !1);
           case 11:
           case "end":
-            return _context57.stop();
+            return _context60.stop();
         }
       }
-    }, _callee57, null, [[1, 8]]);
+    }, _callee60, null, [[1, 8]]);
   }));
-  return _Os.apply(this, arguments);
+  return _Ms.apply(this, arguments);
 }
-function xs(_x40) {
-  return _xs.apply(this, arguments);
+function qs(_x43) {
+  return _qs.apply(this, arguments);
 }
-function _xs() {
-  _xs = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee59(e) {
-    var _ce2, _e34, _t20, t, _t$debugInfo, n, s, _yield2, r, i, o;
-    return _regenerator.default.wrap(function _callee59$(_context59) {
+function _qs() {
+  _qs = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee62(e) {
+    var _ae2, _e33, _t23, t, _t$debugInfo, n, s, _yield2, r, i, o;
+    return _regenerator.default.wrap(function _callee62$(_context62) {
       while (1) {
-        switch (_context59.prev = _context59.next) {
+        switch (_context62.prev = _context62.next) {
           case 0:
-            if (b) {
-              _context59.next = 2;
+            if (S) {
+              _context62.next = 2;
               break;
             }
-            return _context59.abrupt("return", Promise.resolve());
+            return _context62.abrupt("return", Promise.resolve());
           case 2:
             if ("app" === P) {
-              _ce2 = ce(), _e34 = _ce2.osName, _t20 = _ce2.osVersion;
-              "ios" === _e34 && function (e) {
+              _ae2 = ae(), _e33 = _ae2.osName, _t23 = _ae2.osVersion;
+              "ios" === _e33 && function (e) {
                 if (!e || "string" != typeof e) return 0;
                 var t = e.match(/^(\d+)./);
                 return t && t[1] ? parseInt(t[1]) : 0;
-              }(_t20) >= 14 && console.warn("iOS 14及以上版本连接uniCloud本地调试服务需要允许客户端查找并连接到本地网络上的设备（仅开发模式生效，发行模式会连接uniCloud云端服务）");
+              }(_t23) >= 14 && console.warn("iOS 14及以上版本连接uniCloud本地调试服务需要允许客户端查找并连接到本地网络上的设备（仅开发模式生效，发行模式会连接uniCloud云端服务）");
             }
             t = e.__dev__;
             if (t.debugInfo) {
-              _context59.next = 6;
+              _context62.next = 6;
               break;
             }
-            return _context59.abrupt("return");
+            return _context62.abrupt("return");
           case 6:
             _t$debugInfo = t.debugInfo;
             n = _t$debugInfo.address;
             s = _t$debugInfo.servePort;
-            _context59.next = 11;
+            _context62.next = 11;
             return function () {
-              var _ref66 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee58(e, t) {
-                var n, _s15, _r8;
-                return _regenerator.default.wrap(function _callee58$(_context58) {
+              var _ref74 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee61(e, t) {
+                var n, _s17, _r8;
+                return _regenerator.default.wrap(function _callee61$(_context61) {
                   while (1) {
-                    switch (_context58.prev = _context58.next) {
+                    switch (_context61.prev = _context61.next) {
                       case 0:
-                        _s15 = 0;
+                        _s17 = 0;
                       case 1:
-                        if (!(_s15 < e.length)) {
-                          _context58.next = 11;
+                        if (!(_s17 < e.length)) {
+                          _context61.next = 11;
                           break;
                         }
-                        _r8 = e[_s15];
-                        _context58.next = 5;
-                        return Os(_r8, t);
+                        _r8 = e[_s17];
+                        _context61.next = 5;
+                        return Ms(_r8, t);
                       case 5:
-                        if (!_context58.sent) {
-                          _context58.next = 8;
+                        if (!_context61.sent) {
+                          _context61.next = 8;
                           break;
                         }
                         n = _r8;
-                        return _context58.abrupt("break", 11);
+                        return _context61.abrupt("break", 11);
                       case 8:
-                        _s15++;
-                        _context58.next = 1;
+                        _s17++;
+                        _context61.next = 1;
                         break;
                       case 11:
-                        return _context58.abrupt("return", {
+                        return _context61.abrupt("return", {
                           address: n,
                           port: t
                         });
                       case 12:
                       case "end":
-                        return _context58.stop();
+                        return _context61.stop();
                     }
                   }
-                }, _callee58);
+                }, _callee61);
               }));
-              return function (_x41, _x42) {
-                return _ref66.apply(this, arguments);
+              return function (_x44, _x45) {
+                return _ref74.apply(this, arguments);
               };
             }()(n, s);
           case 11:
-            _yield2 = _context59.sent;
+            _yield2 = _context62.sent;
             r = _yield2.address;
             if (!r) {
-              _context59.next = 15;
+              _context62.next = 15;
               break;
             }
-            return _context59.abrupt("return", (t.localAddress = r, void (t.localPort = s)));
+            return _context62.abrupt("return", (t.localAddress = r, void (t.localPort = s)));
           case 15:
             i = console["app" === P ? "error" : "warn"];
             o = "";
             if (!("remote" === t.debugInfo.initialLaunchType ? (t.debugInfo.forceRemote = !0, o = "当前客户端和HBuilderX不在同一局域网下（或其他网络原因无法连接HBuilderX），uniCloud本地调试服务不对当前客户端生效。\n- 如果不使用uniCloud本地调试服务，请直接忽略此信息。\n- 如需使用uniCloud本地调试服务，请将客户端与主机连接到同一局域网下并重新运行到客户端。") : o = "无法连接uniCloud本地调试服务，请检查当前客户端是否与主机在同一局域网下。\n- 如需使用uniCloud本地调试服务，请将客户端与主机连接到同一局域网下并重新运行到客户端。", o += "\n- 如果在HBuilderX开启的状态下切换过网络环境，请重启HBuilderX后再试\n- 检查系统防火墙是否拦截了HBuilderX自带的nodejs\n- 检查是否错误的使用拦截器修改uni.request方法的参数", "web" === P && (o += "\n- 部分浏览器开启节流模式之后访问本地地址受限，请检查是否启用了节流模式"), 0 === P.indexOf("mp-") && (o += "\n- 小程序中如何使用uniCloud，请参考：https://uniapp.dcloud.net.cn/uniCloud/publish.html#useinmp"), !t.debugInfo.forceRemote)) {
-              _context59.next = 19;
+              _context62.next = 19;
               break;
             }
             throw new Error(o);
@@ -16679,15 +17191,15 @@ function _xs() {
             i(o);
           case 20:
           case "end":
-            return _context59.stop();
+            return _context62.stop();
         }
       }
-    }, _callee59);
+    }, _callee62);
   }));
-  return _xs.apply(this, arguments);
+  return _qs.apply(this, arguments);
 }
-function Rs(e) {
-  e._initPromiseHub || (e._initPromiseHub = new I({
+function Fs(e) {
+  e._initPromiseHub || (e._initPromiseHub = new v({
     createPromise: function createPromise() {
       var t = Promise.resolve();
       var n;
@@ -16705,13 +17217,14 @@ function Rs(e) {
     }
   }));
 }
-var Us = {
+var Ks = {
   tcb: It,
   tencent: It,
-  aliyun: ge,
-  private: bt
+  aliyun: de,
+  private: bt,
+  alipay: Ot
 };
-var Ls = new ( /*#__PURE__*/function () {
+var js = new ( /*#__PURE__*/function () {
   function _class7() {
     (0, _classCallCheck2.default)(this, _class7);
   }
@@ -16719,23 +17232,23 @@ var Ls = new ( /*#__PURE__*/function () {
     key: "init",
     value: function init(e) {
       var t = {};
-      var n = Us[e.provider];
+      var n = Ks[e.provider];
       if (!n) throw new Error("未提供正确的provider参数");
-      t = n.init(e), b && function (e) {
-        if (!b) return;
+      t = n.init(e), S && function (e) {
+        if (!S) return;
         var t = {};
-        e.__dev__ = t, t.debugLog = b && ("web" === P && navigator.userAgent.indexOf("HBuilderX") > 0 || "app" === P);
-        var n = A;
+        e.__dev__ = t, t.debugLog = S && ("web" === P && navigator.userAgent.indexOf("HBuilderX") > 0 || "app" === P);
+        var n = T;
         n && !n.code && (t.debugInfo = n);
-        var s = new I({
+        var s = new v({
           createPromise: function createPromise() {
-            return xs(e);
+            return qs(e);
           }
         });
         t.initLocalNetwork = function () {
           return s.exec();
         };
-      }(t), Rs(t), xn(t), function (e) {
+      }(t), Fs(t), qn(t), function (e) {
         var t = e.uploadFile;
         e.uploadFile = function (e) {
           return t.call(this, e);
@@ -16744,25 +17257,25 @@ var Ls = new ( /*#__PURE__*/function () {
         e.database = function (t) {
           if (t && Object.keys(t).length > 0) return e.init(t).database();
           if (this._database) return this._database;
-          var n = Bn($n, {
+          var n = Gn(Yn, {
             uniClient: e
           });
           return this._database = n, n;
         }, e.databaseForJQL = function (t) {
           if (t && Object.keys(t).length > 0) return e.init(t).databaseForJQL();
           if (this._databaseForJQL) return this._databaseForJQL;
-          var n = Bn($n, {
+          var n = Gn(Yn, {
             uniClient: e,
             isJQL: !0
           });
           return this._databaseForJQL = n, n;
         };
       }(t), function (e) {
-        e.getCurrentUserInfo = _s, e.chooseAndUploadFile = vs.initChooseAndUploadFile(e), Object.assign(e, {
+        e.getCurrentUserInfo = As, e.chooseAndUploadFile = Ts.initChooseAndUploadFile(e), Object.assign(e, {
           get mixinDatacom() {
-            return Ss(e);
+            return xs(e);
           }
-        }), e.SSEChannel = Es, e.initSecureNetworkByWeixin = Ps(e), e.importObject = bs(e);
+        }), e.SSEChannel = Ds, e.initSecureNetworkByWeixin = Us(e), e.importObject = Os(e);
       }(t);
       return ["callFunction", "uploadFile", "deleteFile", "getTempFileURL", "downloadFile", "chooseAndUploadFile"].forEach(function (e) {
         if (!t[e]) return;
@@ -16771,51 +17284,51 @@ var Ls = new ( /*#__PURE__*/function () {
           return n.apply(t, Array.from(arguments));
         }, t[e] = function (e, t) {
           return function (n) {
-            var _this25 = this;
+            var _this27 = this;
             var s = !1;
             if ("callFunction" === t) {
-              var _e30 = n && n.type || u;
-              s = _e30 !== u;
+              var _e29 = n && n.type || c;
+              s = _e29 !== c;
             }
             var r = "callFunction" === t && !s,
               i = this._initPromiseHub.exec();
             n = n || {};
-            var _te2 = te(n),
-              o = _te2.success,
-              a = _te2.fail,
-              c = _te2.complete,
-              h = i.then(function () {
-                return s ? Promise.resolve() : q(M(t, "invoke"), n);
+            var _ee2 = ee(n),
+              o = _ee2.success,
+              a = _ee2.fail,
+              u = _ee2.complete,
+              l = i.then(function () {
+                return s ? Promise.resolve() : M(q(t, "invoke"), n);
               }).then(function () {
-                return e.call(_this25, n);
+                return e.call(_this27, n);
               }).then(function (e) {
-                return s ? Promise.resolve(e) : q(M(t, "success"), e).then(function () {
-                  return q(M(t, "complete"), e);
+                return s ? Promise.resolve(e) : M(q(t, "success"), e).then(function () {
+                  return M(q(t, "complete"), e);
                 }).then(function () {
-                  return r && Q(B, {
-                    type: J,
+                  return r && Y(j, {
+                    type: H,
                     content: e
                   }), Promise.resolve(e);
                 });
               }, function (e) {
-                return s ? Promise.reject(e) : q(M(t, "fail"), e).then(function () {
-                  return q(M(t, "complete"), e);
+                return s ? Promise.reject(e) : M(q(t, "fail"), e).then(function () {
+                  return M(q(t, "complete"), e);
                 }).then(function () {
-                  return Q(B, {
-                    type: J,
+                  return Y(j, {
+                    type: H,
                     content: e
                   }), Promise.reject(e);
                 });
               });
-            if (!(o || a || c)) return h;
-            h.then(function (e) {
-              o && o(e), c && c(e), r && Q(B, {
-                type: J,
+            if (!(o || a || u)) return l;
+            l.then(function (e) {
+              o && o(e), u && u(e), r && Y(j, {
+                type: H,
                 content: e
               });
             }, function (e) {
-              a && a(e), c && c(e), r && Q(B, {
-                type: J,
+              a && a(e), u && u(e), r && Y(j, {
+                type: H,
                 content: e
               });
             });
@@ -16827,32 +17340,96 @@ var Ls = new ( /*#__PURE__*/function () {
   return _class7;
 }())();
 (function () {
-  var e = E;
+  var e = C;
   var t = {};
-  if (e && 1 === e.length) t = e[0], Ls = Ls.init(t), Ls._isDefault = !0;else {
-    var _t19 = ["auth", "callFunction", "uploadFile", "deleteFile", "getTempFileURL", "downloadFile", "database", "getCurrentUSerInfo", "importObject"];
+  if (e && 1 === e.length) t = e[0], js = js.init(t), js._isDefault = !0;else {
+    var _t22 = ["auth", "callFunction", "uploadFile", "deleteFile", "getTempFileURL", "downloadFile", "database", "getCurrentUSerInfo", "importObject"];
     var _n16;
-    _n16 = e && e.length > 0 ? "应用有多个服务空间，请通过uniCloud.init方法指定要使用的服务空间" : O ? "应用未关联服务空间，请在uniCloud目录右键关联服务空间" : "uni-app cli项目内使用uniCloud需要使用HBuilderX的运行菜单运行项目，且需要在uniCloud目录关联服务空间", _t19.forEach(function (e) {
-      Ls[e] = function () {
-        return console.error(_n16), Promise.reject(new ne({
+    _n16 = e && e.length > 0 ? "应用有多个服务空间，请通过uniCloud.init方法指定要使用的服务空间" : x ? "应用未关联服务空间，请在uniCloud目录右键关联服务空间" : "uni-app cli项目内使用uniCloud需要使用HBuilderX的运行菜单运行项目，且需要在uniCloud目录关联服务空间", _t22.forEach(function (e) {
+      js[e] = function () {
+        return console.error(_n16), Promise.reject(new te({
           code: "SYS_ERR",
           message: _n16
         }));
       };
     });
   }
-  Object.assign(Ls, {
+  Object.assign(js, {
     get mixinDatacom() {
-      return Ss(Ls);
+      return xs(js);
     }
-  }), fs(Ls), Ls.addInterceptor = D, Ls.removeInterceptor = F, Ls.interceptObject = K, b && "web" === P && (window.uniCloud = Ls);
+  }), Is(js), js.addInterceptor = N, js.removeInterceptor = D, js.interceptObject = F, S && "web" === P && (window.uniCloud = js);
 })();
-var Ns = Ls;
-exports.default = Ns;
+var Bs = js;
+exports.default = Bs;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
 /* 28 */
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+  return self;
+}
+module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+/* 29 */
+/*!************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/objectWithoutProperties.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var objectWithoutPropertiesLoose = __webpack_require__(/*! ./objectWithoutPropertiesLoose.js */ 30);
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+  var target = objectWithoutPropertiesLoose(source, excluded);
+  var key, i;
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+module.exports = _objectWithoutProperties, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+/* 30 */
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+  return target;
+}
+module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+/* 31 */
 /*!************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/@babel/runtime/regenerator/index.js ***!
   \************************************************************************************************/
@@ -16861,11 +17438,11 @@ exports.default = Ns;
 
 // TODO(Babel 8): Remove this file.
 
-var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 29)();
+var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 32)();
 module.exports = runtime;
 
 /***/ }),
-/* 29 */
+/* 32 */
 /*!*******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
   \*******************************************************************/
@@ -17186,23 +17763,7 @@ function _regeneratorRuntime() {
 module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 30 */
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return self;
-}
-module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-/* 31 */
+/* 33 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
   \*****************************************************************/
@@ -17242,7 +17803,7 @@ function _asyncToGenerator(fn) {
 module.exports = _asyncToGenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 32 */
+/* 34 */
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -17269,7 +17830,7 @@ function _inherits(subClass, superClass) {
 module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 33 */
+/* 35 */
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -17277,7 +17838,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 30);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 28);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -17289,7 +17850,7 @@ function _possibleConstructorReturn(self, call) {
 module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 34 */
+/* 36 */
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -17305,16 +17866,16 @@ function _getPrototypeOf(o) {
 module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 35 */
+/* 37 */
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 34);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 36);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 36);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 38);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -17345,7 +17906,7 @@ function _wrapNativeSuper(Class) {
 module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 36 */
+/* 38 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -17358,10 +17919,10 @@ function _isNativeFunction(fn) {
 module.exports = _isNativeFunction, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 37 */
-/*!***********************************************************************!*\
-  !*** E:/code/baba_statistics/pages.json?{"type":"origin-pages-json"} ***!
-  \***********************************************************************/
+/* 39 */
+/*!************************************************************************!*\
+  !*** E:/githubCode/statistics/pages.json?{"type":"origin-pages-json"} ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17463,6 +18024,12 @@ var _default = {
       "navigationBarTitleText": "计时器",
       "enablePullDownRefresh": false
     }
+  }, {
+    "path": "pages/map/map",
+    "style": {
+      "navigationBarTitleText": "位置共享",
+      "enablePullDownRefresh": false
+    }
   }],
   "globalStyle": {
     "navigationBarTextStyle": "black",
@@ -17506,10 +18073,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 38 */
-/*!**********************************************************!*\
-  !*** E:/code/baba_statistics/pages.json?{"type":"stat"} ***!
-  \**********************************************************/
+/* 40 */
+/*!***********************************************************!*\
+  !*** E:/githubCode/statistics/pages.json?{"type":"stat"} ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17526,12 +18093,12 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 39 */,
-/* 40 */,
 /* 41 */,
 /* 42 */,
 /* 43 */,
-/* 44 */
+/* 44 */,
+/* 45 */,
+/* 46 */
 /*!**********************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
   \**********************************************************************************************************/
@@ -17662,10 +18229,10 @@ function normalizeComponent (
 
 
 /***/ }),
-/* 45 */
-/*!**********************************************!*\
-  !*** E:/code/baba_statistics/store/index.js ***!
-  \**********************************************/
+/* 47 */
+/*!***********************************************!*\
+  !*** E:/githubCode/statistics/store/index.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17678,8 +18245,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 46));
-var _userInfo = _interopRequireDefault(__webpack_require__(/*! ./userInfo.js */ 47));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 48));
+var _userInfo = _interopRequireDefault(__webpack_require__(/*! ./userInfo.js */ 49));
 _vue.default.use(_vuex.default);
 var _default = new _vuex.default.Store({
   state: {},
@@ -17692,7 +18259,7 @@ var _default = new _vuex.default.Store({
 exports.default = _default;
 
 /***/ }),
-/* 46 */
+/* 48 */
 /*!**************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vuex3/dist/vuex.common.js ***!
   \**************************************************************************************/
@@ -18948,10 +19515,10 @@ module.exports = index_cjs;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-/* 47 */
-/*!*************************************************!*\
-  !*** E:/code/baba_statistics/store/userInfo.js ***!
-  \*************************************************/
+/* 49 */
+/*!**************************************************!*\
+  !*** E:/githubCode/statistics/store/userInfo.js ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18994,10 +19561,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 48 */
-/*!*************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/index.js ***!
-  \*************************************************************/
+/* 50 */
+/*!**************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/index.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19010,20 +19577,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 49));
-var _mpMixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mpMixin.js */ 50));
-var _luchRequest = _interopRequireDefault(__webpack_require__(/*! ./libs/luch-request */ 51));
-var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/util/route.js */ 69));
-var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 70));
-var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 71));
-var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 72));
-var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 73));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./libs/function/index.js */ 74));
-var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 77));
-var _props = _interopRequireDefault(__webpack_require__(/*! ./libs/config/props.js */ 78));
-var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 168));
-var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/config/color.js */ 126));
-var _platform = _interopRequireDefault(__webpack_require__(/*! ./libs/function/platform */ 169));
+var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 51));
+var _mpMixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mpMixin.js */ 52));
+var _luchRequest = _interopRequireDefault(__webpack_require__(/*! ./libs/luch-request */ 53));
+var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/util/route.js */ 71));
+var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 72));
+var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 73));
+var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 74));
+var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 75));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./libs/function/index.js */ 76));
+var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 79));
+var _props = _interopRequireDefault(__webpack_require__(/*! ./libs/config/props.js */ 80));
+var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 170));
+var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/config/color.js */ 128));
+var _platform = _interopRequireDefault(__webpack_require__(/*! ./libs/function/platform */ 171));
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 // 看到此报错，是因为没有配置vue.config.js的【transpileDependencies】，详见：https://www.uviewui.com/components/npmSetting.html#_5-cli模式额外配置
@@ -19083,10 +19650,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 49 */
-/*!************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/mixin.js ***!
-  \************************************************************************/
+/* 51 */
+/*!*************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/mixin/mixin.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19251,10 +19818,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 50 */
-/*!**************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/mpMixin.js ***!
-  \**************************************************************************/
+/* 52 */
+/*!***************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/mixin/mpMixin.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19274,10 +19841,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 51 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/index.js ***!
-  \*******************************************************************************/
+/* 53 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/index.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19289,15 +19856,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _Request = _interopRequireDefault(__webpack_require__(/*! ./core/Request */ 52));
+var _Request = _interopRequireDefault(__webpack_require__(/*! ./core/Request */ 54));
 var _default = _Request.default;
 exports.default = _default;
 
 /***/ }),
-/* 52 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/Request.js ***!
-  \**************************************************************************************/
+/* 54 */
+/*!***************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/core/Request.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19312,12 +19879,12 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _dispatchRequest = _interopRequireDefault(__webpack_require__(/*! ./dispatchRequest */ 53));
-var _InterceptorManager = _interopRequireDefault(__webpack_require__(/*! ./InterceptorManager */ 61));
-var _mergeConfig = _interopRequireDefault(__webpack_require__(/*! ./mergeConfig */ 62));
-var _defaults = _interopRequireDefault(__webpack_require__(/*! ./defaults */ 63));
-var _utils = __webpack_require__(/*! ../utils */ 56);
-var _clone = _interopRequireDefault(__webpack_require__(/*! ../utils/clone */ 64));
+var _dispatchRequest = _interopRequireDefault(__webpack_require__(/*! ./dispatchRequest */ 55));
+var _InterceptorManager = _interopRequireDefault(__webpack_require__(/*! ./InterceptorManager */ 63));
+var _mergeConfig = _interopRequireDefault(__webpack_require__(/*! ./mergeConfig */ 64));
+var _defaults = _interopRequireDefault(__webpack_require__(/*! ./defaults */ 65));
+var _utils = __webpack_require__(/*! ../utils */ 58);
+var _clone = _interopRequireDefault(__webpack_require__(/*! ../utils/clone */ 66));
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var Request = /*#__PURE__*/function () {
@@ -19500,10 +20067,10 @@ var Request = /*#__PURE__*/function () {
 exports.default = Request;
 
 /***/ }),
-/* 53 */
-/*!**********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/dispatchRequest.js ***!
-  \**********************************************************************************************/
+/* 55 */
+/*!***********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/core/dispatchRequest.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19515,17 +20082,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _index = _interopRequireDefault(__webpack_require__(/*! ../adapters/index */ 54));
+var _index = _interopRequireDefault(__webpack_require__(/*! ../adapters/index */ 56));
 var _default = function _default(config) {
   return (0, _index.default)(config);
 };
 exports.default = _default;
 
 /***/ }),
-/* 54 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/adapters/index.js ***!
-  \****************************************************************************************/
+/* 56 */
+/*!*****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/adapters/index.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19538,10 +20105,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _buildURL = _interopRequireDefault(__webpack_require__(/*! ../helpers/buildURL */ 55));
-var _buildFullPath = _interopRequireDefault(__webpack_require__(/*! ../core/buildFullPath */ 57));
-var _settle = _interopRequireDefault(__webpack_require__(/*! ../core/settle */ 60));
-var _utils = __webpack_require__(/*! ../utils */ 56);
+var _buildURL = _interopRequireDefault(__webpack_require__(/*! ../helpers/buildURL */ 57));
+var _buildFullPath = _interopRequireDefault(__webpack_require__(/*! ../core/buildFullPath */ 59));
+var _settle = _interopRequireDefault(__webpack_require__(/*! ../core/settle */ 62));
+var _utils = __webpack_require__(/*! ../utils */ 58);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 /**
@@ -19603,10 +20170,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 55 */
-/*!******************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/buildURL.js ***!
-  \******************************************************************************************/
+/* 57 */
+/*!*******************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/helpers/buildURL.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19618,7 +20185,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = buildURL;
-var utils = _interopRequireWildcard(__webpack_require__(/*! ../utils */ 56));
+var utils = _interopRequireWildcard(__webpack_require__(/*! ../utils */ 58));
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function encode(val) {
@@ -19673,10 +20240,10 @@ function buildURL(url, params) {
 }
 
 /***/ }),
-/* 56 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/utils.js ***!
-  \*******************************************************************************/
+/* 58 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/utils.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19826,10 +20393,10 @@ function isUndefined(val) {
 }
 
 /***/ }),
-/* 57 */
-/*!********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/buildFullPath.js ***!
-  \********************************************************************************************/
+/* 59 */
+/*!*********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/core/buildFullPath.js ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19841,8 +20408,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = buildFullPath;
-var _isAbsoluteURL = _interopRequireDefault(__webpack_require__(/*! ../helpers/isAbsoluteURL */ 58));
-var _combineURLs = _interopRequireDefault(__webpack_require__(/*! ../helpers/combineURLs */ 59));
+var _isAbsoluteURL = _interopRequireDefault(__webpack_require__(/*! ../helpers/isAbsoluteURL */ 60));
+var _combineURLs = _interopRequireDefault(__webpack_require__(/*! ../helpers/combineURLs */ 61));
 /**
  * Creates a new URL by combining the baseURL with the requestedURL,
  * only when the requestedURL is not already an absolute URL.
@@ -19860,10 +20427,10 @@ function buildFullPath(baseURL, requestedURL) {
 }
 
 /***/ }),
-/* 58 */
-/*!***********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/isAbsoluteURL.js ***!
-  \***********************************************************************************************/
+/* 60 */
+/*!************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/helpers/isAbsoluteURL.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19888,10 +20455,10 @@ function isAbsoluteURL(url) {
 }
 
 /***/ }),
-/* 59 */
-/*!*********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/helpers/combineURLs.js ***!
-  \*********************************************************************************************/
+/* 61 */
+/*!**********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/helpers/combineURLs.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19914,10 +20481,10 @@ function combineURLs(baseURL, relativeURL) {
 }
 
 /***/ }),
-/* 60 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/settle.js ***!
-  \*************************************************************************************/
+/* 62 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/core/settle.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19946,10 +20513,10 @@ function settle(resolve, reject, response) {
 }
 
 /***/ }),
-/* 61 */
-/*!*************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/InterceptorManager.js ***!
-  \*************************************************************************************************/
+/* 63 */
+/*!**************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/core/InterceptorManager.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20010,10 +20577,10 @@ var _default = InterceptorManager;
 exports.default = _default;
 
 /***/ }),
-/* 62 */
-/*!******************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/mergeConfig.js ***!
-  \******************************************************************************************/
+/* 64 */
+/*!*******************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/core/mergeConfig.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20026,7 +20593,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _utils = __webpack_require__(/*! ../utils */ 56);
+var _utils = __webpack_require__(/*! ../utils */ 58);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 /**
@@ -20086,10 +20653,10 @@ var _default = function _default(globalsConfig) {
 exports.default = _default;
 
 /***/ }),
-/* 63 */
-/*!***************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/core/defaults.js ***!
-  \***************************************************************************************/
+/* 65 */
+/*!****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/core/defaults.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20118,10 +20685,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 64 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/luch-request/utils/clone.js ***!
-  \*************************************************************************************/
+/* 66 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/luch-request/utils/clone.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20367,10 +20934,10 @@ var clone = function () {
 }();
 var _default = clone;
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/buffer/index.js */ 65).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/buffer/index.js */ 67).Buffer))
 
 /***/ }),
-/* 65 */
+/* 67 */
 /*!**************************************!*\
   !*** ./node_modules/buffer/index.js ***!
   \**************************************/
@@ -20388,9 +20955,9 @@ exports.default = _default;
 
 
 
-var base64 = __webpack_require__(/*! base64-js */ 66)
-var ieee754 = __webpack_require__(/*! ieee754 */ 67)
-var isArray = __webpack_require__(/*! isarray */ 68)
+var base64 = __webpack_require__(/*! base64-js */ 68)
+var ieee754 = __webpack_require__(/*! ieee754 */ 69)
+var isArray = __webpack_require__(/*! isarray */ 70)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -22171,7 +22738,7 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-/* 66 */
+/* 68 */
 /*!*****************************************!*\
   !*** ./node_modules/base64-js/index.js ***!
   \*****************************************/
@@ -22332,7 +22899,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 67 */
+/* 69 */
 /*!***************************************!*\
   !*** ./node_modules/ieee754/index.js ***!
   \***************************************/
@@ -22427,7 +22994,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 68 */
+/* 70 */
 /*!***************************************!*\
   !*** ./node_modules/isarray/index.js ***!
   \***************************************/
@@ -22442,10 +23009,10 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 69 */
-/*!***********************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/util/route.js ***!
-  \***********************************************************************/
+/* 71 */
+/*!************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/util/route.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22457,8 +23024,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 31));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 33));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
 /**
@@ -22630,10 +23197,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 70 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/colorGradient.js ***!
-  \***********************************************************************************/
+/* 72 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/function/colorGradient.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22785,10 +23352,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 71 */
-/*!**************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/test.js ***!
-  \**************************************************************************/
+/* 73 */
+/*!***************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/function/test.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23090,10 +23657,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 72 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/debounce.js ***!
-  \******************************************************************************/
+/* 74 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/function/debounce.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23137,10 +23704,10 @@ var _default = debounce;
 exports.default = _default;
 
 /***/ }),
-/* 73 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/throttle.js ***!
-  \******************************************************************************/
+/* 75 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/function/throttle.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23186,10 +23753,10 @@ var _default = throttle;
 exports.default = _default;
 
 /***/ }),
-/* 74 */
-/*!***************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/index.js ***!
-  \***************************************************************************/
+/* 76 */
+/*!****************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/function/index.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23203,8 +23770,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
-var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 71));
-var _digit = __webpack_require__(/*! ./digit.js */ 75);
+var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 73));
+var _digit = __webpack_require__(/*! ./digit.js */ 77);
 /**
  * @description 如果value小于min，取min；如果value大于max，取max
  * @param {number} min
@@ -23987,10 +24554,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 75 */
-/*!***************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/digit.js ***!
-  \***************************************************************************/
+/* 77 */
+/*!****************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/function/digit.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24008,7 +24575,7 @@ exports.minus = minus;
 exports.plus = plus;
 exports.round = round;
 exports.times = times;
-var _toArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toArray */ 76));
+var _toArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toArray */ 78));
 var _boundaryCheckingState = true; // 是否进行越界检查的全局开关
 
 /**
@@ -24189,7 +24756,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 76 */
+/* 78 */
 /*!********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/toArray.js ***!
   \********************************************************/
@@ -24206,10 +24773,10 @@ function _toArray(arr) {
 module.exports = _toArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 77 */
-/*!**************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/config.js ***!
-  \**************************************************************************/
+/* 79 */
+/*!***************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/config.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24250,10 +24817,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 78 */
-/*!*************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props.js ***!
-  \*************************************************************************/
+/* 80 */
+/*!**************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24266,95 +24833,95 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 77));
-var _actionSheet = _interopRequireDefault(__webpack_require__(/*! ./props/actionSheet.js */ 79));
-var _album = _interopRequireDefault(__webpack_require__(/*! ./props/album.js */ 80));
-var _alert = _interopRequireDefault(__webpack_require__(/*! ./props/alert.js */ 81));
-var _avatar = _interopRequireDefault(__webpack_require__(/*! ./props/avatar */ 82));
-var _avatarGroup = _interopRequireDefault(__webpack_require__(/*! ./props/avatarGroup */ 83));
-var _backtop = _interopRequireDefault(__webpack_require__(/*! ./props/backtop */ 84));
-var _badge = _interopRequireDefault(__webpack_require__(/*! ./props/badge */ 85));
-var _button = _interopRequireDefault(__webpack_require__(/*! ./props/button */ 86));
-var _calendar = _interopRequireDefault(__webpack_require__(/*! ./props/calendar */ 87));
-var _carKeyboard = _interopRequireDefault(__webpack_require__(/*! ./props/carKeyboard */ 88));
-var _cell = _interopRequireDefault(__webpack_require__(/*! ./props/cell */ 89));
-var _cellGroup = _interopRequireDefault(__webpack_require__(/*! ./props/cellGroup */ 90));
-var _checkbox = _interopRequireDefault(__webpack_require__(/*! ./props/checkbox */ 91));
-var _checkboxGroup = _interopRequireDefault(__webpack_require__(/*! ./props/checkboxGroup */ 92));
-var _circleProgress = _interopRequireDefault(__webpack_require__(/*! ./props/circleProgress */ 93));
-var _code = _interopRequireDefault(__webpack_require__(/*! ./props/code */ 94));
-var _codeInput = _interopRequireDefault(__webpack_require__(/*! ./props/codeInput */ 95));
-var _col = _interopRequireDefault(__webpack_require__(/*! ./props/col */ 96));
-var _collapse = _interopRequireDefault(__webpack_require__(/*! ./props/collapse */ 97));
-var _collapseItem = _interopRequireDefault(__webpack_require__(/*! ./props/collapseItem */ 98));
-var _columnNotice = _interopRequireDefault(__webpack_require__(/*! ./props/columnNotice */ 99));
-var _countDown = _interopRequireDefault(__webpack_require__(/*! ./props/countDown */ 100));
-var _countTo = _interopRequireDefault(__webpack_require__(/*! ./props/countTo */ 101));
-var _datetimePicker = _interopRequireDefault(__webpack_require__(/*! ./props/datetimePicker */ 102));
-var _divider = _interopRequireDefault(__webpack_require__(/*! ./props/divider */ 103));
-var _empty = _interopRequireDefault(__webpack_require__(/*! ./props/empty */ 104));
-var _form = _interopRequireDefault(__webpack_require__(/*! ./props/form */ 105));
-var _formItem = _interopRequireDefault(__webpack_require__(/*! ./props/formItem */ 106));
-var _gap = _interopRequireDefault(__webpack_require__(/*! ./props/gap */ 107));
-var _grid = _interopRequireDefault(__webpack_require__(/*! ./props/grid */ 108));
-var _gridItem = _interopRequireDefault(__webpack_require__(/*! ./props/gridItem */ 109));
-var _icon = _interopRequireDefault(__webpack_require__(/*! ./props/icon */ 110));
-var _image = _interopRequireDefault(__webpack_require__(/*! ./props/image */ 111));
-var _indexAnchor = _interopRequireDefault(__webpack_require__(/*! ./props/indexAnchor */ 112));
-var _indexList = _interopRequireDefault(__webpack_require__(/*! ./props/indexList */ 113));
-var _input = _interopRequireDefault(__webpack_require__(/*! ./props/input */ 114));
-var _keyboard = _interopRequireDefault(__webpack_require__(/*! ./props/keyboard */ 115));
-var _line = _interopRequireDefault(__webpack_require__(/*! ./props/line */ 116));
-var _lineProgress = _interopRequireDefault(__webpack_require__(/*! ./props/lineProgress */ 117));
-var _link = _interopRequireDefault(__webpack_require__(/*! ./props/link */ 118));
-var _list = _interopRequireDefault(__webpack_require__(/*! ./props/list */ 119));
-var _listItem = _interopRequireDefault(__webpack_require__(/*! ./props/listItem */ 120));
-var _loadingIcon = _interopRequireDefault(__webpack_require__(/*! ./props/loadingIcon */ 121));
-var _loadingPage = _interopRequireDefault(__webpack_require__(/*! ./props/loadingPage */ 122));
-var _loadmore = _interopRequireDefault(__webpack_require__(/*! ./props/loadmore */ 123));
-var _modal = _interopRequireDefault(__webpack_require__(/*! ./props/modal */ 124));
-var _navbar = _interopRequireDefault(__webpack_require__(/*! ./props/navbar */ 125));
-var _noNetwork = _interopRequireDefault(__webpack_require__(/*! ./props/noNetwork */ 127));
-var _noticeBar = _interopRequireDefault(__webpack_require__(/*! ./props/noticeBar */ 128));
-var _notify = _interopRequireDefault(__webpack_require__(/*! ./props/notify */ 129));
-var _numberBox = _interopRequireDefault(__webpack_require__(/*! ./props/numberBox */ 130));
-var _numberKeyboard = _interopRequireDefault(__webpack_require__(/*! ./props/numberKeyboard */ 131));
-var _overlay = _interopRequireDefault(__webpack_require__(/*! ./props/overlay */ 132));
-var _parse = _interopRequireDefault(__webpack_require__(/*! ./props/parse */ 133));
-var _picker = _interopRequireDefault(__webpack_require__(/*! ./props/picker */ 134));
-var _popup = _interopRequireDefault(__webpack_require__(/*! ./props/popup */ 135));
-var _radio = _interopRequireDefault(__webpack_require__(/*! ./props/radio */ 136));
-var _radioGroup = _interopRequireDefault(__webpack_require__(/*! ./props/radioGroup */ 137));
-var _rate = _interopRequireDefault(__webpack_require__(/*! ./props/rate */ 138));
-var _readMore = _interopRequireDefault(__webpack_require__(/*! ./props/readMore */ 139));
-var _row = _interopRequireDefault(__webpack_require__(/*! ./props/row */ 140));
-var _rowNotice = _interopRequireDefault(__webpack_require__(/*! ./props/rowNotice */ 141));
-var _scrollList = _interopRequireDefault(__webpack_require__(/*! ./props/scrollList */ 142));
-var _search = _interopRequireDefault(__webpack_require__(/*! ./props/search */ 143));
-var _section = _interopRequireDefault(__webpack_require__(/*! ./props/section */ 144));
-var _skeleton = _interopRequireDefault(__webpack_require__(/*! ./props/skeleton */ 145));
-var _slider = _interopRequireDefault(__webpack_require__(/*! ./props/slider */ 146));
-var _statusBar = _interopRequireDefault(__webpack_require__(/*! ./props/statusBar */ 147));
-var _steps = _interopRequireDefault(__webpack_require__(/*! ./props/steps */ 148));
-var _stepsItem = _interopRequireDefault(__webpack_require__(/*! ./props/stepsItem */ 149));
-var _sticky = _interopRequireDefault(__webpack_require__(/*! ./props/sticky */ 150));
-var _subsection = _interopRequireDefault(__webpack_require__(/*! ./props/subsection */ 151));
-var _swipeAction = _interopRequireDefault(__webpack_require__(/*! ./props/swipeAction */ 152));
-var _swipeActionItem = _interopRequireDefault(__webpack_require__(/*! ./props/swipeActionItem */ 153));
-var _swiper = _interopRequireDefault(__webpack_require__(/*! ./props/swiper */ 154));
-var _swipterIndicator = _interopRequireDefault(__webpack_require__(/*! ./props/swipterIndicator */ 155));
-var _switch2 = _interopRequireDefault(__webpack_require__(/*! ./props/switch */ 156));
-var _tabbar = _interopRequireDefault(__webpack_require__(/*! ./props/tabbar */ 157));
-var _tabbarItem = _interopRequireDefault(__webpack_require__(/*! ./props/tabbarItem */ 158));
-var _tabs = _interopRequireDefault(__webpack_require__(/*! ./props/tabs */ 159));
-var _tag = _interopRequireDefault(__webpack_require__(/*! ./props/tag */ 160));
-var _text = _interopRequireDefault(__webpack_require__(/*! ./props/text */ 161));
-var _textarea = _interopRequireDefault(__webpack_require__(/*! ./props/textarea */ 162));
-var _toast = _interopRequireDefault(__webpack_require__(/*! ./props/toast */ 163));
-var _toolbar = _interopRequireDefault(__webpack_require__(/*! ./props/toolbar */ 164));
-var _tooltip = _interopRequireDefault(__webpack_require__(/*! ./props/tooltip */ 165));
-var _transition = _interopRequireDefault(__webpack_require__(/*! ./props/transition */ 166));
-var _upload = _interopRequireDefault(__webpack_require__(/*! ./props/upload */ 167));
+var _config = _interopRequireDefault(__webpack_require__(/*! ./config */ 79));
+var _actionSheet = _interopRequireDefault(__webpack_require__(/*! ./props/actionSheet.js */ 81));
+var _album = _interopRequireDefault(__webpack_require__(/*! ./props/album.js */ 82));
+var _alert = _interopRequireDefault(__webpack_require__(/*! ./props/alert.js */ 83));
+var _avatar = _interopRequireDefault(__webpack_require__(/*! ./props/avatar */ 84));
+var _avatarGroup = _interopRequireDefault(__webpack_require__(/*! ./props/avatarGroup */ 85));
+var _backtop = _interopRequireDefault(__webpack_require__(/*! ./props/backtop */ 86));
+var _badge = _interopRequireDefault(__webpack_require__(/*! ./props/badge */ 87));
+var _button = _interopRequireDefault(__webpack_require__(/*! ./props/button */ 88));
+var _calendar = _interopRequireDefault(__webpack_require__(/*! ./props/calendar */ 89));
+var _carKeyboard = _interopRequireDefault(__webpack_require__(/*! ./props/carKeyboard */ 90));
+var _cell = _interopRequireDefault(__webpack_require__(/*! ./props/cell */ 91));
+var _cellGroup = _interopRequireDefault(__webpack_require__(/*! ./props/cellGroup */ 92));
+var _checkbox = _interopRequireDefault(__webpack_require__(/*! ./props/checkbox */ 93));
+var _checkboxGroup = _interopRequireDefault(__webpack_require__(/*! ./props/checkboxGroup */ 94));
+var _circleProgress = _interopRequireDefault(__webpack_require__(/*! ./props/circleProgress */ 95));
+var _code = _interopRequireDefault(__webpack_require__(/*! ./props/code */ 96));
+var _codeInput = _interopRequireDefault(__webpack_require__(/*! ./props/codeInput */ 97));
+var _col = _interopRequireDefault(__webpack_require__(/*! ./props/col */ 98));
+var _collapse = _interopRequireDefault(__webpack_require__(/*! ./props/collapse */ 99));
+var _collapseItem = _interopRequireDefault(__webpack_require__(/*! ./props/collapseItem */ 100));
+var _columnNotice = _interopRequireDefault(__webpack_require__(/*! ./props/columnNotice */ 101));
+var _countDown = _interopRequireDefault(__webpack_require__(/*! ./props/countDown */ 102));
+var _countTo = _interopRequireDefault(__webpack_require__(/*! ./props/countTo */ 103));
+var _datetimePicker = _interopRequireDefault(__webpack_require__(/*! ./props/datetimePicker */ 104));
+var _divider = _interopRequireDefault(__webpack_require__(/*! ./props/divider */ 105));
+var _empty = _interopRequireDefault(__webpack_require__(/*! ./props/empty */ 106));
+var _form = _interopRequireDefault(__webpack_require__(/*! ./props/form */ 107));
+var _formItem = _interopRequireDefault(__webpack_require__(/*! ./props/formItem */ 108));
+var _gap = _interopRequireDefault(__webpack_require__(/*! ./props/gap */ 109));
+var _grid = _interopRequireDefault(__webpack_require__(/*! ./props/grid */ 110));
+var _gridItem = _interopRequireDefault(__webpack_require__(/*! ./props/gridItem */ 111));
+var _icon = _interopRequireDefault(__webpack_require__(/*! ./props/icon */ 112));
+var _image = _interopRequireDefault(__webpack_require__(/*! ./props/image */ 113));
+var _indexAnchor = _interopRequireDefault(__webpack_require__(/*! ./props/indexAnchor */ 114));
+var _indexList = _interopRequireDefault(__webpack_require__(/*! ./props/indexList */ 115));
+var _input = _interopRequireDefault(__webpack_require__(/*! ./props/input */ 116));
+var _keyboard = _interopRequireDefault(__webpack_require__(/*! ./props/keyboard */ 117));
+var _line = _interopRequireDefault(__webpack_require__(/*! ./props/line */ 118));
+var _lineProgress = _interopRequireDefault(__webpack_require__(/*! ./props/lineProgress */ 119));
+var _link = _interopRequireDefault(__webpack_require__(/*! ./props/link */ 120));
+var _list = _interopRequireDefault(__webpack_require__(/*! ./props/list */ 121));
+var _listItem = _interopRequireDefault(__webpack_require__(/*! ./props/listItem */ 122));
+var _loadingIcon = _interopRequireDefault(__webpack_require__(/*! ./props/loadingIcon */ 123));
+var _loadingPage = _interopRequireDefault(__webpack_require__(/*! ./props/loadingPage */ 124));
+var _loadmore = _interopRequireDefault(__webpack_require__(/*! ./props/loadmore */ 125));
+var _modal = _interopRequireDefault(__webpack_require__(/*! ./props/modal */ 126));
+var _navbar = _interopRequireDefault(__webpack_require__(/*! ./props/navbar */ 127));
+var _noNetwork = _interopRequireDefault(__webpack_require__(/*! ./props/noNetwork */ 129));
+var _noticeBar = _interopRequireDefault(__webpack_require__(/*! ./props/noticeBar */ 130));
+var _notify = _interopRequireDefault(__webpack_require__(/*! ./props/notify */ 131));
+var _numberBox = _interopRequireDefault(__webpack_require__(/*! ./props/numberBox */ 132));
+var _numberKeyboard = _interopRequireDefault(__webpack_require__(/*! ./props/numberKeyboard */ 133));
+var _overlay = _interopRequireDefault(__webpack_require__(/*! ./props/overlay */ 134));
+var _parse = _interopRequireDefault(__webpack_require__(/*! ./props/parse */ 135));
+var _picker = _interopRequireDefault(__webpack_require__(/*! ./props/picker */ 136));
+var _popup = _interopRequireDefault(__webpack_require__(/*! ./props/popup */ 137));
+var _radio = _interopRequireDefault(__webpack_require__(/*! ./props/radio */ 138));
+var _radioGroup = _interopRequireDefault(__webpack_require__(/*! ./props/radioGroup */ 139));
+var _rate = _interopRequireDefault(__webpack_require__(/*! ./props/rate */ 140));
+var _readMore = _interopRequireDefault(__webpack_require__(/*! ./props/readMore */ 141));
+var _row = _interopRequireDefault(__webpack_require__(/*! ./props/row */ 142));
+var _rowNotice = _interopRequireDefault(__webpack_require__(/*! ./props/rowNotice */ 143));
+var _scrollList = _interopRequireDefault(__webpack_require__(/*! ./props/scrollList */ 144));
+var _search = _interopRequireDefault(__webpack_require__(/*! ./props/search */ 145));
+var _section = _interopRequireDefault(__webpack_require__(/*! ./props/section */ 146));
+var _skeleton = _interopRequireDefault(__webpack_require__(/*! ./props/skeleton */ 147));
+var _slider = _interopRequireDefault(__webpack_require__(/*! ./props/slider */ 148));
+var _statusBar = _interopRequireDefault(__webpack_require__(/*! ./props/statusBar */ 149));
+var _steps = _interopRequireDefault(__webpack_require__(/*! ./props/steps */ 150));
+var _stepsItem = _interopRequireDefault(__webpack_require__(/*! ./props/stepsItem */ 151));
+var _sticky = _interopRequireDefault(__webpack_require__(/*! ./props/sticky */ 152));
+var _subsection = _interopRequireDefault(__webpack_require__(/*! ./props/subsection */ 153));
+var _swipeAction = _interopRequireDefault(__webpack_require__(/*! ./props/swipeAction */ 154));
+var _swipeActionItem = _interopRequireDefault(__webpack_require__(/*! ./props/swipeActionItem */ 155));
+var _swiper = _interopRequireDefault(__webpack_require__(/*! ./props/swiper */ 156));
+var _swipterIndicator = _interopRequireDefault(__webpack_require__(/*! ./props/swipterIndicator */ 157));
+var _switch2 = _interopRequireDefault(__webpack_require__(/*! ./props/switch */ 158));
+var _tabbar = _interopRequireDefault(__webpack_require__(/*! ./props/tabbar */ 159));
+var _tabbarItem = _interopRequireDefault(__webpack_require__(/*! ./props/tabbarItem */ 160));
+var _tabs = _interopRequireDefault(__webpack_require__(/*! ./props/tabs */ 161));
+var _tag = _interopRequireDefault(__webpack_require__(/*! ./props/tag */ 162));
+var _text = _interopRequireDefault(__webpack_require__(/*! ./props/text */ 163));
+var _textarea = _interopRequireDefault(__webpack_require__(/*! ./props/textarea */ 164));
+var _toast = _interopRequireDefault(__webpack_require__(/*! ./props/toast */ 165));
+var _toolbar = _interopRequireDefault(__webpack_require__(/*! ./props/toolbar */ 166));
+var _tooltip = _interopRequireDefault(__webpack_require__(/*! ./props/tooltip */ 167));
+var _transition = _interopRequireDefault(__webpack_require__(/*! ./props/transition */ 168));
+var _upload = _interopRequireDefault(__webpack_require__(/*! ./props/upload */ 169));
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var color = _config.default.color;
@@ -24362,10 +24929,10 @@ var _default = _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSp
 exports.default = _default;
 
 /***/ }),
-/* 79 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/actionSheet.js ***!
-  \*************************************************************************************/
+/* 81 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/actionSheet.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24406,10 +24973,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 80 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/album.js ***!
-  \*******************************************************************************/
+/* 82 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/album.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24450,10 +25017,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 81 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/alert.js ***!
-  \*******************************************************************************/
+/* 83 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/alert.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24489,10 +25056,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 82 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/avatar.js ***!
-  \********************************************************************************/
+/* 84 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/avatar.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24534,10 +25101,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 83 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/avatarGroup.js ***!
-  \*************************************************************************************/
+/* 85 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/avatarGroup.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24576,10 +25143,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 84 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/backtop.js ***!
-  \*********************************************************************************/
+/* 86 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/backtop.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24622,10 +25189,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 85 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/badge.js ***!
-  \*******************************************************************************/
+/* 87 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/badge.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24668,10 +25235,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 86 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/button.js ***!
-  \********************************************************************************/
+/* 88 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/button.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24727,10 +25294,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 87 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/calendar.js ***!
-  \**********************************************************************************/
+/* 89 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/calendar.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24790,10 +25357,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 88 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/carKeyboard.js ***!
-  \*************************************************************************************/
+/* 90 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/carKeyboard.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24822,10 +25389,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 89 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/cell.js ***!
-  \******************************************************************************/
+/* 91 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/cell.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24874,10 +25441,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 90 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/cellGroup.js ***!
-  \***********************************************************************************/
+/* 92 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/cellGroup.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24908,10 +25475,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 91 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/checkbox.js ***!
-  \**********************************************************************************/
+/* 93 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/checkbox.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24952,10 +25519,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 92 */
-/*!***************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/checkboxGroup.js ***!
-  \***************************************************************************************/
+/* 94 */
+/*!****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/checkboxGroup.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25000,10 +25567,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 93 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/circleProgress.js ***!
-  \****************************************************************************************/
+/* 95 */
+/*!*****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/circleProgress.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25032,10 +25599,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 94 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/code.js ***!
-  \******************************************************************************/
+/* 96 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/code.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25069,10 +25636,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 95 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/codeInput.js ***!
-  \***********************************************************************************/
+/* 97 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/codeInput.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25115,10 +25682,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 96 */
-/*!*****************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/col.js ***!
-  \*****************************************************************************/
+/* 98 */
+/*!******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/col.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25151,10 +25718,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 97 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/collapse.js ***!
-  \**********************************************************************************/
+/* 99 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/collapse.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25185,10 +25752,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 98 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/collapseItem.js ***!
-  \**************************************************************************************/
+/* 100 */
+/*!***************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/collapseItem.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25227,10 +25794,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 99 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/columnNotice.js ***!
-  \**************************************************************************************/
+/* 101 */
+/*!***************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/columnNotice.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25268,10 +25835,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 100 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/countDown.js ***!
-  \***********************************************************************************/
+/* 102 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/countDown.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25303,10 +25870,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 101 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/countTo.js ***!
-  \*********************************************************************************/
+/* 103 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/countTo.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25345,10 +25912,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 102 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/datetimePicker.js ***!
-  \****************************************************************************************/
+/* 104 */
+/*!*****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/datetimePicker.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25400,10 +25967,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 103 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/divider.js ***!
-  \*********************************************************************************/
+/* 105 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/divider.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25439,10 +26006,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 104 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/empty.js ***!
-  \*******************************************************************************/
+/* 106 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/empty.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25481,10 +26048,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 105 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/form.js ***!
-  \******************************************************************************/
+/* 107 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/form.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25526,10 +26093,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 106 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/formItem.js ***!
-  \**********************************************************************************/
+/* 108 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/formItem.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25566,10 +26133,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 107 */
-/*!*****************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/gap.js ***!
-  \*****************************************************************************/
+/* 109 */
+/*!******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/gap.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25602,10 +26169,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 108 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/grid.js ***!
-  \******************************************************************************/
+/* 110 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/grid.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25636,10 +26203,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 109 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/gridItem.js ***!
-  \**********************************************************************************/
+/* 111 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/gridItem.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25669,10 +26236,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 110 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/icon.js ***!
-  \******************************************************************************/
+/* 112 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/icon.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25684,7 +26251,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 77));
+var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 79));
 /*
  * @Author       : LQ
  * @Description  :
@@ -25721,10 +26288,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 111 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/image.js ***!
-  \*******************************************************************************/
+/* 113 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/image.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25768,10 +26335,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 112 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/indexAnchor.js ***!
-  \*************************************************************************************/
+/* 114 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/indexAnchor.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25804,10 +26371,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 113 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/indexList.js ***!
-  \***********************************************************************************/
+/* 115 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/indexList.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25842,10 +26409,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 114 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/input.js ***!
-  \*******************************************************************************/
+/* 116 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/input.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25907,10 +26474,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 115 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/keyboard.js ***!
-  \**********************************************************************************/
+/* 117 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/keyboard.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25954,10 +26521,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 116 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/line.js ***!
-  \******************************************************************************/
+/* 118 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/line.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25991,10 +26558,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 117 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/lineProgress.js ***!
-  \**************************************************************************************/
+/* 119 */
+/*!***************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/lineProgress.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26027,10 +26594,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 118 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/link.js ***!
-  \******************************************************************************/
+/* 120 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/link.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26042,7 +26609,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 77));
+var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 79));
 /*
  * @Author       : LQ
  * @Description  :
@@ -26069,10 +26636,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 119 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/list.js ***!
-  \******************************************************************************/
+/* 121 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/list.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26114,10 +26681,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 120 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/listItem.js ***!
-  \**********************************************************************************/
+/* 122 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/listItem.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26146,10 +26713,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 121 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadingIcon.js ***!
-  \*************************************************************************************/
+/* 123 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/loadingIcon.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26161,7 +26728,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 77));
+var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 79));
 /*
  * @Author       : LQ
  * @Description  :
@@ -26192,10 +26759,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 122 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadingPage.js ***!
-  \*************************************************************************************/
+/* 124 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/loadingPage.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26232,10 +26799,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 123 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/loadmore.js ***!
-  \**********************************************************************************/
+/* 125 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/loadmore.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26281,10 +26848,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 124 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/modal.js ***!
-  \*******************************************************************************/
+/* 126 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/modal.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26329,10 +26896,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 125 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/navbar.js ***!
-  \********************************************************************************/
+/* 127 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/navbar.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26344,7 +26911,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _color = _interopRequireDefault(__webpack_require__(/*! ../color */ 126));
+var _color = _interopRequireDefault(__webpack_require__(/*! ../color */ 128));
 /*
  * @Author       : LQ
  * @Description  :
@@ -26378,10 +26945,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 126 */
-/*!*************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/color.js ***!
-  \*************************************************************************/
+/* 128 */
+/*!**************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/color.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26411,10 +26978,10 @@ var _default = color;
 exports.default = _default;
 
 /***/ }),
-/* 127 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/noNetwork.js ***!
-  \***********************************************************************************/
+/* 129 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/noNetwork.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26445,10 +27012,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 128 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/noticeBar.js ***!
-  \***********************************************************************************/
+/* 130 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/noticeBar.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26491,10 +27058,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 129 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/notify.js ***!
-  \********************************************************************************/
+/* 131 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/notify.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26530,10 +27097,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 130 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/numberBox.js ***!
-  \***********************************************************************************/
+/* 132 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/numberBox.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26582,10 +27149,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 131 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/numberKeyboard.js ***!
-  \****************************************************************************************/
+/* 133 */
+/*!*****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/numberKeyboard.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26616,10 +27183,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 132 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/overlay.js ***!
-  \*********************************************************************************/
+/* 134 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/overlay.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26651,10 +27218,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 133 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/parse.js ***!
-  \*******************************************************************************/
+/* 135 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/parse.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26690,10 +27257,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 134 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/picker.js ***!
-  \********************************************************************************/
+/* 136 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/picker.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26740,10 +27307,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 135 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/popup.js ***!
-  \*******************************************************************************/
+/* 137 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/popup.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26786,10 +27353,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 136 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/radio.js ***!
-  \*******************************************************************************/
+/* 138 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/radio.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26830,10 +27397,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 137 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/radioGroup.js ***!
-  \************************************************************************************/
+/* 139 */
+/*!*************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/radioGroup.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26877,10 +27444,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 138 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/rate.js ***!
-  \******************************************************************************/
+/* 140 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/rate.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26920,10 +27487,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 139 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/readMore.js ***!
-  \**********************************************************************************/
+/* 141 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/readMore.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26959,10 +27526,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 140 */
-/*!*****************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/row.js ***!
-  \*****************************************************************************/
+/* 142 */
+/*!******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/row.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26993,10 +27560,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 141 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/rowNotice.js ***!
-  \***********************************************************************************/
+/* 143 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/rowNotice.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27031,10 +27598,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 142 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/scrollList.js ***!
-  \************************************************************************************/
+/* 144 */
+/*!*************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/scrollList.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27068,10 +27635,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 143 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/search.js ***!
-  \********************************************************************************/
+/* 145 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/search.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27126,10 +27693,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 144 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/section.js ***!
-  \*********************************************************************************/
+/* 146 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/section.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27167,10 +27734,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 145 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/skeleton.js ***!
-  \**********************************************************************************/
+/* 147 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/skeleton.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27209,10 +27776,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 146 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/slider.js ***!
-  \********************************************************************************/
+/* 148 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/slider.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27251,10 +27818,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 147 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/statusBar.js ***!
-  \***********************************************************************************/
+/* 149 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/statusBar.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27283,10 +27850,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 148 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/steps.js ***!
-  \*******************************************************************************/
+/* 150 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/steps.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27321,10 +27888,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 149 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/stepsItem.js ***!
-  \***********************************************************************************/
+/* 151 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/stepsItem.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27356,10 +27923,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 150 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/sticky.js ***!
-  \********************************************************************************/
+/* 152 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/sticky.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27393,10 +27960,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 151 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/subsection.js ***!
-  \************************************************************************************/
+/* 153 */
+/*!*************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/subsection.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27433,10 +28000,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 152 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipeAction.js ***!
-  \*************************************************************************************/
+/* 154 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/swipeAction.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27465,10 +28032,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 153 */
-/*!*****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipeActionItem.js ***!
-  \*****************************************************************************************/
+/* 155 */
+/*!******************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/swipeActionItem.js ***!
+  \******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27503,10 +28070,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 154 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swiper.js ***!
-  \********************************************************************************/
+/* 156 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/swiper.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27560,10 +28127,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 155 */
-/*!******************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/swipterIndicator.js ***!
-  \******************************************************************************************/
+/* 157 */
+/*!*******************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/swipterIndicator.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27596,10 +28163,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 156 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/switch.js ***!
-  \********************************************************************************/
+/* 158 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/switch.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27637,10 +28204,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 157 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabbar.js ***!
-  \********************************************************************************/
+/* 159 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/tabbar.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27676,10 +28243,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 158 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabbarItem.js ***!
-  \************************************************************************************/
+/* 160 */
+/*!*************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/tabbarItem.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27713,10 +28280,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 159 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tabs.js ***!
-  \******************************************************************************/
+/* 161 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/tabs.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27770,10 +28337,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 160 */
-/*!*****************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tag.js ***!
-  \*****************************************************************************/
+/* 162 */
+/*!******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/tag.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27816,10 +28383,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 161 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/text.js ***!
-  \******************************************************************************/
+/* 163 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/text.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27872,10 +28439,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 162 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/textarea.js ***!
-  \**********************************************************************************/
+/* 164 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/textarea.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27925,10 +28492,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 163 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/toast.js ***!
-  \*******************************************************************************/
+/* 165 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/toast.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27971,10 +28538,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 164 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/toolbar.js ***!
-  \*********************************************************************************/
+/* 166 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/toolbar.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28008,10 +28575,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 165 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/tooltip.js ***!
-  \*********************************************************************************/
+/* 167 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/tooltip.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28052,10 +28619,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 166 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/transition.js ***!
-  \************************************************************************************/
+/* 168 */
+/*!*************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/transition.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28087,10 +28654,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 167 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/props/upload.js ***!
-  \********************************************************************************/
+/* 169 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/props/upload.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28146,10 +28713,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 168 */
-/*!**************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/config/zIndex.js ***!
-  \**************************************************************************/
+/* 170 */
+/*!***************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/config/zIndex.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28182,10 +28749,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 169 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/function/platform.js ***!
-  \******************************************************************************/
+/* 171 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/function/platform.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28212,10 +28779,10 @@ var _default = platform;
 exports.default = _default;
 
 /***/ }),
-/* 170 */
-/*!********************************************************!*\
-  !*** E:/code/baba_statistics/uni.promisify.adaptor.js ***!
-  \********************************************************/
+/* 172 */
+/*!*********************************************************!*\
+  !*** E:/githubCode/statistics/uni.promisify.adaptor.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28235,26 +28802,26 @@ uni.addInterceptor({
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 171 */,
-/* 172 */,
 /* 173 */,
 /* 174 */,
 /* 175 */,
 /* 176 */,
-/* 177 */
-/*!**************************************************!*\
-  !*** E:/code/baba_statistics/static/aoligei.jpg ***!
-  \**************************************************/
+/* 177 */,
+/* 178 */,
+/* 179 */
+/*!***************************************************!*\
+  !*** E:/githubCode/statistics/static/aoligei.jpg ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/jpeg;base64,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LltFG3tj8lV9DvROh3ogKX6oPIA/gn1XzMefwVV0O9E6HeiApfqpz9lRR02+S1VHQ70ToKAlthA+6FGyMZ2aogz4qJAcdLR5LlEQBERAEREAREQBERAEREAREQBERAEREAwPRMD0REAwPRMD0REAwPRMD0REAwPRMD0REAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREB//9k="
 
 /***/ }),
-/* 178 */
-/*!****************************************************!*\
-  !*** E:/code/baba_statistics/utils/formateDate.js ***!
-  \****************************************************/
+/* 180 */
+/*!*****************************************************!*\
+  !*** E:/githubCode/statistics/utils/formateDate.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28303,8 +28870,6 @@ function formateDateHMS(time) {
 }
 
 /***/ }),
-/* 179 */,
-/* 180 */,
 /* 181 */,
 /* 182 */,
 /* 183 */,
@@ -28319,28 +28884,28 @@ function formateDateHMS(time) {
 /* 192 */,
 /* 193 */,
 /* 194 */,
-/* 195 */
-/*!****************************************************!*\
-  !*** E:/code/baba_statistics/static/img/first.png ***!
-  \****************************************************/
+/* 195 */,
+/* 196 */,
+/* 197 */
+/*!*****************************************************!*\
+  !*** E:/githubCode/statistics/static/img/first.png ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,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"
 
 /***/ }),
-/* 196 */
-/*!*****************************************************!*\
-  !*** E:/code/baba_statistics/static/img/second.png ***!
-  \*****************************************************/
+/* 198 */
+/*!******************************************************!*\
+  !*** E:/githubCode/statistics/static/img/second.png ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,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"
 
 /***/ }),
-/* 197 */,
-/* 198 */,
 /* 199 */,
 /* 200 */,
 /* 201 */,
@@ -28405,18 +28970,18 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 /* 260 */,
 /* 261 */,
 /* 262 */,
-/* 263 */
-/*!*************************************************************!*\
-  !*** E:/code/baba_statistics/static/img/default_avatar.jpg ***!
-  \*************************************************************/
+/* 263 */,
+/* 264 */,
+/* 265 */
+/*!**************************************************************!*\
+  !*** E:/githubCode/statistics/static/img/default_avatar.jpg ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/wAALCACEAIQBAREA/8QAGwABAAIDAQEAAAAAAAAAAAAAAAMFAgQGAQj/xAAuEAEAAgECAggGAgMAAAAAAAAAAQIDBBEFIRIVMUFRZKLhEyJhcYHBFFIjkdH/2gAIAQEAAD8A+gSIAACIAAAAAAAAiACIAAAAAAAAAAAAQ6vVU0mH4l+c90eMqDPrtRqLb2vaI8I5QhrkvjtvS9on6WWnD+KWm8YtRbfflF/+rcAAABz/ABbPOXXTXux/JH6aIOl4dnnPoqWtzmOU/hsgAAA5jWxMa7NE/wB5QAvuDRMaKZ8bz+lgAAACk4zpZrmjUV7L8p+ysGVa2yXila7zPKHTaXDGn01MX9Y5/dMAAADHLirmxTjvXekuXzY/g5r4+3ozMf6Rrjgunr0Z1E8532p9FsAAAA09ZxLFp6zWtunk8I7vu5+1pyXm9uczO8sW/wAO4h/EmaXrvjnn9pXmLLjzU6eO1bx9GYAACHUavFpadLJbn3R3ypdXxTNqN60/x08I7Z/DRASYc+TBfp4rWpK40nGKZdq5/knx7vdY9vOHoAA5TLlvmyTkvbeZYAALrguW9seTHa29a7bfndaAACptwKs3ma59o8Ojv+3nUXmPR7nUXmPR7nUXmPR7nUXmPR7nUXmPR7HUXmPR7nUXmPR7t3Q6KuipeIv05t2z2djaAAAAAAAAAAAAAAAAAAAAAAAB/9k="
 
 /***/ }),
-/* 264 */,
-/* 265 */,
 /* 266 */,
 /* 267 */,
 /* 268 */,
@@ -28438,10 +29003,12 @@ module.exports = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/2wBDAAcFBQY
 /* 284 */,
 /* 285 */,
 /* 286 */,
-/* 287 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-avatar/props.js ***!
-  \*********************************************************************************/
+/* 287 */,
+/* 288 */,
+/* 289 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-avatar/props.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28534,17 +29101,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 288 */,
-/* 289 */,
 /* 290 */,
 /* 291 */,
 /* 292 */,
 /* 293 */,
 /* 294 */,
-/* 295 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-list/props.js ***!
-  \*******************************************************************************/
+/* 295 */,
+/* 296 */,
+/* 297 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-list/props.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28634,17 +29201,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 296 */,
-/* 297 */,
 /* 298 */,
 /* 299 */,
 /* 300 */,
 /* 301 */,
 /* 302 */,
-/* 303 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-list-item/props.js ***!
-  \************************************************************************************/
+/* 303 */,
+/* 304 */,
+/* 305 */
+/*!*************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-list-item/props.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28668,17 +29235,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 304 */,
-/* 305 */,
 /* 306 */,
 /* 307 */,
 /* 308 */,
 /* 309 */,
 /* 310 */,
-/* 311 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-cell/props.js ***!
-  \*******************************************************************************/
+/* 311 */,
+/* 312 */,
+/* 313 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-cell/props.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28803,8 +29370,6 @@ exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 312 */,
-/* 313 */,
 /* 314 */,
 /* 315 */,
 /* 316 */,
@@ -28817,10 +29382,12 @@ exports.default = _default2;
 /* 323 */,
 /* 324 */,
 /* 325 */,
-/* 326 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-icon/icons.js ***!
-  \*******************************************************************************/
+/* 326 */,
+/* 327 */,
+/* 328 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-icon/icons.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29048,10 +29615,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 327 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-icon/props.js ***!
-  \*******************************************************************************/
+/* 329 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-icon/props.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29155,17 +29722,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 328 */,
-/* 329 */,
 /* 330 */,
 /* 331 */,
 /* 332 */,
 /* 333 */,
 /* 334 */,
-/* 335 */
-/*!*********************************************************************!*\
-  !*** E:/code/baba_statistics/components/@lucky-canvas/uni/utils.js ***!
-  \*********************************************************************/
+/* 335 */,
+/* 336 */,
+/* 337 */
+/*!**********************************************************************!*\
+  !*** E:/githubCode/statistics/components/@lucky-canvas/uni/utils.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29179,8 +29746,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.changeUnits = void 0;
 exports.getImage = getImage;
 exports.rpx2px = exports.resolveImage = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 31));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 33));
 var windowWidth = uni.getSystemInfoSync().windowWidth;
 // uni-app@2.9起, 屏幕最多适配到960, 超出则按375计算
 if (windowWidth > 960) windowWidth = 375;
@@ -29290,10 +29857,10 @@ function getImage(canvasId, canvas) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 336 */
-/*!*************************************************************************!*\
-  !*** E:/code/baba_statistics/components/lucky-canvas/dist/index.esm.js ***!
-  \*************************************************************************/
+/* 338 */
+/*!**************************************************************************!*\
+  !*** E:/githubCode/statistics/components/lucky-canvas/dist/index.esm.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31001,17 +31568,17 @@ exports.LuckyGrid = W;
 exports.LuckyWheel = T;
 
 /***/ }),
-/* 337 */,
-/* 338 */,
 /* 339 */,
 /* 340 */,
 /* 341 */,
 /* 342 */,
 /* 343 */,
-/* 344 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-tabs/props.js ***!
-  \*******************************************************************************/
+/* 344 */,
+/* 345 */,
+/* 346 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-tabs/props.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31090,17 +31657,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 345 */,
-/* 346 */,
 /* 347 */,
 /* 348 */,
 /* 349 */,
 /* 350 */,
 /* 351 */,
-/* 352 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-empty/props.js ***!
-  \********************************************************************************/
+/* 352 */,
+/* 353 */,
+/* 354 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-empty/props.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31174,17 +31741,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 353 */,
-/* 354 */,
 /* 355 */,
 /* 356 */,
 /* 357 */,
 /* 358 */,
 /* 359 */,
-/* 360 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-input/props.js ***!
-  \********************************************************************************/
+/* 360 */,
+/* 361 */,
+/* 362 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-input/props.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31386,15 +31953,15 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 361 */,
-/* 362 */,
 /* 363 */,
 /* 364 */,
 /* 365 */,
-/* 366 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-radio-group/props.js ***!
-  \**************************************************************************************/
+/* 366 */,
+/* 367 */,
+/* 368 */
+/*!***************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-radio-group/props.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31493,17 +32060,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 367 */,
-/* 368 */,
 /* 369 */,
 /* 370 */,
 /* 371 */,
 /* 372 */,
 /* 373 */,
-/* 374 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-radio/props.js ***!
-  \********************************************************************************/
+/* 374 */,
+/* 375 */,
+/* 376 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-radio/props.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31582,17 +32149,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 375 */,
-/* 376 */,
 /* 377 */,
 /* 378 */,
 /* 379 */,
 /* 380 */,
 /* 381 */,
-/* 382 */
-/*!*************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/button.js ***!
-  \*************************************************************************/
+/* 382 */,
+/* 383 */,
+/* 384 */
+/*!**************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/mixin/button.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31619,10 +32186,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 383 */
-/*!***************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/openType.js ***!
-  \***************************************************************************/
+/* 385 */
+/*!****************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/mixin/openType.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31661,10 +32228,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 384 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-button/props.js ***!
-  \*********************************************************************************/
+/* 386 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-button/props.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31840,17 +32407,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 385 */,
-/* 386 */,
 /* 387 */,
 /* 388 */,
 /* 389 */,
 /* 390 */,
 /* 391 */,
-/* 392 */
-/*!***************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-swipe-action/props.js ***!
-  \***************************************************************************************/
+/* 392 */,
+/* 393 */,
+/* 394 */
+/*!****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-swipe-action/props.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31874,15 +32441,15 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 393 */,
-/* 394 */,
 /* 395 */,
 /* 396 */,
 /* 397 */,
-/* 398 */
-/*!************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/mixin/touch.js ***!
-  \************************************************************************/
+/* 398 */,
+/* 399 */,
+/* 400 */
+/*!*************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/mixin/touch.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31955,10 +32522,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 399 */
-/*!********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-swipe-action-item/props.js ***!
-  \********************************************************************************************/
+/* 401 */
+/*!*********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-swipe-action-item/props.js ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32014,10 +32581,10 @@ exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 400 */
-/*!******************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-swipe-action-item/wxs.js ***!
-  \******************************************************************************************/
+/* 402 */
+/*!*******************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-swipe-action-item/wxs.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32046,8 +32613,6 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 401 */,
-/* 402 */,
 /* 403 */,
 /* 404 */,
 /* 405 */,
@@ -32055,10 +32620,12 @@ exports.default = _default;
 /* 407 */,
 /* 408 */,
 /* 409 */,
-/* 410 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-popup/props.js ***!
-  \********************************************************************************/
+/* 410 */,
+/* 411 */,
+/* 412 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-popup/props.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32152,17 +32719,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 411 */,
-/* 412 */,
 /* 413 */,
 /* 414 */,
 /* 415 */,
 /* 416 */,
 /* 417 */,
-/* 418 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-form/props.js ***!
-  \*******************************************************************************/
+/* 418 */,
+/* 419 */,
+/* 420 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-form/props.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32222,15 +32789,15 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 419 */,
-/* 420 */,
 /* 421 */,
 /* 422 */,
 /* 423 */,
-/* 424 */
-/*!************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-form-item/props.js ***!
-  \************************************************************************************/
+/* 424 */,
+/* 425 */,
+/* 426 */
+/*!*************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-form-item/props.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32293,17 +32860,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 425 */,
-/* 426 */,
 /* 427 */,
 /* 428 */,
 /* 429 */,
 /* 430 */,
 /* 431 */,
-/* 432 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-slider/props.js ***!
-  \*********************************************************************************/
+/* 432 */,
+/* 433 */,
+/* 434 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-slider/props.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32372,17 +32939,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 433 */,
-/* 434 */,
 /* 435 */,
 /* 436 */,
 /* 437 */,
 /* 438 */,
 /* 439 */,
-/* 440 */
-/*!***************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-action-sheet/props.js ***!
-  \***************************************************************************************/
+/* 440 */,
+/* 441 */,
+/* 442 */
+/*!****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-action-sheet/props.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32451,17 +33018,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 441 */,
-/* 442 */,
 /* 443 */,
 /* 444 */,
 /* 445 */,
 /* 446 */,
 /* 447 */,
-/* 448 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js ***!
-  \****************************************************************************************/
+/* 448 */,
+/* 449 */,
+/* 450 */
+/*!*****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40118,10 +40685,10 @@ var _default = uCharts;
 exports.default = _default;
 
 /***/ }),
-/* 449 */
-/*!**********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js ***!
-  \**********************************************************************************************/
+/* 451 */
+/*!***********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40739,17 +41306,17 @@ var _default = cfu;
 exports.default = _default;
 
 /***/ }),
-/* 450 */,
-/* 451 */,
 /* 452 */,
 /* 453 */,
 /* 454 */,
 /* 455 */,
 /* 456 */,
-/* 457 */
-/*!****************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-calendar/components/uni-calendar/util.js ***!
-  \****************************************************************************************/
+/* 457 */,
+/* 458 */,
+/* 459 */
+/*!*****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-calendar/components/uni-calendar/util.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40764,7 +41331,7 @@ exports.default = void 0;
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _calendar = _interopRequireDefault(__webpack_require__(/*! ./calendar.js */ 458));
+var _calendar = _interopRequireDefault(__webpack_require__(/*! ./calendar.js */ 460));
 var Calendar = /*#__PURE__*/function () {
   function Calendar() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
@@ -41161,10 +41728,10 @@ var _default = Calendar;
 exports.default = _default;
 
 /***/ }),
-/* 458 */
-/*!********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-calendar/components/uni-calendar/calendar.js ***!
-  \********************************************************************************************/
+/* 460 */
+/*!*********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-calendar/components/uni-calendar/calendar.js ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41678,10 +42245,10 @@ var _default = calendar;
 exports.default = _default;
 
 /***/ }),
-/* 459 */
-/*!**********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-calendar/components/uni-calendar/i18n/index.js ***!
-  \**********************************************************************************************/
+/* 461 */
+/*!***********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-calendar/components/uni-calendar/i18n/index.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41693,9 +42260,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 460));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 461));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 462));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 462));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 463));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 464));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -41704,47 +42271,47 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 460 */
-/*!*********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-calendar/components/uni-calendar/i18n/en.json ***!
-  \*********************************************************************************************/
+/* 462 */
+/*!**********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-calendar/components/uni-calendar/i18n/en.json ***!
+  \**********************************************************************************************/
 /*! exports provided: uni-calender.ok, uni-calender.cancel, uni-calender.today, uni-calender.MON, uni-calender.TUE, uni-calender.WED, uni-calender.THU, uni-calender.FRI, uni-calender.SAT, uni-calender.SUN, default */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"uni-calender.ok\":\"ok\",\"uni-calender.cancel\":\"cancel\",\"uni-calender.today\":\"today\",\"uni-calender.MON\":\"MON\",\"uni-calender.TUE\":\"TUE\",\"uni-calender.WED\":\"WED\",\"uni-calender.THU\":\"THU\",\"uni-calender.FRI\":\"FRI\",\"uni-calender.SAT\":\"SAT\",\"uni-calender.SUN\":\"SUN\"}");
 
 /***/ }),
-/* 461 */
-/*!**************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-calendar/components/uni-calendar/i18n/zh-Hans.json ***!
-  \**************************************************************************************************/
+/* 463 */
+/*!***************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-calendar/components/uni-calendar/i18n/zh-Hans.json ***!
+  \***************************************************************************************************/
 /*! exports provided: uni-calender.ok, uni-calender.cancel, uni-calender.today, uni-calender.SUN, uni-calender.MON, uni-calender.TUE, uni-calender.WED, uni-calender.THU, uni-calender.FRI, uni-calender.SAT, default */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"uni-calender.ok\":\"确定\",\"uni-calender.cancel\":\"取消\",\"uni-calender.today\":\"今日\",\"uni-calender.SUN\":\"日\",\"uni-calender.MON\":\"一\",\"uni-calender.TUE\":\"二\",\"uni-calender.WED\":\"三\",\"uni-calender.THU\":\"四\",\"uni-calender.FRI\":\"五\",\"uni-calender.SAT\":\"六\"}");
 
 /***/ }),
-/* 462 */
-/*!**************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-calendar/components/uni-calendar/i18n/zh-Hant.json ***!
-  \**************************************************************************************************/
+/* 464 */
+/*!***************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-calendar/components/uni-calendar/i18n/zh-Hant.json ***!
+  \***************************************************************************************************/
 /*! exports provided: uni-calender.ok, uni-calender.cancel, uni-calender.today, uni-calender.SUN, uni-calender.MON, uni-calender.TUE, uni-calender.WED, uni-calender.THU, uni-calender.FRI, uni-calender.SAT, default */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"uni-calender.ok\":\"確定\",\"uni-calender.cancel\":\"取消\",\"uni-calender.today\":\"今日\",\"uni-calender.SUN\":\"日\",\"uni-calender.MON\":\"一\",\"uni-calender.TUE\":\"二\",\"uni-calender.WED\":\"三\",\"uni-calender.THU\":\"四\",\"uni-calender.FRI\":\"五\",\"uni-calender.SAT\":\"六\"}");
 
 /***/ }),
-/* 463 */,
-/* 464 */,
 /* 465 */,
 /* 466 */,
 /* 467 */,
 /* 468 */,
 /* 469 */,
-/* 470 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-forms/components/uni-forms/validate.js ***!
-  \**************************************************************************************/
+/* 470 */,
+/* 471 */,
+/* 472 */
+/*!***************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-forms/components/uni-forms/validate.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41756,11 +42323,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 32));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 33));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 34));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 31));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 34));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 35));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 36));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 33));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
@@ -42432,10 +42999,10 @@ var _default = SchemaValidator;
 exports.default = _default;
 
 /***/ }),
-/* 471 */
-/*!***********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-forms/components/uni-forms/utils.js ***!
-  \***********************************************************************************/
+/* 473 */
+/*!************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-forms/components/uni-forms/utils.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -42767,8 +43334,6 @@ var isEqual = function isEqual(a, b) {
 exports.isEqual = isEqual;
 
 /***/ }),
-/* 472 */,
-/* 473 */,
 /* 474 */,
 /* 475 */,
 /* 476 */,
@@ -42795,10 +43360,12 @@ exports.isEqual = isEqual;
 /* 497 */,
 /* 498 */,
 /* 499 */,
-/* 500 */
-/*!************************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/index.js ***!
-  \************************************************************************************************************/
+/* 500 */,
+/* 501 */,
+/* 502 */
+/*!*************************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/index.js ***!
+  \*************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -42810,9 +43377,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 501));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 502));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 503));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 503));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 504));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 505));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -42821,40 +43388,40 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 501 */
-/*!***********************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/en.json ***!
-  \***********************************************************************************************************/
+/* 503 */
+/*!************************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/en.json ***!
+  \************************************************************************************************************/
 /*! exports provided: uni-datetime-picker.selectDate, uni-datetime-picker.selectTime, uni-datetime-picker.selectDateTime, uni-datetime-picker.startDate, uni-datetime-picker.endDate, uni-datetime-picker.startTime, uni-datetime-picker.endTime, uni-datetime-picker.ok, uni-datetime-picker.clear, uni-datetime-picker.cancel, uni-datetime-picker.year, uni-datetime-picker.month, uni-calender.MON, uni-calender.TUE, uni-calender.WED, uni-calender.THU, uni-calender.FRI, uni-calender.SAT, uni-calender.SUN, uni-calender.confirm, default */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"select date\",\"uni-datetime-picker.selectTime\":\"select time\",\"uni-datetime-picker.selectDateTime\":\"select date and time\",\"uni-datetime-picker.startDate\":\"start date\",\"uni-datetime-picker.endDate\":\"end date\",\"uni-datetime-picker.startTime\":\"start time\",\"uni-datetime-picker.endTime\":\"end time\",\"uni-datetime-picker.ok\":\"ok\",\"uni-datetime-picker.clear\":\"clear\",\"uni-datetime-picker.cancel\":\"cancel\",\"uni-datetime-picker.year\":\"-\",\"uni-datetime-picker.month\":\"\",\"uni-calender.MON\":\"MON\",\"uni-calender.TUE\":\"TUE\",\"uni-calender.WED\":\"WED\",\"uni-calender.THU\":\"THU\",\"uni-calender.FRI\":\"FRI\",\"uni-calender.SAT\":\"SAT\",\"uni-calender.SUN\":\"SUN\",\"uni-calender.confirm\":\"confirm\"}");
 
 /***/ }),
-/* 502 */
-/*!****************************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/zh-Hans.json ***!
-  \****************************************************************************************************************/
+/* 504 */
+/*!*****************************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/zh-Hans.json ***!
+  \*****************************************************************************************************************/
 /*! exports provided: uni-datetime-picker.selectDate, uni-datetime-picker.selectTime, uni-datetime-picker.selectDateTime, uni-datetime-picker.startDate, uni-datetime-picker.endDate, uni-datetime-picker.startTime, uni-datetime-picker.endTime, uni-datetime-picker.ok, uni-datetime-picker.clear, uni-datetime-picker.cancel, uni-datetime-picker.year, uni-datetime-picker.month, uni-calender.SUN, uni-calender.MON, uni-calender.TUE, uni-calender.WED, uni-calender.THU, uni-calender.FRI, uni-calender.SAT, uni-calender.confirm, default */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"选择日期\",\"uni-datetime-picker.selectTime\":\"选择时间\",\"uni-datetime-picker.selectDateTime\":\"选择日期时间\",\"uni-datetime-picker.startDate\":\"开始日期\",\"uni-datetime-picker.endDate\":\"结束日期\",\"uni-datetime-picker.startTime\":\"开始时间\",\"uni-datetime-picker.endTime\":\"结束时间\",\"uni-datetime-picker.ok\":\"确定\",\"uni-datetime-picker.clear\":\"清除\",\"uni-datetime-picker.cancel\":\"取消\",\"uni-datetime-picker.year\":\"年\",\"uni-datetime-picker.month\":\"月\",\"uni-calender.SUN\":\"日\",\"uni-calender.MON\":\"一\",\"uni-calender.TUE\":\"二\",\"uni-calender.WED\":\"三\",\"uni-calender.THU\":\"四\",\"uni-calender.FRI\":\"五\",\"uni-calender.SAT\":\"六\",\"uni-calender.confirm\":\"确认\"}");
 
 /***/ }),
-/* 503 */
-/*!****************************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/zh-Hant.json ***!
-  \****************************************************************************************************************/
+/* 505 */
+/*!*****************************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/zh-Hant.json ***!
+  \*****************************************************************************************************************/
 /*! exports provided: uni-datetime-picker.selectDate, uni-datetime-picker.selectTime, uni-datetime-picker.selectDateTime, uni-datetime-picker.startDate, uni-datetime-picker.endDate, uni-datetime-picker.startTime, uni-datetime-picker.endTime, uni-datetime-picker.ok, uni-datetime-picker.clear, uni-datetime-picker.cancel, uni-datetime-picker.year, uni-datetime-picker.month, uni-calender.SUN, uni-calender.MON, uni-calender.TUE, uni-calender.WED, uni-calender.THU, uni-calender.FRI, uni-calender.SAT, uni-calender.confirm, default */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"選擇日期\",\"uni-datetime-picker.selectTime\":\"選擇時間\",\"uni-datetime-picker.selectDateTime\":\"選擇日期時間\",\"uni-datetime-picker.startDate\":\"開始日期\",\"uni-datetime-picker.endDate\":\"結束日期\",\"uni-datetime-picker.startTime\":\"開始时间\",\"uni-datetime-picker.endTime\":\"結束时间\",\"uni-datetime-picker.ok\":\"確定\",\"uni-datetime-picker.clear\":\"清除\",\"uni-datetime-picker.cancel\":\"取消\",\"uni-datetime-picker.year\":\"年\",\"uni-datetime-picker.month\":\"月\",\"uni-calender.SUN\":\"日\",\"uni-calender.MON\":\"一\",\"uni-calender.TUE\":\"二\",\"uni-calender.WED\":\"三\",\"uni-calender.THU\":\"四\",\"uni-calender.FRI\":\"五\",\"uni-calender.SAT\":\"六\",\"uni-calender.confirm\":\"確認\"}");
 
 /***/ }),
-/* 504 */
-/*!******************************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/util.js ***!
-  \******************************************************************************************************/
+/* 506 */
+/*!*******************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-datetime-picker/components/uni-datetime-picker/util.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43301,17 +43868,121 @@ function fixIosDateFormat(value) {
 }
 
 /***/ }),
-/* 505 */,
-/* 506 */,
 /* 507 */,
 /* 508 */,
 /* 509 */,
 /* 510 */,
 /* 511 */,
-/* 512 */
-/*!***********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uni-icons/components/uni-icons/uniicons_file_vue.js ***!
-  \***********************************************************************************************/
+/* 512 */,
+/* 513 */,
+/* 514 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-picker/props.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 是否展示picker弹窗
+    show: {
+      type: Boolean,
+      default: uni.$u.props.picker.show
+    },
+    // 是否展示顶部的操作栏
+    showToolbar: {
+      type: Boolean,
+      default: uni.$u.props.picker.showToolbar
+    },
+    // 顶部标题
+    title: {
+      type: String,
+      default: uni.$u.props.picker.title
+    },
+    // 对象数组，设置每一列的数据
+    columns: {
+      type: Array,
+      default: uni.$u.props.picker.columns
+    },
+    // 是否显示加载中状态
+    loading: {
+      type: Boolean,
+      default: uni.$u.props.picker.loading
+    },
+    // 各列中，单个选项的高度
+    itemHeight: {
+      type: [String, Number],
+      default: uni.$u.props.picker.itemHeight
+    },
+    // 取消按钮的文字
+    cancelText: {
+      type: String,
+      default: uni.$u.props.picker.cancelText
+    },
+    // 确认按钮的文字
+    confirmText: {
+      type: String,
+      default: uni.$u.props.picker.confirmText
+    },
+    // 取消按钮的颜色
+    cancelColor: {
+      type: String,
+      default: uni.$u.props.picker.cancelColor
+    },
+    // 确认按钮的颜色
+    confirmColor: {
+      type: String,
+      default: uni.$u.props.picker.confirmColor
+    },
+    // 每列中可见选项的数量
+    visibleItemCount: {
+      type: [String, Number],
+      default: uni.$u.props.picker.visibleItemCount
+    },
+    // 选项对象中，需要展示的属性键名
+    keyName: {
+      type: String,
+      default: uni.$u.props.picker.keyName
+    },
+    // 是否允许点击遮罩关闭选择器
+    closeOnClickOverlay: {
+      type: Boolean,
+      default: uni.$u.props.picker.closeOnClickOverlay
+    },
+    // 各列的默认索引
+    defaultIndex: {
+      type: Array,
+      default: uni.$u.props.picker.defaultIndex
+    },
+    // 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件，只在微信2.21.1及以上有效
+    immediateChange: {
+      type: Boolean,
+      default: uni.$u.props.picker.immediateChange
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */
+/*!************************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uni-icons/components/uni-icons/uniicons_file_vue.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43811,24 +44482,24 @@ var fontData = [{
 exports.fontData = fontData;
 
 /***/ }),
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */,
-/* 521 */,
-/* 522 */,
 /* 523 */,
 /* 524 */,
 /* 525 */,
 /* 526 */,
-/* 527 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-tabbar/props.js ***!
-  \*********************************************************************************/
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */,
+/* 531 */,
+/* 532 */,
+/* 533 */,
+/* 534 */,
+/* 535 */,
+/* 536 */,
+/* 537 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-tabbar/props.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43887,17 +44558,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 528 */,
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-tabbar-item/props.js ***!
-  \**************************************************************************************/
+/* 538 */,
+/* 539 */,
+/* 540 */,
+/* 541 */,
+/* 542 */,
+/* 543 */,
+/* 544 */,
+/* 545 */
+/*!***************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-tabbar-item/props.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43946,17 +44617,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-count-down/props.js ***!
-  \*************************************************************************************/
+/* 546 */,
+/* 547 */,
+/* 548 */,
+/* 549 */,
+/* 550 */,
+/* 551 */,
+/* 552 */,
+/* 553 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-count-down/props.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43995,10 +44666,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 544 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-count-down/utils.js ***!
-  \*************************************************************************************/
+/* 554 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-count-down/utils.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44074,121 +44745,17 @@ function isSameSecond(time1, time2) {
 }
 
 /***/ }),
-/* 545 */,
-/* 546 */,
-/* 547 */,
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */,
-/* 552 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-picker/props.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    // 是否展示picker弹窗
-    show: {
-      type: Boolean,
-      default: uni.$u.props.picker.show
-    },
-    // 是否展示顶部的操作栏
-    showToolbar: {
-      type: Boolean,
-      default: uni.$u.props.picker.showToolbar
-    },
-    // 顶部标题
-    title: {
-      type: String,
-      default: uni.$u.props.picker.title
-    },
-    // 对象数组，设置每一列的数据
-    columns: {
-      type: Array,
-      default: uni.$u.props.picker.columns
-    },
-    // 是否显示加载中状态
-    loading: {
-      type: Boolean,
-      default: uni.$u.props.picker.loading
-    },
-    // 各列中，单个选项的高度
-    itemHeight: {
-      type: [String, Number],
-      default: uni.$u.props.picker.itemHeight
-    },
-    // 取消按钮的文字
-    cancelText: {
-      type: String,
-      default: uni.$u.props.picker.cancelText
-    },
-    // 确认按钮的文字
-    confirmText: {
-      type: String,
-      default: uni.$u.props.picker.confirmText
-    },
-    // 取消按钮的颜色
-    cancelColor: {
-      type: String,
-      default: uni.$u.props.picker.cancelColor
-    },
-    // 确认按钮的颜色
-    confirmColor: {
-      type: String,
-      default: uni.$u.props.picker.confirmColor
-    },
-    // 每列中可见选项的数量
-    visibleItemCount: {
-      type: [String, Number],
-      default: uni.$u.props.picker.visibleItemCount
-    },
-    // 选项对象中，需要展示的属性键名
-    keyName: {
-      type: String,
-      default: uni.$u.props.picker.keyName
-    },
-    // 是否允许点击遮罩关闭选择器
-    closeOnClickOverlay: {
-      type: Boolean,
-      default: uni.$u.props.picker.closeOnClickOverlay
-    },
-    // 各列的默认索引
-    defaultIndex: {
-      type: Array,
-      default: uni.$u.props.picker.defaultIndex
-    },
-    // 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件，只在微信2.21.1及以上有效
-    immediateChange: {
-      type: Boolean,
-      default: uni.$u.props.picker.immediateChange
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 553 */,
-/* 554 */,
 /* 555 */,
 /* 556 */,
 /* 557 */,
 /* 558 */,
 /* 559 */,
-/* 560 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-text/props.js ***!
-  \*******************************************************************************/
+/* 560 */,
+/* 561 */,
+/* 562 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-text/props.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44313,15 +44880,15 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 561 */,
-/* 562 */,
 /* 563 */,
 /* 564 */,
 /* 565 */,
-/* 566 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-line/props.js ***!
-  \*******************************************************************************/
+/* 566 */,
+/* 567 */,
+/* 568 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-line/props.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44369,17 +44936,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 567 */,
-/* 568 */,
 /* 569 */,
 /* 570 */,
 /* 571 */,
 /* 572 */,
 /* 573 */,
-/* 574 */
-/*!********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-badge/props.js ***!
-  \********************************************************************************/
+/* 574 */,
+/* 575 */,
+/* 576 */
+/*!*********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-badge/props.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44466,8 +45033,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 575 */,
-/* 576 */,
 /* 577 */,
 /* 578 */,
 /* 579 */,
@@ -44480,10 +45045,12 @@ exports.default = _default;
 /* 586 */,
 /* 587 */,
 /* 588 */,
-/* 589 */
-/*!***************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-loading-icon/props.js ***!
-  \***************************************************************************************/
+/* 589 */,
+/* 590 */,
+/* 591 */
+/*!****************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-loading-icon/props.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44557,17 +45124,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 590 */,
-/* 591 */,
 /* 592 */,
 /* 593 */,
 /* 594 */,
 /* 595 */,
 /* 596 */,
-/* 597 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-overlay/props.js ***!
-  \**********************************************************************************/
+/* 597 */,
+/* 598 */,
+/* 599 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-overlay/props.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44606,17 +45173,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 598 */,
-/* 599 */,
 /* 600 */,
 /* 601 */,
 /* 602 */,
 /* 603 */,
 /* 604 */,
-/* 605 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-transition/props.js ***!
-  \*************************************************************************************/
+/* 605 */,
+/* 606 */,
+/* 607 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-transition/props.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44655,10 +45222,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 606 */
-/*!******************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-transition/transition.js ***!
-  \******************************************************************************************/
+/* 608 */
+/*!*******************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-transition/transition.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44670,9 +45237,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 31));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 607));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 31));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 33));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 609));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -44764,10 +45331,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 607 */
-/*!********************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
-  \********************************************************************************************/
+/* 609 */
+/*!*********************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44957,17 +45524,17 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 608 */,
-/* 609 */,
 /* 610 */,
 /* 611 */,
 /* 612 */,
 /* 613 */,
 /* 614 */,
-/* 615 */
-/*!*************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-status-bar/props.js ***!
-  \*************************************************************************************/
+/* 615 */,
+/* 616 */,
+/* 617 */
+/*!**************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-status-bar/props.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44990,17 +45557,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 616 */,
-/* 617 */,
 /* 618 */,
 /* 619 */,
 /* 620 */,
 /* 621 */,
 /* 622 */,
-/* 623 */
-/*!**************************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-safe-bottom/props.js ***!
-  \**************************************************************************************/
+/* 623 */,
+/* 624 */,
+/* 625 */
+/*!***************************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-safe-bottom/props.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -45017,17 +45584,17 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 624 */,
-/* 625 */,
 /* 626 */,
 /* 627 */,
 /* 628 */,
 /* 629 */,
 /* 630 */,
-/* 631 */
-/*!*********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/libs/util/async-validator.js ***!
-  \*********************************************************************************/
+/* 631 */,
+/* 632 */,
+/* 633 */
+/*!**********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/libs/util/async-validator.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46205,10 +46772,10 @@ Schema.warning = warning;
 Schema.messages = messages;
 var _default = Schema; // # sourceMappingURL=index.js.map
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 632)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 634)))
 
 /***/ }),
-/* 632 */
+/* 634 */
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -46239,7 +46806,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 633);
+        if (!path) path = __webpack_require__(/*! path */ 635);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -46252,7 +46819,7 @@ exports.features = {};
 
 
 /***/ }),
-/* 633 */
+/* 635 */
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -46562,18 +47129,18 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 632)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 634)))
 
 /***/ }),
-/* 634 */,
-/* 635 */,
 /* 636 */,
 /* 637 */,
 /* 638 */,
-/* 639 */
-/*!******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-gap/props.js ***!
-  \******************************************************************************/
+/* 639 */,
+/* 640 */,
+/* 641 */
+/*!*******************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-gap/props.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46612,8 +47179,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 640 */,
-/* 641 */,
 /* 642 */,
 /* 643 */,
 /* 644 */,
@@ -46652,10 +47217,12 @@ exports.default = _default;
 /* 677 */,
 /* 678 */,
 /* 679 */,
-/* 680 */
-/*!**********************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-toolbar/props.js ***!
-  \**********************************************************************************/
+/* 680 */,
+/* 681 */,
+/* 682 */
+/*!***********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-toolbar/props.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46704,17 +47271,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 681 */,
-/* 682 */,
 /* 683 */,
 /* 684 */,
 /* 685 */,
 /* 686 */,
 /* 687 */,
-/* 688 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-text/value.js ***!
-  \*******************************************************************************/
+/* 688 */,
+/* 689 */,
+/* 690 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-text/value.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46819,8 +47386,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 689 */,
-/* 690 */,
 /* 691 */,
 /* 692 */,
 /* 693 */,
@@ -46868,10 +47433,12 @@ exports.default = _default;
 /* 735 */,
 /* 736 */,
 /* 737 */,
-/* 738 */
-/*!*******************************************************************************!*\
-  !*** E:/code/baba_statistics/uni_modules/uview-ui/components/u-link/props.js ***!
-  \*******************************************************************************/
+/* 738 */,
+/* 739 */,
+/* 740 */
+/*!********************************************************************************!*\
+  !*** E:/githubCode/statistics/uni_modules/uview-ui/components/u-link/props.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46923,6 +47490,735 @@ var _default = {
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 741 */,
+/* 742 */,
+/* 743 */,
+/* 744 */,
+/* 745 */,
+/* 746 */,
+/* 747 */,
+/* 748 */,
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */,
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */,
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */,
+/* 812 */,
+/* 813 */
+/*!******************************************************!*\
+  !*** E:/githubCode/statistics/common/amap-wx.130.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(wx) {function AMapWX(a) {
+  this.key = a.key;
+  this.requestConfig = {
+    key: a.key,
+    s: "rsx",
+    platform: "WXJS",
+    appname: a.key,
+    sdkversion: "1.2.0",
+    logversion: "2.0"
+  };
+  this.MeRequestConfig = {
+    key: a.key,
+    serviceName: "https://restapi.amap.com/rest/me"
+  };
+}
+AMapWX.prototype.getWxLocation = function (a, b) {
+  wx.getLocation({
+    type: "gcj02",
+    success: function success(c) {
+      c = c.longitude + "," + c.latitude;
+      wx.setStorage({
+        key: "userLocation",
+        data: c
+      });
+      b(c);
+    },
+    fail: function fail(c) {
+      wx.getStorage({
+        key: "userLocation",
+        success: function success(d) {
+          d.data && b(d.data);
+        }
+      });
+      a.fail({
+        errCode: "0",
+        errMsg: c.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getMEKeywordsSearch = function (a) {
+  if (!a.options) return a.fail({
+    errCode: "0",
+    errMsg: "\u7F3A\u5C11\u5FC5\u8981\u53C2\u6570"
+  });
+  var b = a.options,
+    c = this.MeRequestConfig,
+    d = {
+      key: c.key,
+      s: "rsx",
+      platform: "WXJS",
+      appname: a.key,
+      sdkversion: "1.2.0",
+      logversion: "2.0"
+    };
+  b.layerId && (d.layerId = b.layerId);
+  b.keywords && (d.keywords = b.keywords);
+  b.city && (d.city = b.city);
+  b.filter && (d.filter = b.filter);
+  b.sortrule && (d.sortrule = b.sortrule);
+  b.pageNum && (d.pageNum = b.pageNum);
+  b.pageSize && (d.pageSize = b.pageSize);
+  b.sig && (d.sig = b.sig);
+  wx.request({
+    url: c.serviceName + "/cpoint/datasearch/local",
+    data: d,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(e) {
+      (e = e.data) && e.status && "1" === e.status && 0 === e.code ? a.success(e.data) : a.fail({
+        errCode: "0",
+        errMsg: e
+      });
+    },
+    fail: function fail(e) {
+      a.fail({
+        errCode: "0",
+        errMsg: e.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getMEIdSearch = function (a) {
+  if (!a.options) return a.fail({
+    errCode: "0",
+    errMsg: "\u7F3A\u5C11\u5FC5\u8981\u53C2\u6570"
+  });
+  var b = a.options,
+    c = this.MeRequestConfig,
+    d = {
+      key: c.key,
+      s: "rsx",
+      platform: "WXJS",
+      appname: a.key,
+      sdkversion: "1.2.0",
+      logversion: "2.0"
+    };
+  b.layerId && (d.layerId = b.layerId);
+  b.id && (d.id = b.id);
+  b.sig && (d.sig = b.sig);
+  wx.request({
+    url: c.serviceName + "/cpoint/datasearch/id",
+    data: d,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(e) {
+      (e = e.data) && e.status && "1" === e.status && 0 === e.code ? a.success(e.data) : a.fail({
+        errCode: "0",
+        errMsg: e
+      });
+    },
+    fail: function fail(e) {
+      a.fail({
+        errCode: "0",
+        errMsg: e.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getMEPolygonSearch = function (a) {
+  if (!a.options) return a.fail({
+    errCode: "0",
+    errMsg: "\u7F3A\u5C11\u5FC5\u8981\u53C2\u6570"
+  });
+  var b = a.options,
+    c = this.MeRequestConfig,
+    d = {
+      key: c.key,
+      s: "rsx",
+      platform: "WXJS",
+      appname: a.key,
+      sdkversion: "1.2.0",
+      logversion: "2.0"
+    };
+  b.layerId && (d.layerId = b.layerId);
+  b.keywords && (d.keywords = b.keywords);
+  b.polygon && (d.polygon = b.polygon);
+  b.filter && (d.filter = b.filter);
+  b.sortrule && (d.sortrule = b.sortrule);
+  b.pageNum && (d.pageNum = b.pageNum);
+  b.pageSize && (d.pageSize = b.pageSize);
+  b.sig && (d.sig = b.sig);
+  wx.request({
+    url: c.serviceName + "/cpoint/datasearch/polygon",
+    data: d,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(e) {
+      (e = e.data) && e.status && "1" === e.status && 0 === e.code ? a.success(e.data) : a.fail({
+        errCode: "0",
+        errMsg: e
+      });
+    },
+    fail: function fail(e) {
+      a.fail({
+        errCode: "0",
+        errMsg: e.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getMEaroundSearch = function (a) {
+  if (!a.options) return a.fail({
+    errCode: "0",
+    errMsg: "\u7F3A\u5C11\u5FC5\u8981\u53C2\u6570"
+  });
+  var b = a.options,
+    c = this.MeRequestConfig,
+    d = {
+      key: c.key,
+      s: "rsx",
+      platform: "WXJS",
+      appname: a.key,
+      sdkversion: "1.2.0",
+      logversion: "2.0"
+    };
+  b.layerId && (d.layerId = b.layerId);
+  b.keywords && (d.keywords = b.keywords);
+  b.center && (d.center = b.center);
+  b.radius && (d.radius = b.radius);
+  b.filter && (d.filter = b.filter);
+  b.sortrule && (d.sortrule = b.sortrule);
+  b.pageNum && (d.pageNum = b.pageNum);
+  b.pageSize && (d.pageSize = b.pageSize);
+  b.sig && (d.sig = b.sig);
+  wx.request({
+    url: c.serviceName + "/cpoint/datasearch/around",
+    data: d,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(e) {
+      (e = e.data) && e.status && "1" === e.status && 0 === e.code ? a.success(e.data) : a.fail({
+        errCode: "0",
+        errMsg: e
+      });
+    },
+    fail: function fail(e) {
+      a.fail({
+        errCode: "0",
+        errMsg: e.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getGeo = function (a) {
+  var b = this.requestConfig,
+    c = a.options;
+  b = {
+    key: this.key,
+    extensions: "all",
+    s: b.s,
+    platform: b.platform,
+    appname: this.key,
+    sdkversion: b.sdkversion,
+    logversion: b.logversion
+  };
+  c.address && (b.address = c.address);
+  c.city && (b.city = c.city);
+  c.batch && (b.batch = c.batch);
+  c.sig && (b.sig = c.sig);
+  wx.request({
+    url: "https://restapi.amap.com/v3/geocode/geo",
+    data: b,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(d) {
+      (d = d.data) && d.status && "1" === d.status ? a.success(d) : a.fail({
+        errCode: "0",
+        errMsg: d
+      });
+    },
+    fail: function fail(d) {
+      a.fail({
+        errCode: "0",
+        errMsg: d.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getRegeo = function (a) {
+  function b(d) {
+    var e = c.requestConfig;
+    wx.request({
+      url: "https://restapi.amap.com/v3/geocode/regeo",
+      data: {
+        key: c.key,
+        location: d,
+        extensions: "all",
+        s: e.s,
+        platform: e.platform,
+        appname: c.key,
+        sdkversion: e.sdkversion,
+        logversion: e.logversion
+      },
+      method: "GET",
+      header: {
+        "content-type": "application/json"
+      },
+      success: function success(g) {
+        if (g.data.status && "1" == g.data.status) {
+          g = g.data.regeocode;
+          var h = g.addressComponent,
+            f = [],
+            k = g.roads[0].name + "\u9644\u8FD1",
+            m = d.split(",")[0],
+            n = d.split(",")[1];
+          if (g.pois && g.pois[0]) {
+            k = g.pois[0].name + "\u9644\u8FD1";
+            var l = g.pois[0].location;
+            l && (m = parseFloat(l.split(",")[0]), n = parseFloat(l.split(",")[1]));
+          }
+          h.provice && f.push(h.provice);
+          h.city && f.push(h.city);
+          h.district && f.push(h.district);
+          h.streetNumber && h.streetNumber.street && h.streetNumber.number ? (f.push(h.streetNumber.street), f.push(h.streetNumber.number)) : f.push(g.roads[0].name);
+          f = f.join("");
+          a.success([{
+            iconPath: a.iconPath,
+            width: a.iconWidth,
+            height: a.iconHeight,
+            name: f,
+            desc: k,
+            longitude: m,
+            latitude: n,
+            id: 0,
+            regeocodeData: g
+          }]);
+        } else a.fail({
+          errCode: g.data.infocode,
+          errMsg: g.data.info
+        });
+      },
+      fail: function fail(g) {
+        a.fail({
+          errCode: "0",
+          errMsg: g.errMsg || ""
+        });
+      }
+    });
+  }
+  var c = this;
+  a.location ? b(a.location) : c.getWxLocation(a, function (d) {
+    b(d);
+  });
+};
+AMapWX.prototype.getWeather = function (a) {
+  function b(g) {
+    var h = "base";
+    a.type && "forecast" == a.type && (h = "all");
+    wx.request({
+      url: "https://restapi.amap.com/v3/weather/weatherInfo",
+      data: {
+        key: d.key,
+        city: g,
+        extensions: h,
+        s: e.s,
+        platform: e.platform,
+        appname: d.key,
+        sdkversion: e.sdkversion,
+        logversion: e.logversion
+      },
+      method: "GET",
+      header: {
+        "content-type": "application/json"
+      },
+      success: function success(f) {
+        if (f.data.status && "1" == f.data.status) {
+          if (f.data.lives) {
+            if ((f = f.data.lives) && 0 < f.length) {
+              f = f[0];
+              var k = {
+                city: {
+                  text: "\u57CE\u5E02",
+                  data: f.city
+                },
+                weather: {
+                  text: "\u5929\u6C14",
+                  data: f.weather
+                },
+                temperature: {
+                  text: "\u6E29\u5EA6",
+                  data: f.temperature
+                },
+                winddirection: {
+                  text: "\u98CE\u5411",
+                  data: f.winddirection + "\u98CE"
+                },
+                windpower: {
+                  text: "\u98CE\u529B",
+                  data: f.windpower + "\u7EA7"
+                },
+                humidity: {
+                  text: "\u6E7F\u5EA6",
+                  data: f.humidity + "%"
+                }
+              };
+              k.liveData = f;
+              a.success(k);
+            }
+          } else f.data.forecasts && f.data.forecasts[0] && a.success({
+            forecast: f.data.forecasts[0]
+          });
+        } else a.fail({
+          errCode: f.data.infocode,
+          errMsg: f.data.info
+        });
+      },
+      fail: function fail(f) {
+        a.fail({
+          errCode: "0",
+          errMsg: f.errMsg || ""
+        });
+      }
+    });
+  }
+  function c(g) {
+    wx.request({
+      url: "https://restapi.amap.com/v3/geocode/regeo",
+      data: {
+        key: d.key,
+        location: g,
+        extensions: "all",
+        s: e.s,
+        platform: e.platform,
+        appname: d.key,
+        sdkversion: e.sdkversion,
+        logversion: e.logversion
+      },
+      method: "GET",
+      header: {
+        "content-type": "application/json"
+      },
+      success: function success(h) {
+        if (h.data.status && "1" == h.data.status) {
+          h = h.data.regeocode;
+          if (h.addressComponent) var f = h.addressComponent.adcode;else h.aois && 0 < h.aois.length && (f = h.aois[0].adcode);
+          b(f);
+        } else a.fail({
+          errCode: h.data.infocode,
+          errMsg: h.data.info
+        });
+      },
+      fail: function fail(h) {
+        a.fail({
+          errCode: "0",
+          errMsg: h.errMsg || ""
+        });
+      }
+    });
+  }
+  var d = this,
+    e = d.requestConfig;
+  a.city ? b(a.city) : d.getWxLocation(a, function (g) {
+    c(g);
+  });
+};
+AMapWX.prototype.getPoiAround = function (a) {
+  function b(e) {
+    e = {
+      key: c.key,
+      location: e,
+      s: d.s,
+      platform: d.platform,
+      appname: c.key,
+      sdkversion: d.sdkversion,
+      logversion: d.logversion
+    };
+    a.querytypes && (e.types = a.querytypes);
+    a.querykeywords && (e.keywords = a.querykeywords);
+    wx.request({
+      url: "https://restapi.amap.com/v3/place/around",
+      data: e,
+      method: "GET",
+      header: {
+        "content-type": "application/json"
+      },
+      success: function success(g) {
+        if (g.data.status && "1" == g.data.status) {
+          if ((g = g.data) && g.pois) {
+            for (var h = [], f = 0; f < g.pois.length; f++) {
+              var k = 0 == f ? a.iconPathSelected : a.iconPath;
+              h.push({
+                latitude: parseFloat(g.pois[f].location.split(",")[1]),
+                longitude: parseFloat(g.pois[f].location.split(",")[0]),
+                iconPath: k,
+                width: 22,
+                height: 32,
+                id: f,
+                name: g.pois[f].name,
+                address: g.pois[f].address
+              });
+            }
+            a.success({
+              markers: h,
+              poisData: g.pois
+            });
+          }
+        } else a.fail({
+          errCode: g.data.infocode,
+          errMsg: g.data.info
+        });
+      },
+      fail: function fail(g) {
+        a.fail({
+          errCode: "0",
+          errMsg: g.errMsg || ""
+        });
+      }
+    });
+  }
+  var c = this,
+    d = c.requestConfig;
+  a.location ? b(a.location) : c.getWxLocation(a, function (e) {
+    b(e);
+  });
+};
+AMapWX.prototype.getStaticmap = function (a) {
+  function b(e) {
+    c.push("location=" + e);
+    a.zoom && c.push("zoom=" + a.zoom);
+    a.size && c.push("size=" + a.size);
+    a.scale && c.push("scale=" + a.scale);
+    a.markers && c.push("markers=" + a.markers);
+    a.labels && c.push("labels=" + a.labels);
+    a.paths && c.push("paths=" + a.paths);
+    a.traffic && c.push("traffic=" + a.traffic);
+    e = "https://restapi.amap.com/v3/staticmap?" + c.join("&");
+    a.success({
+      url: e
+    });
+  }
+  var c = [];
+  c.push("key=" + this.key);
+  var d = this.requestConfig;
+  c.push("s=" + d.s);
+  c.push("platform=" + d.platform);
+  c.push("appname=" + d.appname);
+  c.push("sdkversion=" + d.sdkversion);
+  c.push("logversion=" + d.logversion);
+  a.location ? b(a.location) : this.getWxLocation(a, function (e) {
+    b(e);
+  });
+};
+AMapWX.prototype.getInputtips = function (a) {
+  var b = Object.assign({}, this.requestConfig);
+  a.location && (b.location = a.location);
+  a.keywords && (b.keywords = a.keywords);
+  a.type && (b.type = a.type);
+  a.city && (b.city = a.city);
+  a.citylimit && (b.citylimit = a.citylimit);
+  wx.request({
+    url: "https://restapi.amap.com/v3/assistant/inputtips",
+    data: b,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(c) {
+      c && c.data && c.data.tips && a.success({
+        tips: c.data.tips
+      });
+    },
+    fail: function fail(c) {
+      a.fail({
+        errCode: "0",
+        errMsg: c.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getDrivingRoute = function (a) {
+  var b = Object.assign({}, this.requestConfig);
+  a.origin && (b.origin = a.origin);
+  a.destination && (b.destination = a.destination);
+  a.strategy && (b.strategy = a.strategy);
+  a.waypoints && (b.waypoints = a.waypoints);
+  a.avoidpolygons && (b.avoidpolygons = a.avoidpolygons);
+  a.avoidroad && (b.avoidroad = a.avoidroad);
+  wx.request({
+    url: "https://restapi.amap.com/v3/direction/driving",
+    data: b,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(c) {
+      c && c.data && c.data.route && a.success({
+        paths: c.data.route.paths,
+        taxi_cost: c.data.route.taxi_cost || ""
+      });
+    },
+    fail: function fail(c) {
+      a.fail({
+        errCode: "0",
+        errMsg: c.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getWalkingRoute = function (a) {
+  var b = Object.assign({}, this.requestConfig);
+  a.origin && (b.origin = a.origin);
+  a.destination && (b.destination = a.destination);
+  wx.request({
+    url: "https://restapi.amap.com/v3/direction/walking",
+    data: b,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(c) {
+      c && c.data && c.data.route && a.success({
+        paths: c.data.route.paths
+      });
+    },
+    fail: function fail(c) {
+      a.fail({
+        errCode: "0",
+        errMsg: c.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getTransitRoute = function (a) {
+  var b = Object.assign({}, this.requestConfig);
+  a.origin && (b.origin = a.origin);
+  a.destination && (b.destination = a.destination);
+  a.strategy && (b.strategy = a.strategy);
+  a.city && (b.city = a.city);
+  a.cityd && (b.cityd = a.cityd);
+  wx.request({
+    url: "https://restapi.amap.com/v3/direction/transit/integrated",
+    data: b,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(c) {
+      c && c.data && c.data.route && (c = c.data.route, a.success({
+        distance: c.distance || "",
+        taxi_cost: c.taxi_cost || "",
+        transits: c.transits
+      }));
+    },
+    fail: function fail(c) {
+      a.fail({
+        errCode: "0",
+        errMsg: c.errMsg || ""
+      });
+    }
+  });
+};
+AMapWX.prototype.getRidingRoute = function (a) {
+  var b = Object.assign({}, this.requestConfig);
+  a.origin && (b.origin = a.origin);
+  a.destination && (b.destination = a.destination);
+  wx.request({
+    url: "https://restapi.amap.com/v3/direction/riding",
+    data: b,
+    method: "GET",
+    header: {
+      "content-type": "application/json"
+    },
+    success: function success(c) {
+      c && c.data && c.data.route && a.success({
+        paths: c.data.route.paths
+      });
+    },
+    fail: function fail(c) {
+      a.fail({
+        errCode: "0",
+        errMsg: c.errMsg || ""
+      });
+    }
+  });
+};
+module.exports.AMapWX = AMapWX;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ })
 ]]);

@@ -57,7 +57,13 @@
             "es6" : true
         },
         "requiredBackgroundModes" : [ "audio" ],
-        "usingComponents" : true
+        "requiredPrivateInfos" : [ "getLocation" ],
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "共享位置信息"
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true
