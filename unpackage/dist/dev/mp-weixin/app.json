@@ -1,8 +1,9 @@
 {
   "pages": [
+    "pages/blind/blind",
     "pages/index/index",
     "pages/eat/eat",
-    "pages/history/history",
+    "pages/ranking/ranking",
     "pages/set/set",
     "pages/listDetail/listDetail",
     "pages/eatSet/eatSet",
@@ -14,7 +15,9 @@
     "pages/login/login",
     "pages/problem/problem",
     "pages/timeCount/timeCount",
-    "pages/map/map"
+    "pages/map/map",
+    "pages/blind-type/blind-type",
+    "pages/blind-add/blind-add"
   ],
   "subPackages": [],
   "window": {
@@ -36,10 +39,10 @@
         "text": "粑粑记录"
       },
       {
-        "pagePath": "pages/history/history",
-        "iconPath": "static/img/read.png",
-        "selectedIconPath": "static/img/read-active.png",
-        "text": "排行榜"
+        "pagePath": "pages/blind/blind",
+        "iconPath": "static/img/blind.png",
+        "selectedIconPath": "static/img/blind-active.png",
+        "text": "盲盒"
       },
       {
         "pagePath": "pages/problem/problem",

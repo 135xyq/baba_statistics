@@ -1,0 +1,7 @@
+{
+  "name": "blind_delete",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

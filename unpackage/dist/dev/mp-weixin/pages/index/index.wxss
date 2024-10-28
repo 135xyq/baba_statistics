@@ -4,6 +4,12 @@
   display: flex;
   justify-content: center;
   margin-top: 100rpx;
+  position: relative;
+}
+.ranking{
+  position: absolute;
+  right: 20px;
+  top: 30px;
 }
 .count {
   text-align: center;

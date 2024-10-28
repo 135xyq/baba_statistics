@@ -1,0 +1,7 @@
+{
+  "name": "blind_edit",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

@@ -3,6 +3,9 @@
     <view class="operate">
       <u-avatar :src="imgSrc" size="150" @click="onAdd"></u-avatar>
     </view>
+    <view class="ranking">
+      <u-avatar :src="rankingImg" size="40" @click="onGetRankingPage"></u-avatar>
+    </view>
     <view class="count">你总共拉了<span style="color: red">{{total}}</span>次粑粑了！</view>
     <view class="list" v-if="dataList.length > 0">
       <view class="title">今日拉粑粑的记录：</view>
@@ -22,11 +25,13 @@
 
 <script>
   import img from "@/static/aoligei.jpg"
+  import rankingImg from "@/static/img/ranking-active.png"
   import formateDate from "@/utils/formateDate.js"
   export default {
     data() {
       return {
         imgSrc: img,
+        rankingImg,
         openid: '',
         total: 0,
         dataList: [],
@@ -186,6 +191,14 @@
           url: '/pages/timeCount/timeCount'
         })
       },
+      /**
+       * 前往排行榜
+       */
+      onGetRankingPage() {
+        uni.navigateTo({
+          url: '/pages/ranking/ranking'
+        })
+      }
     }
   }
 </script>
@@ -196,6 +209,13 @@
     display: flex;
     justify-content: center;
     margin-top: 100rpx;
+    position: relative;
+  }
+  
+  .ranking{
+    position: absolute;
+    right: 20px;
+    top: 30px;
   }
 
   .count {
