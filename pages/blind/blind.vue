@@ -24,7 +24,7 @@
     </view>
     <view>
       <!-- 前往新增和编辑页面 -->
-      <uni-fab :pattern="pattern" horizontal="right" vertical="bottom" :pop-menu="true" :content="content"
+      <uni-fab ref="fab" :pattern="pattern" horizontal="right" vertical="bottom" :pop-menu="true" :content="content"
         @trigger="onAddBlind"></uni-fab>
     </view>
   </view>
@@ -130,7 +130,6 @@
         this.getDataList()
       },
       onAddBlind(item) {
-        console.log(item);
         this.content = [{
             iconPath: '/static/img/blind-add-type.png',
             selectedIconPath: '/static/img/blind-add-type-active.png',
@@ -146,7 +145,7 @@
         ]
         
         const index = item.index
-        this.content[index].active = true
+        this.$refs.fab.close()
         
         if(index === 0) {
           uni.navigateTo({

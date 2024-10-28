@@ -10,13 +10,14 @@ exports.main = async (event, context) => {
     price,
     remark
   } = event
-  const res = await db.collection("blindType").doc(_id).update({
+  const res = await db.collection("blind").doc(_id).update({
     name,
     coverImg,
     time,
     price,
     remark
   });
+  console.log(res,event);
   //返回数据给客户端
   return {
     code: 0,
