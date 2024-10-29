@@ -1,13 +1,6 @@
 {
   "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-  {
-    "path" : "pages/blind/blind",
-    "style" : 
     {
-      "navigationBarTitleText" : "盲盒",
-      "enablePullDownRefresh" : false
-    }
-  },{
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
@@ -107,30 +100,33 @@
         "navigationBarTitleText": "计时器",
         "enablePullDownRefresh": false
       }
-    
+
     },
     {
-      "path" : "pages/map/map",
-      "style" : 
-      {
-        "navigationBarTitleText" : "位置共享",
-        "enablePullDownRefresh" : false
+      "path": "pages/map/map",
+      "style": {
+        "navigationBarTitleText": "位置共享",
+        "enablePullDownRefresh": false
       }
     },
     {
-      "path" : "pages/blind-type/blind-type",
-      "style" : 
-      {
-        "navigationBarTitleText" : "盲盒类型",
-        "enablePullDownRefresh" : false
+      "path": "pages/blind/blind",
+      "style": {
+        "navigationBarTitleText": "盲盒",
+        "enablePullDownRefresh": false
+      }
+    }, {
+      "path": "pages/blind-type/blind-type",
+      "style": {
+        "navigationBarTitleText": "盲盒类型",
+        "enablePullDownRefresh": false
       }
     },
     {
-      "path" : "pages/blind-add/blind-add",
-      "style" : 
-      {
-        "navigationBarTitleText" : "盲盒",
-        "enablePullDownRefresh" : false
+      "path": "pages/blind-add/blind-add",
+      "style": {
+        "navigationBarTitleText": "盲盒",
+        "enablePullDownRefresh": false
       }
     }
   ],
@@ -150,12 +146,12 @@
       "iconPath": "static/img/home.png",
       "selectedIconPath": "static/img/home-active.png",
       "text": "粑粑记录"
-    },{
+    }, {
       "pagePath": "pages/blind/blind",
       "iconPath": "static/img/blind.png",
       "selectedIconPath": "static/img/blind-active.png",
       "text": "盲盒"
-    },  {
+    }, {
       "pagePath": "pages/problem/problem",
       "iconPath": "static/img/problem.png",
       "selectedIconPath": "static/img/problem-active.png",

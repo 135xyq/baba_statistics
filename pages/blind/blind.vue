@@ -13,8 +13,9 @@
     <view class="right-list">
       <scroll-view v-if="dataList.length > 0" scroll-y="true" scroll-top="0">
         <view v-for="item in dataList" :key="item">
-          <uni-card :title="item.name" :sub-title="item.createTime " :extra=" item.price? item.price +'元' : ''" padding="10px 0">
-            <image class="right-list__img" :src="item.coverImg"></image>
+          <uni-card :title="item.name" :sub-title="item.createTime " :extra=" item.price? item.price +'元' : ''"
+            padding="10px 0">
+            <image class="right-list__img" :src="item.coverImg" @click="onPreviewImage(item)"></image>
             <text class="uni-body uni-mt-5">{{item.remark}}</text>
           </uni-card>
         </view>
@@ -129,6 +130,10 @@
         this.activeCategory = id
         this.getDataList()
       },
+      /**
+       * 点击悬浮窗
+       * @param {Object} item
+       */
       onAddBlind(item) {
         this.content = [{
             iconPath: '/static/img/blind-add-type.png',
@@ -143,19 +148,32 @@
             active: false
           }
         ]
-        
+
         const index = item.index
         this.$refs.fab.close()
-        
-        if(index === 0) {
+
+        if (index === 0) {
           uni.navigateTo({
             url: '/pages/blind-type/blind-type'
           })
-        }else{
+        } else {
           uni.navigateTo({
             url: '/pages/blind-add/blind-add'
           })
         }
+      },
+      /**
+       * 图片预览
+       * @param {Object} data
+       */
+      onPreviewImage(data) {
+        if(data.coverImg) {
+          uni.previewImage({
+            current: data.coverImg,
+            urls: [data.coverImg]
+          });
+        }
+
       }
     }
   }
@@ -202,7 +220,8 @@
 
     ::v-deep .right-list__img {
       width: 100%;
-      max-height: 300rpx;
+      max-height: 400rpx;
+      object-fit: cover;
     }
   }
 </style>

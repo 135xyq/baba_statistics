@@ -14,4 +14,4 @@ exports.main = async (event, context) => {
 		code: 0,
 		msg: '更新成功！'
 	}
-};
+}; 

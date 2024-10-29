@@ -23,9 +23,9 @@
           </uni-td>
           <uni-td align="center"class="item">{{ item.price }}</uni-td>
           <uni-td align="center" class="item">
-            <image class="image" :src="item.coverImg"></image>
+            <image class="image" :src="item.coverImg" @click="onPreviewImage(item)"></image>
           </uni-td>
-           <uni-td align="center" class="item">{{ item.type }}</uni-td>
+           <uni-td align="center" class="item">{{ item.typeName }}</uni-td>
             <uni-td align="center" class="item">{{ item.remark }}</uni-td>
           <uni-td align="center" class="item">{{ item.createTime }}</uni-td>
           <uni-td align="center" class="item">
@@ -309,6 +309,19 @@
           resolve(result.fileID)
         })
       },
+      /**
+       * 图片预览
+       * @param {Object} data
+       */
+      onPreviewImage(data) {
+        if(data.coverImg) {
+          uni.previewImage({
+            current: data.coverImg,
+            urls: [data.coverImg]
+          });
+        }
+      
+      }
 
     }
   }
