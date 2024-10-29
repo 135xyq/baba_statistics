@@ -71,7 +71,7 @@
     computed: {
 
     },
-    onShow() {
+    created() {
       if (this.$store.state.userInfo?.userInfo?.openid) {
         const state = this.$store.state.userInfo?.userInfo
         this.openid = state.openid
@@ -220,7 +220,7 @@
 
     ::v-deep .right-list__img {
       width: 100%;
-      max-height: 400rpx;
+      max-height: 500rpx;
       object-fit: cover;
     }
   }
