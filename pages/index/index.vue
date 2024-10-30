@@ -1,5 +1,6 @@
 <template>
   <view>
+    <u-notice-bar :text="showDateText" mode="closable" color='#d81e06' bgColor='white' />
     <view class="operate">
       <u-avatar :src="imgSrc" size="150" @click="onAdd"></u-avatar>
     </view>
@@ -44,6 +45,12 @@
           iconColor: '#fff',
           icon: 'calendar'
         },
+        // 结束日期
+        endDate: '2024-12-01 09:00:00',
+        // 展示的文本
+        showDateText: '',
+        // 定时器
+        timer: null
       }
     },
     onShow() {
@@ -51,6 +58,7 @@
         const state = this.$store.state.userInfo?.userInfo
         this.openid = state.openid
         if (this.openid) {
+          this.calculateTimeUntil()
           this.getTotal()
           this.getTodayList()
         }
@@ -59,6 +67,14 @@
           url: '/pages/login/login'
         })
       }
+    },
+    created() {
+      this.timer = setInterval(() => {
+        this.calculateTimeUntil()
+      }, 1000)
+    },
+    beforeDestroy() {
+      clearInterval(this.timer)
     },
     methods: {
       formateDate,
@@ -198,8 +214,32 @@
         uni.navigateTo({
           url: '/pages/ranking/ranking'
         })
+      },
+      /**
+       * 获取指定日期距离现在还有多久
+       */
+      calculateTimeUntil() {
+        // 获取当前日期和目标日期
+        const now = new Date();
+        const target = new Date(this.endDate);
+
+        // 计算时间差（以毫秒为单位）
+        const timeDiff = target - now;
+
+        // 如果时间差小于0，表示目标日期已经过去
+        if (timeDiff < 0) {
+          return "目标日期已过去";
+        }
+
+        // 计算天数、小时、分钟和秒数
+        const seconds = Math.floor((timeDiff / 1000) % 60);
+        const minutes = Math.floor((timeDiff / 1000 / 60) % 60);
+        const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+        this.showDateText = `距离国考还有${days}天${hours}时${minutes}分${seconds}秒`
       }
-    }
+    },
   }
 </script>
 
@@ -211,11 +251,11 @@
     margin-top: 100rpx;
     position: relative;
   }
-  
-  .ranking{
+
+  .ranking {
     position: absolute;
     right: 20px;
-    top: 30px;
+    top: 80rpx;
   }
 
   .count {
