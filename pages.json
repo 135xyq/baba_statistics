@@ -128,6 +128,13 @@
         "navigationBarTitleText": "盲盒",
         "enablePullDownRefresh": false
       }
+    },{
+      "path" : "pages/noticePage/noticePage",
+      "style" : 
+      {
+        "navigationBarTitleText" : "通告栏配置",
+        "enablePullDownRefresh" : false
+      }
     }
   ],
   "globalStyle": {

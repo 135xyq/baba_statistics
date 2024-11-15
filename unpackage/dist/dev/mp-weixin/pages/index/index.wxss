@@ -6,10 +6,10 @@
   margin-top: 100rpx;
   position: relative;
 }
-.ranking{
+.ranking {
   position: absolute;
   right: 20px;
-  top: 30px;
+  top: 80rpx;
 }
 .count {
   text-align: center;

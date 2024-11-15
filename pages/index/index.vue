@@ -1,6 +1,7 @@
 <template>
   <view>
-    <u-notice-bar :text="showDateText" mode="closable" color='#d81e06' bgColor='white' />
+    <u-notice-bar v-if="showDateText" :text="showDateText" mode="closable" color='#d81e06' bgColor='white'
+      duration="2000" />
     <view class="operate">
       <u-avatar :src="imgSrc" size="150" @click="onAdd"></u-avatar>
     </view>
@@ -50,7 +51,9 @@
         // 展示的文本
         showDateText: '',
         // 定时器
-        timer: null
+        timer: null,
+        // 通告栏数据
+        noticeData: {}
       }
     },
     onShow() {
@@ -58,9 +61,9 @@
         const state = this.$store.state.userInfo?.userInfo
         this.openid = state.openid
         if (this.openid) {
-          this.calculateTimeUntil()
           this.getTotal()
           this.getTodayList()
+          this.getNoticeData()
         }
       } else {
         uni.switchTab({
@@ -71,12 +74,24 @@
     created() {
       this.timer = setInterval(() => {
         this.calculateTimeUntil()
-      }, 1000)
+      }, 60000)
     },
     beforeDestroy() {
       clearInterval(this.timer)
     },
     methods: {
+      // 获取通告栏内容
+      getNoticeData() {
+        uniCloud.callFunction({
+          name: "notice_get",
+          success: (res) => {
+            this.noticeData = res.result.data.length > 0 ? {
+                ...res.result.data[0]
+              } : {},
+            this.calculateTimeUntil()
+          }
+        })
+      },
       formateDate,
       // 获取当天的数据列表
       getTodayList() {
@@ -219,25 +234,35 @@
        * 获取指定日期距离现在还有多久
        */
       calculateTimeUntil() {
-        // 获取当前日期和目标日期
-        const now = new Date();
-        const target = new Date(this.endDate);
-
-        // 计算时间差（以毫秒为单位）
-        const timeDiff = target - now;
-
-        // 如果时间差小于0，表示目标日期已经过去
-        if (timeDiff < 0) {
-          return "目标日期已过去";
+        if (!this.noticeData.isShow) {
+          return ''
         }
+        if (this.noticeData.isTimeDown) {
+          if (!this.noticeData.content || !this.noticeData.time) {
+            return ''
+          }
+          // 获取当前日期和目标日期
+          const now = new Date();
+          const target = new Date(this.noticeData.time);
 
-        // 计算天数、小时、分钟和秒数
-        const seconds = Math.floor((timeDiff / 1000) % 60);
-        const minutes = Math.floor((timeDiff / 1000 / 60) % 60);
-        const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
-        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+          // 计算时间差（以毫秒为单位）
+          const timeDiff = target - now;
 
-        this.showDateText = `距离国考还有${days}天${hours}时${minutes}分${seconds}秒`
+          // 如果时间差小于0，表示目标日期已经过去
+          if (timeDiff < 0) {
+            return '倒计时已过期';
+          }
+
+          // 计算天数、小时、分钟和秒数
+          const seconds = Math.floor((timeDiff / 1000) % 60);
+          const minutes = Math.floor((timeDiff / 1000 / 60) % 60);
+          const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+          const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+          this.showDateText = `距离${this.noticeData.content}还有${days}天${hours}时${minutes}分`
+        } else {
+          this.showDateText = this.noticeData.content
+        }
       }
     },
   }

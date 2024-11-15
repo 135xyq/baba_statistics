@@ -32,5 +32,5 @@ export  function formateDateHMS(time) {
   let hours = Math.max(Math.floor(time / 3600), 0)
   let minutes = Math.max(Math.floor((time - hours * 3600) / 60), 0)
   let seconds = time % 60
-  return `${hours > 10?hours:('0'+hours)}:${minutes > 10?minutes:'0'+minutes}:${seconds > 10?seconds:'0'+seconds}`
+  return `${hours > 9?hours:('0'+hours)}:${minutes > 9?minutes:'0'+minutes}:${seconds > 9?seconds:'0'+seconds}`
 }

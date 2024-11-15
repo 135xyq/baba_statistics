@@ -59,6 +59,12 @@
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
 
         </view>
+        <!-- 通知栏管理 -->
+        <view class="chat item" @click="onHandleToNoticePage">
+          <view class="select-item chat-item">通知栏管理</view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
+        
+        </view>
         <!-- 切换账号 -->
         <view class="chat item">
           <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
@@ -312,6 +318,11 @@
       onHandleToMapPage() {
         uni.navigateTo({
           url: '/pages/map/map'
+        })
+      },
+      onHandleToNoticePage() {
+        uni.navigateTo({
+          url: '/pages/noticePage/noticePage'
         })
       }
     },

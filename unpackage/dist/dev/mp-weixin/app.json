@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/blind/blind",
     "pages/index/index",
     "pages/eat/eat",
     "pages/ranking/ranking",
@@ -16,8 +15,10 @@
     "pages/problem/problem",
     "pages/timeCount/timeCount",
     "pages/map/map",
+    "pages/blind/blind",
     "pages/blind-type/blind-type",
-    "pages/blind-add/blind-add"
+    "pages/blind-add/blind-add",
+    "pages/noticePage/noticePage"
   ],
   "subPackages": [],
   "window": {
