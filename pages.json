@@ -9,7 +9,7 @@
     }, {
       "path": "pages/eat/eat",
       "style": {
-        "navigationBarTitleText": "吃饭选择器",
+        "navigationBarTitleText": "选择转盘",
         "enablePullDownRefresh": false
       }
     }, {
@@ -167,7 +167,7 @@
       "pagePath": "pages/eat/eat",
       "iconPath": "static/img/eat.png",
       "selectedIconPath": "static/img/eat-active.png",
-      "text": "吃饭选择"
+      "text": "选择转盘"
     }, {
       "pagePath": "pages/login/login",
       "iconPath": "static/img/my.png",
