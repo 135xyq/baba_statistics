@@ -22,8 +22,8 @@
         <view class="list-item__count">{{item.count}}</view>
       </view>
     </view>
-    <view v-else>
-      <u-empty text="还没有人拉粑粑" mode="list"></u-empty>
+    <view class="empty" v-else>
+      <u-empty text="还没有人拉粑粑呢" icon="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/cloudstorage/系统/er-icon-Poop.png"></u-empty>
     </view>
   </view>
 </template>
@@ -152,5 +152,9 @@
       }
     }
 
+  }
+  
+  .empty{
+    margin-top: 400rpx;
   }
 </style>

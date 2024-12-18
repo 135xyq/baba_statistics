@@ -135,6 +135,22 @@
         "navigationBarTitleText" : "通告栏配置",
         "enablePullDownRefresh" : false
       }
+    },
+    {
+      "path" : "pages/want-say/want-say",
+      "style" : 
+      {
+        "navigationBarTitleText" : "想对你说",
+        "enablePullDownRefresh" : false
+      }
+    },
+    {
+      "path" : "pages/want-say-add/want-say-add",
+      "style" : 
+      {
+        "navigationBarTitleText" : "想说的话",
+        "enablePullDownRefresh" : false
+      }
     }
   ],
   "globalStyle": {

@@ -4,6 +4,7 @@
   "usingComponents": {
     "uni-calendar": "/uni_modules/uni-calendar/components/uni-calendar/uni-calendar",
     "uni-fab": "/uni_modules/uni-fab/components/uni-fab/uni-fab",
+    "u-loading-icon": "/uni_modules/uview-ui/components/u-loading-icon/u-loading-icon",
     "uni-card": "/uni_modules/uni-card/components/uni-card/uni-card",
     "u-button": "/uni_modules/uview-ui/components/u-button/u-button",
     "qiun-data-charts": "/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts"

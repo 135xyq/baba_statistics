@@ -65,8 +65,14 @@
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
         
         </view>
+        <!-- 想说的话 -->
+        <view class="chat item" @click="onHandleToWantSayPage">
+          <view class="select-item chat-item">想说的话</view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
+        
+        </view>
         <!-- 切换账号 -->
-        <view class="chat item">
+        <view class="chat item" v-if="personArr.length > 0">
           <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
             <view class="item-user">
               <view class="select-item user-item">切换账号</view>
@@ -258,7 +264,10 @@
       getUserList() {
         uniCloud.callFunction({
           name: "get_user_list",
-          data: {},
+          data: {
+            type: 'list',
+            openid: this.openId
+          },
           success: (res) => {
             this.personArr = res.result.data
           },
@@ -323,6 +332,11 @@
       onHandleToNoticePage() {
         uni.navigateTo({
           url: '/pages/noticePage/noticePage'
+        })
+      },
+      onHandleToWantSayPage() {
+        uni.navigateTo({
+          url: '/pages/want-say/want-say'
         })
       }
     },

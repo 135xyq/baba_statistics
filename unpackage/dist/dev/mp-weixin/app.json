@@ -18,7 +18,9 @@
     "pages/blind/blind",
     "pages/blind-type/blind-type",
     "pages/blind-add/blind-add",
-    "pages/noticePage/noticePage"
+    "pages/noticePage/noticePage",
+    "pages/want-say/want-say",
+    "pages/want-say-add/want-say-add"
   ],
   "subPackages": [],
   "window": {
@@ -55,7 +57,7 @@
         "pagePath": "pages/eat/eat",
         "iconPath": "static/img/eat.png",
         "selectedIconPath": "static/img/eat-active.png",
-        "text": "吃饭选择"
+        "text": "选择转盘"
       },
       {
         "pagePath": "pages/login/login",

@@ -24,4 +24,11 @@
   padding: 20rpx 30rpx 10rpx 30rpx;
   font-weight: 600;
 }
+.wany-say-content {
+  margin: 50rpx 0;
+  text-align: left;
+  font-size: 36rpx;
+  color: #ec5a86;
+  font-weight: 600;
+}
 

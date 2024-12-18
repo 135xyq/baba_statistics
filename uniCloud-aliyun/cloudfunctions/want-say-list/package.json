@@ -1,0 +1,7 @@
+{
+  "name": "want-say-list",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

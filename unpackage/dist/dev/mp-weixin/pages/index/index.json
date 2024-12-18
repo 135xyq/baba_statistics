@@ -2,11 +2,14 @@
   "navigationBarTitleText": "首页",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "index-u-button-default": "/pages/index/index-u-button-default",
     "u-notice-bar": "/uni_modules/uview-ui/components/u-notice-bar/u-notice-bar",
     "u-avatar": "/uni_modules/uview-ui/components/u-avatar/u-avatar",
     "u-list": "/uni_modules/uview-ui/components/u-list/u-list",
     "u-list-item": "/uni_modules/uview-ui/components/u-list-item/u-list-item",
     "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
-    "uni-fab": "/uni_modules/uni-fab/components/uni-fab/uni-fab"
+    "uni-fab": "/uni_modules/uni-fab/components/uni-fab/uni-fab",
+    "u-modal": "/uni_modules/uview-ui/components/u-modal/u-modal",
+    "u-button": "/uni_modules/uview-ui/components/u-button/u-button"
   }
 }

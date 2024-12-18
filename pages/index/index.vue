@@ -22,6 +22,17 @@
       <uni-fab :pattern="pattern" horizontal="right" vertical="bottom" :pop-menu="false"
         @fabClick="onAddRecord"></uni-fab>
     </view>
+    <view v-if="wantSayInfo.length > 0">
+      <u-modal v-for="(item,index) in wantSayInfo" :key="item_id" :show="wantSayShow[index]" :title="item.nickName + '想对你说'">
+        <template slot="default">
+          <view class="wany-say-content">
+            {{item.content}}
+          </view>
+        </template>
+        <u-button slot="confirmButton" @click="onHandleCloseWantSayModal(index)"
+          color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))">收到了</u-button>
+      </u-modal>
+    </view>
   </view>
 </template>
 
@@ -53,7 +64,11 @@
         // 定时器
         timer: null,
         // 通告栏数据
-        noticeData: {}
+        noticeData: {},
+        // 想说的话数据
+        wantSayInfo: [],
+        // 是否关闭
+        wantSayShow: []
       }
     },
     onShow() {
@@ -64,6 +79,7 @@
           this.getTotal()
           this.getTodayList()
           this.getNoticeData()
+          this.getWantSay()
         }
       } else {
         uni.switchTab({
@@ -88,7 +104,7 @@
             this.noticeData = res.result.data.length > 0 ? {
                 ...res.result.data[0]
               } : {},
-            this.calculateTimeUntil()
+              this.calculateTimeUntil()
           }
         })
       },
@@ -263,6 +279,34 @@
         } else {
           this.showDateText = this.noticeData.content
         }
+      },
+      /**
+       * 获取想说的话
+       */
+      getWantSay() {
+        uniCloud.callFunction({
+          name: "want_say_get",
+          data: {
+            openid: this.openid,
+          },
+          success: (res) => {
+            this.wantSayInfo = res.result.data || []
+            this.wantSayShow = new Array(this.wantSayInfo.length).fill(false)
+            if(this.wantSayInfo.length > 0) {
+              this.wantSayShow[0] = true
+            }
+          }
+        })
+      },
+      /**
+       * 关闭想说的话弹窗
+       */
+      onHandleCloseWantSayModal(index) {
+        this.wantSayShow[index] = false
+        if(this.wantSayShow.length > index + 1){
+          this.wantSayShow[index + 1] = true
+        }
+        this.$forceUpdate()
       }
     },
   }
@@ -297,6 +341,14 @@
 
   .title {
     padding: 20rpx 30rpx 10rpx 30rpx;
+    font-weight: 600;
+  }
+
+  .wany-say-content {
+    margin: 50rpx 0;
+    text-align: left;
+    font-size: 36rpx;
+    color: #ec5a86;
     font-weight: 600;
   }
 </style>

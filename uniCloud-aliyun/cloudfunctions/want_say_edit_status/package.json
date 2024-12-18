@@ -1,0 +1,7 @@
+{
+  "name": "want_say_edit_status",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

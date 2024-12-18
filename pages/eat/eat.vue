@@ -1,11 +1,23 @@
 <template>
   <view>
-    <view class="set">
-      <u-icon name="setting-fill" size="40" @click="onHandleGoPageSet"></u-icon>
+    <view class="loading" v-if="isLoading">
+      <u-loading-icon color="#d81e06" textColor="#d81e06" vertical text="努力加载中..."></u-loading-icon>
     </view>
-    <view class="choose" v-if="prizes.length > 0">
-      <LuckyWheel ref="myLucky" width="700rpx" height="700rpx" :blocks="blocks" :prizes="prizes" :buttons="buttons"
-        :defaultStyle="defaultStyle" @start="startCallBack" @end="endCallBack" />
+    <view v-else>
+      <view class="choose" v-if="prizes.length > 0">
+        <LuckyWheel ref="myLucky" width="700rpx" height="700rpx" :blocks="blocks" :prizes="prizes" :buttons="buttons"
+          :defaultStyle="defaultStyle" @start="startCallBack" @end="endCallBack" />
+      </view>
+      <view v-else>
+        <u-empty text="还没添加选择呢"
+          icon="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/cloudstorage/系统/转盘.png"></u-empty>
+      </view>
+    </view>
+
+    <view>
+      <!-- 前往新增页面 -->
+      <uni-fab :pattern="pattern" horizontal="right" vertical="bottom" :pop-menu="false"
+        @fabClick="onHandleGoPageSet"></uni-fab>
     </view>
   </view>
 
@@ -19,12 +31,25 @@
     },
     data() {
       return {
+        // 加载中
+        isLoading: false,
+        // 悬浮按钮配置
+        pattern: {
+          color: '#7A7E83',
+          backgroundColor: '#fff',
+          selectedColor: '#d81e06',
+          buttonColor: '#d81e06',
+          iconColor: '#fff',
+          icon: 'plusempty'
+        },
         blocks: [{
           padding: '0',
           background: '#ff6164'
         }],
-        openid:'',
-        colorList: ['#2dca94','#1859b4','#a52c2c','#500c0c','#a27878','#c02288','#a3ca1a','#df790c','#1c70e5','#3123b0','#ba15da','#df1c8c'],
+        openid: '',
+        colorList: ['#2dca94', '#1859b4', '#a52c2c', '#500c0c', '#a27878', '#c02288', '#a3ca1a', '#df790c', '#1c70e5',
+          '#3123b0', '#ba15da', '#df1c8c'
+        ],
         prizes: [],
         buttons: [{
             radius: '50px',
@@ -63,13 +88,14 @@
     },
     methods: {
       getList() {
+        this.isLoading = true
         uniCloud.callFunction({
           name: "lucky_list",
           data: {
             openid: this.openid
           },
           success: (res) => {
-            this.prizes = res.result.data.map((item,index) => {
+            this.prizes = res.result.data.map((item, index) => {
               return {
                 range: item.range,
                 fonts: [{
@@ -77,10 +103,11 @@
                   top: '10%',
                   fontColor: '#fff'
                 }],
-                background: this.colorList[index% this.colorList.length]
+                background: this.colorList[index % this.colorList.length]
               }
 
             })
+            this.isLoading = false
           }
         })
       },
@@ -115,13 +142,10 @@
 
 <style scoped>
   .choose {
-    margin-top: 20rpx;
+    margin-top: 200rpx;
   }
-
-  .set {
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 40rpx;
-    margin-top: 80rpx;
+  
+  .loading{
+    margin-top: 400rpx;
   }
 </style>

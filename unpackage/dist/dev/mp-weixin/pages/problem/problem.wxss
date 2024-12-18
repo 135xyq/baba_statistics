@@ -74,4 +74,7 @@
   color: #e8990a;
   font-size: 22px;
 }
+.loging.data-v-dccca774 {
+  margin-top: 200rpx;
+}
 

@@ -1,27 +1,43 @@
 <template>
   <view class="blind-container">
-    <view class="left-list">
-      <u-list>
-        <u-list-item v-for="(item, index) in typeListData" :key="item._id">
-          <view class="list-item" :class="{active:item._id === activeCategory}"
-            @click="onHandleChangeCategory(item._id)">
-            {{item.name}}
-          </view>
-        </u-list-item>
-      </u-list>
+    <view class="loading" v-if="isTypeLoading">
+      <u-loading-icon color="#d81e06" textColor="#d81e06" vertical text="努力加载中..."></u-loading-icon>
     </view>
-    <view class="right-list">
-      <scroll-view v-if="dataList.length > 0" scroll-y="true" scroll-top="0">
-        <view v-for="item in dataList" :key="item">
-          <uni-card :title="item.name" :sub-title="item.createTime " :extra=" item.price? item.price +'元' : ''"
-            padding="10px 0">
-            <image class="right-list__img" :src="item.coverImg" @click="onPreviewImage(item)"></image>
-            <text class="uni-body uni-mt-5">{{item.remark}}</text>
-          </uni-card>
+    <view v-else>
+      <view v-if="typeListData.length <= 0">
+        
+      </view>
+      <view v-else>
+        <view class="left-list">
+          <u-list>
+            <u-list-item v-for="(item, index) in typeListData" :key="item._id">
+              <view class="list-item" :class="{active:item._id === activeCategory}"
+                @click="onHandleChangeCategory(item._id)">
+                {{item.name}}
+              </view>
+            </u-list-item>
+          </u-list>
         </view>
-      </scroll-view>
-      <u-empty v-else mode="data">
-      </u-empty>
+        <view class="right-list">
+          <view class="loading" v-if="isLoading">
+            <u-loading-icon color="#d81e06" textColor="#d81e06" vertical text="努力加载中..."></u-loading-icon>
+          </view>
+          <view v-else>
+            <scroll-view v-if="dataList.length > 0" scroll-y="true" scroll-top="0">
+              <view v-for="item in dataList" :key="item">
+                <uni-card :title="item.name" :sub-title="item.createTime " :extra=" item.price? item.price +'元' : ''"
+                  padding="10px 0">
+                  <image class="right-list__img" :src="item.coverImg" @click="onPreviewImage(item)"></image>
+                  <text class="uni-body uni-mt-5">{{item.remark}}</text>
+                </uni-card>
+              </view>
+            </scroll-view>
+            <view v-else class="empty">
+              <u-empty text="还没买盲盒呢" icon="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/cloudstorage/系统/盲盒组合.png"></u-empty>
+            </view>
+          </view>
+        </view>
+      </view>
     </view>
     <view>
       <!-- 前往新增和编辑页面 -->
@@ -44,6 +60,9 @@
         openid: '',
         // 当前选中的类型
         activeCategory: '',
+        // 正在加载
+        isTypeLoading: false,
+        isLoading: false,
         // 悬浮按钮配置
         pattern: {
           color: '#7A7E83',
@@ -89,6 +108,7 @@
        * 获取分类列表
        */
       getCategoryList() {
+        this.isTypeLoading = true
         uniCloud.callFunction({
           name: "blind_type_list",
           data: {
@@ -102,6 +122,7 @@
               this.activeCategory = this.typeListData[0]._id
               this.getDataList()
             }
+            this.isTypeLoading = false
           }
         })
       },
@@ -109,6 +130,7 @@
        * 获取对应分类的数据列表
        */
       getDataList() {
+        this.isLoading = true
         uniCloud.callFunction({
           name: "blind_list",
           data: {
@@ -119,6 +141,7 @@
           },
           success: (res) => {
             this.dataList = res.result.data.list
+            this.isLoading = false
           }
         })
       },
@@ -167,7 +190,7 @@
        * @param {Object} data
        */
       onPreviewImage(data) {
-        if(data.coverImg) {
+        if (data.coverImg) {
           uni.previewImage({
             current: data.coverImg,
             urls: [data.coverImg]
@@ -190,16 +213,19 @@
     // top: 0;
     width: 35%;
     overflow: hidden;
-    background-color: #7a7e8373;
+    background-color: #b4160473;
     color: #FFF;
 
     .list-item {
+      width: 100%;
       color: black;
       height: 100rpx;
       line-height: 100rpx;
       padding: 2px 10px;
       overflow: hidden;
       border-left: 3px solid transparent;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
       &.active {
         background-color: #d81e0661;
@@ -223,5 +249,10 @@
       max-height: 500rpx;
       object-fit: cover;
     }
+  }
+
+  .loading,
+  .empty {
+    margin-top: 400rpx;
   }
 </style>
