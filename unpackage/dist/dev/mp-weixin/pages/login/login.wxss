@@ -94,4 +94,14 @@
   width: 1000px;
   overflow: hidden;
 }
+.wx-logined .item-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.wx-logined .item-left__icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+}
 

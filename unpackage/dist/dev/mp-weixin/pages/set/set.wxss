@@ -36,6 +36,9 @@
   justify-content: space-between;
   align-items: center;
 }
+.item-title.data-v-21926b68 {
+  min-width: 150rpx;
+}
 .item-value.data-v-21926b68 {
   display: flex;
 }

@@ -1,35 +1,35 @@
 <template>
   <view class="set-container">
-      <view class="item" @click="onHandleSetAvatar">
-        <view  class="item-title">
-          <text class="item-title-text">头像</text>
-        </view>
-        <view class="item-value">
-          <u-avatar :src="userInfo.avatar" size="80"></u-avatar>
-        </view>
+    <view class="item" @click="onHandleSetAvatar">
+      <view class="item-title">
+        <text class="item-title-text">头像</text>
       </view>
-      <view class="item" >
-        <view  class="item-title">
-          <text class="item-title-text">昵称</text>
-        </view>
-        <view class="item-value">
-          <u--input placeholder="请输入名字" maxlength="10" v-model="userInfo.nickName" border="bottom" clearable></u--input>
-        </view>
+      <view class="item-value">
+        <u-avatar :src="userInfo.avatar" size="80"></u-avatar>
       </view>
-      <view class="item">
-        <view  class="item-title">
-          <text class="item-title-text">性别</text>
-        </view>
-        <view class="item-value">
-         <u-radio-group v-model="userInfo.gender" placement="column" iconPlacement="right" :borderBottom="true">
-         	<u-radio activeColor="green" :customStyle="{padding: '20px'}" label="男" :name="1"></u-radio>
-         	<u-radio activeColor="green" :customStyle="{padding: '20px'}" label="女" :name="2"></u-radio>
-         </u-radio-group>
-        </view>
+    </view>
+    <view class="item">
+      <view class="item-title">
+        <text class="item-title-text">昵称</text>
       </view>
-      <view class="button-container">
-        <u-button  :loading="loading" :disabled="loading"  type="success" text="确定" @click="onHandleSet"></u-button>
+      <view class="item-value">
+        <u--input placeholder="请输入名字" maxlength="10" v-model="userInfo.nickName" border="bottom" clearable></u--input>
       </view>
+    </view>
+    <view class="item">
+      <view class="item-title">
+        <text class="item-title-text">性别</text>
+      </view>
+      <view class="item-value">
+        <u-radio-group v-model="userInfo.gender" placement="column" iconPlacement="right" :borderBottom="true">
+          <u-radio activeColor="green" :customStyle="{padding: '20px'}" label="男" :name="1"></u-radio>
+          <u-radio activeColor="green" :customStyle="{padding: '20px'}" label="女" :name="2"></u-radio>
+        </u-radio-group>
+      </view>
+    </view>
+    <view class="button-container">
+      <u-button :loading="loading" :disabled="loading" type="success" text="确定" @click="onHandleSet"></u-button>
+    </view>
   </view>
 </template>
 
@@ -38,7 +38,7 @@
     data() {
       return {
         userInfo: {
-          avatar:'',
+          avatar: '',
           nickName: '',
           gender: ''
         },
@@ -57,55 +57,55 @@
       }
     },
     methods: {
-		//  修改
-			async onHandleSet() {
-        if(!this.userInfo.nickName.trim()) {
+      //  修改
+      async onHandleSet() {
+        if (!this.userInfo.nickName.trim()) {
           uni.showToast({
-          	title: '昵称不能为空',
-          	icon: 'none'
+            title: '昵称不能为空',
+            icon: 'none'
           })
           return
         }
-				this.loading  =  true;
+        this.loading = true;
 
-				uni.showLoading()
+        uni.showLoading()
         const self = this
-        let img 
-        if(this.isUploadImg) {
-           img = await this.getFileId()
+        let img
+        if (this.isUploadImg) {
+          img = await this.getFileId()
         }
-      
+
         const msg = await uniCloud.callFunction({
-        	name: "set_user_info",
-        	data: {
-        		nickName: this.userInfo.nickName,
-        		avatarUrl: img,
+          name: "set_user_info",
+          data: {
+            nickName: this.userInfo.nickName,
+            avatarUrl: img,
             gender: this.userInfo.gender,
-        		openid: this.openid
-        	},
-          async success(){
+            openid: this.openid
+          },
+          async success() {
             uni.showToast({
-              title:'更新成功',
-              icon:'success'
+              title: '更新成功',
+              icon: 'success'
             })
             const msg = await uniCloud.callFunction({
-            	name: "get_user_info",
-            	data: {
-            		openid: self.openid
-            	},
+              name: "get_user_info",
+              data: {
+                openid: self.openid
+              },
               success(res) {
                 self.$store.dispatch(
                   "userInfo/updateUserInfo", res.result.data);
-                  uni.switchTab({
-                    url: '/pages/login/login'
-                  })
+                uni.switchTab({
+                  url: '/pages/login/login'
+                })
               }
             });
           }
         });
-				uni.hideLoading()
-				this.loading = false;
-			},
+        uni.hideLoading()
+        this.loading = false;
+      },
       /**
        * 修改头像
        */
@@ -123,7 +123,7 @@
         return new Promise(async resolve => {
           const result = await uniCloud.uploadFile({
             filePath: this.userInfo.avatar,
-            cloudPath: new Date().getTime() + '-' + Math.random(0,1)
+            cloudPath: new Date().getTime() + '-' + Math.random(0, 1)
           })
           resolve(result.fileID)
         })
@@ -133,26 +133,31 @@
 </script>
 
 <style lang="scss" scoped>
-  .button-container{
-  	margin-top: 30px;
+  .button-container {
+    margin-top: 30px;
     padding: 0 30rpx;
   }
-  
-  .item{
+
+  .item {
     margin: 0 30rpx;
     padding: 20rpx 0;
     border-bottom: 2rpx solid #eee;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
-    &-value{
+
+    &-title {
+      min-width: 150rpx
+    }
+
+    &-value {
       display: flex;
     }
-    
-    ::v-deep .u-radio-group--column{
+
+    ::v-deep .u-radio-group--column {
       flex-direction: row;
-      .u-radio__text{
+
+      .u-radio__text {
         padding-right: 10rpx;
       }
     }

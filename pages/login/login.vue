@@ -2,7 +2,7 @@
   <view>
     <!-- 未登录显示微信登录 -->
     <view class="wx-login" v-if="!isLogin">
-      <image :src="userInfo.avatar" class="unlogin-user-avatar"></image>
+      <image :src="userInfo.avatar" class="unlogin-user-avatar" />
       <button type="primary" @click="wxLogin" class="login-button">微信登录</button>
     </view>
     <!-- 登录完成 -->
@@ -10,19 +10,18 @@
       <view class="header">
         <view class="set">
           <view class="set-set">
-            <u-icon name="setting-fill" size="25" @click="onHandleGoPageUserSet"></u-icon>
+            <u-icon name="setting-fill" size="25" @click="onHandleGoPageUserSet" />
           </view>
-          <!-- 					<view v-if="openId === 'oB5r_5SIY6WGY_vYm3n1r6qPWG1M'">
-						<picker @change="onUserChange" mode="selector" range-key="nickName" :value="index"
-							:range="personArr">
-							<u-icon name="account-fill" size="25"></u-icon>
-						</picker>
-					</view> -->
         </view>
         <!-- 头部个人信息 -->
         <view class="user-info">
           <view class="user-info-avatar">
-            <u-avatar :src="userInfo.avatar" class="user-info-avatar__img" size="75" />
+            <u-avatar 
+              :src="userInfo.avatar" 
+              class="user-info-avatar__img" 
+              size="75"
+              @click="onPreviewImage(userInfo.avatar)"
+            />
           </view>
           <view class="user-info-name">
             {{userInfo.nickName}}
@@ -32,54 +31,68 @@
       <view class="content">
         <!-- 最近七天变化趋势 -->
         <view class="history item" @click="onHandleToChartsPage">
-          <view class="select-item">拉粑粑最近30天变化趋势</view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
+          <view class="item-left">
+            <image src="@/static/img/mine/趋势.png" class="item-left__icon" />
+            <view class="select-item">拉粑粑最近30天变化趋势</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 拉粑粑历史记录 -->
-        <view class="chat item" @click="onHandleToHistoryPage">
-          <view class="select-item chat-item">拉粑粑历史记录</view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
-
+        <view class="chat item"  @click="onHandleToHistoryPage">
+          <view class="item-left">
+            <image src="@/static/img/mine/日历.png" class="item-left__icon" />
+            <view class="select-item chat-item">拉粑粑历史记录</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 做题分析 -->
         <view class="chat item" @click="onHandleToProblemChartPage">
-          <view class="select-item chat-item">做题分析（正确率统计）</view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
-
+          <view class="item-left">
+            <image src="@/static/img/mine/数据分析.png" class="item-left__icon" />
+            <view class="select-item chat-item">做题分析（正确率统计）</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 计时器 -->
         <view class="chat item" @click="onHandleToTimeCountPage">
-          <view class="select-item chat-item">计时器</view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
-
+          <view class="item-left">
+            <image src="@/static/img/mine/计时器.png" class="item-left__icon" />
+            <view class="select-item chat-item">计时器</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 计时器 -->
         <view class="chat item" @click="onHandleToMapPage">
-          <view class="select-item chat-item">位置共享</view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
-
+          <view class="item-left">
+            <image src="@/static/img/mine/地图.png" class="item-left__icon" />
+            <view class="select-item chat-item">位置共享</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 通知栏管理 -->
         <view class="chat item" @click="onHandleToNoticePage">
-          <view class="select-item chat-item">通知栏管理</view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
-        
+          <view class="item-left">
+            <image src="@/static/img/mine/通知栏.png" class="item-left__icon" />
+            <view class="select-item chat-item">通知栏管理</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 想说的话 -->
         <view class="chat item" @click="onHandleToWantSayPage">
-          <view class="select-item chat-item">想说的话</view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page"></uni-icons>
-        
+          <view class="item-left">
+            <image src="@/static/img/mine/想说的话.png" class="item-left__icon" />
+            <view class="select-item chat-item">想说的话</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 切换账号 -->
         <view class="chat item" v-if="personArr.length > 0">
           <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
-            <view class="item-user">
+            <view class="item-left">
+              <image src="@/static/img/mine/切换账号.png" class="item-left__icon" />
               <view class="select-item user-item">切换账号</view>
             </view>
-
           </picker>
-
         </view>
       </view>
       <!-- <button type="primary" @click="logout" class="login-button">退出登录</button> -->
@@ -94,12 +107,16 @@
   export default {
     data() {
       return {
-        openId: '', //唯一标识
-        isLogin: false, //用户是否登录
+        // 唯一标识
+        openId: '', 
+        // 用户是否登录
+        isLogin: false, 
+        // 用户信息
         userInfo: {
           avatar: avatarUrl,
           nickName: ''
-        }, //用户信息
+        }, 
+        // 用户列表
         personArr: [],
         index: 0,
       }
@@ -131,6 +148,10 @@
           })
         })
       },
+      /**
+       * 微信登录
+       * @returns {Promise<void>}
+       */
       async wxLogin() {
         const {
           code
@@ -254,6 +275,19 @@
         })
       },
       /**
+       * 预览头像
+       * @param {Object} data
+       */
+      onPreviewImage(data) {
+        if (data) {
+          uni.previewImage({
+            current: data,
+            urls: [data]
+          });
+        }
+      
+      },
+      /**
        * 前往用户设置界面
        */
       onHandleGoPageUserSet() {
@@ -261,6 +295,9 @@
           url: `/pages/set/set`
         })
       },
+      /**
+       * 获取用户列表
+       */
       getUserList() {
         uniCloud.callFunction({
           name: "get_user_list",
@@ -273,6 +310,10 @@
           },
         })
       },
+      /**
+       * 切换用户
+       * @param val
+       */
       onUserChange(val) {
         const index = val.detail.value
         this.$store
@@ -285,8 +326,10 @@
         this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
         this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
       },
+      /**
+       * 退出登录
+       */
       logout() {
-
         uni.showModal({
           title: '提示',
           content: '确定退出登录？',
@@ -425,6 +468,18 @@
       .user-item {
         width: 1000px;
         overflow: hidden;
+      }
+
+      &-left {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        &__icon {
+          width: 60rpx;
+          height: 60rpx;
+          margin-right: 20rpx;
+        }
       }
     }
   }

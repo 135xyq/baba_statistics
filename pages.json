@@ -23,14 +23,14 @@
     {
       "path": "pages/set/set",
       "style": {
-        "navigationBarTitleText": "",
+        "navigationBarTitleText": "设置",
         "enablePullDownRefresh": false
       }
     },
     {
       "path": "pages/listDetail/listDetail",
       "style": {
-        "navigationBarTitleText": "",
+        "navigationBarTitleText": "拉屎记录",
         "enablePullDownRefresh": false
       }
     },
@@ -44,7 +44,7 @@
     {
       "path": "pages/addMessage/addMessage",
       "style": {
-        "navigationBarTitleText": "",
+        "navigationBarTitleText": "新增消息",
         "enablePullDownRefresh": false
       }
     },

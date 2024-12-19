@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "",
+  "navigationBarTitleText": "拉屎记录",
   "enablePullDownRefresh": false,
   "usingComponents": {
     "u-list": "/uni_modules/uview-ui/components/u-list/u-list",
