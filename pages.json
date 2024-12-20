@@ -128,36 +128,31 @@
         "navigationBarTitleText": "盲盒",
         "enablePullDownRefresh": false
       }
-    },{
-      "path" : "pages/noticePage/noticePage",
-      "style" : 
-      {
-        "navigationBarTitleText" : "通告栏配置",
-        "enablePullDownRefresh" : false
+    }, {
+      "path": "pages/noticePage/noticePage",
+      "style": {
+        "navigationBarTitleText": "通告栏配置",
+        "enablePullDownRefresh": false
       }
     },
     {
-      "path" : "pages/want-say/want-say",
-      "style" : 
-      {
-        "navigationBarTitleText" : "想对你说",
-        "enablePullDownRefresh" : false
+      "path": "pages/want-say/want-say",
+      "style": {
+        "navigationBarTitleText": "悄悄话",
+        "enablePullDownRefresh": false
+      }
+    }, {
+      "path": "pages/want-say-add/want-say-add",
+      "style": {
+        "navigationBarTitleText": "想对你说",
+        "enablePullDownRefresh": false
       }
     },
     {
-      "path" : "pages/want-say-add/want-say-add",
-      "style" : 
-      {
-        "navigationBarTitleText" : "想说的话",
-        "enablePullDownRefresh" : false
-      }
-    },
-    {
-      "path" : "pages/summarize/summarize",
-      "style" : 
-      {
-        "navigationBarTitleText" : "总结报告",
-        "enablePullDownRefresh" : false
+      "path": "pages/summarize/summarize",
+      "style": {
+        "navigationBarTitleText": "总结报告",
+        "enablePullDownRefresh": false
       }
     }
   ],

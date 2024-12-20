@@ -235,7 +235,7 @@ var _default = {
       }
     };
   },
-  onShow: function onShow() {
+  created: function created() {
     var _this$$store$state$us, _this$$store$state$us2;
     if ((_this$$store$state$us = this.$store.state.userInfo) !== null && _this$$store$state$us !== void 0 && (_this$$store$state$us2 = _this$$store$state$us.userInfo) !== null && _this$$store$state$us2 !== void 0 && _this$$store$state$us2.openid) {
       var _this$$store$state$us3;

@@ -49,7 +49,7 @@
         }]
       }
     },
-    onShow() {
+    created() {
       this.current = 0
       this.getHistory(0)
     },

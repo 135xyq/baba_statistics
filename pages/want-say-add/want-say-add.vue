@@ -37,10 +37,16 @@
           // 开启
           status: true
         },
-        openid: ''
+        openid: '',
+        // 类型，新增或编辑
+        type:'add'
       }
     },
-    onShow() {
+    onLoad(options) {
+      this.type = options.type
+      if(this.type === 'edit') {
+        this.addForm = JSON.parse(options.data)
+      }
       if (this.$store.state.userInfo?.userInfo?.openid) {
         const state = this.$store.state.userInfo?.userInfo
         this.openid = state.openid
@@ -78,33 +84,43 @@
        * 保存
        */
       onSave() {
-        const now = new Date().getTime()
-        if (this.addForm.status) {
+        if(this.type === 'edit') {
           uniCloud.callFunction({
-            name: "want_say_edit_status",
+            name: "want_say_edit",
             data: {
-              status: true
+              ...this.addForm,
             },
-            success() {
-        
+            success: (res) => {
+              uni.showToast({
+                title: '修改成功',
+                icon: 'success'
+              })
+              setTimeout(()=>{
+                uni.navigateBack()
+              },1000)
+            }
+          })
+        }else{
+          const now = new Date().getTime()
+          uniCloud.callFunction({
+            name: "want_say_add",
+            data: {
+              openid: this.openid,
+              ...this.addForm,
+              createTime: formateDate(now),
+            },
+            success: (res) => {
+              uni.showToast({
+                title: '新增成功',
+                icon: 'success'
+              })
+              setTimeout(()=>{
+                uni.navigateBack()
+              },1000)
             }
           })
         }
-        uniCloud.callFunction({
-          name: "want_say_add",
-          data: {
-            openid: this.openid,
-            ...this.addForm,
-            createTime: formateDate(now),
-          },
-          success: (res) => {
-            uni.showToast({
-              title: '新增成功',
-              icon: 'success'
-            })
-            uni.navigateBack()
-          }
-        })
+        
       }
     }
   }

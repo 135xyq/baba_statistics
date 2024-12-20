@@ -30,7 +30,7 @@
 				dataList: []
 			}
 		},		
-		onShow() {
+		created() {
 			if (this.$store.state.userInfo?.userInfo?.openid) {
 				const state = this.$store.state.userInfo?.userInfo
 				this.openId = state.openid
