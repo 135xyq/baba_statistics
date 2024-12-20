@@ -151,6 +151,14 @@
         "navigationBarTitleText" : "想说的话",
         "enablePullDownRefresh" : false
       }
+    },
+    {
+      "path" : "pages/summarize/summarize",
+      "style" : 
+      {
+        "navigationBarTitleText" : "总结报告",
+        "enablePullDownRefresh" : false
+      }
     }
   ],
   "globalStyle": {

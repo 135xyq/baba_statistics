@@ -16,12 +16,8 @@
         <!-- 头部个人信息 -->
         <view class="user-info">
           <view class="user-info-avatar">
-            <u-avatar 
-              :src="userInfo.avatar" 
-              class="user-info-avatar__img" 
-              size="75"
-              @click="onPreviewImage(userInfo.avatar)"
-            />
+            <u-avatar :src="userInfo.avatar" class="user-info-avatar__img" size="75"
+              @click="onPreviewImage(userInfo.avatar)" />
           </view>
           <view class="user-info-name">
             {{userInfo.nickName}}
@@ -38,7 +34,7 @@
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 拉粑粑历史记录 -->
-        <view class="chat item"  @click="onHandleToHistoryPage">
+        <view class="chat item" @click="onHandleToHistoryPage">
           <view class="item-left">
             <image src="@/static/img/mine/日历.png" class="item-left__icon" />
             <view class="select-item chat-item">拉粑粑历史记录</view>
@@ -61,7 +57,7 @@
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
-        <!-- 计时器 -->
+        <!-- 位置共享 -->
         <view class="chat item" @click="onHandleToMapPage">
           <view class="item-left">
             <image src="@/static/img/mine/地图.png" class="item-left__icon" />
@@ -85,6 +81,24 @@
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
+        <!-- 年(月)度总结 -->
+        <view class="chat item" @click="summarizeTimePickerShow = true">
+          <view class="item-left">
+            <image src="@/static/img/mine/总结.png" class="item-left__icon" />
+            <view class="select-item chat-item">年(月)度总结</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
+        </view>
+        <!-- 年(月)度总结时间选择 -->
+        <u-picker 
+          :show="summarizeTimePickerShow" 
+          ref="uPicker" 
+          title="请选择总结时间"
+          :columns="summarizeTimeColumns" 
+          @confirm="onSummarizeTimePickerConfirm"
+          @cancel="summarizeTimePickerShow = false" 
+          confirmColor="#d81e06"
+        />
         <!-- 切换账号 -->
         <view class="chat item" v-if="personArr.length > 0">
           <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
@@ -108,18 +122,38 @@
     data() {
       return {
         // 唯一标识
-        openId: '', 
+        openId: '',
         // 用户是否登录
-        isLogin: false, 
+        isLogin: false,
         // 用户信息
         userInfo: {
           avatar: avatarUrl,
           nickName: ''
-        }, 
+        },
         // 用户列表
         personArr: [],
         index: 0,
+        // 总结时间选择
+        summarizeTimeColumns: [
+          [],
+          []
+        ],
+        // 总结时间选择器是否显示
+        summarizeTimePickerShow: false
       }
+    },
+    created() {
+      // 初始化总结时间选择的选择时间
+      const date = new Date()
+      const currentYear = date.getFullYear()
+      for (let i = 2024; i <= currentYear; i++) {
+        this.summarizeTimeColumns[0][i - 2024] = String(currentYear)
+      }
+
+      for (let i = 0; i < 12; i++) {
+        this.summarizeTimeColumns[1][i] = String(i + 1)
+      }
+      this.summarizeTimeColumns[1].unshift('全部')
     },
     onShow() {
       if (this.$store.state.userInfo?.userInfo?.openid) {
@@ -285,7 +319,7 @@
             urls: [data]
           });
         }
-      
+
       },
       /**
        * 前往用户设置界面
@@ -380,6 +414,37 @@
       onHandleToWantSayPage() {
         uni.navigateTo({
           url: '/pages/want-say/want-say'
+        })
+      },
+      /**
+       * 总结时间选择确认
+       * @param {Object} e
+       */
+      onSummarizeTimePickerConfirm(e){
+        // 要传递给总结页面的参数
+        let date = {}
+        let type = 'year'
+        
+        const [year,month] = e.value
+        if(month === '全部') {
+          date = {
+            year: year
+          }
+          type = 'year'
+        }else{
+          date = {
+            year: year,
+            month: month
+          }
+          type = 'month'
+        }
+      
+        
+        this.summarizeTimePickerShow = false
+        
+        // 前往总结页
+        uni.navigateTo({
+          url:`/pages/summarize/summarize?type=${type}&date=${JSON.stringify(date)}`
         })
       }
     },

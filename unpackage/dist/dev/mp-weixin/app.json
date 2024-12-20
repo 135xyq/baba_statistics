@@ -20,7 +20,8 @@
     "pages/blind-add/blind-add",
     "pages/noticePage/noticePage",
     "pages/want-say/want-say",
-    "pages/want-say-add/want-say-add"
+    "pages/want-say-add/want-say-add",
+    "pages/summarize/summarize"
   ],
   "subPackages": [],
   "window": {
