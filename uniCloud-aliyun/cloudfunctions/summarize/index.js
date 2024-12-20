@@ -50,6 +50,7 @@ exports.main = async (event, context) => {
     })
     .end();
 
+
   // 发送的话
   const wantSaySend = await db.collection('wantSay').where({
     openid: openid,
@@ -72,6 +73,9 @@ exports.main = async (event, context) => {
       thing: thingConut.total,
       wantSaySend: wantSaySend.total,
       wantSayGet: wantSayGet.total,
+      useTime: 0,
+      errorNumber: 0,
+      totalNumber: 0,
       ...problemResult.data[0]
     },
   }
