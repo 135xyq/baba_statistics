@@ -240,6 +240,7 @@
 <script>
 import avatarUrl from "../../static/img/default_avatar.jpg";
 import loginVue from "./login.vue";
+import {userGetInfo, userGetList, userLogin} from '@/api/user';
 export default {
   data() {
     return {
@@ -325,49 +326,38 @@ export default {
                 uni.getUserProfile({
                   desc: "获取你的昵称、头像",
                   success: (res) => {
-                    console.log(res, 2222);
-                    console.log(res.userInfo);
                     res.rawData = JSON.parse(res.rawData); //将字符串转为对象
-                    uniCloud.callFunction({
-                      name: "user_login",
-                      data: {
-                        ...res.userInfo,
-                        openid: this.openId,
-                      },
-                      success: async (res) => {
-                        uni.showToast({
-                          title: "登录成功",
-                          icon: "success",
-                          duration: 2000,
-                        });
-                        await uniCloud.callFunction({
-                          name: "get_user_info",
-                          data: {
-                            openid: this.openId,
-                          },
-                          success: (res) => {
-                            this.$store.dispatch("userInfo/updateUserInfo", res.result.data);
-                            // 修改登录状态
-                            this.isLogin = true;
-                            // 获取用户信息
-                            // 获取登录用户信息
-                            this.userInfo.nickName = this.$store.state.userInfo.userInfo.nickName;
-                            this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
-                            this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
-                          },
-                        });
-                      },
-                      fail(e) {
-                        uni.hideLoading();
-                        //拒绝授权
-                        uni.showToast({
-                          title: "登陆失败",
-                          icon: "error",
-                          duration: 2000,
-                        });
-                      },
-                    });
-                    uni.hideLoading();
+                    userLogin({
+                      ...res.userInfo,
+                      openid: this.openId,
+                    }).then(()=>{
+                      uni.showToast({
+                        title: "登录成功",
+                        icon: "success",
+                        duration: 2000,
+                      });
+                      // 获取用户信息
+                      userGetInfo({openid: this.openId}).then(res=>{
+                        this.$store.dispatch("userInfo/updateUserInfo", res);
+                        // 修改登录状态
+                        this.isLogin = true;
+                        // 获取用户信息
+                        // 获取登录用户信息
+                        this.userInfo.nickName = this.$store.state.userInfo.userInfo.nickName;
+                        this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
+                        this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
+                      })
+                    }).catch(()=>{
+                      //拒绝授权
+                      uni.showToast({
+                        title: "登陆失败",
+                        icon: "error",
+                        duration: 2000,
+                      });
+                    }).finally(()=>{
+                      uni.hideLoading();
+                    })
+
                   },
                   fail: (res) => {
                     uni.hideLoading();
@@ -377,7 +367,6 @@ export default {
                       icon: "error",
                       duration: 2000,
                     });
-                    return;
                   },
                 });
               } else if (res.cancel) {
@@ -387,7 +376,6 @@ export default {
                   icon: "error",
                   duration: 2000,
                 });
-                return;
               }
             },
           });
@@ -417,16 +405,11 @@ export default {
      * 获取用户列表
      */
     getUserList() {
-      uniCloud.callFunction({
-        name: "get_user_list",
-        data: {
-          type: "list",
-          openid: this.openId,
-        },
-        success: (res) => {
-          this.personArr = res.result.data;
-        },
-      });
+      userGetList({
+        type: "list",
+      }).then(res=>{
+        this.personArr = res
+      })
     },
     /**
      * 切换用户
@@ -460,14 +443,16 @@ export default {
         },
       });
     },
+    // 前往最近30天粑粑统计页面
     onHandleToChartsPage() {
       uni.navigateTo({
-        url: "/pages/chartsPage/chartsPage",
+        url: "/pages/thing-month-chart/thing-month-chart",
       });
     },
+    //
     onHandleToHistoryPage() {
       uni.navigateTo({
-        url: "/pages/historyPage/historyPage",
+        url: "/pages/thing-history/thing-history",
       });
     },
     onHandleToProblemChartPage() {

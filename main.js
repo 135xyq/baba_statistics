@@ -5,6 +5,7 @@ import uView from '@/uni_modules/uview-ui'
 import Vue from 'vue'
 import './uni.promisify.adaptor'
 Vue.config.productionTip = false
+import api from "@/api/index.js"
 Vue.use(uView)
 App.mpType = 'app'
 const app = new Vue({

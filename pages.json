@@ -7,7 +7,7 @@
         "enablePullDownRefresh": false
       }
     }, {
-      "path": "pages/eat/eat",
+      "path": "pages/lucky/lucky",
       "style": {
         "navigationBarTitleText": "选择转盘",
         "enablePullDownRefresh": false
@@ -28,28 +28,21 @@
       }
     },
     {
-      "path": "pages/listDetail/listDetail",
+      "path": "pages/thing-list-detail/thing-list-detail",
       "style": {
         "navigationBarTitleText": "拉屎记录",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/eatSet/eatSet",
+      "path": "pages/lucky-set/lucky-set",
       "style": {
-        "navigationBarTitleText": "设置",
+        "navigationBarTitleText": "转盘设置",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/addMessage/addMessage",
-      "style": {
-        "navigationBarTitleText": "新增消息",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/chartsPage/chartsPage",
+      "path": "pages/thing-month-chart/thing-month-chart",
       "style": {
         "navigationBarTitleText": "最近30天统计",
         "enablePullDownRefresh": false,
@@ -58,19 +51,18 @@
         }
       }
     }, {
-      "path": "pages/historyPage/historyPage",
+      "path": "pages/thing-history/thing-history",
       "style": {
         "navigationBarTitleText": "拉粑粑历史记录",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/addProblem/addProblem",
+      "path": "pages/problem-add/problem-add",
       "style": {
         "navigationBarTitleText": "添加做题记录",
         "enablePullDownRefresh": false
       }
-
     }, {
       "path": "pages/problemMonthChart/problemMonthChart",
       "style": {
@@ -80,7 +72,6 @@
           "pageOrientation": "landscape"
         }
       }
-
     }, {
       "path": "pages/login/login",
       "style": {
@@ -100,7 +91,6 @@
         "navigationBarTitleText": "计时器",
         "enablePullDownRefresh": false
       }
-
     },
     {
       "path": "pages/map/map",
@@ -141,7 +131,8 @@
         "navigationBarTitleText": "悄悄话",
         "enablePullDownRefresh": false
       }
-    }, {
+    },
+    {
       "path": "pages/want-say-add/want-say-add",
       "style": {
         "navigationBarTitleText": "想对你说",
@@ -183,7 +174,7 @@
       "selectedIconPath": "static/img/problem-active.png",
       "text": "做题记录"
     }, {
-      "pagePath": "pages/eat/eat",
+      "pagePath": "pages/lucky/lucky",
       "iconPath": "static/img/eat.png",
       "selectedIconPath": "static/img/eat-active.png",
       "text": "选择转盘"

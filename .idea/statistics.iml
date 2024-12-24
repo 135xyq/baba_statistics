@@ -5,6 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/unpackage" />
       <excludeFolder url="file://$MODULE_DIR$/unpackage/dist/build" />
       <excludeFolder url="file://$MODULE_DIR$/unpackage/dist/dev/.automator/app-plus" />
       <excludeFolder url="file://$MODULE_DIR$/unpackage/dist/dev/.sourcemap/mp-weixin/pages/blind" />

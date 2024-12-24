@@ -1,38 +1,21 @@
 <script>
+  import {userGetInfo} from '@/api/user';
+
   export default {
     onLaunch: function() {
-      console.log('App Launch')
       this.getUserInfo()
     },
-    onShow: function() {
-      console.log('App Show')
-    },
-    onHide: function() {
-      console.log('App Hide')
-    },
     methods: {
-     async getUserInfo() {
-        if (this.$store.state.userInfo?.userInfo?.openid) {
-          const state = this.$store.state.userInfo?.userInfo
-          const openid = state.openid
-
-          const msg = await uniCloud.callFunction({
-            name: "get_user_info",
-            data: {
-              openid: openid
-            },
-            success:(res)=> {
-              this.$store.dispatch(
-                "userInfo/updateUserInfo", res.result.data);
-            }
-          });
-        } else {
-          uni.switchTab({
-            url: '/pages/login/login'
-          })
-        }
+      /**
+       * 获取用户信息
+       * @returns {Promise<void>}
+       */
+     getUserInfo() {
+        userGetInfo().then(res => {
+          this.$store.dispatch(
+            "userInfo/updateUserInfo", res);
+        })
       }
-
     }
   }
 </script>
