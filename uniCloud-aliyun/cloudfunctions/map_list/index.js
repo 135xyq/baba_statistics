@@ -45,7 +45,7 @@ exports.main = async (event, context) => {
     }));
 
     return {
-      code: 200,
+      code: 0,
       data: result // 返回最终结果
     };
   } catch (error) {
