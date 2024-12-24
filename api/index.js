@@ -38,7 +38,7 @@ export default ({ name, data = {} }) => {
           } else {
             uni.showToast({
               icon: "none",
-              title: result.msg || '接口异常',
+              title: result?.msg || '接口异常',
             });
           }
         },
