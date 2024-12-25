@@ -3,7 +3,7 @@
     <!-- 未登录显示微信登录 -->
     <view
       class="wx-login"
-      v-if="!isLogin"
+      v-if="!isLogin && isGetAppInfo"
     >
       <image
         :src="userInfo.avatar"
@@ -213,7 +213,7 @@
         <!-- 切换账号 -->
         <view
           class="chat item"
-          v-if="personArr.length > 0"
+          v-if="personArr.length > 0 && userInfo.roleLevel === 1"
         >
           <picker
             @change="onUserChange"
@@ -232,14 +232,18 @@
           </picker>
         </view>
       </view>
-      <!-- <button type="primary" @click="logout" class="login-button">退出登录</button> -->
+<!--      <u-button-->
+<!--        text="退出登录"-->
+<!--        @click="logout"-->
+<!--        class="login-button"-->
+<!--        color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"-->
+<!--      />-->
     </view>
   </view>
 </template>
 
 <script>
 import avatarUrl from "../../static/img/default_avatar.jpg";
-import loginVue from "./login.vue";
 import {userGetInfo, userGetList, userLogin} from '@/api/user';
 export default {
   data() {
@@ -252,6 +256,7 @@ export default {
       userInfo: {
         avatar: avatarUrl,
         nickName: "",
+        roleLevel:0
       },
       // 用户列表
       personArr: [],
@@ -260,6 +265,13 @@ export default {
       summarizeTimeColumns: [[], []],
       // 总结时间选择器是否显示
       summarizeTimePickerShow: false,
+      // 是否获取到了小程序信息
+      isGetAppInfo: false,
+      // 小程序信息
+      appInfo:{
+        appid:'',
+        secret:''
+      }
     };
   },
   created() {
@@ -282,8 +294,18 @@ export default {
       this.openId = state.openid;
       this.userInfo.avatar = state.avatarUrl;
       this.userInfo.nickName = state.nickName;
+      this.userInfo.roleLevel = state.roleLevel;
 
       this.getUserList();
+    }
+    if(!this.isLogin) {
+      uniCloud.callFunction({
+        name: 'user_app_info',
+        success: (res) => {
+          this.appInfo = res.result.data;
+          this.isGetAppInfo = true
+        }
+      })
     }
   },
   methods: {
@@ -309,7 +331,7 @@ export default {
       const { code } = await this.getCode();
       uni
         .request({
-          url: `https://api.weixin.qq.com/sns/jscode2session?appid=wxf600daae2dc114e6&secret=1dd92382dbe76240929007795b89005e&js_code=${code}&grant_type=authorization_code`,
+          url: `https://api.weixin.qq.com/sns/jscode2session?appid=${this.appInfo.appid}&secret=${this.appInfo.secret}&js_code=${code}&grant_type=authorization_code`,
           method: "GET",
         })
         .then((res) => {
@@ -330,6 +352,7 @@ export default {
                     userLogin({
                       ...res.userInfo,
                       openid: this.openId,
+                      roleLevel:0,
                     }).then(()=>{
                       uni.showToast({
                         title: "登录成功",
@@ -346,7 +369,12 @@ export default {
                         this.userInfo.nickName = this.$store.state.userInfo.userInfo.nickName;
                         this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
                         this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
+                        this.userInfo.roleLevel = this.$store.state.userInfo.userInfo.roleLevel;
+
+                        // 获取用户列表
+                        this.getUserList()
                       })
+
                     }).catch(()=>{
                       //拒绝授权
                       uni.showToast({
@@ -405,11 +433,16 @@ export default {
      * 获取用户列表
      */
     getUserList() {
-      userGetList({
-        type: "list",
-      }).then(res=>{
-        this.personArr = res
-      })
+      if(this.userInfo.roleLevel === 1){
+        userGetList({
+          type: "list",
+        }).then(res=>{
+          this.personArr = res
+        })
+      }else{
+        this.personArr = []
+      }
+
     },
     /**
      * 切换用户
@@ -422,6 +455,7 @@ export default {
       this.userInfo.nickName = this.$store.state.userInfo.userInfo.nickName;
       this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
       this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
+      this.userInfo.roleLevel = this.$store.state.userInfo.userInfo.roleLevel;
     },
     /**
      * 退出登录
@@ -437,6 +471,7 @@ export default {
             this.userInfo = {
               avatar: avatarUrl,
               nickName: "",
+              roleLevel: 0
             }; //用户信息
           } else if (res.cancel) {
           }
