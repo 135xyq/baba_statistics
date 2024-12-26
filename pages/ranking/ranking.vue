@@ -103,14 +103,9 @@ export default {
      * @returns {Promise<void>}
      */
     async getHistory(type) {
-      uni.showLoading({
-        title: "加载中...",
-      });
       this.dataList = [];
       thingGetTotalList({type:type}).then(res=>{
         this.dataList = res;
-      }).finally(()=>{
-        uni.hideLoading();
       })
     },
     /**
@@ -118,7 +113,6 @@ export default {
      * @param item
      */
     onDetail(item) {
-      console.log(item);
       uni.navigateTo({
         url: `/pages/thing-list-detail/thing-list-detail?nickName=${item.nickName}&openid=${item.openid}`,
       });

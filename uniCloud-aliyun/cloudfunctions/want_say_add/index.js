@@ -10,6 +10,7 @@ exports.main = async (event, context) => {
     content,
     toUserOpenId,
     createTime,
+    color,
     time,
     status
   } = event
@@ -19,6 +20,7 @@ exports.main = async (event, context) => {
     createTime,
     toUserOpenId,
     time: Date.now(),
+    color,
     status
   }
   const res= await collection.add(data);

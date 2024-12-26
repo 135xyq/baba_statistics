@@ -55,27 +55,8 @@
         @fabClick="onAddRecord"
       />
     </view>
-    <view v-if="wantSayInfo.length > 0">
-      <u-modal
-        v-for="(item, index) in wantSayInfo"
-        :key="item_id"
-        :show="wantSayShow[index]"
-        :title="item.nickName + '想对你说'"
-      >
-        <template slot="default">
-          <view class="want-say-content">
-            {{ item.content }}
-          </view>
-        </template>
-        <u-button
-          slot="confirmButton"
-          @click="onHandleCloseWantSayModal(index)"
-          color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"
-        >
-          收到了
-        </u-button>
-      </u-modal>
-    </view>
+    <!-- 想说的话 -->
+    <want-say />
   </view>
 </template>
 
@@ -85,7 +66,6 @@ import rankingImg from "@/static/img/ranking-active.png";
 import formateDate from "@/utils/formateDate.js";
 import { noticeGet } from "@/api/notice.js";
 import { thingAdd, thingCount, thingDelete, thingGetToday } from "@/api/thing";
-import {wantSayGet} from '@/api/wantSay';
 export default {
   data() {
     return {
@@ -110,17 +90,12 @@ export default {
       timer: null,
       // 通告栏数据
       noticeData: {},
-      // 想说的话数据
-      wantSayInfo: [],
-      // 是否关闭
-      wantSayShow: [],
     };
   },
   onShow() {
     this.getTotal();
     this.getTodayList();
     this.getNoticeData();
-    this.getWantSay();
   },
   created() {
     this.timer = setInterval(() => {
@@ -225,7 +200,7 @@ export default {
       });
     },
     /**
-     * 前往排行榜也米娜
+     * 前往排行榜页面
      */
     onGetRankingPage() {
       uni.navigateTo({
@@ -266,28 +241,6 @@ export default {
         this.showDateText = this.noticeData.content;
       }
     },
-    /**
-     * 获取想说的话列表
-     */
-    getWantSay() {
-      wantSayGet().then(res=>{
-        this.wantSayInfo = res || [];
-        this.wantSayShow = new Array(this.wantSayInfo?.length).fill(false);
-        if (this.wantSayInfo?.length > 0) {
-          this.wantSayShow[0] = true;
-        }
-      })
-    },
-    /**
-     * 关闭想说的话弹窗
-     */
-    onHandleCloseWantSayModal(index) {
-      this.wantSayShow[index] = false;
-      if (this.wantSayShow?.length > index + 1) {
-        this.wantSayShow[index + 1] = true;
-      }
-      this.$forceUpdate();
-    },
   },
 };
 </script>
@@ -323,11 +276,5 @@ export default {
   font-weight: 600;
 }
 
-.want-say-content {
-  margin: 50rpx 0;
-  text-align: left;
-  font-size: 36rpx;
-  color: #ec5a86;
-  font-weight: 600;
-}
+
 </style>

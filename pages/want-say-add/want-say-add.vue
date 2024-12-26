@@ -34,9 +34,29 @@
           <u-switch
             v-model="addForm.status"
             activeColor="#d81e06"
-          ></u-switch>
+          />
+        </u-form-item>
+        <u-form-item label="字体颜色:">
+          <div
+            class="color-show"
+            :style="{ background: fontColor }"
+            @click="onOpenColorChoose"
+          />
+          <t-color-picker
+            ref="colorPicker"
+            :color="addForm.color"
+            @confirm="onColorConfirm"
+          />
         </u-form-item>
       </u--form>
+      <view class="button">
+        <u-button
+          text="查看预览效果"
+          @click="isWantSayShow = true"
+          color="linear-gradient(to right, rgb(213, 51, 186), rgb(66, 83, 216))"
+          :disabled="!addForm.content"
+        />
+      </view>
       <view class="button">
         <u-button
           text="保存"
@@ -45,14 +65,39 @@
         />
       </view>
     </view>
+    <!-- 预览效果 -->
+    <u-modal
+      :show="isWantSayShow"
+      title="想对你说"
+    >
+      <template slot="default">
+        <view
+          class="want-say-content"
+          :style="{ color: fontColor }"
+        >
+          {{ addForm.content }}
+        </view>
+      </template>
+      <u-button
+        slot="confirmButton"
+        @click="isWantSayShow = false"
+        color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"
+      >
+        收到了
+      </u-button>
+    </u-modal>
   </view>
 </template>
 
 <script>
 import formateDate from "@/utils/formateDate.js";
-import {wantSayAdd, wantSayEdit} from '@/api/wantSay';
-import {userGetList} from '@/api/user';
+import { wantSayAdd, wantSayEdit } from "@/api/wantSay";
+import { userGetList } from "@/api/user";
+import tColorPicker from "@/components/t-color-picker/t-color-picker.vue";
 export default {
+  components: {
+    tColorPicker,
+  },
   data() {
     return {
       // 获取用户列表
@@ -65,16 +110,28 @@ export default {
         toUserOpenId: "",
         // 开启
         status: true,
+        // 颜色
+        color: { r: 241, g: 148, b: 138, a: 0.5 },
       },
       openid: "",
       // 类型，新增或编辑
       type: "add",
+      // 预览效果查看
+      isWantSayShow: false,
     };
+  },
+  computed: {
+    // 字体颜色
+    fontColor() {
+      return `rgba(${this.addForm.color.r},${this.addForm.color.g},${this.addForm.color.b},${this.addForm.color.a})`;
+    },
   },
   onLoad(options) {
     this.type = options.type;
     if (this.type === "edit") {
       this.addForm = JSON.parse(options.data);
+      const color = this.addForm.color ? JSON.parse(this.addForm?.color): { r: 241, g: 148, b: 138, a: 0.5 }
+      this.$set(this.addForm, "color", color)
     }
     this.getUserList();
   },
@@ -85,21 +142,38 @@ export default {
     getUserList() {
       userGetList({
         type: "list",
-      }).then(res=>{
+      }).then((res) => {
         this.userList = res?.map((item) => {
           return {
             text: item.nickName,
             value: item.openid,
           };
         });
-      })
+      });
+    },
+    /**
+     * 颜色选择确认
+     * @param e
+     */
+    onColorConfirm(e) {
+      this.$set(this.addForm, "color", e.rgba)
+    },
+    /**
+     * 打开颜色选择器
+     */
+    onOpenColorChoose() {
+      this.$refs.colorPicker?.open();
     },
     /**
      * 保存
      */
     onSave() {
       if (this.type === "edit") {
-        wantSayEdit(this.addForm).then(()=>{
+        const data = {
+          ...this.addForm,
+          color: JSON.stringify(this.addForm.color),
+        };
+        wantSayEdit(data).then(() => {
           uni.showToast({
             title: "修改成功",
             icon: "success",
@@ -107,13 +181,14 @@ export default {
           setTimeout(() => {
             uni.navigateBack();
           }, 1000);
-        })
+        });
       } else {
         const now = new Date().getTime();
         wantSayAdd({
           ...this.addForm,
           createTime: formateDate(now),
-        }).then(()=>{
+          color: JSON.stringify(this.addForm.color),
+        }).then(() => {
           uni.showToast({
             title: "新增成功",
             icon: "success",
@@ -121,7 +196,7 @@ export default {
           setTimeout(() => {
             uni.navigateBack();
           }, 1000);
-        })
+        });
       }
     },
   },
@@ -135,5 +210,19 @@ export default {
 
 .button {
   margin-top: 60rpx;
+}
+
+.color-show {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+
+.want-say-content {
+  margin: 50rpx 0;
+  text-align: left;
+  font-size: 36rpx;
+  color: #ec5a86;
+  font-weight: 600;
 }
 </style>

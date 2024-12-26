@@ -6,12 +6,14 @@ exports.main = async (event, context) => {
     _id,
     content,
     toUserOpenId,
-    status
+    status,
+    color
   } = event
   const res = await db.collection("wantSay").doc(_id).update({
     content,
     toUserOpenId,
-    status
+    status,
+    color
   });
   //返回数据给客户端
   return {

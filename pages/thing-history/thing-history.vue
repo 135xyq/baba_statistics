@@ -16,7 +16,7 @@
           <u-cell
             :title="`第${index + 1}次拉粑粑`"
             :value="formateTime(item.time)"
-          ></u-cell>
+          />
         </u-list-item>
       </u-list>
     </view>
