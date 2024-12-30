@@ -181,6 +181,25 @@
             class="load-to-page"
           />
         </view>
+        <!-- 选择转盘 -->
+        <view
+          class="chat item"
+          @click="onHandleToLuckyPage"
+        >
+          <view class="item-left">
+            <image
+              src="@/static/img/mine/转盘.png"
+              class="item-left__icon"
+            />
+            <view class="select-item chat-item">幸运转盘</view>
+          </view>
+          <uni-icons
+            type="forward"
+            color="#939188"
+            size="20"
+            class="load-to-page"
+          />
+        </view>
         <!-- 年(月)度总结 -->
         <view
           class="chat item"
@@ -513,6 +532,11 @@ export default {
     onHandleToWantSayPage() {
       uni.navigateTo({
         url: "/pages/want-say/want-say",
+      });
+    },
+    onHandleToLuckyPage() {
+      uni.navigateTo({
+        url: "/pages/lucky/lucky",
       });
     },
     /**

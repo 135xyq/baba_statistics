@@ -9,9 +9,10 @@ exports.main = async (event, context) => {
 
   let data = {data:[]}
   
-  if(type == 'list'){
+  if(type === 'list'){
     data = await collection.where({
-      openid: dbCmd.neq(openid) 
+      openid: dbCmd.neq(openid),
+      isHidden: dbCmd.neq(true)
     }).get()
   }else{
      data = await collection.get()

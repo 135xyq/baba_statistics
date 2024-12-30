@@ -12,7 +12,7 @@ exports.main = async (event, context) => {
 	const data = await collection.where({
 		openid: event.openid,
 		time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
-	}).orderBy('time', 'asc').get()
+	}).orderBy('time', 'desc').get()
 
 	const res = await db.collection('problem') // 替换为你的集合名
 		.where({

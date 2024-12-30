@@ -1,18 +1,21 @@
 {
-  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
         "enablePullDownRefresh": false
       }
-    }, {
+    },
+    {
       "path": "pages/lucky/lucky",
       "style": {
         "navigationBarTitleText": "选择转盘",
         "enablePullDownRefresh": false
       }
-    }, {
+    },
+    {
       "path": "pages/ranking/ranking",
       "style": {
         "navigationBarTitleText": "排行榜",
@@ -50,7 +53,8 @@
           "pageOrientation": "landscape"
         }
       }
-    }, {
+    },
+    {
       "path": "pages/thing-history/thing-history",
       "style": {
         "navigationBarTitleText": "拉粑粑历史记录",
@@ -63,7 +67,8 @@
         "navigationBarTitleText": "添加做题记录",
         "enablePullDownRefresh": false
       }
-    }, {
+    },
+    {
       "path": "pages/problemMonthChart/problemMonthChart",
       "style": {
         "navigationBarTitleText": "最近一个月做题统计",
@@ -72,13 +77,15 @@
           "pageOrientation": "landscape"
         }
       }
-    }, {
+    },
+    {
       "path": "pages/login/login",
       "style": {
         "navigationBarTitleText": "个人中心",
         "enablePullDownRefresh": false
       }
-    }, {
+    },
+    {
       "path": "pages/problem/problem",
       "style": {
         "navigationBarTitleText": "做题记录",
@@ -105,7 +112,8 @@
         "navigationBarTitleText": "盲盒",
         "enablePullDownRefresh": false
       }
-    }, {
+    },
+    {
       "path": "pages/blind-type/blind-type",
       "style": {
         "navigationBarTitleText": "盲盒类型",
@@ -118,7 +126,8 @@
         "navigationBarTitleText": "盲盒",
         "enablePullDownRefresh": false
       }
-    }, {
+    },
+    {
       "path": "pages/noticePage/noticePage",
       "style": {
         "navigationBarTitleText": "通告栏配置",
@@ -145,6 +154,20 @@
         "navigationBarTitleText": "总结报告",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/chat/chat",
+      "style": {
+        "navigationBarTitleText": "聊天",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/chat-detail/chat-detail",
+      "style": {
+        "navigationBarTitleText": "聊天",
+        "enablePullDownRefresh": false
+      }
     }
   ],
   "globalStyle": {
@@ -158,31 +181,37 @@
     "selectedColor": "#d81e06",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
-    "list": [{
-      "pagePath": "pages/index/index",
-      "iconPath": "static/img/home.png",
-      "selectedIconPath": "static/img/home-active.png",
-      "text": "粑粑记录"
-    }, {
-      "pagePath": "pages/blind/blind",
-      "iconPath": "static/img/blind.png",
-      "selectedIconPath": "static/img/blind-active.png",
-      "text": "盲盒"
-    }, {
-      "pagePath": "pages/problem/problem",
-      "iconPath": "static/img/problem.png",
-      "selectedIconPath": "static/img/problem-active.png",
-      "text": "做题记录"
-    }, {
-      "pagePath": "pages/lucky/lucky",
-      "iconPath": "static/img/eat.png",
-      "selectedIconPath": "static/img/eat-active.png",
-      "text": "选择转盘"
-    }, {
-      "pagePath": "pages/login/login",
-      "iconPath": "static/img/my.png",
-      "selectedIconPath": "static/img/my-active.png",
-      "text": "个人中心"
-    }]
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/img/home.png",
+        "selectedIconPath": "static/img/home-active.png",
+        "text": "粑粑记录"
+      },
+      {
+        "pagePath": "pages/blind/blind",
+        "iconPath": "static/img/blind.png",
+        "selectedIconPath": "static/img/blind-active.png",
+        "text": "盲盒"
+      },
+      {
+        "pagePath": "pages/problem/problem",
+        "iconPath": "static/img/problem.png",
+        "selectedIconPath": "static/img/problem-active.png",
+        "text": "做题记录"
+      },
+      {
+        "pagePath": "pages/chat/chat",
+        "iconPath": "static/img/chat.png",
+        "selectedIconPath": "static/img/chat-active.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/login/login",
+        "iconPath": "static/img/my.png",
+        "selectedIconPath": "static/img/my-active.png",
+        "text": "个人中心"
+      }
+    ]
   }
 }

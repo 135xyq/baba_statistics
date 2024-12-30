@@ -1,0 +1,7 @@
+{
+  "name": "chat_user_message_list",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
