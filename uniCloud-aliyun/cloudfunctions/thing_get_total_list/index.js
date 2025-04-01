@@ -109,7 +109,7 @@ exports.main = async (event, context) => {
     startOfDay = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
   } else if (type === 2) {
     // 年度
-     startOfDay = new Date(now.getFullYear(), 1, 1, 0, 0, 0, 0);
+     startOfDay = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0);
   }else if(type === 0) {
     // 今日
     startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)

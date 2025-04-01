@@ -41,7 +41,8 @@
       getList() {
         thingGetList({
           page: this.page,
-          limit: this.limit
+          limit: this.limit,
+          openid: this.openid
         }).then(res=>{
           this.dataList = [...this.dataList, ...res?.list]
           this.total = res.total

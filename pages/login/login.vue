@@ -86,6 +86,44 @@
             class="load-to-page"
           />
         </view>
+        <!-- 体重历史记录 -->
+        <view
+          class="chat item"
+          @click="onHandleToWeightHistoryPage"
+        >
+          <view class="item-left">
+            <image
+              src="@/static/img/mine/weight.png"
+              class="item-left__icon"
+            />
+            <view class="select-item chat-item">体重历史记录</view>
+          </view>
+          <uni-icons
+            type="forward"
+            color="#939188"
+            size="20"
+            class="load-to-page"
+          />
+        </view>
+        <!-- 体重变化趋势 -->
+        <view
+          class="chat item"
+          @click="onHandleToWeightChartPage"
+        >
+          <view class="item-left">
+            <image
+              src="@/static/img/mine/身高体重分布.png"
+              class="item-left__icon"
+            />
+            <view class="select-item chat-item">体重变化趋势</view>
+          </view>
+          <uni-icons
+            type="forward"
+            color="#939188"
+            size="20"
+            class="load-to-page"
+          />
+        </view>
         <!-- 做题分析 -->
         <view
           class="chat item"
@@ -298,7 +336,7 @@ export default {
     const date = new Date();
     const currentYear = date.getFullYear();
     for (let i = 2024; i <= currentYear; i++) {
-      this.summarizeTimeColumns[0][i - 2024] = String(currentYear);
+      this.summarizeTimeColumns[0][i - 2024] = String(i);
     }
 
     for (let i = 0; i < 12; i++) {
@@ -507,6 +545,16 @@ export default {
     onHandleToHistoryPage() {
       uni.navigateTo({
         url: "/pages/thing-history/thing-history",
+      });
+    },
+    onHandleToWeightHistoryPage(){
+      uni.navigateTo({
+        url: "/pages/weight-history/weight-history",
+      });
+    },
+    onHandleToWeightChartPage(){
+      uni.navigateTo({
+        url: "/pages/weight-chart/weight-chart",
       });
     },
     onHandleToProblemChartPage() {

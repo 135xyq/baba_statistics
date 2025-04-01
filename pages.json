@@ -22,7 +22,6 @@
         "enablePullDownRefresh": false
       }
     },
-
     {
       "path": "pages/set/set",
       "style": {
@@ -167,6 +166,23 @@
       "style": {
         "navigationBarTitleText": "聊天",
         "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/weight-history/weight-history",
+      "style": {
+        "navigationBarTitleText": "体重历史记录",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/weight-chart/weight-chart",
+      "style": {
+        "navigationBarTitleText": "体重变化",
+        "enablePullDownRefresh": true,
+        "mp-weixin": {
+          "pageOrientation": "landscape"
+        }
       }
     }
   ],

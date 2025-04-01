@@ -1,0 +1,7 @@
+{
+  "name": "weight_add",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "get_month_thing",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

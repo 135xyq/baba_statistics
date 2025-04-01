@@ -1,0 +1,7 @@
+{
+  "name": "get_day_thing",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
