@@ -1,46 +1,25 @@
 <template>
   <view>
     <!-- 未登录显示微信登录 -->
-    <view
-      class="wx-login"
-      v-if="!isLogin && isGetAppInfo"
-    >
-      <image
-        :src="userInfo.avatar"
-        class="unlogin-user-avatar"
-      />
-      <button
-        type="primary"
-        @click="wxLogin"
-        class="login-button"
-      >
+    <view class="wx-login" v-if="!isLogin && isGetAppInfo">
+      <image :src="userInfo.avatar" class="unlogin-user-avatar" />
+      <button type="primary" @click="wxLogin" class="login-button">
         微信登录
       </button>
     </view>
     <!-- 登录完成 -->
-    <view
-      class="wx-logined"
-      v-if="isLogin"
-    >
+    <view class="wx-logined" v-if="isLogin">
       <view class="header">
         <view class="set">
           <view class="set-set">
-            <u-icon
-              name="setting-fill"
-              size="25"
-              @click="onHandleGoPageUserSet"
-            />
+            <u-icon name="setting-fill" size="25" @click="onHandleGoPageUserSet" />
           </view>
         </view>
         <!-- 头部个人信息 -->
         <view class="user-info">
           <view class="user-info-avatar">
-            <u-avatar
-              :src="userInfo.avatar"
-              class="user-info-avatar__img"
-              size="75"
-              @click="onPreviewImage(userInfo.avatar)"
-            />
+            <u-avatar :src="userInfo.avatar" class="user-info-avatar__img" size="75"
+              @click="onPreviewImage(userInfo.avatar)" />
           </view>
           <view class="user-info-name">
             {{ userInfo.nickName }}
@@ -49,259 +28,127 @@
       </view>
       <view class="content">
         <!-- 最近七天变化趋势 -->
-        <view
-          class="history item"
-          @click="onHandleToChartsPage"
-        >
+        <view class="history item" @click="onHandleToChartsPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/趋势.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/趋势.png" class="item-left__icon" />
             <view class="select-item">拉粑粑最近30天变化趋势</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 拉粑粑历史记录 -->
-        <view
-          class="chat item"
-          @click="onHandleToHistoryPage"
-        >
+        <view class="chat item" @click="onHandleToHistoryPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/日历.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/日历.png" class="item-left__icon" />
             <view class="select-item chat-item">拉粑粑历史记录</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 体重历史记录 -->
-        <view
-          class="chat item"
-          @click="onHandleToWeightHistoryPage"
-        >
+        <view class="chat item" @click="onHandleToWeightHistoryPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/weight.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/weight.png" class="item-left__icon" />
             <view class="select-item chat-item">体重历史记录</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 体重变化趋势 -->
-        <view
-          class="chat item"
-          @click="onHandleToWeightChartPage"
-        >
+        <view class="chat item" @click="onHandleToWeightChartPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/身高体重分布.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/身高体重分布.png" class="item-left__icon" />
             <view class="select-item chat-item">体重变化趋势</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 做题分析 -->
-        <view
-          class="chat item"
-          @click="onHandleToProblemChartPage"
-        >
+        <view class="chat item" @click="onHandleToProblemChartPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/数据分析.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/数据分析.png" class="item-left__icon" />
             <view class="select-item chat-item">做题分析（正确率统计）</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 计时器 -->
-        <view
-          class="chat item"
-          @click="onHandleToTimeCountPage"
-        >
+        <view class="chat item" @click="onHandleToTimeCountPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/计时器.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/计时器.png" class="item-left__icon" />
             <view class="select-item chat-item">计时器</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 位置共享 -->
-        <view
-          class="chat item"
-          @click="onHandleToMapPage"
-        >
+        <view class="chat item" @click="onHandleToMapPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/地图.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/地图.png" class="item-left__icon" />
             <view class="select-item chat-item">位置共享</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 通知栏管理 -->
-        <view
-          class="chat item"
-          @click="onHandleToNoticePage"
-        >
+        <view class="chat item" @click="onHandleToNoticePage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/通知栏.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/通知栏.png" class="item-left__icon" />
             <view class="select-item chat-item">通知栏管理</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
+        </view>
+        <!-- 照片墙 -->
+        <view class="chat item" @click="onHandleToPhotoPage">
+          <view class="item-left">
+            <image src="@/static/img/mine/照片墙.png" class="item-left__icon" />
+            <view class="select-item chat-item">照片墙</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 想说的话 -->
-        <view
-          class="chat item"
-          @click="onHandleToWantSayPage"
-        >
+        <view class="chat item" @click="onHandleToWantSayPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/想说的话.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/想说的话.png" class="item-left__icon" />
             <view class="select-item chat-item">想说的话</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 选择转盘 -->
-        <view
-          class="chat item"
-          @click="onHandleToLuckyPage"
-        >
+        <view class="chat item" @click="onHandleToLuckyPage">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/转盘.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/转盘.png" class="item-left__icon" />
             <view class="select-item chat-item">幸运转盘</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 年(月)度总结 -->
-        <view
-          class="chat item"
-          @click="summarizeTimePickerShow = true"
-        >
+        <view class="chat item" @click="summarizeTimePickerShow = true">
           <view class="item-left">
-            <image
-              src="@/static/img/mine/总结.png"
-              class="item-left__icon"
-            />
+            <image src="@/static/img/mine/总结.png" class="item-left__icon" />
             <view class="select-item chat-item">年(月)度总结</view>
           </view>
-          <uni-icons
-            type="forward"
-            color="#939188"
-            size="20"
-            class="load-to-page"
-          />
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
         <!-- 年(月)度总结时间选择 -->
-        <u-picker
-          :show="summarizeTimePickerShow"
-          ref="uPicker"
-          title="请选择总结时间"
-          :columns="summarizeTimeColumns"
-          @confirm="onSummarizeTimePickerConfirm"
-          @cancel="summarizeTimePickerShow = false"
-          confirmColor="#d81e06"
-        />
+        <u-picker :show="summarizeTimePickerShow" ref="uPicker" title="请选择总结时间" :columns="summarizeTimeColumns"
+          @confirm="onSummarizeTimePickerConfirm" @cancel="summarizeTimePickerShow = false" confirmColor="#d81e06" />
         <!-- 切换账号 -->
-        <view
-          class="chat item"
-          v-if="personArr.length > 0 && userInfo.roleLevel === 1"
-        >
-          <picker
-            @change="onUserChange"
-            mode="selector"
-            range-key="nickName"
-            :value="index"
-            :range="personArr"
-          >
+        <view class="chat item" v-if="personArr.length > 0 && userInfo.roleLevel === 1">
+          <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
             <view class="item-left">
-              <image
-                src="@/static/img/mine/切换账号.png"
-                class="item-left__icon"
-              />
+              <image src="@/static/img/mine/切换账号.png" class="item-left__icon" />
               <view class="select-item user-item">切换账号</view>
             </view>
           </picker>
         </view>
       </view>
-<!--      <u-button-->
-<!--        text="退出登录"-->
-<!--        @click="logout"-->
-<!--        class="login-button"-->
-<!--        color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"-->
-<!--      />-->
+      <!--      <u-button-->
+      <!--        text="退出登录"-->
+      <!--        @click="logout"-->
+      <!--        class="login-button"-->
+      <!--        color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"-->
+      <!--      />-->
     </view>
   </view>
 </template>
 
 <script>
 import avatarUrl from "../../static/img/default_avatar.jpg";
-import {userGetInfo, userGetList, userLogin} from '@/api/user';
+import { userGetInfo, userGetList, userLogin } from '@/api/user';
 export default {
   data() {
     return {
@@ -313,7 +160,7 @@ export default {
       userInfo: {
         avatar: avatarUrl,
         nickName: "",
-        roleLevel:0
+        roleLevel: 0
       },
       // 用户列表
       personArr: [],
@@ -325,9 +172,9 @@ export default {
       // 是否获取到了小程序信息
       isGetAppInfo: false,
       // 小程序信息
-      appInfo:{
-        appid:'',
-        secret:''
+      appInfo: {
+        appid: '',
+        secret: ''
       }
     };
   },
@@ -355,7 +202,7 @@ export default {
 
       this.getUserList();
     }
-    if(!this.isLogin) {
+    if (!this.isLogin) {
       uniCloud.callFunction({
         name: 'user_app_info',
         success: (res) => {
@@ -409,15 +256,15 @@ export default {
                     userLogin({
                       ...res.userInfo,
                       openid: this.openId,
-                      roleLevel:0,
-                    }).then(()=>{
+                      roleLevel: 0,
+                    }).then(() => {
                       uni.showToast({
                         title: "登录成功",
                         icon: "success",
                         duration: 2000,
                       });
                       // 获取用户信息
-                      userGetInfo({openid: this.openId}).then(res=>{
+                      userGetInfo({ openid: this.openId }).then(res => {
                         this.$store.dispatch("userInfo/updateUserInfo", res);
                         // 修改登录状态
                         this.isLogin = true;
@@ -432,14 +279,14 @@ export default {
                         this.getUserList()
                       })
 
-                    }).catch(()=>{
+                    }).catch(() => {
                       //拒绝授权
                       uni.showToast({
                         title: "登陆失败",
                         icon: "error",
                         duration: 2000,
                       });
-                    }).finally(()=>{
+                    }).finally(() => {
                       uni.hideLoading();
                     })
 
@@ -490,13 +337,13 @@ export default {
      * 获取用户列表
      */
     getUserList() {
-      if(this.userInfo.roleLevel === 1){
+      if (this.userInfo.roleLevel === 1) {
         userGetList({
           type: "list",
-        }).then(res=>{
+        }).then(res => {
           this.personArr = res
         })
-      }else{
+      } else {
         this.personArr = []
       }
 
@@ -547,12 +394,12 @@ export default {
         url: "/pages/thing-history/thing-history",
       });
     },
-    onHandleToWeightHistoryPage(){
+    onHandleToWeightHistoryPage() {
       uni.navigateTo({
         url: "/pages/weight-history/weight-history",
       });
     },
-    onHandleToWeightChartPage(){
+    onHandleToWeightChartPage() {
       uni.navigateTo({
         url: "/pages/weight-chart/weight-chart",
       });
@@ -585,6 +432,11 @@ export default {
     onHandleToLuckyPage() {
       uni.navigateTo({
         url: "/pages/lucky/lucky",
+      });
+    },
+    onHandleToPhotoPage() {
+      uni.navigateTo({
+        url: "/pages/photo-album/photo-album",
       });
     },
     /**

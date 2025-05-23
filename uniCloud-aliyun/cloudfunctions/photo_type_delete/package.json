@@ -1,0 +1,7 @@
+{
+  "name": "photo_type_delete",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

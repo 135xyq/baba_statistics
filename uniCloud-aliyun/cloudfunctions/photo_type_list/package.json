@@ -1,0 +1,7 @@
+{
+  "name": "photo_type_list",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

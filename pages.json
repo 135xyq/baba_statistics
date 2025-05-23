@@ -184,6 +184,12 @@
           "pageOrientation": "landscape"
         }
       }
+    },
+    {
+      "path": "pages/photo-album/photo-album",
+      "style": {
+        "navigationBarTitleText": "照片墙"
+      }
     }
   ],
   "globalStyle": {
