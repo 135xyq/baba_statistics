@@ -1,155 +1,99 @@
 <template>
-  <view>
+  <view class="container">
     <!-- 未登录显示微信登录 -->
     <view class="wx-login" v-if="!isLogin && isGetAppInfo">
-      <image :src="userInfo.avatar" class="unlogin-user-avatar" />
-      <button type="primary" @click="wxLogin" class="login-button">
-        微信登录
-      </button>
+      <view class="login-container">
+        <image :src="userInfo.avatar" class="unlogin-user-avatar" />
+        <button type="primary" @click="wxLogin" class="login-button">
+          微信登录
+        </button>
+      </view>
     </view>
+
     <!-- 登录完成 -->
     <view class="wx-logined" v-if="isLogin">
+      <!-- 头部个人信息 -->
       <view class="header">
-        <view class="set">
-          <view class="set-set">
-            <u-icon name="setting-fill" size="25" @click="onHandleGoPageUserSet" />
-          </view>
-        </view>
-        <!-- 头部个人信息 -->
         <view class="user-info">
-          <view class="user-info-avatar">
+          <view class="user-info-avatar" @click="onPreviewImage(userInfo.avatar)">
             <u-avatar :src="userInfo.avatar" class="user-info-avatar__img" size="75"
               @click="onPreviewImage(userInfo.avatar)" />
           </view>
-          <view class="user-info-name">
-            {{ userInfo.nickName }}
-          </view>
-        </view>
-      </view>
-      <view class="content">
-        <!-- 最近七天变化趋势 -->
-        <view class="history item" @click="onHandleToChartsPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/趋势.png" class="item-left__icon" />
-            <view class="select-item">拉粑粑最近30天变化趋势</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 拉粑粑历史记录 -->
-        <view class="chat item" @click="onHandleToHistoryPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/日历.png" class="item-left__icon" />
-            <view class="select-item chat-item">拉粑粑历史记录</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 体重历史记录 -->
-        <view class="chat item" @click="onHandleToWeightHistoryPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/weight.png" class="item-left__icon" />
-            <view class="select-item chat-item">体重历史记录</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 体重变化趋势 -->
-        <view class="chat item" @click="onHandleToWeightChartPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/身高体重分布.png" class="item-left__icon" />
-            <view class="select-item chat-item">体重变化趋势</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 做题分析 -->
-        <view class="chat item" @click="onHandleToProblemChartPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/数据分析.png" class="item-left__icon" />
-            <view class="select-item chat-item">做题分析（正确率统计）</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 计时器 -->
-        <view class="chat item" @click="onHandleToTimeCountPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/计时器.png" class="item-left__icon" />
-            <view class="select-item chat-item">计时器</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 位置共享 -->
-        <view class="chat item" @click="onHandleToMapPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/地图.png" class="item-left__icon" />
-            <view class="select-item chat-item">位置共享</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 通知栏管理 -->
-        <view class="chat item" @click="onHandleToNoticePage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/通知栏.png" class="item-left__icon" />
-            <view class="select-item chat-item">通知栏管理</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 照片墙 -->
-        <view class="chat item" @click="onHandleToPhotoPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/照片墙.png" class="item-left__icon" />
-            <view class="select-item chat-item">照片墙</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 图库 -->
-        <view class="chat item" @click="onHandleToPhotoAlbumPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/图库.png" class="item-left__icon" />
-            <view class="select-item chat-item">图库</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 想说的话 -->
-        <view class="chat item" @click="onHandleToWantSayPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/想说的话.png" class="item-left__icon" />
-            <view class="select-item chat-item">想说的话</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 选择转盘 -->
-        <view class="chat item" @click="onHandleToLuckyPage">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/转盘.png" class="item-left__icon" />
-            <view class="select-item chat-item">幸运转盘</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 年(月)度总结 -->
-        <view class="chat item" @click="summarizeTimePickerShow = true">
-          <view class="item-left">
-            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/总结.png" class="item-left__icon" />
-            <view class="select-item chat-item">年(月)度总结</view>
-          </view>
-          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
-        </view>
-        <!-- 年(月)度总结时间选择 -->
-        <u-picker :show="summarizeTimePickerShow" ref="uPicker" title="请选择总结时间" :columns="summarizeTimeColumns"
-          @confirm="onSummarizeTimePickerConfirm" @cancel="summarizeTimePickerShow = false" confirmColor="#d81e06" />
-        <!-- 切换账号 -->
-        <view class="chat item" v-if="personArr.length > 0 && userInfo.roleLevel === 1">
-          <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
-            <view class="item-left">
-              <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/切换账号.png" class="item-left__icon" />
-              <view class="select-item user-item">切换账号</view>
+          <view class="user-info-content">
+            <view class="user-info-name">{{ userInfo.nickName }}</view>
+            <view class="user-info-tags">
+              <view class="user-info-tag user-info-role">{{ userInfo.roleLevel === 1 ? '管理员' : '普通用户' }}</view>
+              <view class="user-info-tag user-info-gender" :class="{'male': userInfo.gender === 1, 'female': userInfo.gender === 2 ,'unknown': userInfo.gender === 0}">
+                {{ userInfo.gender === 1 ? '男' : userInfo.gender === 2 ? '女' : '未知' }}
+              </view>
             </view>
-          </picker>
+          </view>
+        </view>
+        <view class="set">
+          <view class="set-set" @click="onHandleGoPageUserSet">
+            <u-icon name="setting-fill" size="25" color="#4a90e2" />
+          </view>
         </view>
       </view>
-      <!--      <u-button-->
-      <!--        text="退出登录"-->
-      <!--        @click="logout"-->
-      <!--        class="login-button"-->
-      <!--        color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"-->
-      <!--      />-->
+
+      <!-- 功能区域 -->
+      <view class="content">
+        <!-- 数据统计模块 -->
+        <view class="menu-section">
+          <view class="section-title">数据统计</view>
+          <view class="menu-grid">
+            <view class="menu-item" v-for="item in dataStatistics" :key="item.name" @click="onHandleGoToPage(item)">
+              <image :src="item.icon" class="menu-item__icon" />
+              <text class="menu-item__text">{{ item.name }}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 社交功能模块 -->
+        <view class="menu-section">
+          <view class="section-title">社交功能</view>
+          <view class="menu-grid">
+            <view class="menu-item" v-for="item in socialize" :key="item.name" @click="onHandleGoToPage(item)">
+              <image :src="item.icon" class="menu-item__icon" />
+              <text class="menu-item__text">{{ item.name }}</text>
+            </view>
+          </view>
+        </view>
+
+
+        <!-- 相册模块 -->
+        <view class="menu-section">
+          <view class="section-title">相册管理</view>
+          <view class="menu-grid">
+            <view class="menu-item" v-for="item in photo" :key="item.name" @click="onHandleGoToPage(item)">
+              <image :src="item.icon" class="menu-item__icon" />
+              <text class="menu-item__text">{{ item.name }}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 其他工具模块 -->
+        <view class="menu-section">
+          <view class="section-title">其他功能</view>
+          <view class="menu-grid">
+            <view class="menu-item" v-for="item in tool" :key="item.name" @click="onHandleGoToPage(item)">
+              <image :src="item.icon" class="menu-item__icon" />
+              <text class="menu-item__text">{{ item.name }}</text>
+            </view>
+            <view class="menu-item" v-if="personArr.length > 0 && userInfo.roleLevel === 1">
+              <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
+                <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/切换账号.png"
+                  class="menu-item__icon" />
+                <text class="menu-item__text">切换账号</text>
+              </picker>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 年(月)度总结时间选择 -->
+      <u-picker :show="summarizeTimePickerShow" ref="uPicker" title="请选择总结时间" :columns="summarizeTimeColumns"
+        @confirm="onSummarizeTimePickerConfirm" @cancel="summarizeTimePickerShow = false" confirmColor="#4a90e2" />
     </view>
   </view>
 </template>
@@ -168,7 +112,8 @@ export default {
       userInfo: {
         avatar: avatarUrl,
         nickName: "",
-        roleLevel: 0
+        roleLevel: 0,
+        gender: 0  // 添加性别字段：0-未知，1-男，2-女
       },
       // 用户列表
       personArr: [],
@@ -183,7 +128,97 @@ export default {
       appInfo: {
         appid: '',
         secret: ''
-      }, 
+      },
+      // 数据统计
+      dataStatistics: [{
+        name: '拉屎分析',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/趋势.png',
+        pagePath: '/pages/thing-month-chart/thing-month-chart',
+        isGoPage: true
+      },
+      {
+        name: '拉屎记录',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/日历.png',
+        pagePath: '/pages/thing-history/thing-history',
+        isGoPage: true
+      },
+      {
+        name: '体重记录',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/weight.png',
+        pagePath: '/subPackages/weight-history/weight-history',
+        isGoPage: true
+      },
+      {
+        name: '体重分析',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/身高体重分布.png',
+        pagePath: '/subPackages/weight-chart/weight-chart',
+        isGoPage: true
+      },
+      {
+        name: '做题分析',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/数据分析.png',
+        pagePath: '/pages/problemMonthChart/problemMonthChart',
+        isGoPage: true
+      },
+      ],
+      // 社交
+      socialize: [
+        {
+          name: '位置共享',
+          icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/地图.png',
+          pagePath: '/pages/map/map',
+          isGoPage: true
+        },
+        {
+          name: '想说的话',
+          icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/想说的话.png',
+          pagePath: '/pages/want-say/want-say',
+          isGoPage: true
+        }
+      ],
+      // 相册
+      photo: [
+        {
+          name: '照片墙',
+          icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/照片墙.png',
+          pagePath: '/subPackages/photo-wall/photo-wall',
+          isGoPage: true
+        },
+        {
+          name: '图库',
+          icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/图库.png',
+          pagePath: '/subPackages/photo-album/photo-album',
+          isGoPage: true
+        }
+      ],
+      // 工具
+      tool: [{
+        name: '计时器',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/计时器.png',
+        pagePath: '/pages/timeCount/timeCount',
+        isGoPage: true
+      },
+      {
+        name: '通知管理',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/通知栏.png',
+        pagePath: '/pages/noticePage/noticePage',
+        isGoPage: true
+      },
+      {
+        name: '幸运转盘',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/转盘.png',
+        pagePath: '/pages/lucky/lucky',
+        isGoPage: true
+      },
+      {
+        name: '年月总结',
+        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/总结.png',
+        pagePath: '',
+        isGoPage: false,
+        isHandler: true,
+        onClick: () => this.summarizeTimePickerShow = true
+      }
+      ]
     };
   },
   created() {
@@ -207,6 +242,7 @@ export default {
       this.userInfo.avatar = state.avatarUrl;
       this.userInfo.nickName = state.nickName;
       this.userInfo.roleLevel = state.roleLevel;
+      this.userInfo.gender = state.gender
 
       this.getUserList();
     }
@@ -277,12 +313,11 @@ export default {
                         // 修改登录状态
                         this.isLogin = true;
                         // 获取用户信息
-                        // 获取登录用户信息
                         this.userInfo.nickName = this.$store.state.userInfo.userInfo.nickName;
                         this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
                         this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
                         this.userInfo.roleLevel = this.$store.state.userInfo.userInfo.roleLevel;
-
+                        this.userInfo.gender = this.$store.state.userInfo.userInfo.gender || 0; // 添加性别
                         // 获取用户列表
                         this.getUserList()
                       })
@@ -341,6 +376,7 @@ export default {
         url: `/pages/set/set`,
       });
     },
+
     /**
      * 获取用户列表
      */
@@ -368,6 +404,7 @@ export default {
       this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
       this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
       this.userInfo.roleLevel = this.$store.state.userInfo.userInfo.roleLevel;
+      this.userInfo.gender =  this.$store.state.userInfo.userInfo.gender || 0
     },
     /**
      * 退出登录
@@ -390,67 +427,19 @@ export default {
         },
       });
     },
-    // 前往最近30天粑粑统计页面
-    onHandleToChartsPage() {
-      uni.navigateTo({
-        url: "/pages/thing-month-chart/thing-month-chart",
-      });
-    },
-    //
-    onHandleToHistoryPage() {
-      uni.navigateTo({
-        url: "/pages/thing-history/thing-history",
-      });
-    },
-    onHandleToWeightHistoryPage() {
-      uni.navigateTo({
-        url: "/subPackages/weight-history/weight-history",
-      });
-    },
-    onHandleToWeightChartPage() {
-      uni.navigateTo({
-        url: "/subPackages/weight-chart/weight-chart",
-      });
-    },
-    onHandleToProblemChartPage() {
-      uni.navigateTo({
-        url: "/pages/problemMonthChart/problemMonthChart",
-      });
-    },
-    onHandleToTimeCountPage() {
-      uni.navigateTo({
-        url: "/pages/timeCount/timeCount",
-      });
-    },
-    onHandleToMapPage() {
-      uni.navigateTo({
-        url: "/pages/map/map",
-      });
-    },
-    onHandleToNoticePage() {
-      uni.navigateTo({
-        url: "/pages/noticePage/noticePage",
-      });
-    },
-    onHandleToWantSayPage() {
-      uni.navigateTo({
-        url: "/pages/want-say/want-say",
-      });
-    },
-    onHandleToLuckyPage() {
-      uni.navigateTo({
-        url: "/pages/lucky/lucky",
-      });
-    },
-    onHandleToPhotoPage() {
-      uni.navigateTo({
-        url: "/subPackages/photo-wall/photo-wall",
-      });
-    },
-    onHandleToPhotoAlbumPage() {
-      uni.navigateTo({
-        url: "/subPackages/photo-album/photo-album",
-      });
+    /**
+     * 前往指定页面
+     * @param pageSet 页面信息
+     */
+    onHandleGoToPage(pageSet) {
+      if (pageSet.isGoPage) {
+        uni.navigateTo({
+          url: pageSet.pagePath,
+        });
+      }
+      if (pageSet.isHandler) {
+        pageSet.onClick()
+      }
     },
     /**
      * 总结时间选择确认
@@ -487,97 +476,226 @@ export default {
 </script>
 
 <style lang="scss">
+.container {
+  min-height: 100vh;
+  background-color: #f8f8f8;
+}
+
 .wx-login {
   width: 100%;
-  position: relative;
-}
+  height: 100vh;
+  background: linear-gradient(to bottom, #4a90e2, #87ceeb);
 
-.unlogin-user-avatar {
-  width: 300rpx;
-  height: 300rpx;
-  border-radius: 50%;
-  position: absolute;
-  top: 30rpx;
-  left: calc(50% - 150rpx);
-}
+  .login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
 
-.login-button {
-  width: 70vw;
-  font-size: 20px;
-  position: absolute;
-  top: 850rpx;
-  left: 50%;
-  transform: translateX(-50%);
+  .unlogin-user-avatar {
+    width: 240rpx;
+    height: 240rpx;
+    border-radius: 50%;
+    border: 8rpx solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.1);
+    margin-bottom: 60rpx;
+  }
+
+  .login-button {
+    width: 600rpx;
+    height: 88rpx;
+    line-height: 88rpx;
+    border-radius: 44rpx;
+    font-size: 32rpx;
+    background: #ffffff;
+    color: #4a90e2;
+    box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.1);
+  }
 }
 
 .wx-logined {
-  padding: 30rpx 40rpx 0 40rpx;
+  padding: 30rpx;
 
   .header {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20rpx;
+    padding: 40rpx;
+    margin-bottom: 30rpx;
     display: flex;
-    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
-
-    .set {
-      display: flex;
-      align-items: center;
-
-      &-set {
-        margin-right: 30rpx;
-      }
-    }
+    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
 
     .user-info {
       display: flex;
       align-items: center;
-
+      
       &-avatar {
-        width: 150rpx;
-        height: 150rpx;
-        border-radius: 50%;
+        position: relative;
         margin-right: 30rpx;
-
+        
         &__img {
-          width: 100%;
-          height: 100%;
+          border: 4rpx solid #4a90e2;
+          border-radius: 50%;
+          transition: transform 0.3s ease;
+          
+          &:active {
+            transform: scale(0.95);
+          }
+        }
+        
+        &__border {
+          position: absolute;
+          top: -6rpx;
+          left: -6rpx;
+          right: -6rpx;
+          bottom: -6rpx;
+          border: 2rpx solid rgba(74, 144, 226, 0.3);
+          border-radius: 50%;
+          animation: pulse 2s infinite;
+        }
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8rpx;
+      }
+
+      &-name {
+        font-size: 36rpx;
+        font-weight: 600;
+        color: #333333;
+        line-height: 1.4;
+      }
+
+      &-role {
+        font-size: 24rpx;
+        color: #666666;
+        background: rgba(74, 144, 226, 0.1);
+        padding: 4rpx 16rpx;
+        border-radius: 20rpx;
+        display: inline-block;
+      }
+    }
+
+    .set {
+      &-set {
+        padding: 16rpx;
+        border-radius: 50%;
+        background: rgba(74, 144, 226, 0.1);
+        transition: all 0.3s ease;
+        
+        &:active {
+          transform: scale(0.9);
+          background: rgba(74, 144, 226, 0.2);
         }
       }
     }
   }
 
-  .charts {
-    margin-top: 30rpx;
-  }
+  .menu-section {
+    background: #ffffff;
+    border-radius: 20rpx;
+    padding: 30rpx;
+    margin-bottom: 30rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
 
-  .content {
-    margin-top: 30px;
-    /* padding-left: 20px; */
-  }
-
-  .item {
-    height: 100rpx;
-    line-height: 100rpx;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #dfdfdf;
-
-    .user-item {
-      width: 1000px;
-      overflow: hidden;
+    .section-title {
+      font-size: 32rpx;
+      font-weight: 700;
+      color: #333333;
+      margin-bottom: 36rpx;
+      padding-left: 20rpx;
+      border-left: 8rpx solid #d81e06;
     }
 
-    &-left {
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30rpx;
+    }
+
+    .menu-item {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      padding: 20rpx;
+      border-radius: 16rpx;
+      transition: all 0.3s ease;
+
+      &:active {
+        transform: scale(0.95);
+        background-color: #f5f5f5;
+      }
 
       &__icon {
-        width: 60rpx;
-        height: 60rpx;
-        margin-right: 20rpx;
+        width: 80rpx;
+        height: 80rpx;
+        margin-bottom: 16rpx;
       }
+
+      &__text {
+        font-size: 24rpx;
+        color: #666666;
+        text-align: center;
+      }
+    }
+  }
+
+  @keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+}
+.user-info {
+  &-tags {
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+    margin-top: 8rpx;
+  }
+
+  &-tag {
+    height: 36rpx;
+    line-height: 36rpx;
+    font-size: 24rpx;
+    padding: 4rpx 16rpx;
+    border-radius: 20rpx;
+    display: inline-block;
+  }
+
+  &-role {
+    color: #4a90e2;
+    background: rgba(74, 144, 226, 0.1);
+  }
+
+  &-gender {
+    &.male {
+      color: #4a90e2;
+      background: rgba(74, 144, 226, 0.1);
+    }
+    
+    &.female {
+      color: #e2574a;
+      background: rgba(226, 87, 74, 0.1);
+    }
+
+    &.unknown{
+      color: #333;
+      background: rgba(10, 1, 0, 0.1);
     }
   }
 }
