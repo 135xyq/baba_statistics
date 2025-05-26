@@ -166,6 +166,7 @@
     {
       "path": "pages/photo-album/photo-album",
       "style": {
+        "enablePullDownRefresh": true,
         "navigationBarTitleText": "照片墙"
       }
     }

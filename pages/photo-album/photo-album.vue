@@ -106,19 +106,32 @@ export default {
       // 分类数据
       categories: [],
       currentCategory: '-1',
+      // 编辑模式
       isEditMode: false,
+      // 预览
       previewIndex: -1,
+      // 是否展示预览弹窗
       showPreview: false,
+      // 新增分类名称
       newCategoryName: '',
+      // 是否展示分类弹窗
       showCategoryModal: false,
+      // 是否上传图片
       isUploadImg: false,
+      // 分页数据信息
       page: {
-        limit: 15,
+        limit: 20,
         page: 1,
         total: 0
       },
+      // 是否展示自定义弹窗
       showCustomModal: false,
-      modalContent: ''
+      // 自定义弹窗内容
+      modalContent: '',
+      // 是否正在下拉刷新
+      isPullDownRefresh: false,
+      // 是否触底
+      isReachBottom: false,
     }
   },
   computed: {
@@ -146,8 +159,23 @@ export default {
     // 初始化分类
     this.currentCategory = this.initialCategory;
 
-
     this.getPhotoType()
+    this.getPhotoList()
+  },
+  // 下拉刷新
+	onPullDownRefresh() {
+		this.isPullDownRefresh = true;
+    this.getPhotoType()
+    this.getFirstPhotoList()
+	},
+  // 触底加载数据
+  onReachBottom(){
+    
+    if(this.page.page * this.page.limit >= this.page.total) {
+      return
+    }
+    this.isReachBottom = true
+    this.page.page+=1
     this.getPhotoList()
   },
   methods: {
@@ -157,10 +185,15 @@ export default {
     getPhotoType() {
       photoTypeList({}).then((res) => {
         this.categories = [{ _id: '-1', name: '全部' }].concat(res.list).concat([{ _id: '1', name: '其他' }])
+      }).finally(()=>{
+        if(this.isPullDownRefresh) {
+          uni.stopPullDownRefresh()
+          this.isPullDownRefresh = false
+        }
       });
     },
     /**
-     * 获取照片类型列表
+     * 获取照片列表
      */
     getPhotoList() {
       photoList({
@@ -168,8 +201,21 @@ export default {
         page: this.page.page,
         limit: this.page.limit
       }).then((res) => {
-        this.photos = res.list
+        if(this.isReachBottom) {
+          this.photos = this.photos.concat(res.list)
+        }else{
+          this.photos = res.list
+        }
         this.page.total = res.total
+
+      }).finally(()=>{
+        if(this.isPullDownRefresh) {
+          uni.stopPullDownRefresh()
+          this.isPullDownRefresh = false
+        }
+        if(this.isReachBottom) {
+          this.isReachBottom = false
+        }
       });
     },
     /**
@@ -178,7 +224,7 @@ export default {
     getFirstPhotoList() {
       this.page = {
         page: 1,
-        limit: 15,
+        limit: 20,
         total: 0
       }
       this.getPhotoList()
@@ -249,8 +295,6 @@ export default {
               }
             }
           });
-
-
 
         },
         fail: (err) => {
