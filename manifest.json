@@ -63,6 +63,9 @@
             "scope.userLocation" : {
                 "desc" : "共享位置信息"
             }
+        },
+        "optimization" : {
+            "subPackages" : true // 开启分包优化
         }
     },
     "mp-alipay" : {

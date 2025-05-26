@@ -30,7 +30,7 @@
         <!-- 最近七天变化趋势 -->
         <view class="history item" @click="onHandleToChartsPage">
           <view class="item-left">
-            <image src="@/static/img/mine/趋势.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/趋势.png" class="item-left__icon" />
             <view class="select-item">拉粑粑最近30天变化趋势</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -38,7 +38,7 @@
         <!-- 拉粑粑历史记录 -->
         <view class="chat item" @click="onHandleToHistoryPage">
           <view class="item-left">
-            <image src="@/static/img/mine/日历.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/日历.png" class="item-left__icon" />
             <view class="select-item chat-item">拉粑粑历史记录</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -46,7 +46,7 @@
         <!-- 体重历史记录 -->
         <view class="chat item" @click="onHandleToWeightHistoryPage">
           <view class="item-left">
-            <image src="@/static/img/mine/weight.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/weight.png" class="item-left__icon" />
             <view class="select-item chat-item">体重历史记录</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -54,7 +54,7 @@
         <!-- 体重变化趋势 -->
         <view class="chat item" @click="onHandleToWeightChartPage">
           <view class="item-left">
-            <image src="@/static/img/mine/身高体重分布.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/身高体重分布.png" class="item-left__icon" />
             <view class="select-item chat-item">体重变化趋势</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -62,7 +62,7 @@
         <!-- 做题分析 -->
         <view class="chat item" @click="onHandleToProblemChartPage">
           <view class="item-left">
-            <image src="@/static/img/mine/数据分析.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/数据分析.png" class="item-left__icon" />
             <view class="select-item chat-item">做题分析（正确率统计）</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -70,7 +70,7 @@
         <!-- 计时器 -->
         <view class="chat item" @click="onHandleToTimeCountPage">
           <view class="item-left">
-            <image src="@/static/img/mine/计时器.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/计时器.png" class="item-left__icon" />
             <view class="select-item chat-item">计时器</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -78,7 +78,7 @@
         <!-- 位置共享 -->
         <view class="chat item" @click="onHandleToMapPage">
           <view class="item-left">
-            <image src="@/static/img/mine/地图.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/地图.png" class="item-left__icon" />
             <view class="select-item chat-item">位置共享</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -86,7 +86,7 @@
         <!-- 通知栏管理 -->
         <view class="chat item" @click="onHandleToNoticePage">
           <view class="item-left">
-            <image src="@/static/img/mine/通知栏.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/通知栏.png" class="item-left__icon" />
             <view class="select-item chat-item">通知栏管理</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -94,7 +94,7 @@
         <!-- 照片墙 -->
         <view class="chat item" @click="onHandleToPhotoPage">
           <view class="item-left">
-            <image src="@/static/img/mine/照片墙.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/照片墙.png" class="item-left__icon" />
             <view class="select-item chat-item">照片墙</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -102,7 +102,7 @@
         <!-- 想说的话 -->
         <view class="chat item" @click="onHandleToWantSayPage">
           <view class="item-left">
-            <image src="@/static/img/mine/想说的话.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/想说的话.png" class="item-left__icon" />
             <view class="select-item chat-item">想说的话</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -110,7 +110,7 @@
         <!-- 选择转盘 -->
         <view class="chat item" @click="onHandleToLuckyPage">
           <view class="item-left">
-            <image src="@/static/img/mine/转盘.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/转盘.png" class="item-left__icon" />
             <view class="select-item chat-item">幸运转盘</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -118,7 +118,7 @@
         <!-- 年(月)度总结 -->
         <view class="chat item" @click="summarizeTimePickerShow = true">
           <view class="item-left">
-            <image src="@/static/img/mine/总结.png" class="item-left__icon" />
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/总结.png" class="item-left__icon" />
             <view class="select-item chat-item">年(月)度总结</view>
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
@@ -130,7 +130,7 @@
         <view class="chat item" v-if="personArr.length > 0 && userInfo.roleLevel === 1">
           <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
             <view class="item-left">
-              <image src="@/static/img/mine/切换账号.png" class="item-left__icon" />
+              <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/切换账号.png" class="item-left__icon" />
               <view class="select-item user-item">切换账号</view>
             </view>
           </picker>
@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import avatarUrl from "../../static/img/default_avatar.jpg";
+import avatarUrl from "@/static/img/default_avatar.jpg";
 import { userGetInfo, userGetList, userLogin } from '@/api/user';
 export default {
   data() {
@@ -175,7 +175,7 @@ export default {
       appInfo: {
         appid: '',
         secret: ''
-      }
+      }, 
     };
   },
   created() {
@@ -396,12 +396,12 @@ export default {
     },
     onHandleToWeightHistoryPage() {
       uni.navigateTo({
-        url: "/pages/weight-history/weight-history",
+        url: "/subPackages/weight-history/weight-history",
       });
     },
     onHandleToWeightChartPage() {
       uni.navigateTo({
-        url: "/pages/weight-chart/weight-chart",
+        url: "/subPackages/weight-chart/weight-chart",
       });
     },
     onHandleToProblemChartPage() {
@@ -466,7 +466,7 @@ export default {
 
       // 前往总结页
       uni.navigateTo({
-        url: `/pages/summarize/summarize?type=${type}&date=${JSON.stringify(date)}`,
+        url: `/subPackages/summarize/summarize?type=${type}&date=${JSON.stringify(date)}`,
       });
     },
   },

@@ -1,6 +1,5 @@
 {
   "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
       "path": "pages/index/index",
       "style": {
@@ -147,13 +146,7 @@
         "enablePullDownRefresh": false
       }
     },
-    {
-      "path": "pages/summarize/summarize",
-      "style": {
-        "navigationBarTitleText": "总结报告",
-        "enablePullDownRefresh": false
-      }
-    },
+
     {
       "path": "pages/chat/chat",
       "style": {
@@ -168,28 +161,44 @@
         "enablePullDownRefresh": false
       }
     },
-    {
-      "path": "pages/weight-history/weight-history",
-      "style": {
-        "navigationBarTitleText": "体重历史记录",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/weight-chart/weight-chart",
-      "style": {
-        "navigationBarTitleText": "体重变化",
-        "enablePullDownRefresh": true,
-        "mp-weixin": {
-          "pageOrientation": "landscape"
-        }
-      }
-    },
+
+ 
     {
       "path": "pages/photo-album/photo-album",
       "style": {
         "navigationBarTitleText": "照片墙"
       }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "subPackages",
+      "pages": [
+        {
+          "path": "weight-history/weight-history",
+          "style": {
+            "navigationBarTitleText": "体重历史记录",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "weight-chart/weight-chart",
+          "style": {
+            "navigationBarTitleText": "体重变化",
+            "enablePullDownRefresh": true,
+            "mp-weixin": {
+              "pageOrientation": "landscape"
+            }
+          }
+        },
+        {
+          "path": "summarize/summarize",
+          "style": {
+            "navigationBarTitleText": "总结报告",
+            "enablePullDownRefresh": false
+          }
+        }
+      ]
     }
   ],
   "globalStyle": {
@@ -206,32 +215,32 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "static/img/home.png",
-        "selectedIconPath": "static/img/home-active.png",
+        "iconPath": "static/img/tab/home.png",
+        "selectedIconPath": "static/img/tab/home-active.png",
         "text": "粑粑记录"
       },
       {
         "pagePath": "pages/blind/blind",
-        "iconPath": "static/img/blind.png",
-        "selectedIconPath": "static/img/blind-active.png",
+        "iconPath": "static/img/tab/blind.png",
+        "selectedIconPath": "static/img/tab/blind-active.png",
         "text": "盲盒"
       },
       {
         "pagePath": "pages/problem/problem",
-        "iconPath": "static/img/problem.png",
-        "selectedIconPath": "static/img/problem-active.png",
+        "iconPath": "static/img/tab/problem.png",
+        "selectedIconPath": "static/img/tab/problem-active.png",
         "text": "做题记录"
       },
       {
         "pagePath": "pages/chat/chat",
-        "iconPath": "static/img/chat.png",
-        "selectedIconPath": "static/img/chat-active.png",
+        "iconPath": "static/img/tab/chat.png",
+        "selectedIconPath": "static/img/tab/chat-active.png",
         "text": "消息"
       },
       {
         "pagePath": "pages/login/login",
-        "iconPath": "static/img/my.png",
-        "selectedIconPath": "static/img/my-active.png",
+        "iconPath": "static/img/tab/my.png",
+        "selectedIconPath": "static/img/tab/my-active.png",
         "text": "个人中心"
       }
     ]
