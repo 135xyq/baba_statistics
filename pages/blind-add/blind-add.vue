@@ -376,9 +376,11 @@ export default {
     // 获取所有的id结果
     getFileId() {
       return new Promise(async (resolve) => {
+         // 获取文件后缀
+        const extension = this.blindDataForm.coverImg.substring(this.blindDataForm.coverImg.lastIndexOf('.'));
         const result = await uniCloud.uploadFile({
           filePath: this.blindDataForm.coverImg,
-          cloudPath: new Date().getTime() + "-" + Math.random(0, 1),
+          cloudPath: `${new Date().getTime()}-${Math.random().toString(36).slice(2)}${extension}`,
         });
         resolve(result.fileID);
       });

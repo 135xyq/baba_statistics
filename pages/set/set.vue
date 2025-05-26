@@ -149,9 +149,10 @@ export default {
      */
     getFileId() {
       return new Promise(async (resolve) => {
+        const extension = this.userInfo.avatar.substring(this.userInfo.avatar.lastIndexOf('.'));
         const result = await uniCloud.uploadFile({
           filePath: this.userInfo.avatar,
-          cloudPath: new Date().getTime() + "-" + Math.random(0, 1),
+          cloudPath: `${new Date().getTime()}-${Math.random().toString(36).slice(2)}${extension}`,
         });
         resolve(result.fileID);
       });

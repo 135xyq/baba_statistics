@@ -7,7 +7,7 @@
           v-for="(item, index) in column" 
           :key="item.id" 
           class="waterfall-item"
-          @click="previewImage(item.url)"
+          @click="onPreviewImage(column[index] && column[index].url)"
         >
           <image 
             :src="item.url" 
@@ -49,6 +49,8 @@ export default {
       },
       loading: false,
       hasMore: true,
+      // 所有你图片的URL
+      allImagesUrls:[],
       minImageHeight: 120, // 最小图片高度
       error: false, // 添加错误状态
       retrying: false // 添加重试状态
@@ -73,6 +75,7 @@ export default {
     resetData() {
       this.columns = [[], [], []]
       this.page.page = 1 // 修正页码重置
+      this.allImagesUrls = []
       this.hasMore = true
       this.error = false
       this.retrying = false
@@ -96,14 +99,16 @@ export default {
         
         // 更新是否还有更多数据
         this.hasMore = this.page.page * this.page.limit < total
+        this.allImagesUrls = [...this.allImagesUrls, ...list.map(item => item.url)]
         
         if (list && list.length > 0) {
           // 处理图片数据
-          list.forEach(item => {
+          list.forEach((item,index) => {
             const shortestColumn = this.getShortestColumn()
             const randomHeight = this.minImageHeight * (1 + Math.random())
             shortestColumn.push({
               ...item,
+              index,
               height: Math.floor(randomHeight),
               loaded: false
             })
@@ -189,18 +194,12 @@ export default {
       this.columns[columnIndex][index].height = this.minImageHeight
     },
     
-    // 获取所有图片URL用于预览
-    getAllImages() {
-      return this.columns.reduce((urls, column) => {
-        return urls.concat(column.map(item => item.url))
-      }, [])
-    },
     
     // 预览图片
-    previewImage(current) {
+    onPreviewImage(current) {
       uni.previewImage({
         current,
-        urls: this.getAllImages()
+        urls: this.allImagesUrls
       })
     },
     

@@ -99,6 +99,14 @@
           </view>
           <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
         </view>
+        <!-- 图库 -->
+        <view class="chat item" @click="onHandleToPhotoAlbumPage">
+          <view class="item-left">
+            <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/图库.png" class="item-left__icon" />
+            <view class="select-item chat-item">图库</view>
+          </view>
+          <uni-icons type="forward" color="#939188" size="20" class="load-to-page" />
+        </view>
         <!-- 想说的话 -->
         <view class="chat item" @click="onHandleToWantSayPage">
           <view class="item-left">
@@ -436,7 +444,12 @@ export default {
     },
     onHandleToPhotoPage() {
       uni.navigateTo({
-        url: "/pages/photo-album/photo-album",
+        url: "/subPackages/photo-wall/photo-wall",
+      });
+    },
+    onHandleToPhotoAlbumPage() {
+      uni.navigateTo({
+        url: "/subPackages/photo-album/photo-album",
       });
     },
     /**

@@ -1,13 +1,6 @@
 {
   "pages": [
     {
-      "path" : "pages/page-wall/page-wall",
-      "style" : 
-      {
-        "enablePullDownRefresh":true,
-        "navigationBarTitleText" : "照片墙"
-      }
-    },{
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
@@ -153,7 +146,6 @@
         "enablePullDownRefresh": false
       }
     },
-
     {
       "path": "pages/chat/chat",
       "style": {
@@ -166,15 +158,6 @@
       "style": {
         "navigationBarTitleText": "聊天",
         "enablePullDownRefresh": false
-      }
-    },
-
- 
-    {
-      "path": "pages/photo-album/photo-album",
-      "style": {
-        "enablePullDownRefresh": true,
-        "navigationBarTitleText": "照片墙"
       }
     }
   ],
@@ -204,6 +187,20 @@
           "style": {
             "navigationBarTitleText": "总结报告",
             "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "photo-wall/photo-wall",
+          "style": {
+            "enablePullDownRefresh": true,
+            "navigationBarTitleText": "照片墙"
+          }
+        },
+        {
+          "path": "photo-album/photo-album",
+          "style": {
+            "enablePullDownRefresh": true,
+            "navigationBarTitleText": "照片墙"
           }
         }
       ]

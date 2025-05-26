@@ -7,8 +7,9 @@
           :class="{ active: currentCategory === category._id }" @tap="selectCategory(category._id)">
           {{ category.name }}
           <!-- 确保编辑和删除按钮在编辑模式下显示 -->
-          <view v-if="isEditMode &&  category._id !== '-1' && category._id !== '1'" class="edit-category" @tap.stop="editCategory(category)">✎</view>
-          <view v-if="isEditMode && category._id !== '-1' &&  category._id !== '1'" class="delete-category"
+          <view v-if="isEditMode && category._id !== '-1' && category._id !== '1'" class="edit-category"
+            @tap.stop="editCategory(category)">✎</view>
+          <view v-if="isEditMode && category._id !== '-1' && category._id !== '1'" class="delete-category"
             @tap.stop="deleteCategory(category)">
             ×</view>
         </view>
@@ -64,12 +65,7 @@
     </block>
 
     <!-- 显示照片信息 -->
-    <modal
-      :visible="showCustomModal"
-      title="照片信息"
-      :content="modalContent"
-      @close="showCustomModal = false"
-    />
+    <modal :visible="showCustomModal" title="照片信息" :content="modalContent" @close="showCustomModal = false" />
   </view>
 </template>
 
@@ -163,19 +159,19 @@ export default {
     this.getPhotoList()
   },
   // 下拉刷新
-	onPullDownRefresh() {
-		this.isPullDownRefresh = true;
+  onPullDownRefresh() {
+    this.isPullDownRefresh = true;
     this.getPhotoType()
     this.getFirstPhotoList()
-	},
+  },
   // 触底加载数据
-  onReachBottom(){
-    
-    if(this.page.page * this.page.limit >= this.page.total) {
+  onReachBottom() {
+
+    if (this.page.page * this.page.limit >= this.page.total) {
       return
     }
     this.isReachBottom = true
-    this.page.page+=1
+    this.page.page += 1
     this.getPhotoList()
   },
   methods: {
@@ -185,8 +181,8 @@ export default {
     getPhotoType() {
       photoTypeList({}).then((res) => {
         this.categories = [{ _id: '-1', name: '全部' }].concat(res.list).concat([{ _id: '1', name: '其他' }])
-      }).finally(()=>{
-        if(this.isPullDownRefresh) {
+      }).finally(() => {
+        if (this.isPullDownRefresh) {
           uni.stopPullDownRefresh()
           this.isPullDownRefresh = false
         }
@@ -201,19 +197,19 @@ export default {
         page: this.page.page,
         limit: this.page.limit
       }).then((res) => {
-        if(this.isReachBottom) {
+        if (this.isReachBottom) {
           this.photos = this.photos.concat(res.list)
-        }else{
+        } else {
           this.photos = res.list
         }
         this.page.total = res.total
 
-      }).finally(()=>{
-        if(this.isPullDownRefresh) {
+      }).finally(() => {
+        if (this.isPullDownRefresh) {
           uni.stopPullDownRefresh()
           this.isPullDownRefresh = false
         }
-        if(this.isReachBottom) {
+        if (this.isReachBottom) {
           this.isReachBottom = false
         }
       });
@@ -242,9 +238,11 @@ export default {
     },
     getFileId(tempFilePath) {
       return new Promise(async (resolve) => {
+        // 获取文件后缀
+        const extension = tempFilePath.substring(tempFilePath.lastIndexOf('.'));
         const result = await uniCloud.uploadFile({
           filePath: tempFilePath,
-          cloudPath: `photo/${new Date().getTime() + "-" + Math.random(0, 1)}`,
+          cloudPath: `photo/${new Date().getTime()}-${Math.random().toString(36).slice(2)}${extension}`,
           cloudPathAsRealPath: true
         });
         console.log('rewqrq', result);
@@ -256,46 +254,64 @@ export default {
     // 处理上传
     handleUpload() {
       uni.chooseImage({
-        count: 1, // 最多可选择的图片数量
-
+        count: 9, // 最多可选择9张图片
         success: (res) => {
-          const tempFilePath = res.tempFilePaths[0];
+          console.log(res, 'tempFilePaths');
+
+          const tempFilePaths = res.tempFilePaths;
           this.isUploadImg = true;
 
-          // 处理选择的图片
-
+          // 批量处理选择的图片
           uni.showModal({
             title: '添加照片信息',
             editable: true,
             placeholderText: '请输入描述信息',
             success: async (descRes) => {
-              if (descRes.confirm && descRes.content.trim()) {
+              if (descRes.confirm) {
                 const description = descRes.content.trim();
-                let path = ''
+                const uploadTasks = [];
 
-                if (this.isUploadImg) {
-                  path = await this.getFileId(tempFilePath);
+                // 显示上传进度
+                uni.showLoading({
+                  title: '正在上传...',
+                  mask: true
+                });
 
+                try {
+                  // 并行处理所有图片上传
+                  for (const tempFilePath of tempFilePaths) {
+                    const path = await this.getFileId(tempFilePath);
+                    const newPhoto = {
+                      url: path,
+                      type: this.currentCategory === '-1' ? '1' : this.currentCategory,
+                      description,
+                      createTime: formateDate(new Date().getTime()),
+                    };
+                    uploadTasks.push(photoAdd(newPhoto));
+                  }
 
-                  this.isUploadImg = false
-                }
-                const newPhoto = {
-                  url: path,
-                  type: this.currentCategory === '-1' ? '1' : this.currentCategory,
-                  description,
-                  createTime: formateDate(new Date().getTime()),
-                };
-                photoAdd(newPhoto).then((res) => {
+                  // 等待所有上传任务完成
+                  await Promise.all(uploadTasks);
+
+                  uni.hideLoading();
                   uni.showToast({
                     title: '上传成功',
                     icon: 'success'
                   });
-                  this.getFirstPhotoList()
-                })
+                  this.getFirstPhotoList();
+                } catch (error) {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: '上传失败',
+                    icon: 'error'
+                  });
+                  console.error('批量上传失败：', error);
+                }
+
+                this.isUploadImg = false;
               }
             }
           });
-
         },
         fail: (err) => {
           console.error('选择图片失败', err);
@@ -721,6 +737,7 @@ export default {
   font-size: 28rpx;
   color: #999999;
 }
+
 .photo-divider {
   width: 100%;
   height: 1px;
