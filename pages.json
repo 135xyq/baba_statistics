@@ -1,6 +1,13 @@
 {
   "pages": [
     {
+      "path" : "pages/page-wall/page-wall",
+      "style" : 
+      {
+        "enablePullDownRefresh":true,
+        "navigationBarTitleText" : "照片墙"
+      }
+    },{
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
