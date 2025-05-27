@@ -22,15 +22,16 @@
           <view class="user-info-content">
             <view class="user-info-name">{{ userInfo.nickName }}</view>
             <view class="user-info-tags">
-              <view class="user-info-tag user-info-role">{{ userInfo.roleLevel === 1 ? '管理员' : '普通用户' }}</view>
-              <view class="user-info-tag user-info-gender" :class="{'male': userInfo.gender === 1, 'female': userInfo.gender === 2 ,'unknown': userInfo.gender === 0}">
+              <view class="user-info-tag user-info-role">{{ userInfo.roleName }}</view>
+              <view class="user-info-tag user-info-gender"
+                :class="{ 'male': userInfo.gender === 1, 'female': userInfo.gender === 2, 'unknown': userInfo.gender === 0 }">
                 {{ userInfo.gender === 1 ? '男' : userInfo.gender === 2 ? '女' : '未知' }}
               </view>
             </view>
           </view>
         </view>
         <view class="set">
-          <view class="set-set" @click="onHandleGoPageUserSet">
+          <view class="set-set" @click="onHandleGoPage('/pages/set/set')">
             <u-icon name="setting-fill" size="25" color="#4a90e2" />
           </view>
         </view>
@@ -39,10 +40,10 @@
       <!-- 功能区域 -->
       <view class="content">
         <!-- 数据统计模块 -->
-        <view class="menu-section">
+        <view class="menu-section" v-if="showDataStatistics.length > 0">
           <view class="section-title">数据统计</view>
           <view class="menu-grid">
-            <view class="menu-item" v-for="item in dataStatistics" :key="item.name" @click="onHandleGoToPage(item)">
+            <view class="menu-item" v-for="item in showDataStatistics" :key="item.name" @click="onHandleGoToPage(item)">
               <image :src="item.icon" class="menu-item__icon" />
               <text class="menu-item__text">{{ item.name }}</text>
             </view>
@@ -50,10 +51,10 @@
         </view>
 
         <!-- 社交功能模块 -->
-        <view class="menu-section">
+        <view class="menu-section" v-if="showSocialize.length > 0">
           <view class="section-title">社交功能</view>
           <view class="menu-grid">
-            <view class="menu-item" v-for="item in socialize" :key="item.name" @click="onHandleGoToPage(item)">
+            <view class="menu-item" v-for="item in showSocialize" :key="item.name" @click="onHandleGoToPage(item)">
               <image :src="item.icon" class="menu-item__icon" />
               <text class="menu-item__text">{{ item.name }}</text>
             </view>
@@ -62,10 +63,10 @@
 
 
         <!-- 相册模块 -->
-        <view class="menu-section">
+        <view class="menu-section" v-if="showPhoto.length > 0">
           <view class="section-title">相册管理</view>
           <view class="menu-grid">
-            <view class="menu-item" v-for="item in photo" :key="item.name" @click="onHandleGoToPage(item)">
+            <view class="menu-item" v-for="item in showPhoto" :key="item.name" @click="onHandleGoToPage(item)">
               <image :src="item.icon" class="menu-item__icon" />
               <text class="menu-item__text">{{ item.name }}</text>
             </view>
@@ -73,14 +74,20 @@
         </view>
 
         <!-- 其他工具模块 -->
-        <view class="menu-section">
+        <view class="menu-section" v-if="(showTool.length > 0) || userInfo.roleLevel === 0">
           <view class="section-title">其他功能</view>
           <view class="menu-grid">
-            <view class="menu-item" v-for="item in tool" :key="item.name" @click="onHandleGoToPage(item)">
+            <view class="menu-item" v-for="item in showTool" :key="item.name" @click="onHandleGoToPage(item)">
               <image :src="item.icon" class="menu-item__icon" />
               <text class="menu-item__text">{{ item.name }}</text>
             </view>
-            <view class="menu-item" v-if="personArr.length > 0 && userInfo.roleLevel === 1">
+            <view class="menu-item" v-if="userInfo.roleLevel === 0"
+              @click="onHandleGoPage('/subPackages/user-role-set/user-role-set')">
+              <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/权限管理.png"
+                class="menu-item__icon" />
+              <text class="menu-item__text">权限管理</text>
+            </view>
+            <view class="menu-item" v-if="personArr.length > 0 && userInfo.roleLevel === 0">
               <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
                 <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/切换账号.png"
                   class="menu-item__icon" />
@@ -112,7 +119,10 @@ export default {
       userInfo: {
         avatar: avatarUrl,
         nickName: "",
-        roleLevel: 0,
+        roleLevel: 1,
+        roleId: '',
+        roleName: '',
+        functionList: [],
         gender: 0  // 添加性别字段：0-未知，1-男，2-女
       },
       // 用户列表
@@ -134,30 +144,35 @@ export default {
         name: '拉屎分析',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/趋势.png',
         pagePath: '/pages/thing-month-chart/thing-month-chart',
+        key: 'thing-month-chart',
         isGoPage: true
       },
       {
         name: '拉屎记录',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/日历.png',
         pagePath: '/pages/thing-history/thing-history',
+        key: 'thing-history',
         isGoPage: true
       },
       {
         name: '体重记录',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/weight.png',
         pagePath: '/subPackages/weight-history/weight-history',
+        key: 'weight-history',
         isGoPage: true
       },
       {
         name: '体重分析',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/身高体重分布.png',
         pagePath: '/subPackages/weight-chart/weight-chart',
+        key: 'weight-chart',
         isGoPage: true
       },
       {
         name: '做题分析',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/数据分析.png',
         pagePath: '/pages/problemMonthChart/problemMonthChart',
+        key: 'problemMonthChart',
         isGoPage: true
       },
       ],
@@ -167,12 +182,14 @@ export default {
           name: '位置共享',
           icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/地图.png',
           pagePath: '/pages/map/map',
+          key: 'map',
           isGoPage: true
         },
         {
           name: '想说的话',
           icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/想说的话.png',
           pagePath: '/pages/want-say/want-say',
+          key: 'want-say',
           isGoPage: true
         }
       ],
@@ -182,12 +199,14 @@ export default {
           name: '照片墙',
           icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/照片墙.png',
           pagePath: '/subPackages/photo-wall/photo-wall',
+          key: 'photo-wall',
           isGoPage: true
         },
         {
           name: '图库',
           icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/图库.png',
           pagePath: '/subPackages/photo-album/photo-album',
+          key: 'photo-album',
           isGoPage: true
         }
       ],
@@ -196,30 +215,52 @@ export default {
         name: '计时器',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/计时器.png',
         pagePath: '/pages/timeCount/timeCount',
+        key: 'timeCount',
         isGoPage: true
       },
       {
         name: '通知管理',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/通知栏.png',
         pagePath: '/pages/noticePage/noticePage',
+        key: 'noticePage',
         isGoPage: true
       },
       {
         name: '幸运转盘',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/转盘.png',
         pagePath: '/pages/lucky/lucky',
+        key: 'lucky',
         isGoPage: true
       },
       {
         name: '年月总结',
         icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/总结.png',
         pagePath: '',
+        key: 'summarize',
         isGoPage: false,
         isHandler: true,
         onClick: () => this.summarizeTimePickerShow = true
       }
       ]
     };
+  },
+  computed: {
+    // 要展示的数据统计
+    showDataStatistics() {
+      return this.dataStatistics.filter(item => this.userInfo?.functionList?.includes(item.key))
+    },
+    // 要展示的社交
+    showSocialize() {
+      return this.socialize.filter(item => this.userInfo?.functionList?.includes(item.key))
+    },
+    // 要展示的相册
+    showPhoto() {
+      return this.photo.filter(item => this.userInfo?.functionList?.includes(item.key))
+    },
+    // 要展示的工具
+    showTool() {
+      return this.tool.filter(item => this.userInfo?.functionList?.includes(item.key))
+    }
   },
   created() {
     // 初始化总结时间选择的选择时间
@@ -242,6 +283,8 @@ export default {
       this.userInfo.avatar = state.avatarUrl;
       this.userInfo.nickName = state.nickName;
       this.userInfo.roleLevel = state.roleLevel;
+      this.userInfo.roleName = state.roleName;
+      this.userInfo.functionList = state.functionList;
       this.userInfo.gender = state.gender
 
       this.getUserList();
@@ -300,7 +343,7 @@ export default {
                     userLogin({
                       ...res.userInfo,
                       openid: this.openId,
-                      roleLevel: 0,
+                      roleId: '683519c1eef9cbdc977b35b7',
                     }).then(() => {
                       uni.showToast({
                         title: "登录成功",
@@ -317,6 +360,8 @@ export default {
                         this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
                         this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
                         this.userInfo.roleLevel = this.$store.state.userInfo.userInfo.roleLevel;
+                        this.userInfo.roleName = this.$store.state.userInfo.userInfo.roleName;
+                        this.userInfo.functionList = this.$store.state.userInfo.userInfo.functionList;
                         this.userInfo.gender = this.$store.state.userInfo.userInfo.gender || 0; // 添加性别
                         // 获取用户列表
                         this.getUserList()
@@ -369,11 +414,12 @@ export default {
       }
     },
     /**
-     * 前往用户设置界面
+     * 前往指定页面
+     * @param path 
      */
-    onHandleGoPageUserSet() {
+    onHandleGoPage(path) {
       uni.navigateTo({
-        url: `/pages/set/set`,
+        url: path,
       });
     },
 
@@ -381,7 +427,7 @@ export default {
      * 获取用户列表
      */
     getUserList() {
-      if (this.userInfo.roleLevel === 1) {
+      if (this.userInfo.roleLevel === 0) {
         userGetList({
           type: "list",
         }).then(res => {
@@ -404,7 +450,11 @@ export default {
       this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
       this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
       this.userInfo.roleLevel = this.$store.state.userInfo.userInfo.roleLevel;
-      this.userInfo.gender =  this.$store.state.userInfo.userInfo.gender || 0
+      this.userInfo.gender = this.$store.state.userInfo.userInfo.gender || 0
+      this.userInfo.roleName = this.$store.state.userInfo.userInfo.roleName;
+      this.userInfo.functionList = this.$store.state.userInfo.userInfo.functionList;
+
+      this.getUserList()
     },
     /**
      * 退出登录
@@ -531,21 +581,21 @@ export default {
     .user-info {
       display: flex;
       align-items: center;
-      
+
       &-avatar {
         position: relative;
         margin-right: 30rpx;
-        
+
         &__img {
           border: 4rpx solid #4a90e2;
           border-radius: 50%;
           transition: transform 0.3s ease;
-          
+
           &:active {
             transform: scale(0.95);
           }
         }
-        
+
         &__border {
           position: absolute;
           top: -6rpx;
@@ -587,7 +637,7 @@ export default {
         border-radius: 50%;
         background: rgba(74, 144, 226, 0.1);
         transition: all 0.3s ease;
-        
+
         &:active {
           transform: scale(0.9);
           background: rgba(74, 144, 226, 0.2);
@@ -646,20 +696,23 @@ export default {
   }
 
   @keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    50% {
+      transform: scale(1.1);
+      opacity: 0.5;
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 }
-}
+
 .user-info {
   &-tags {
     display: flex;
@@ -687,13 +740,13 @@ export default {
       color: #4a90e2;
       background: rgba(74, 144, 226, 0.1);
     }
-    
+
     &.female {
       color: #e2574a;
       background: rgba(226, 87, 74, 0.1);
     }
 
-    &.unknown{
+    &.unknown {
       color: #333;
       background: rgba(10, 1, 0, 0.1);
     }

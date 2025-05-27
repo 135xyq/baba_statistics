@@ -50,3 +50,27 @@ export function userSetInfo(data){
     data
   })
 }
+
+/**
+ * 获取角色列表
+ * @param data
+ * @returns {*}
+ */
+export function getUserRoleList(data){
+  return request({
+    name:'user_role_list',
+    data
+  })
+}
+
+/**
+ * 更新角色信息
+ * @param data
+ * @returns {*}
+ */
+export function updateUserRole(data){
+  return request({
+    name:'user_role_update',
+    data
+  })
+}

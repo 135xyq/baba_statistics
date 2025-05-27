@@ -202,6 +202,13 @@
             "enablePullDownRefresh": true,
             "navigationBarTitleText": "照片墙"
           }
+        },
+        {
+          "path" : "user-role-set/user-role-set",
+          "style" : 
+          {
+            "navigationBarTitleText" : "功能模块配置"
+          }
         }
       ]
     }
