@@ -31,7 +31,7 @@
           </view>
         </view>
         <view class="set">
-          <view class="set-set" @click="onHandleGoPage('/pages/set/set')">
+          <view class="set-set" @click="onHandleGoPage('/subPackages/set/set')">
             <u-icon name="setting-fill" size="25" color="#4a90e2" />
           </view>
         </view>
@@ -192,7 +192,7 @@ export default {
           name: '位置共享',
           icon: require('@/static/img/mine/地图.png'),
           // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/地图.png',
-          pagePath: '/pages/map/map',
+          pagePath: '/subPackages/map/map',
           key: 'map',
           isGoPage: true
         },
@@ -245,7 +245,7 @@ export default {
         name: '幸运转盘',
         icon: require('@/static/img/mine/转盘.png'),
         // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/转盘.png',
-        pagePath: '/pages/lucky/lucky',
+        pagePath: '/subPackages/lucky/lucky',
         key: 'lucky',
         isGoPage: true
       },

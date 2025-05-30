@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import LuckyWheel from "@/components/@lucky-canvas/uni/lucky-wheel";
+import LuckyWheel from "@/subPackages/components/@lucky-canvas/uni/lucky-wheel";
 import {luckyList} from '@/api/lucky';
 export default {
   components: {
@@ -172,7 +172,7 @@ export default {
      */
     onHandleGoPageSet() {
       uni.navigateTo({
-        url: "/pages/lucky-set/lucky-set",
+        url: "/subPackages/lucky-set/lucky-set",
       });
     },
   },

@@ -8,37 +8,9 @@
       }
     },
     {
-      "path": "pages/lucky/lucky",
-      "style": {
-        "navigationBarTitleText": "选择转盘",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/ranking/ranking",
-      "style": {
-        "navigationBarTitleText": "排行榜",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/set/set",
-      "style": {
-        "navigationBarTitleText": "设置",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
       "path": "pages/thing-list-detail/thing-list-detail",
       "style": {
         "navigationBarTitleText": "拉屎记录",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/lucky-set/lucky-set",
-      "style": {
-        "navigationBarTitleText": "转盘设置",
         "enablePullDownRefresh": false
       }
     },
@@ -98,28 +70,7 @@
       }
     },
     {
-      "path": "pages/map/map",
-      "style": {
-        "navigationBarTitleText": "位置共享",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
       "path": "pages/blind/blind",
-      "style": {
-        "navigationBarTitleText": "盲盒",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/blind-type/blind-type",
-      "style": {
-        "navigationBarTitleText": "盲盒类型",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/blind-add/blind-add",
       "style": {
         "navigationBarTitleText": "盲盒",
         "enablePullDownRefresh": false
@@ -204,10 +155,58 @@
           }
         },
         {
-          "path" : "user-role-set/user-role-set",
-          "style" : 
-          {
-            "navigationBarTitleText" : "功能模块配置"
+          "path": "user-role-set/user-role-set",
+          "style": {
+            "navigationBarTitleText": "功能模块配置"
+          }
+        },
+        {
+          "path": "lucky/lucky",
+          "style": {
+            "navigationBarTitleText": "选择转盘",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "lucky-set/lucky-set",
+          "style": {
+            "navigationBarTitleText": "转盘设置",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "map/map",
+          "style": {
+            "navigationBarTitleText": "位置共享",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "blind-type/blind-type",
+          "style": {
+            "navigationBarTitleText": "盲盒类型",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "blind-add/blind-add",
+          "style": {
+            "navigationBarTitleText": "盲盒",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "ranking/ranking",
+          "style": {
+            "navigationBarTitleText": "排行榜",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "set/set",
+          "style": {
+            "navigationBarTitleText": "设置",
+            "enablePullDownRefresh": false
           }
         }
       ]

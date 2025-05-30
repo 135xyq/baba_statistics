@@ -214,11 +214,11 @@ export default {
 
       if (index === 0) {
         uni.navigateTo({
-          url: "/pages/blind-type/blind-type",
+          url: "/subPackages/blind-type/blind-type",
         });
       } else {
         uni.navigateTo({
-          url: "/pages/blind-add/blind-add",
+          url: "/subPackages/blind-add/blind-add",
         });
       }
     },

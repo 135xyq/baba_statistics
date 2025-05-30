@@ -239,7 +239,7 @@
        */
       onGetRankingPage() {
         uni.navigateTo({
-          url: "/pages/ranking/ranking",
+          url: "/subPackages/ranking/ranking",
         });
       },
       /**
