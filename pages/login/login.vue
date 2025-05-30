@@ -74,7 +74,7 @@
         </view>
 
         <!-- 其他工具模块 -->
-        <view class="menu-section" v-if="(showTool.length > 0) || userInfo.roleLevel === 0">
+        <view class="menu-section">
           <view class="section-title">其他功能</view>
           <view class="menu-grid">
             <view class="menu-item" v-for="item in showTool" :key="item.name" @click="onHandleGoToPage(item)">
@@ -83,16 +83,18 @@
             </view>
             <view class="menu-item" v-if="userInfo.roleLevel === 0"
               @click="onHandleGoPage('/subPackages/user-role-set/user-role-set')">
-              <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/权限管理.png"
-                class="menu-item__icon" />
+              <image src="@/static/img/mine/权限管理.png" class="menu-item__icon" />
               <text class="menu-item__text">权限管理</text>
             </view>
             <view class="menu-item" v-if="personArr.length > 0 && userInfo.roleLevel === 0">
               <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
-                <image src="https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/切换账号.png"
-                  class="menu-item__icon" />
-                <text class="menu-item__text">切换账号</text>
+                <image src="@/static/img/mine/切换账号.png" class="menu-item__icon" />
               </picker>
+              <text class="menu-item__text">切换账号</text>
+            </view>
+            <view class="menu-item" @click="logout">
+              <image src="@/static/img/mine/退出登录.png" class="menu-item__icon" />
+              <text class="menu-item__text">退出登录</text>
             </view>
           </view>
         </view>
@@ -142,35 +144,40 @@ export default {
       // 数据统计
       dataStatistics: [{
         name: '拉屎分析',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/趋势.png',
+        icon: require('@/static/img/mine/趋势.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/趋势.png',
         pagePath: '/pages/thing-month-chart/thing-month-chart',
         key: 'thing-month-chart',
         isGoPage: true
       },
       {
         name: '拉屎记录',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/日历.png',
+        icon: require('@/static/img/mine/日历.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/日历.png',
         pagePath: '/pages/thing-history/thing-history',
         key: 'thing-history',
         isGoPage: true
       },
       {
         name: '体重记录',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/weight.png',
+        icon: require('@/static/img/mine/weight.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/weight.png',
         pagePath: '/subPackages/weight-history/weight-history',
         key: 'weight-history',
         isGoPage: true
       },
       {
         name: '体重分析',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/身高体重分布.png',
+        icon: require('@/static/img/mine/身高体重分布.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/身高体重分布.png',
         pagePath: '/subPackages/weight-chart/weight-chart',
         key: 'weight-chart',
         isGoPage: true
       },
       {
         name: '做题分析',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/数据分析.png',
+        icon: require('@/static/img/mine/数据分析.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/数据分析.png',
         pagePath: '/pages/problemMonthChart/problemMonthChart',
         key: 'problemMonthChart',
         isGoPage: true
@@ -180,14 +187,16 @@ export default {
       socialize: [
         {
           name: '位置共享',
-          icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/地图.png',
+          icon: require('@/static/img/mine/地图.png'),
+          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/地图.png',
           pagePath: '/pages/map/map',
           key: 'map',
           isGoPage: true
         },
         {
           name: '想说的话',
-          icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/想说的话.png',
+          icon: require('@/static/img/mine/想说的话.png'),
+          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/想说的话.png',
           pagePath: '/pages/want-say/want-say',
           key: 'want-say',
           isGoPage: true
@@ -197,14 +206,16 @@ export default {
       photo: [
         {
           name: '照片墙',
-          icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/照片墙.png',
+          icon: require('@/static/img/mine/照片墙.png'),
+          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/照片墙.png',
           pagePath: '/subPackages/photo-wall/photo-wall',
           key: 'photo-wall',
           isGoPage: true
         },
         {
           name: '图库',
-          icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/图库.png',
+          icon: require('@/static/img/mine/图库.png'),
+          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/图库.png',
           pagePath: '/subPackages/photo-album/photo-album',
           key: 'photo-album',
           isGoPage: true
@@ -213,28 +224,32 @@ export default {
       // 工具
       tool: [{
         name: '计时器',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/计时器.png',
+        icon: require('@/static/img/mine/计时器.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/计时器.png',
         pagePath: '/pages/timeCount/timeCount',
         key: 'timeCount',
         isGoPage: true
       },
       {
         name: '通知管理',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/通知栏.png',
+        icon: require('@/static/img/mine/通知栏.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/通知栏.png',
         pagePath: '/pages/noticePage/noticePage',
         key: 'noticePage',
         isGoPage: true
       },
       {
         name: '幸运转盘',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/转盘.png',
+        icon: require('@/static/img/mine/转盘.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/转盘.png',
         pagePath: '/pages/lucky/lucky',
         key: 'lucky',
         isGoPage: true
       },
       {
         name: '年月总结',
-        icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/总结.png',
+        icon: require('@/static/img/mine/总结.png'),
+        // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/总结.png',
         pagePath: '',
         key: 'summarize',
         isGoPage: false,
@@ -470,7 +485,11 @@ export default {
             this.userInfo = {
               avatar: avatarUrl,
               nickName: "",
-              roleLevel: 0
+              roleLevel: 1,
+              roleId: '',
+              roleName: '',
+              functionList: [],
+              gender: 0  // 添加性别字段：0-未知，1-男，2-女
             }; //用户信息
           } else if (res.cancel) {
           }
@@ -666,6 +685,17 @@ export default {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 30rpx;
+    }
+
+    picker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+
+      .menu-item__icon {
+        margin-bottom: 10rpx !important;
+      }
     }
 
     .menu-item {
