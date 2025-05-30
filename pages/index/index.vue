@@ -45,6 +45,8 @@
     </view>
     <!-- 想说的话 -->
     <want-say />
+    <!-- 自定义导航 -->
+    <custom-tab />
   </view>
 </template>
 
@@ -327,5 +329,9 @@
   
   .weight-form {
     padding: 60rpx 40rpx 40rpx 40rpx;
+  }
+
+  .uni-fab__circle{
+    bottom: 200rpx !important;
   }
 </style>

@@ -187,4 +187,8 @@ export default {
 .loading {
   margin-top: 400rpx;
 }
+
+::v-deep .uni-fab__circle{
+  bottom: 200rpx !important;
+}
 </style>

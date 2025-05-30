@@ -14,6 +14,8 @@
         class="chat-item"
       />
     </uni-list>
+    <!-- 自定义导航 -->
+    <custom-tab />
   </view>
 </template>
 

@@ -1,56 +1,25 @@
 <template>
   <view>
-    <uni-calendar
-      :date="date"
-      @monthSwitch="monthSwitch"
-      class="uni-calendar--hook"
-      :selected="selected"
-      @change="onChange"
-    />
+    <uni-calendar :date="date" @monthSwitch="monthSwitch" class="uni-calendar--hook" :selected="selected"
+      @change="onChange" />
     <view>
-      <uni-fab
-        :pattern="pattern"
-        horizontal="right"
-        vertical="bottom"
-        :pop-menu="false"
-        @fabClick="onAddRecord"
-      />
+      <uni-fab :pattern="pattern" horizontal="right" vertical="bottom" :pop-menu="false" @fabClick="onAddRecord" />
     </view>
-    <view
-      v-if="dataList.length > 0"
-      class="use-time"
-    >
+    <view v-if="dataList.length > 0" class="use-time">
       <text style="color: #d81e06;margin-right: 5px">{{ date }} </text>
       <text>做题时长：</text>
       <text class="use-time-text">{{ formateDateHMS(useTimeAll) }}</text>
     </view>
-    <view
-      class="use-time"
-      style="text-align: center;"
-      v-else
-    >
+    <view class="use-time" style="text-align: center;" v-else>
       <text style="color: #d81e06;margin-right: 5px">{{ date }} </text>
       <text>还没做题</text>
     </view>
-    <view
-      v-if="isLoading"
-      class="loading"
-    >
-      <u-loading-icon
-        color="#d81e06"
-        textColor="#d81e06"
-        vertical
-        text="努力加载中..."
-      />
+    <view v-if="isLoading" class="loading">
+      <u-loading-icon color="#d81e06" textColor="#d81e06" vertical text="努力加载中..." />
     </view>
     <view v-else>
       <view class="list">
-        <uni-card
-          v-for="(item, index) in dataList"
-          :key="index"
-          :title="item.typeName"
-          :extra="formateTime(item.time)"
-        >
+        <uni-card v-for="(item, index) in dataList" :key="index" :title="item.typeName" :extra="formateTime(item.time)">
           <view class="list-body">
             <view class="list-body-item">
               <text class="list-body-item__label">答题数量：</text>
@@ -68,12 +37,9 @@
             </view>
             <view class="list-body-item">
               <text class="list-body-item__label">正确率：</text>
-              <text
-                class="list-body-item__value list-body-item__value--rotate"
-                :style="{
-                  color: ((item.totalNumber - item.errorNumber) / item.totalNumber) * 100 < 60 ? '#fa3534' : '#19be6b',
-                }"
-              >
+              <text class="list-body-item__value list-body-item__value--rotate" :style="{
+                color: ((item.totalNumber - item.errorNumber) / item.totalNumber) * 100 < 60 ? '#fa3534' : '#19be6b',
+              }">
                 {{
                   item.totalNumber > 0
                     ? (((item.totalNumber - item.errorNumber) / item.totalNumber) * 100).toFixed(2) + "%"
@@ -82,52 +48,30 @@
               </text>
             </view>
             <view class="buttons">
-              <u-button
-                @click="onEdit(item)"
-                :custom-style="{ width: '36px', height: '36px', marginRight: '10px' }"
-                shape="circle"
-                type="primary"
-                icon="edit-pen-fill"
-              />
-              <u-button
-                @click="onDelete(item)"
-                :custom-style="{ width: '36px', height: '36px' }"
-                shape="circle"
-                type="error"
-                icon="trash-fill"
-              />
+              <u-button @click="onEdit(item)" :custom-style="{ width: '36px', height: '36px', marginRight: '10px' }"
+                shape="circle" type="primary" icon="edit-pen-fill" />
+              <u-button @click="onDelete(item)" :custom-style="{ width: '36px', height: '36px' }" shape="circle"
+                type="error" icon="trash-fill" />
             </view>
           </view>
         </uni-card>
-        <view
-          class="chart"
-          v-if="roundChartData.length > 0"
-        >
-          <qiun-data-charts
-            type="pie"
-            :opts="opts"
-            :chartData="chartData"
-          />
+        <view class="chart" v-if="roundChartData.length > 0">
+          <qiun-data-charts type="pie" :opts="opts" :chartData="chartData" />
         </view>
-        <view
-          class="chart1"
-          v-if="roundChartData.length > 0"
-        >
-          <qiun-data-charts
-            type="mix"
-            :opts="opts1"
-            :chartData="chartData1"
-          />
+        <view class="chart1" v-if="roundChartData.length > 0">
+          <qiun-data-charts type="mix" :opts="opts1" :chartData="chartData1" />
         </view>
       </view>
     </view>
+    <!-- 自定义导航 -->
+    <custom-tab />
   </view>
 </template>
 
 <script>
 import { formateDate, formateDateHMS } from "@/utils/formateDate.js";
 import formateTime from "@/utils/formateDate.js";
-import {problemDelete, problemGetDay, problemGetMonth, problemGetRoundChart} from '@/api/problem';
+import { problemDelete, problemGetDay, problemGetMonth, problemGetRoundChart } from '@/api/problem';
 const colorList = ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"];
 const colorList1 = ["#73C0DE", "#FC8452", "#9A60B4", "#ea7ccc"];
 const colorList2 = ["#1890FF", "#91CB74", "#FAC858", "#EE6666"];
@@ -269,7 +213,7 @@ export default {
         content: "确定删除该记录？",
         success: (res) => {
           if (res.confirm) {
-            problemDelete(item).then(()=>{
+            problemDelete(item).then(() => {
               this.getMonthData();
               this.getTodayData();
               this.getRoundChartsData();
@@ -297,7 +241,7 @@ export default {
      */
     getTodayData() {
       this.isLoading = true;
-      problemGetDay({date: this.date,}).then(res=>{
+      problemGetDay({ date: this.date, }).then(res => {
         this.dataList = res.list;
         this.useTimeAll = res.useTimeAll;
         this.isLoading = false;
@@ -314,7 +258,7 @@ export default {
         year: time.year,
         month: time.month,
       };
-      problemGetDay({date: time.fulldate}).then(res=>{
+      problemGetDay({ date: time.fulldate }).then(res => {
         this.dataList = res.list;
         this.useTimeAll = res.useTimeAll;
         this.isLoading = false;
@@ -326,7 +270,7 @@ export default {
      */
     getMonthData() {
       this.isLoading = true;
-      problemGetMonth({date: this.monthDate,}).then(data=>{
+      problemGetMonth({ date: this.monthDate, }).then(data => {
         this.selected = [];
         for (let key in data) {
           const item = data[key];
@@ -350,7 +294,7 @@ export default {
      */
     getRoundChartsData() {
       this.isLoading = true;
-      problemGetRoundChart({date: this.date,}).then(data=>{
+      problemGetRoundChart({ date: this.date, }).then(data => {
         this.roundChartData = data.map((item) => {
           return {
             name: item._id.typeName,
@@ -481,5 +425,8 @@ export default {
 
 .loading {
   margin-top: 200rpx;
+}
+::v-deep .uni-fab__circle{
+  bottom: 200rpx !important;
 }
 </style>

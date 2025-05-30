@@ -102,6 +102,8 @@
         @trigger="onAddBlind"
       />
     </view>
+    <!-- 自定义导航 -->
+    <custom-tab />
   </view>
 </template>
 
@@ -288,5 +290,14 @@ export default {
 .loading,
 .empty {
   margin-top: 400rpx;
+}
+
+::v-deep {
+  .uni-fab{
+  bottom: 200rpx !important;
+}
+.uni-fab__circle{
+  bottom: 200rpx !important;
+}
 }
 </style>

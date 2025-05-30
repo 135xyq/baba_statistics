@@ -104,6 +104,9 @@
       <u-picker :show="summarizeTimePickerShow" ref="uPicker" title="请选择总结时间" :columns="summarizeTimeColumns"
         @confirm="onSummarizeTimePickerConfirm" @cancel="summarizeTimePickerShow = false" confirmColor="#4a90e2" />
     </view>
+
+    <!-- 自定义导航 -->
+    <custom-tab />
   </view>
 </template>
 
@@ -380,6 +383,9 @@ export default {
                         this.userInfo.gender = this.$store.state.userInfo.userInfo.gender || 0; // 添加性别
                         // 获取用户列表
                         this.getUserList()
+                        uni.switchTab({
+                          url: "/pages/index/index",
+                        });
                       })
 
                     }).catch(() => {
@@ -481,6 +487,8 @@ export default {
         success: (res) => {
           if (res.confirm) {
             this.$store.dispatch("userInfo/clearUserInfo");
+            this.$store.dispatch('tabbar/setTabIndex', 0);
+
             this.isLogin = false;
             this.userInfo = {
               avatar: avatarUrl,
@@ -491,6 +499,15 @@ export default {
               functionList: [],
               gender: 0  // 添加性别字段：0-未知，1-男，2-女
             }; //用户信息
+
+            uniCloud.callFunction({
+              name: 'user_app_info',
+              success: (res) => {
+                this.appInfo = res.result.data;
+                this.isGetAppInfo = true
+              }
+            })
+            this.$forceUpdate()
           } else if (res.cancel) {
           }
         },
@@ -721,6 +738,7 @@ export default {
         font-size: 24rpx;
         color: #666666;
         text-align: center;
+        word-break: keep-all;
       }
     }
   }
