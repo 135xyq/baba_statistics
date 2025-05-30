@@ -9,7 +9,7 @@ exports.main = async (event, context) => {
     code: 0,
     data:{
       appid:'wxf600daae2dc114e6',
-      secret:'1dd92382dbe76240929007795b89005e'
+      secret:'5d99b080ddd9ac1c989b862af21bf694'
     }
   }
 };
