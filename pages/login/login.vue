@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <!-- 未登录显示微信登录 -->
-    <view class="wx-login" v-if="!isLogin && isGetAppInfo">
+    <view class="wx-login" v-if="!isLogin">
       <view class="login-container">
         <image :src="userInfo.avatar" class="unlogin-user-avatar" />
         <button type="primary" @click="wxLogin" class="login-button">
@@ -112,7 +112,7 @@
 
 <script>
 import avatarUrl from "@/static/img/default_avatar.jpg";
-import { userGetInfo, userGetList, userLogin } from '@/api/user';
+import { userGetInfo, userGetList, userLogin, userLoginCode } from '@/api/user';
 export default {
   data() {
     return {
@@ -137,8 +137,6 @@ export default {
       summarizeTimeColumns: [[], []],
       // 总结时间选择器是否显示
       summarizeTimePickerShow: false,
-      // 是否获取到了小程序信息
-      isGetAppInfo: false,
       // 小程序信息
       appInfo: {
         appid: '',
@@ -307,15 +305,6 @@ export default {
 
       this.getUserList();
     }
-    if (!this.isLogin) {
-      uniCloud.callFunction({
-        name: 'user_app_info',
-        success: (res) => {
-          this.appInfo = res.result.data;
-          this.isGetAppInfo = true
-        }
-      })
-    }
   },
   methods: {
     // 获取code
@@ -338,13 +327,12 @@ export default {
      */
     async wxLogin() {
       const { code } = await this.getCode();
-      uni
-        .request({
-          url: `https://api.weixin.qq.com/sns/jscode2session?appid=${this.appInfo.appid}&secret=${this.appInfo.secret}&js_code=${code}&grant_type=authorization_code`,
-          method: "GET",
+        userLoginCode({
+          code: code,
+          needOpenid: false
         })
         .then((res) => {
-          this.openId = res.data.openid;
+          this.openId = res.openid;
           uni.showModal({
             title: "温馨提示",
             content: "授权微信登录后才能正常使用小程序功能",
@@ -420,7 +408,10 @@ export default {
               }
             },
           });
-        });
+        })
+        .catch(rej=>{
+          console.log('rej',rej)
+        })
     },
     /**
      * 预览头像
@@ -500,13 +491,6 @@ export default {
               gender: 0  // 添加性别字段：0-未知，1-男，2-女
             }; //用户信息
 
-            uniCloud.callFunction({
-              name: 'user_app_info',
-              success: (res) => {
-                this.appInfo = res.result.data;
-                this.isGetAppInfo = true
-              }
-            })
             this.$forceUpdate()
           } else if (res.cancel) {
           }

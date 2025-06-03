@@ -14,6 +14,18 @@ export function userLogin(data){
   })
 }
 
+/**
+ * 用户登录获取code
+ * @param data
+ * @returns {*}
+ */
+export function userLoginCode(data){
+  return request({
+    name:'user_login_code',
+    data
+  })
+}
+
 
 /**
  * 获取用户列表

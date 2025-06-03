@@ -17,18 +17,10 @@ export default ({ name, data = {} }) => {
     // 拼接后的请求参数
     const finallyData = {
       openid: openid,
+      needOpenid: true,
       ...data,
     };
-    if (!finallyData.openid) {
-      uni.switchTab({
-        url: "/pages/login/login",
-      });
-      uni.showToast({
-        title: "请先登录",
-        icon: "none",
-      });
-      reject("未登录");
-    } else {
+    if (finallyData.openid || !finallyData.needOpenid) {
       uniCloud.callFunction({
         name,
         data: finallyData,
@@ -49,6 +41,15 @@ export default ({ name, data = {} }) => {
           loading && uni.hideLoading();
         },
       });
+    } else {
+      uni.switchTab({
+        url: "/pages/login/login",
+      });
+      uni.showToast({
+        title: "请先登录",
+        icon: "none",
+      });
+      reject("未登录");
     }
   });
 };
