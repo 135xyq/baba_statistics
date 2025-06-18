@@ -4,7 +4,7 @@
     <view class="wx-login" v-if="!isLogin">
       <view class="login-container">
         <image :src="userInfo.avatar" class="unlogin-user-avatar" />
-        <button type="primary" @click="wxLogin" class="login-button">
+        <button :disabled="isLoginLoading" type="primary" @click="wxLogin" class="login-button">
           微信登录
         </button>
       </view>
@@ -257,7 +257,9 @@ export default {
         isHandler: true,
         onClick: () => this.summarizeTimePickerShow = true
       }
-      ]
+      ],
+      // 是否正在登录加载中
+      isLoginLoading: false
     };
   },
   computed: {
@@ -326,12 +328,18 @@ export default {
      * @returns {Promise<void>}
      */
     async wxLogin() {
+      this.isLoginLoading = true
+      uni.showLoading({
+        title: "登录中...",
+      })
       const { code } = await this.getCode();
         userLoginCode({
           code: code,
           needOpenid: false
         })
         .then((res) => {
+          uni.hideLoading()
+          this.isLoginLoading = false
           this.openId = res.openid;
           uni.showModal({
             title: "温馨提示",
@@ -410,7 +418,8 @@ export default {
           });
         })
         .catch(rej=>{
-          console.log('rej',rej)
+          uni.hideLoading()
+          this.isLoginLoading = false
         })
     },
     /**
