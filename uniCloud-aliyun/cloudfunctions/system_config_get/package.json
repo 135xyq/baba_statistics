@@ -1,0 +1,7 @@
+{
+  "name": "system_config_get",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "sysytem_config_update",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

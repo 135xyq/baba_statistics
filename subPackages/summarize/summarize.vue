@@ -28,7 +28,7 @@
           坨
         </view>
         <image
-          src="@/static/img/home-active.png"
+          src="@/static/img/tab/home-active.png"
           class="thing__icon"
         />
       </view>

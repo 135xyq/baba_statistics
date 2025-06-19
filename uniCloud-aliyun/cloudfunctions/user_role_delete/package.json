@@ -1,0 +1,7 @@
+{
+  "name": "user_role_delete",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

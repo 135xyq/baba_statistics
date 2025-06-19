@@ -1,0 +1,7 @@
+{
+  "name": "user_role_add",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

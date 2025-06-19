@@ -86,3 +86,27 @@ export function updateUserRole(data){
     data
   })
 }
+
+/**
+ * 删除角色信息
+ * @param data
+ * @returns {*}
+ */
+export function deleteUserRole(data){
+  return request({
+    name:'user_role_delete',
+    data
+  })
+}
+
+/**
+ * 新增角色信息
+ * @param data
+ * @returns {*}
+ */
+export function AddUserRole(data){
+  return request({
+    name:'user_role_add',
+    data
+  })
+}

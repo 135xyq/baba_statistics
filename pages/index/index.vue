@@ -102,14 +102,24 @@
       };
     },
     onShow() {
-      this.getTotal();
-      this.getTodayList();
-      this.getNoticeData();
-    },
-    created() {
-      this.timer = setInterval(() => {
-        this.calculateTimeUntil();
-      }, 60000);
+      const openid =  this.$store.state.userInfo?.userInfo?.openid;
+      if(openid){
+        this.getTotal();
+        this.getTodayList();
+        this.getNoticeData();
+        this.timer = setInterval(() => {
+          this.calculateTimeUntil();
+        }, 60000);
+      }else{
+        this.total = 0
+        this.dataList = []
+        this.showDateText = ''
+        this.noticeData = {}
+        this.isShowWeightDialog = false
+        this. weightForm = {
+          value: ''
+        }
+      }
     },
     beforeDestroy() {
       clearInterval(this.timer);

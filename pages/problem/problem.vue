@@ -177,9 +177,17 @@ export default {
     };
   },
   onShow() {
-    this.getMonthData();
-    this.getTodayData();
-    this.getRoundChartsData();
+    const openid =  this.$store.state.userInfo?.userInfo?.openid;
+    if(openid) {
+      this.getMonthData();
+      this.getTodayData();
+      this.getRoundChartsData();
+    }else{
+      this.dataList = []
+      this.selected = []
+      this.chartData1 = {}
+      this.roundChartData = []
+    }
   },
 
   methods: {

@@ -6,9 +6,20 @@ exports.main = async (event, context) => {
   const userInfo = await collection.where({
     openid: event.openid
   }).get();
-  if (userInfo.affectedDocs === 0) {
+
+
+
+  if (userInfo?.affectedDocs === 0) {
+    const systemConfig = db.collection("system_config");
+    const data = await systemConfig .skip(0)
+        .limit(1)
+        .get()
+    const roleId = data.data[0].newUserDefaultRole;
     // 第一次登录，将用户存入用户表
-    collection.add(event);
+    await collection.add({
+      ...evant,
+      roleId: roleId
+    });
   }
   //返回数据给客户端
   return {

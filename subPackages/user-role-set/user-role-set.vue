@@ -69,6 +69,7 @@ export default {
         { name: '计时器', key: 'timeCount', show: true },
         { name: '通知管理', key: 'noticePage', show: true },
         { name: '幸运转盘', key: 'lucky', show: true },
+        { name: '角色管理', key: 'role', show: true },
         { name: '年月总结', key: 'summarize', show: true },
         { name: '账号切换', key: 'change', show: true },
       ],

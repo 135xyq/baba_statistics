@@ -3,7 +3,10 @@
 
   export default {
     onLaunch: function() {
-      this.getUserInfo()
+      const openid =  this.$store.state.userInfo?.userInfo?.openid;
+      if(openid){
+        this.getUserInfo()
+      }
     },
     methods: {
       /**

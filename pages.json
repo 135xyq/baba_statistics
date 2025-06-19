@@ -208,6 +208,13 @@
             "navigationBarTitleText": "设置",
             "enablePullDownRefresh": false
           }
+        },
+        {
+          "path": "role/role",
+          "style": {
+            "navigationBarTitleText": "角色管理",
+            "enablePullDownRefresh": false
+          }
         }
       ]
     }

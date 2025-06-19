@@ -32,6 +32,7 @@ export default ({ name, data = {} }) => {
               icon: "none",
               title: result?.msg || '接口异常',
             });
+            reject(result?.msg || '接口异常');
           }
         },
         fail(err) {
@@ -45,6 +46,7 @@ export default ({ name, data = {} }) => {
       uni.switchTab({
         url: "/pages/login/login",
       });
+      store.dispatch('tabbar/setTabIndex',  store.state.tabbar?.tabNumber - 1);
       uni.showToast({
         title: "请先登录",
         icon: "none",

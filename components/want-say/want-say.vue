@@ -38,7 +38,10 @@
       };
     },
     created() {
-      this.getWantSay();
+      const openid =  this.$store.state.userInfo?.userInfo?.openid;
+      if(openid){
+        this.getWantSay();
+      }
     },
     methods: {
       /**
