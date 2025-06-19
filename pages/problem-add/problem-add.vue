@@ -116,8 +116,12 @@ export default {
           value: 5,
         },
         {
-          text: "申论",
+          text: "政治理论",
           value: 6,
+        },
+        {
+          text: "申论",
+          value: 7,
         },
       ],
       rules: {

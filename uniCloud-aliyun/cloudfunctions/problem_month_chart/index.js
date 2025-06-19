@@ -93,7 +93,7 @@ exports.main = async (event, context) => {
 	// 创建一个日期列表以确保每一天都有记录
 	const dailyCount = {};
 	const totalDays = new Date(date.split('-')[0],date.split('-')[1],0).getDate(); // 当前月的总天数
-	const list = ['yanyu','ziliao','panduan','shuliang','changshi','shenlun']
+	const list = ['yanyu','ziliao','panduan','shuliang','changshi','zhengzhi','shenlun']
 
 	for (let day = 1; day <= totalDays; day++) {
 		const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;

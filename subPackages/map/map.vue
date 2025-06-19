@@ -12,7 +12,7 @@
 <script>
 import formateDate from "@/utils/formateDate.js";
 import amap from "@/common/amap-wx.130.js";
-import {mapAdd, mapList} from "@/api/map";
+import { mapAdd, mapList } from "@/api/map";
 export default {
   data() {
     return {
@@ -22,47 +22,64 @@ export default {
       latitude: 39.909,
       longitude: 116.39742,
       covers: [],
+      timer: null,
     };
   },
   onLoad() {
-    uni.getLocation({
-      type: "gcj02",
-      isHighAccuracy: true,
-      cacheTimeout: 10,
-      success: (res) => {
-        console.log("当前位置的经度：" + res.longitude, res);
-        console.log("当前位置的纬度：" + res.latitude);
-
-        let x = res.longitude;
-        let y = res.latitude;
-
-        let lngs = x;
-        let lats = y;
-        this.latitude = lats;
-        this.longitude = lngs;
-
-        mapAdd({
-          createTime: formateDate(new Date().getTime()),
-          longitude: lngs,
-          latitude: lats,
-          speed: res.speed,
-        }).then(() => {
-          this.getMapPositionList();
-        });
-      },
-      fail(err) {
-        console.log(err);
-      },
-    });
+    this.setPosition();
+  },
+  created() {
+    this.timer = setInterval(this.setPosition, 1000 * 60);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   methods: {
+    /**
+     * 设置点位坐标信息
+     */
+    setPosition() {
+      uni.getLocation({
+        type: "gcj02",
+        isHighAccuracy: true,
+        cacheTimeout: 10,
+        success: (res) => {
+          console.log("当前位置的经度：" + res.longitude, res);
+          console.log("当前位置的纬度：" + res.latitude);
+
+          let x = res.longitude;
+          let y = res.latitude;
+
+          let lngs = x;
+          let lats = y;
+          this.latitude = lats;
+          this.longitude = lngs;
+
+          mapAdd({
+            createTime: formateDate(new Date().getTime()),
+            longitude: lngs,
+            latitude: lats,
+            speed: res.speed,
+          }).then(() => {
+            this.getMapPositionList();
+          });
+        },
+        fail(err) {
+          this.getMapPositionList();
+          uni.showToast({
+            title: err || "获取地址信息失败",
+          });
+        },
+      });
+    },
     /**
      * 获取地图点位信息列表
      */
     getMapPositionList() {
-      mapList().then(res=>{
-        this.covers = res?.map((item) => {
+      mapList().then((res) => {
+        this.covers = res?.map((item, index) => {
           return {
+            id: index,
             latitude: item.latitude,
             longitude: item.longitude,
             width: 40,
@@ -80,7 +97,7 @@ export default {
             },
           };
         });
-      })
+      });
     },
   },
 };
