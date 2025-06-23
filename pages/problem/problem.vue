@@ -55,11 +55,11 @@
             </view>
           </view>
         </uni-card>
-        <view class="chart" v-if="roundChartData.length > 0">
-          <qiun-data-charts type="pie" :opts="opts" :chartData="chartData" />
+        <view class="chart" v-show="roundChartData.length > 0">
+          <qiun-data-charts :canvas2d="true" canvasId="swiperida" type="pie" :opts="opts" :chartData="chartData" />
         </view>
-        <view class="chart1" v-if="roundChartData.length > 0">
-          <qiun-data-charts type="mix" :opts="opts1" :chartData="chartData1" />
+        <view class="chart1" v-show="roundChartData.length > 0">
+          <qiun-data-charts :canvas2d="true" canvasId="swiperidb" type="mix" :opts="opts1" :chartData="chartData1" />
         </view>
       </view>
     </view>

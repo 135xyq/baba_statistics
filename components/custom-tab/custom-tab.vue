@@ -4,6 +4,7 @@
     activeColor="#d81e06"
     inactiveColor="#7A7E83"
     :value="currentTab"
+    z-index="99999"
     @change="(name) => switchTab(name)"
     :fixed="true"
     :placeholder="true"
