@@ -110,6 +110,13 @@
         "navigationBarTitleText": "聊天",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/perler-beads/perler-beads",
+      "style": {
+        "navigationBarTitleText": "拼豆图纸生成",
+        "enablePullDownRefresh": false
+      }
     }
   ],
   "subPackages": [

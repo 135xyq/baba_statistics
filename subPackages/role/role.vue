@@ -292,6 +292,7 @@ export default {
         { name: "计时器", key: "timeCount" },
         { name: "通知管理", key: "noticePage" },
         { name: "幸运转盘", key: "lucky" },
+        { name: "拼豆图纸", key: "perlerBeads" },
         { name: "角色管理", key: "role" },
         { name: "年月总结", key: "summarize" },
         { name: "账号切换", key: "change" },

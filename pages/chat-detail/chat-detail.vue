@@ -499,6 +499,15 @@ export default {
         overflow: hidden;
         box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .avatar-wrapper image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       &__wrapper {

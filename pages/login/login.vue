@@ -368,6 +368,13 @@ export default {
           isHandler: true,
           onClick: () => (this.summarizeTimePickerShow = true),
         },
+        {
+          name: "拼豆图纸",
+          icon: require("@/static/img/mine/蜡笔.png"),
+          pagePath: "/pages/perler-beads/perler-beads",
+          key: "perlerBeads",
+          isGoPage: true,
+        },
       ],
       // 是否正在登录加载中
       isLoginLoading: false,

@@ -2,8 +2,23 @@
   <view>
     <u-notice-bar v-if="showDateText" :text="showDateText" mode="closable" color="#d81e06" bgColor="white"
       duration="2000" />
-    <view class="operate">
+    <view class="operate" :class="{ 'animate': isAnimate }">
        <u-avatar :src="imgSrc" size="150" @click="onAdd" />
+    </view>
+    <!-- 粑粑元素 -->
+    <view class="poop-container">
+      <view 
+        v-for="poop in poops" 
+        :key="poop.id"
+        class="poop"
+        :class="{ 'poop-rising': !poop.isFalling }"
+        :style="{
+          left: poop.left,
+          width: `${poop.size}px`,
+          height: `${poop.size}px`,
+          animationDelay: `${poop.delay}s`
+        }"
+      />
     </view>
     <view class="ranking">
       <u-avatar :src="rankingImg" size="40" @click="onGetRankingPage" />
@@ -98,7 +113,11 @@
         // 体重新增表单
         weightForm:{
           value: ''
-        }
+        },
+        // 动画状态
+        isAnimate: false,
+        // 粑粑元素数组
+        poops: []
       };
     },
     onShow() {
@@ -188,11 +207,20 @@
        * 新增
        */
       onAdd() {
+        // 触发动画
+        this.isAnimate = true;
+        setTimeout(() => {
+          this.isAnimate = false;
+        }, 500);
+        
+        
         uni.showModal({
           title: "提示",
           content: "你已经是拉屎大王了，确定还要拉粑粑吗？",
           success: (res) => {
             if (res.confirm) {
+              // 生成粑粑元素
+              this.generatePoops();
               thingAdd().then((res) => {
                 this.getTotal();
                 this.getTodayList();
@@ -211,6 +239,36 @@
             }
           },
         });
+      },
+      /**
+       * 生成粑粑元素
+       */
+      generatePoops() {
+        // 清空现有粑粑
+        this.poops = [];
+        
+        // 生成100个粑粑
+        for (let i = 0; i < 300; i++) {
+          // 随机位置和大小
+          const left = Math.random() * 100;
+          const size = 15 + Math.random() * 25;
+          const delay = Math.random() * 0.8;
+          // 随机方向：true为下降，false为上升
+          const isFalling = Math.random() > 0.3;
+          
+          this.poops.push({
+            id: i,
+            left: `${left}%`,
+            size: size,
+            delay: delay,
+            isFalling: isFalling
+          });
+        }
+        
+        // 10秒后清空粑粑
+        setTimeout(() => {
+          this.poops = [];
+        }, 10000);
       },
       /**
        * 新增体重记录
@@ -304,6 +362,69 @@
   .operate:hover {
     transform: scale(1.05);
     /* 鼠标悬停时放大 */
+  }
+
+  .operate.animate {
+    animation: clickEffect 0.5s ease;
+  }
+
+  @keyframes clickEffect {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.7);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .poop-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .poop {
+    position: absolute;
+    top: -50px;
+    background-image: url('@/static/aoligei.jpg');
+    background-size: cover;
+    border-radius: 50%;
+    animation: poopFall 3s ease-in forwards;
+  }
+
+  .poop.poop-rising {
+    top: auto;
+    bottom: -50px;
+    animation: poopRise 3s ease-in forwards;
+  }
+
+  @keyframes poopFall {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes poopRise {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) rotate(-360deg);
+      opacity: 0;
+    }
   }
 
   .ranking {
