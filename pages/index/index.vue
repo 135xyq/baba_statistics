@@ -16,7 +16,14 @@
           left: poop.left,
           width: `${poop.size}px`,
           height: `${poop.size}px`,
-          animationDelay: `${poop.delay}s`
+          animationDelay: `${poop.delay}s`,
+          '--rotate-speed': poop.rotateSpeed,
+          '--horizontal-offset': poop.horizontalOffset,
+          '--bounce': poop.bounce,
+          '--scale': poop.scale,
+          '--hue': poop.hue,
+          '--saturation': poop.saturation,
+          '--lightness': poop.lightness
         }"
       />
     </view>
@@ -234,7 +241,7 @@
               uni.showToast({
                 title: "差点让你成为拉屎大王!",
                 icon: "none",
-                duration: 2000,
+                duration: 2000, 
               });
             }
           },
@@ -247,28 +254,49 @@
         // 清空现有粑粑
         this.poops = [];
         
-        // 生成100个粑粑
-        for (let i = 0; i < 300; i++) {
+        // 生成80个粑粑
+        for (let i = 0; i < 80; i++) {
           // 随机位置和大小
           const left = Math.random() * 100;
           const size = 15 + Math.random() * 25;
           const delay = Math.random() * 0.8;
           // 随机方向：true为下降，false为上升
           const isFalling = Math.random() > 0.3;
+          // 随机旋转速度
+          const rotateSpeed = (Math.random() - 0.5) * 3;
+          // 随机水平偏移
+          const horizontalOffset = (Math.random() - 0.5) * 30;
+          // 随机弹跳幅度
+          const bounce = 0.2 + Math.random() * 0.3;
+          // 随机缩放幅度
+          const scale = 0.8 + Math.random() * 0.4;
+          // 随机颜色变化
+          const hue = Math.floor(Math.random() * 360);
+          // 随机饱和度
+          const saturation = 50 + Math.floor(Math.random() * 50);
+          // 随机亮度
+          const lightness = 40 + Math.floor(Math.random() * 20);
           
           this.poops.push({
             id: i,
             left: `${left}%`,
             size: size,
             delay: delay,
-            isFalling: isFalling
+            isFalling: isFalling,
+            rotateSpeed: rotateSpeed,
+            horizontalOffset: horizontalOffset,
+            bounce: bounce,
+            scale: scale,
+            hue: hue,
+            saturation: saturation,
+            lightness: lightness
           });
         }
         
-        // 10秒后清空粑粑
+        // 6秒后清空粑粑
         setTimeout(() => {
           this.poops = [];
-        }, 10000);
+        }, 6000);
       },
       /**
        * 新增体重记录
@@ -393,36 +421,61 @@
   .poop {
     position: absolute;
     top: -50px;
-    background-image: url('@/static/aoligei.jpg');
+    background-image: url('@/static/便便.png');
     background-size: cover;
     border-radius: 50%;
-    animation: poopFall 3s ease-in forwards;
+    animation: poopFall 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    filter: hue-rotate(calc(var(--hue, 0) * 1deg)) saturate(calc(var(--saturation, 100) * 1%)) brightness(calc(var(--lightness, 60) * 1%));
   }
 
   .poop.poop-rising {
     top: auto;
     bottom: -50px;
-    animation: poopRise 3s ease-in forwards;
+    animation: poopRise 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
   }
 
   @keyframes poopFall {
     0% {
-      transform: translateY(0) rotate(0deg);
+      transform: translateY(0) translateX(0) rotate(0deg) scale(0.5);
+      opacity: 0;
+    }
+    25% {
+      transform: translateY(25vh) translateX(calc(var(--horizontal-offset, 0) * 0.25px)) rotate(calc(90deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(50vh) translateX(calc(var(--horizontal-offset, 0) * 0.5px)) rotate(calc(180deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
+      opacity: 1;
+    }
+    75% {
+      transform: translateY(75vh) translateX(calc(var(--horizontal-offset, 0) * 0.75px)) rotate(calc(270deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
       opacity: 1;
     }
     100% {
-      transform: translateY(100vh) rotate(360deg);
+      transform: translateY(100vh) translateX(calc(var(--horizontal-offset, 0) * 1px)) rotate(calc(360deg * var(--rotate-speed, 1))) scale(0.5);
       opacity: 0;
     }
   }
 
   @keyframes poopRise {
     0% {
-      transform: translateY(0) rotate(0deg);
+      transform: translateY(0) translateX(0) rotate(0deg) scale(0.5);
+      opacity: 0;
+    }
+    25% {
+      transform: translateY(-25vh) translateX(calc(var(--horizontal-offset, 0) * 0.25px)) rotate(calc(-90deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-50vh) translateX(calc(var(--horizontal-offset, 0) * 0.5px)) rotate(calc(-180deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
+      opacity: 1;
+    }
+    75% {
+      transform: translateY(-75vh) translateX(calc(var(--horizontal-offset, 0) * 0.75px)) rotate(calc(-270deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
       opacity: 1;
     }
     100% {
-      transform: translateY(-100vh) rotate(-360deg);
+      transform: translateY(-100vh) translateX(calc(var(--horizontal-offset, 0) * 1px)) rotate(calc(-360deg * var(--rotate-speed, 1))) scale(0.5);
       opacity: 0;
     }
   }
