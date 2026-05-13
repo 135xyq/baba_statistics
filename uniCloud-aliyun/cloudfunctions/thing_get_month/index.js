@@ -2,20 +2,14 @@ const db = uniCloud.database();
 const _ = db.command;
 
 exports.main = async (event, context) => {
-	const {
-		openid,
-		date
-	} = event; // 从事件中获取openid
-	const currentDate = new Date();
-	const year = date.year
-	const month = date.month
-	// 获取当前月的第一天和最后一天
-	const firstDay = new Date(year, month - 1, 1).getTime()- (8 * 60 * 60 * 1000);
-	const lastDay = new Date(year, month, 0, 23,59,59,999).getTime()- (8 * 60 * 60 * 1000);
+	const { openid, date } = event;
+	const year = Number(date.year);
+	const month = Number(date.month);
+	const monthStr = String(month).padStart(2, '0');
 
-  
-	
-	console.log(lastDay);
+	const totalDays = new Date(Date.UTC(year, month, 0)).getUTCDate();
+	const firstDay = new Date(`${year}-${monthStr}-01T00:00:00+08:00`).getTime();
+	const lastDay = new Date(`${year}-${monthStr}-${String(totalDays).padStart(2, '0')}T23:59:59.999+08:00`).getTime();
 
 	const result = await db.collection('thing')
 		.aggregate()
@@ -23,45 +17,37 @@ exports.main = async (event, context) => {
 			time: _.gte(firstDay).lte(lastDay),
 			openid: openid,
 		})
-		// 在这里增加时区处理
-			.addFields({
-				adjustedTime: {
-					$add: ['$time', 28800000] // 将时间调整为 UTC+8
-				}
-			})
-			.group({
-				_id: {
-					$dateToString: {
-						format: '%Y-%m-%d',
-						date: {
-							$toDate: '$adjustedTime' // 使用调整后的时间进行分组
-						}
+		.addFields({
+			adjustedTime: {
+				$add: ['$time', 28800000] // 将时间调整为 UTC+8
+			}
+		})
+		.group({
+			_id: {
+				$dateToString: {
+					format: '%Y-%m-%d',
+					date: {
+						$toDate: '$adjustedTime'
 					}
-				},
-				count: {
-					$sum: 1
 				}
-			})
+			},
+			count: { $sum: 1 }
+		})
 		.end();
 
-	console.log(result);
-	// 创建一个日期列表以确保每一天都有记录
 	const dailyCount = {};
-	const totalDays = new Date(year, month, 0).getDate(); // 当前月的总天数
-
 	for (let day = 1; day <= totalDays; day++) {
-		const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-		dailyCount[dateKey] = 0; // 初始化为 0
+		const dateKey = `${year}-${monthStr}-${String(day).padStart(2, '0')}`;
+		dailyCount[dateKey] = 0;
 	}
 
-	// 填充实际数据
 	result.data.forEach(item => {
 		dailyCount[item._id] = item.count;
 	});
 
 	return {
-		code: 0.,
+		code: 0,
 		msg: 'success',
 		data: dailyCount
 	};
-}
+};

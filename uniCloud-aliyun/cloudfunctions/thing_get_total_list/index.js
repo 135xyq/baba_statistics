@@ -1,9 +1,8 @@
 'use strict';
-const db = uniCloud.database(); //代码块为cdb
-const dbCmd = db.command // 取指令
-// 根据人名分组
+const db = uniCloud.database(); 
+const dbCmd = db.command; 
+
 async function getThingCountWithNickName() {
-  // Step 1: 从 user 表中获取 openid 和 nickName
   const users = await db.collection('user')
     .field({
       openid: true,
@@ -20,7 +19,6 @@ async function getThingCountWithNickName() {
     };
   });
 
-  // Step 2: 在 thing 表中统计每个 openid 的数量
   const things = await db.collection('thing')
     .aggregate()
     .group({
@@ -28,26 +26,21 @@ async function getThingCountWithNickName() {
       count: db.command.aggregate.sum(1)
     })
     .sort({
-      count: -1, // 按照数量降序排序
-      nickName: 1,
+      count: -1, 
     })
     .end();
 
-  // 将统计结果与 nickName 对应
   const result = things.data.map(item => ({
     openid: item._id,
     count: item.count,
-    nickName: userMap[item._id].nickName || 'Unknown' ,// 如果没有对应的 nickName，使用 'Unknown'
-    avatarUrl: userMap[item._id].avatarUrl || '' // 如果没有对应的 nickName，使用 'Unknown'
+    nickName: userMap[item._id]?.nickName || 'Unknown',
+    avatarUrl: userMap[item._id]?.avatarUrl || '' 
   }));
 
   return result;
 }
 
-
-// 月份
-async function getMonthlyThingCountWithNickName(startTime,endTime) {
-  // Step 1: 统计当前月份每个 openid 对应的 thing 数量
+async function getMonthlyThingCountWithNickName(startTime, endTime) {
   const thingStats = await db.collection('thing')
     .aggregate()
     .match({
@@ -58,14 +51,12 @@ async function getMonthlyThingCountWithNickName(startTime,endTime) {
       count: db.command.aggregate.sum(1)
     })
     .sort({
-      count: -1, // 按数量降序排序
-      nickName: 1,
+      count: -1, 
     })
     .end();
 
   const openids = thingStats.data.map(item => item._id);
 
-  // Step 2: 从 user 表中获取 openid 和 nickName
   const userDocs = await db.collection('user')
     .where({
       openid: dbCmd.in(openids)
@@ -85,50 +76,44 @@ async function getMonthlyThingCountWithNickName(startTime,endTime) {
     };
   });
 
-  // Step 3: 将统计结果与 nickName 对应
   const result = thingStats.data.map(item => ({
     openid: item._id,
     count: item.count,
-    nickName: userMap[item._id].nickName || 'Unknown' ,// 如果没有对应的 nickName，使用 'Unknown'
-    avatarUrl: userMap[item._id].avatarUrl || '' // 如果没有对应的 nickName，使用 'Unknown'
+    nickName: userMap[item._id]?.nickName || 'Unknown',
+    avatarUrl: userMap[item._id]?.avatarUrl || '' 
   }));
 
   return result;
 }
-// 新增记录
+
 exports.main = async (event, context) => {
-  //event为客户端上传的参数
-  const collection = db.collection("thing");
+  const type = event.type;
 
-  const type = event.type
+  const beijingMs = Date.now() + 8 * 3600 * 1000;
+  const beijingDate = new Date(beijingMs);
+  const year = beijingDate.getUTCFullYear();
+  const month = String(beijingDate.getUTCMonth() + 1).padStart(2, '0');
+  const date = String(beijingDate.getUTCDate()).padStart(2, '0');
 
-  const now = new Date();
-  let startOfDay
-  // 月度
-  if (type === 1) {
-    startOfDay = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
-  } else if (type === 2) {
-    // 年度
-     startOfDay = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0);
-  }else if(type === 0) {
-    // 今日
-    startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)
+  let startOfDayMs;
+  if (type === 1) { 
+    startOfDayMs = new Date(`${year}-${month}-01T00:00:00+08:00`).getTime();
+  } else if (type === 2) { 
+    startOfDayMs = new Date(`${year}-01-01T00:00:00+08:00`).getTime();
+  } else if (type === 0) { 
+    startOfDayMs = new Date(`${year}-${month}-${date}T00:00:00+08:00`).getTime();
   }
 
-
-  let list = []
+  let list = [];
   if (type !== 3) {
-    list =await getMonthlyThingCountWithNickName(startOfDay.getTime(), now.getTime())
-
+    list = await getMonthlyThingCountWithNickName(startOfDayMs, Date.now());
   } else {
-    // 统计数量列表
-    list = await getThingCountWithNickName()
+    list = await getThingCountWithNickName();
   }
 
-  //返回数据给客户端
   return {
     code: 0,
-    mag: '成功',
+    msg: '成功',
     data: list,
   }
 };

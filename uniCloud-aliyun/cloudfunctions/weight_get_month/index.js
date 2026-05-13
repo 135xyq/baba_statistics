@@ -6,12 +6,14 @@ exports.main = async (event, context) => {
         openid,
         date
     } = event;
-    const year = date.year;
-    const month = date.month;
     
-    // 计算当月第一天和最后一天（UTC+8 时间）
-    const firstDay = new Date(year, month - 1, 1).getTime() - (8 * 60 * 60 * 1000);
-    const lastDay = new Date(year, month, 0, 23, 59, 59, 999).getTime() - (8 * 60 * 60 * 1000);
+    const year = Number(date.year);
+    const month = Number(date.month);
+    const monthStr = String(month).padStart(2, '0');
+
+    const totalDays = new Date(Date.UTC(year, month, 0)).getUTCDate();
+    const firstDay = new Date(`${year}-${monthStr}-01T00:00:00+08:00`).getTime();
+    const lastDay = new Date(`${year}-${monthStr}-${String(totalDays).padStart(2, '0')}T23:59:59.999+08:00`).getTime();
 
     // 聚合查询：按天分组，获取每天最晚的记录
     const result = await db.collection('weight')
@@ -37,25 +39,23 @@ exports.main = async (event, context) => {
             latestRecord: {
                 $last: {
                     time: '$time',
-                    value: '$value' // 假设字段名为 value
+                    value: '$value' 
                 }
             }
         })
         .replaceRoot({
             newRoot: {
                 date: '$_id',
-                value: '$latestRecord.value' // 提取最晚记录的 value
+                value: '$latestRecord.value' 
             }
         })
         .end();
 
     // 生成全量日期列表（确保无数据的日期返回 null）
     const dailyData = {};
-    const totalDays = new Date(year, month, 0).getDate();
-    
     for (let day = 1; day <= totalDays; day++) {
-        const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        dailyData[dateKey] = null; // 默认无数据
+        const dateKey = `${year}-${monthStr}-${String(day).padStart(2, '0')}`;
+        dailyData[dateKey] = null; 
     }
 
     // 填充实际数据

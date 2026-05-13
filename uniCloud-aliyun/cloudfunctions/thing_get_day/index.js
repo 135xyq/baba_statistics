@@ -1,24 +1,39 @@
 'use strict';
-const db = uniCloud.database(); //代码块为cdb
-const dbCmd = db.command // 取指令
-exports.main = async (event, context) => {
-	//event为客户端上传的参数
-	const collection = db.collection("thing");
-  
-  const now = new Date(event.date);
+const db = uniCloud.database(); 
+const dbCmd = db.command;
 
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() - (8 * 60 * 60 * 1000); // 加上8小时
-  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime() - (8 * 60 * 60 * 1000);
-  
-  const data = await collection.where({
-    openid : event.openid,
-    time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
-  } ).orderBy('time','asc').get()
-
-	//返回数据给客户端
+function getDayRange(dateStr) {
+	let startOfDay;
+	if (dateStr) {
+		const str = String(dateStr).replace(/\//g, '-');
+		const isoStr = str.length === 10 ? `${str}T00:00:00+08:00` : str.replace(' ', 'T') + '+08:00';
+		startOfDay = new Date(isoStr).getTime();
+		if (isNaN(startOfDay)) {
+			const d = new Date(dateStr);
+			startOfDay = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()).getTime() - 8 * 3600 * 1000;
+		}
+	} else {
+		const beijingMs = Date.now() + 8 * 3600 * 1000;
+		startOfDay = beijingMs - (beijingMs % 86400000) - 8 * 3600 * 1000;
+	}
 	return {
-		code:0,
-		mag:'获取成功！',
-		data:data.data,
+		startOfDay,
+		endOfDay: startOfDay + 86400000 - 1
+	};
+}
+
+exports.main = async (event, context) => {
+	const collection = db.collection("thing");
+	const { startOfDay, endOfDay } = getDayRange(event.date);
+  
+	const data = await collection.where({
+		openid: event.openid,
+		time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
+	}).orderBy('time','asc').get();
+
+	return {
+		code: 0,
+		msg: '获取成功！',
+		data: data.data,
 	}
 };

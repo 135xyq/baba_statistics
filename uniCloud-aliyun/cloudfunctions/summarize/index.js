@@ -4,40 +4,37 @@ const dbCmd = db.command
 const $ = db.command.aggregate
 
 exports.main = async (event, context) => {
-  //event为客户端上传的参数
-  const {
-    openid,
-    type,
-    date
-  } = event
+  const { openid, type, date } = event;
 
-  // 开始时间和结束时间
-  let startTime = ''
-  let endTime = ''
+  let startTime = '';
+  let endTime = '';
 
-  // 获取开始时间和结束时间
+  const year = Number(date.year);
   if (type === 'year') {
-    startTime = new Date(`${date.year}-01-01 00:00:00`).getTime()
-    endTime = new Date(`${date.year}-12-31 23:59:59`).getTime()
+    startTime = new Date(`${year}-01-01T00:00:00+08:00`).getTime();
+    endTime = new Date(`${year}-12-31T23:59:59.999+08:00`).getTime();
   } else {
-    startTime = new Date(date.year, date.month - 1, 1).getTime() - (8 * 60 * 60 * 1000);
-    endTime = new Date(date.year, date.month, 0, 23, 59, 59, 999).getTime() - (8 * 60 * 60 * 1000);
+    const month = Number(date.month);
+    const monthStr = String(month).padStart(2, '0');
+    const totalDays = new Date(Date.UTC(year, month, 0)).getUTCDate();
+    startTime = new Date(`${year}-${monthStr}-01T00:00:00+08:00`).getTime();
+    endTime = new Date(`${year}-${monthStr}-${String(totalDays).padStart(2, '0')}T23:59:59.999+08:00`).getTime();
   }
 
   // 获取拉屎数量
   const thingConut = await db.collection('thing').where({
     openid: openid,
     time: dbCmd.gte(startTime).and(dbCmd.lte(endTime))
-  }).count()
+  }).count();
 
   // 获取做题正确率和做题数量，做题时长
   const problemResult = await db.collection('problem').aggregate()
     .match({
       openid: openid,
-      time: dbCmd.gte(startTime).lte(endTime) // 根据时间段筛选数据
+      time: dbCmd.gte(startTime).lte(endTime) 
     })
     .group({
-      _id: null, // 不按某个字段分组，所有数据聚合在一起
+      _id: null, 
       totalNumber: {
         $sum: "$totalNumber"
       },
@@ -50,25 +47,21 @@ exports.main = async (event, context) => {
     })
     .end();
 
-
   // 发送的话
   const wantSaySend = await db.collection('wantSay').where({
     openid: openid,
     time: dbCmd.gte(startTime).and(dbCmd.lte(endTime))
-  }).count()
+  }).count();
 
   // 收到的话
   const wantSayGet = await db.collection('wantSay').where({
     toUserOpenId: openid,
     time: dbCmd.gte(startTime).and(dbCmd.lte(endTime))
-  }).count()
+  }).count();
 
-
-
-  //返回数据给客户端
   return {
     code: 0,
-    mag: '成功',
+    msg: '成功',
     data: {
       thing: thingConut.total,
       wantSaySend: wantSaySend.total,
@@ -76,7 +69,7 @@ exports.main = async (event, context) => {
       useTime: 0,
       errorNumber: 0,
       totalNumber: 0,
-      ...problemResult.data[0]
+      ...(problemResult.data && problemResult.data[0] ? problemResult.data[0] : {})
     },
   }
 };

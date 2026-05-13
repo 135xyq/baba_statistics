@@ -1,44 +1,48 @@
 'use strict';
 const db = uniCloud.database(); //代码块为cdb
 const dbCmd = db.command // 取指令
+
+function getDayRange(dateStr) {
+	let startOfDay;
+	if (dateStr) {
+		const str = String(dateStr).replace(/\//g, '-');
+		const isoStr = str.length === 10 ? `${str}T00:00:00+08:00` : str.replace(' ', 'T') + '+08:00';
+		startOfDay = new Date(isoStr).getTime();
+		if (isNaN(startOfDay)) {
+			const d = new Date(dateStr);
+			startOfDay = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()).getTime() - 8 * 3600 * 1000;
+		}
+	} else {
+		const beijingMs = Date.now() + 8 * 3600 * 1000;
+		startOfDay = beijingMs - (beijingMs % 86400000) - 8 * 3600 * 1000;
+	}
+	return {
+		startOfDay,
+		endOfDay: startOfDay + 86400000 - 1
+	};
+}
+
 exports.main = async (event, context) => {
-	//event为客户端上传的参数
 	const collection = db.collection("problem");
 
-	const now = new Date(event.date);
-	const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).getTime() - (8 *60 * 60 * 1000);
-	const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime() - (8 * 60 * 60 * 1000);
+	const { startOfDay, endOfDay } = getDayRange(event.date);
 
 	const data = await collection.where({
 		openid: event.openid,
 		time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
-	}).orderBy('time', 'desc').get()
-
-	const res = await db.collection('problem') // 替换为你的集合名
-		.where({
-			openid: event.openid,
-			time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
-		})
-		.field({
-			useTime: true
-		}) // 只返回 useTime 字段
-		.get();
+	}).orderBy('time', 'desc').get();
 
 	// 计算 useTime 的总和
-	const totalUseTime = res.data.reduce((sum, record) => {
-		return sum + (record.useTime || 0); // 如果 useTime 不存在，默认为 0
+	const totalUseTime = data.data.reduce((sum, record) => {
+		return sum + (Number(record.useTime) || 0);
 	}, 0);
 
-	console.log(totalUseTime);
-
-	//返回数据给客户端
 	return {
 		code: 0,
-		mag: '获取成功！',
+		msg: '获取成功！',
 		data: {
 			list: data.data,
 			useTimeAll: totalUseTime
 		}
-
 	}
 };

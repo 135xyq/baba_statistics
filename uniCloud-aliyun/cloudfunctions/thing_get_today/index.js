@@ -1,23 +1,28 @@
 'use strict';
-const db = uniCloud.database(); //代码块为cdb
-const dbCmd = db.command // 取指令
-exports.main = async (event, context) => {
-	//event为客户端上传的参数
-	const collection = db.collection("thing");
-  
-  const now = new Date();
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).getTime()- (8 * 60 * 60 * 1000);
-  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime()- (8 * 60 * 60 * 1000);
-  
-  const data = await collection.where({
-    openid : event.openid,
-    time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
-  } ).orderBy('time','asc').get()
+const db = uniCloud.database(); 
+const dbCmd = db.command;
 
-	//返回数据给客户端
+function getDayRange() {
+	const beijingMs = Date.now() + 8 * 3600 * 1000;
+	const startOfDay = beijingMs - (beijingMs % 86400000) - 8 * 3600 * 1000;
 	return {
-		code:0,
-		mag:'获取成功！',
-		data:data.data,
+		startOfDay,
+		endOfDay: startOfDay + 86400000 - 1
+	};
+}
+
+exports.main = async (event, context) => {
+	const collection = db.collection("thing");
+	const { startOfDay, endOfDay } = getDayRange();
+  
+	const data = await collection.where({
+		openid: event.openid,
+		time: dbCmd.gte(startOfDay).and(dbCmd.lte(endOfDay))
+	}).orderBy('time','asc').get();
+
+	return {
+		code: 0,
+		msg: '获取成功！',
+		data: data.data,
 	}
 };

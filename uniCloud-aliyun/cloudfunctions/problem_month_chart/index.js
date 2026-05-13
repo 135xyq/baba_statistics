@@ -2,17 +2,15 @@ const db = uniCloud.database();
 const _ = db.command;
 
 exports.main = async (event, context) => {
-	const {
-		openid,
-		date
-	} = event; // 从事件中获取openid
-	const currentDate = new Date(date);
-	const year = currentDate.getFullYear();
-	const month = currentDate.getMonth() + 1; // 月份从 0 开始
+	const { openid, date } = event;
+	const parts = String(date).split('-');
+	const year = Number(parts[0]);
+	const month = Number(parts[1]);
+	const monthStr = String(month).padStart(2, '0');
 
-	// 获取当前月的第一天和最后一天
-	const firstDay = new Date(year, month - 1, 1).getTime()- (8 * 60 * 60 * 1000);
-	const lastDay = new Date(year, month, 0).getTime()- (8 * 60 * 60 * 1000);
+	const totalDays = new Date(Date.UTC(year, month, 0)).getUTCDate();
+	const firstDay = new Date(`${year}-${monthStr}-01T00:00:00+08:00`).getTime();
+	const lastDay = new Date(`${year}-${monthStr}-${String(totalDays).padStart(2, '0')}T23:59:59.999+08:00`).getTime();
 
 	const result = await db.collection('problem')
 		.aggregate()
@@ -20,31 +18,24 @@ exports.main = async (event, context) => {
 			time: _.gte(firstDay).lte(lastDay),
 			openid: openid,
 		})
-    // 在这里增加时区处理
-    .addFields({
-      adjustedTime: {
-        $add: ['$time', 28800000] // 将时间调整为 UTC+8
-      }
-    })
-		.group({
-      _id: {
-        $dateToString: {
-          format: '%Y-%m-%d',
-          date: {
-            $toDate: '$adjustedTime'
-          }
-        } // 按天分组
-      },
-			totalNumber: {
-				$sum: "$totalNumber"
-			},
-			errorNumber: {
-				$sum: "$errorNumber"
+		.addFields({
+			adjustedTime: {
+				$add: ['$time', 28800000] // 将时间调整为 UTC+8
 			}
 		})
-		.sort({
-			_id: 1
-		}) // 按日期排序
+		.group({
+			_id: {
+				$dateToString: {
+					format: '%Y-%m-%d',
+					date: {
+						$toDate: '$adjustedTime'
+					}
+				}
+			},
+			totalNumber: { $sum: "$totalNumber" },
+			errorNumber: { $sum: "$errorNumber" }
+		})
+		.sort({ _id: 1 })
 		.end();
 
 	const result1 = await db.collection('problem')
@@ -53,69 +44,62 @@ exports.main = async (event, context) => {
 			time: _.gte(firstDay).lte(lastDay),
 			openid: openid
 		})
-    .addFields({
-      adjustedTime: {
-        $add: ['$time', 28800000] // 将时间调整为 UTC+8
-      }
-    })
+		.addFields({
+			adjustedTime: {
+				$add: ['$time', 28800000] 
+			}
+		})
 		.group({
 			_id: {
-				date: {
-					$dateToString: {
-						format: '%Y-%m-%d',
-						date: '$adjustedTime'
-					}
-				},
 				date: {
 					$dateToString: {
 						format: '%Y-%m-%d',
 						date: {
 							$toDate: '$adjustedTime'
 						}
-					} // 按天分组
+					} 
 				},
 				type: '$type',
 				typeName: '$typeName'
 			},
-			totalNumber: {
-				$sum: '$totalNumber'
-			},
-			errorNumber: {
-				$sum: '$errorNumber'
-			}
+			totalNumber: { $sum: '$totalNumber' },
+			errorNumber: { $sum: '$errorNumber' }
 		})
-		.sort({
-			'_id.date': 1,
-			'_id.type': 1
-		}) // 按日期和类型排序
 		.end();
-	console.log(result, result1);
-	// 创建一个日期列表以确保每一天都有记录
+
 	const dailyCount = {};
-	const totalDays = new Date(date.split('-')[0],date.split('-')[1],0).getDate(); // 当前月的总天数
-	const list = ['yanyu','ziliao','panduan','shuliang','changshi','zhengzhi','shenlun']
+	const list = ['yanyu','ziliao','panduan','shuliang','changshi','zhengzhi','shenlun'];
 
 	for (let day = 1; day <= totalDays; day++) {
-		const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-		dailyCount[dateKey] = {
-			
-		}; // 初始化为 0
+		const dateKey = `${year}-${monthStr}-${String(day).padStart(2, '0')}`;
+		dailyCount[dateKey] = {};
 	}
 
-	// 填充实际数据
+	// Index result1 by date
+	const typeDataByDate = {};
+	result1.data.forEach(item => {
+		const d = item._id.date;
+		if (!typeDataByDate[d]) typeDataByDate[d] = [];
+		typeDataByDate[d].push(item);
+	});
+
 	result.data.forEach(item => {
-		const date = item._id
-		for (var i = 0; i < result1.data.length; i++) {
-			if(result1.data[i]._id.date === date) {
-				let temp = result1.data[i]
-				dailyCount[date][list[temp._id.type-1]] = {
+		const dateKey = item._id;
+		if (!dailyCount[dateKey]) dailyCount[dateKey] = {};
+
+		const dayTypes = typeDataByDate[dateKey] || [];
+		dayTypes.forEach(temp => {
+			const tIndex = temp._id.type - 1;
+			if (list[tIndex]) {
+				dailyCount[dateKey][list[tIndex]] = {
 					name: temp._id.typeName,
 					totalNumber: temp.totalNumber,
 					errorNumber: temp.errorNumber
-				}
+				};
 			}
-		}
-		dailyCount[date].all = {
+		});
+
+		dailyCount[dateKey].all = {
 			name: '总数',
 			totalNumber: item.totalNumber,
 			errorNumber: item.errorNumber
@@ -123,8 +107,8 @@ exports.main = async (event, context) => {
 	});
 
 	return {
-		code: 0.,
+		code: 0,
 		msg: 'success',
 		data: dailyCount
 	};
-}
+};

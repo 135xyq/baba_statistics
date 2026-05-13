@@ -1,40 +1,55 @@
 'use strict';
-const db = uniCloud.database(); //代码块为cdb
-const dbCmd = db.command // 取指令
+const db = uniCloud.database(); 
+const dbCmd = db.command; 
+
+function getDayRange(dateStr) {
+	let startOfDay;
+	if (dateStr) {
+		const str = String(dateStr).replace(/\//g, '-');
+		const isoStr = str.length === 10 ? `${str}T00:00:00+08:00` : str.replace(' ', 'T') + '+08:00';
+		startOfDay = new Date(isoStr).getTime();
+		if (isNaN(startOfDay)) {
+			const d = new Date(dateStr);
+			startOfDay = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()).getTime() - 8 * 3600 * 1000;
+		}
+	} else {
+		const beijingMs = Date.now() + 8 * 3600 * 1000;
+		startOfDay = beijingMs - (beijingMs % 86400000) - 8 * 3600 * 1000;
+	}
+	return {
+		startOfDay,
+		endOfDay: startOfDay + 86400000 - 1
+	};
+}
+
 exports.main = async (event, context) => {
-	//event为客户端上传的参数
-	const collection = db.collection("problem");
+  const collection = db.collection("problem");
   
-  const now = new Date(event.date);
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).getTime()- (8 * 60 * 60 * 1000);
-  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime()- (8 * 60 * 60 * 1000);
+  const { startOfDay, endOfDay } = getDayRange(event.date);
   
   const result = await db.collection('problem')
     .aggregate()
     .match({
-		openid: event.openid,
+      openid: event.openid,
       time: {
         $gte: startOfDay,
-        $lt: endOfDay
+        $lte: endOfDay
       }
     })
     .group({
       _id: {
-		  type: "$type", // 根据 type 字段分组
-		  typeName: "$typeName",
-	  },
-      totalNumber: { $sum: "$totalNumber" }, // 计算该类型的总数量
-      errorNumber: { $sum: "$errorNumber" } // 计算该类型的总错误数量
+        type: "$type", 
+        typeName: "$typeName",
+      },
+      totalNumber: { $sum: "$totalNumber" },
+      errorNumber: { $sum: "$errorNumber" } 
     })
-    .sort({ "_id.type": 1  }) // 按 type 排序
+    .sort({ "_id.type": 1  }) 
     .end();
 	
-	console.log(result);
-
-	//返回数据给客户端
-	return {
-		code:0,
-		mag:'获取成功！',
-		data:result.data,
-	}
+  return {
+    code: 0,
+    msg: '获取成功！',
+    data: result.data,
+  }
 };
