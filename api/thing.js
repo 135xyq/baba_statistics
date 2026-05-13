@@ -1,113 +1,122 @@
-// 粑粑
-
-
+/**
+ * 粑粑记录相关接口
+ * 提供粑粑记录的增删查改及统计功能
+ */
 import request from "./index.js"
 
 /**
- * 新增粑粑
- * @param data
- * @returns {*}
+ * 新增粑粑记录
+ * @param {Object} data - 请求参数
+ * @param {string} data.openid - 用户唯一标识
+ * @param {string} data.date - 日期
+ * @returns {Promise}
  */
-export function thingAdd(data){
+export function thingAdd(data) {
   return request({
-    name:'thing_add',
+    name: 'thing_add',
     data
   })
 }
 
 /**
  * 统计粑粑总数量
- * @param data
- * @returns {*}
+ * @param {Object} data - 请求参数
+ * @param {string} data.openid - 用户唯一标识
+ * @returns {Promise}
  */
-export function thingCount(data){
+export function thingCount(data) {
   return request({
-    name:'thing_count',
+    name: 'thing_count',
     data
   })
 }
 
 /**
- * 删除粑粑
- * @param data
- * @returns {*}
+ * 删除粑粑记录
+ * @param {Object} data - 请求参数
+ * @param {string} data._id - 记录ID
+ * @returns {Promise}
  */
-export function thingDelete(data){
+export function thingDelete(data) {
   return request({
-    name:'thing_delete',
+    name: 'thing_delete',
     data
   })
 }
 
 /**
  * 获取指定日期的粑粑信息
- * @param data
- * @returns {*}
+ * @param {Object} data - 请求参数
+ * @param {string} data.date - 日期
+ * @returns {Promise}
  */
-export function thingGetDay(data){
+export function thingGetDay(data) {
   return request({
-    name:'thing_get_day',
+    name: 'thing_get_day',
     data
   })
 }
 
 /**
  * 分页获取粑粑信息
- * @param data
- * @returns {*}
+ * @param {Object} data - 请求参数
+ * @param {number} data.page - 页码
+ * @param {number} data.pageSize - 每页数量
+ * @returns {Promise}
  */
-export function thingGetList(data){
+export function thingGetList(data) {
   return request({
-    name:'thing_get_list',
+    name: 'thing_get_list',
     data
   })
 }
 
 /**
  * 获取指定月份每一天的粑粑信息
- * @param data
- * @returns {*}
+ * @param {Object} data - 请求参数
+ * @param {string} data.year - 年份
+ * @param {string} data.month - 月份
+ * @returns {Promise}
  */
-export function thingGetMonth(data){
+export function thingGetMonth(data) {
   return request({
-    name:'thing_get_month',
+    name: 'thing_get_month',
     data
   })
 }
 
 /**
  * 获取当天的粑粑信息
- * @param data
- * @returns {*}
+ * @param {Object} data - 请求参数
+ * @returns {Promise}
  */
-export function thingGetToday(data){
+export function thingGetToday(data) {
   return request({
-    name:'thing_get_today',
+    name: 'thing_get_today',
     data
   })
 }
 
 /**
  * 获取排行榜信息
- * @param data
- * @returns {*}
+ * @param {Object} data - 请求参数
+ * @returns {Promise}
  */
-export function thingGetTotalList(data){
+export function thingGetTotalList(data) {
   return request({
-    name:'thing_get_total_list',
+    name: 'thing_get_total_list',
     data
   })
 }
 
-
 /**
- * 获取最近30天的统计数据
- * @param data
- * @returns {*}
+ * 获取最近30天的统计数据（图表使用）
+ * @param {Object} data - 请求参数
+ * @returns {Promise}
  */
-export function thingGetMonthChart(data){
+export function thingGetMonthChart(data) {
   return request({
-    name:'thing_get_month_chart',
+    name: 'thing_get_month_chart',
     data
   })
 }

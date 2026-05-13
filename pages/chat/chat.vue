@@ -20,6 +20,10 @@
 </template>
 
 <script>
+/**
+ * 聊天列表页面
+ * 展示用户聊天列表，支持跳转到聊天详情
+ */
 import {chatUserList} from '@/api/chat';
 import formateDate from '@/utils/formateDate'
 export default {
@@ -55,7 +59,7 @@ export default {
         avatarUrl: data.avatarUrl,
       }
       uni.navigateTo({
-        url: `/pages/chat-detail/chat-detail?userInfo=${JSON.stringify(info)}`,
+        url: `/other/chat-detail/chat-detail?userInfo=${JSON.stringify(info)}`,
       });
     },
   },

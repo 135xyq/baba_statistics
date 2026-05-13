@@ -108,23 +108,46 @@
 </template>
 
 <script>
+/**
+ * 盲盒页面
+ * 展示盲盒分类和列表，支持新增盲盒和盲盒类型
+ */
 import rankingImg from "@/static/img/ranking-active.png";
 import { blindList, blindTypeList } from "@/api/blind";
+import { navigateToSubPage } from "@/utils/navigator.js";
+
+/** 悬浮按钮菜单配置 */
+const FAB_CONTENT = [
+  {
+    iconPath: "/other/static/img/blind-add-type.png",
+    selectedIconPath: "/other/static/img/blind-add-type-active.png",
+    text: "类型",
+    active: false,
+  },
+  {
+    iconPath: "/other/static/img/blind-add.png",
+    selectedIconPath: "/other/static/img/blind-add-active.png",
+    text: "盲盒",
+    active: false,
+  },
+];
+
 export default {
   data() {
     return {
       rankingImg,
-      // 类型列表
+      /** 盲盒类型列表 */
       typeListData: [],
-      // 数据列表
+      /** 盲盒数据列表 */
       dataList: [],
       openid: "",
-      // 当前选中的类型
+      /** 当前选中的类型ID */
       activeCategory: "",
-      // 正在加载
+      /** 类型列表加载状态 */
       isTypeLoading: false,
+      /** 盲盒列表加载状态 */
       isLoading: false,
-      // 悬浮按钮配置
+      /** 悬浮按钮配置 */
       pattern: {
         color: "#7A7E83",
         backgroundColor: "#fff",
@@ -133,21 +156,8 @@ export default {
         iconColor: "#fff",
         icon: "compose",
       },
-      // 悬浮按钮内容
-      content: [
-        {
-          iconPath: "/static/img/blind-add-type.png",
-          selectedIconPath: "/static/img/blind-add-type-active.png",
-          text: "类型",
-          active: false,
-        },
-        {
-          iconPath: "/static/img/blind-add.png",
-          selectedIconPath: "/static/img/blind-add-active.png",
-          text: "盲盒",
-          active: false,
-        },
-      ],
+      /** 悬浮按钮内容 */
+      content: [...FAB_CONTENT],
     };
   },
   created() {
@@ -194,32 +204,14 @@ export default {
      * @param {Object} item
      */
     onAddBlind(item) {
-      this.content = [
-        {
-          iconPath: "/static/img/blind-add-type.png",
-          selectedIconPath: "/static/img/blind-add-type-active.png",
-          text: "类型",
-          active: false,
-        },
-        {
-          iconPath: "/static/img/blind-add.png",
-          selectedIconPath: "/static/img/blind-add-active.png",
-          text: "盲盒",
-          active: false,
-        },
-      ];
-
+      this.content = [...FAB_CONTENT];
       const index = item.index;
       this.$refs.fab.close();
 
       if (index === 0) {
-        uni.navigateTo({
-          url: "/subPackages/blind-type/blind-type",
-        });
+        navigateToSubPage('blindType');
       } else {
-        uni.navigateTo({
-          url: "/subPackages/blind-add/blind-add",
-        });
+        navigateToSubPage('blindAdd');
       }
     },
     /**

@@ -11,19 +11,17 @@
         v-for="poop in poops" 
         :key="poop.id"
         class="poop"
-        :class="{ 'poop-rising': !poop.isFalling }"
+        :class="{ 'poop-falling': poop.isFalling, 'poop-rising': !poop.isFalling }"
         :style="{
           left: poop.left,
           width: `${poop.size}px`,
           height: `${poop.size}px`,
           animationDelay: `${poop.delay}s`,
-          '--rotate-speed': poop.rotateSpeed,
-          '--horizontal-offset': poop.horizontalOffset,
-          '--bounce': poop.bounce,
-          '--scale': poop.scale,
+          animationDuration: `${poop.duration}s`,
+          '--rotate': `${poop.rotate}deg`,
+          '--tx': `${poop.translateX}px`,
           '--hue': poop.hue,
-          '--saturation': poop.saturation,
-          '--lightness': poop.lightness
+          '--brightness': poop.brightness
         }"
       />
     </view>
@@ -248,55 +246,53 @@
         });
       },
       /**
-       * 生成粑粑元素
+       * 生成粑粑元素，采用更加平滑有趣的动画逻辑
        */
       generatePoops() {
-        // 清空现有粑粑
+        // 清空现有元素
         this.poops = [];
         
-        // 生成80个粑粑
-        for (let i = 0; i < 80; i++) {
-          // 随机位置和大小
+        // 优化元素数量，保证性能与视觉的清爽度
+        const count = 45; 
+        for (let i = 0; i < count; i++) {
+          // 随机水平起始位置 (分布在 0% - 100%)
           const left = Math.random() * 100;
+          // 大小错落有致，增加层次感
           const size = 15 + Math.random() * 25;
-          const delay = Math.random() * 0.8;
-          // 随机方向：true为下降，false为上升
-          const isFalling = Math.random() > 0.3;
-          // 随机旋转速度
-          const rotateSpeed = (Math.random() - 0.5) * 3;
-          // 随机水平偏移
-          const horizontalOffset = (Math.random() - 0.5) * 30;
-          // 随机弹跳幅度
-          const bounce = 0.2 + Math.random() * 0.3;
-          // 随机缩放幅度
-          const scale = 0.8 + Math.random() * 0.4;
-          // 随机颜色变化
-          const hue = Math.floor(Math.random() * 360);
-          // 随机饱和度
-          const saturation = 50 + Math.floor(Math.random() * 50);
-          // 随机亮度
-          const lightness = 40 + Math.floor(Math.random() * 20);
+          // 动画延迟时间，让元素分批出现，更有节奏感
+          const delay = Math.random() * 1.5;
+          // 动画持续时间，不同元素速度不同更显自然
+          const duration = 2.5 + Math.random() * 3.5;
+          // 掉落方向控制 (70%概率下落，30%概率上升)
+          const isFalling = Math.random() > 0.3; 
+          
+          // 随机旋转度数 (正反转都有，幅度在半圈到两圈之间)
+          const rotate = (Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 540); 
+          // 水平飘移距离，产生风吹的效果
+          const translateX = (Math.random() - 0.5) * 300; 
+          
+          // 色彩微调，保持图原本风格的同时有些许光影差异，更加优雅
+          const hue = Math.floor(Math.random() * 40) - 20; 
+          const brightness = 85 + Math.random() * 30; 
           
           this.poops.push({
             id: i,
             left: `${left}%`,
             size: size,
             delay: delay,
+            duration: duration,
             isFalling: isFalling,
-            rotateSpeed: rotateSpeed,
-            horizontalOffset: horizontalOffset,
-            bounce: bounce,
-            scale: scale,
+            rotate: rotate,
+            translateX: translateX,
             hue: hue,
-            saturation: saturation,
-            lightness: lightness
+            brightness: brightness
           });
         }
         
-        // 6秒后清空粑粑
+        // 确保所有动画播放完毕后再清理 (1.5s延迟 + 6s动画时长 = 7.5s，保留一定缓冲)
         setTimeout(() => {
           this.poops = [];
-        }, 6000);
+        }, 8000);
       },
       /**
        * 新增体重记录
@@ -335,7 +331,7 @@
        */
       onGetRankingPage() {
         uni.navigateTo({
-          url: "/subPackages/ranking/ranking",
+          url: "/other/ranking/ranking",
         });
       },
       /**
@@ -416,66 +412,64 @@
     height: 100%;
     pointer-events: none;
     z-index: 9999;
+    overflow: hidden; /* 防止飘出屏幕范围产生滚动条 */
   }
 
   .poop {
     position: absolute;
-    top: -50px;
     background-image: url('@/static/便便.png');
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     border-radius: 50%;
-    animation: poopFall 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-    filter: hue-rotate(calc(var(--hue, 0) * 1deg)) saturate(calc(var(--saturation, 100) * 1%)) brightness(calc(var(--lightness, 60) * 1%));
+    /* 使用柔和的光影滤镜替代之前强烈的颜色变换，显得更优雅 */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)) hue-rotate(calc(var(--hue, 0) * 1deg)) brightness(calc(var(--brightness, 100) * 1%));
+    opacity: 0;
+  }
+
+  .poop.poop-falling {
+    top: -50px;
+    animation: poopFall ease-in-out forwards;
   }
 
   .poop.poop-rising {
-    top: auto;
     bottom: -50px;
-    animation: poopRise 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    animation: poopRise ease-in-out forwards;
   }
 
   @keyframes poopFall {
     0% {
-      transform: translateY(0) translateX(0) rotate(0deg) scale(0.5);
+      transform: translate3d(0, 0, 0) rotate(0deg) scale(0.5);
       opacity: 0;
     }
-    25% {
-      transform: translateY(25vh) translateX(calc(var(--horizontal-offset, 0) * 0.25px)) rotate(calc(90deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
+    15% {
+      /* 刚出现时略微放大，模拟弹出效果 */
       opacity: 1;
+      transform: translate3d(calc(var(--tx) * 0.2), 15vh, 0) rotate(calc(var(--rotate) * 0.2)) scale(1.2);
     }
-    50% {
-      transform: translateY(50vh) translateX(calc(var(--horizontal-offset, 0) * 0.5px)) rotate(calc(180deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
-      opacity: 1;
-    }
-    75% {
-      transform: translateY(75vh) translateX(calc(var(--horizontal-offset, 0) * 0.75px)) rotate(calc(270deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
+    85% {
       opacity: 1;
     }
     100% {
-      transform: translateY(100vh) translateX(calc(var(--horizontal-offset, 0) * 1px)) rotate(calc(360deg * var(--rotate-speed, 1))) scale(0.5);
+      transform: translate3d(var(--tx), 110vh, 0) rotate(var(--rotate)) scale(0.8);
       opacity: 0;
     }
   }
 
   @keyframes poopRise {
     0% {
-      transform: translateY(0) translateX(0) rotate(0deg) scale(0.5);
+      transform: translate3d(0, 0, 0) rotate(0deg) scale(0.5);
       opacity: 0;
     }
-    25% {
-      transform: translateY(-25vh) translateX(calc(var(--horizontal-offset, 0) * 0.25px)) rotate(calc(-90deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
+    15% {
       opacity: 1;
+      transform: translate3d(calc(var(--tx) * 0.2), -15vh, 0) rotate(calc(var(--rotate) * 0.2)) scale(1.2);
     }
-    50% {
-      transform: translateY(-50vh) translateX(calc(var(--horizontal-offset, 0) * 0.5px)) rotate(calc(-180deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
-      opacity: 1;
-    }
-    75% {
-      transform: translateY(-75vh) translateX(calc(var(--horizontal-offset, 0) * 0.75px)) rotate(calc(-270deg * var(--rotate-speed, 1))) scale(var(--scale, 1));
+    85% {
       opacity: 1;
     }
     100% {
-      transform: translateY(-100vh) translateX(calc(var(--horizontal-offset, 0) * 1px)) rotate(calc(-360deg * var(--rotate-speed, 1))) scale(0.5);
+      transform: translate3d(var(--tx), -110vh, 0) rotate(var(--rotate)) scale(0.8);
       opacity: 0;
     }
   }

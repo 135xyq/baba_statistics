@@ -1,3 +1,7 @@
+<!--
+  自定义底部导航栏组件
+  根据用户权限动态显示tab项，支持切换页面
+-->
 <template>
   <u-tabbar
     class="tab"
@@ -33,6 +37,7 @@
 export default {
   data() {
     return {
+      /** 完整的tabBar配置列表 */
       tabBarList: [
         {
           key: "index",
@@ -70,16 +75,18 @@ export default {
           text: "个人中心",
         },
       ],
+      /** 无论用户权限如何都需要显示的tab */
       needShow: ["login", "index", "problem"],
     };
   },
   computed: {
+    /** 当前选中的tab索引 */
     currentTab() {
       return this.$store.state.tabbar.currentTabIndex;
     },
+    /** 根据用户权限过滤后的tabBar列表 */
     showTabBarList() {
       const functionList = this.$store.state.userInfo?.userInfo?.functionList || [];
-
       const showList = this.tabBarList.filter((item) => {
         return functionList.includes(item.key) || this.needShow.includes(item.key);
       });
@@ -88,6 +95,10 @@ export default {
     },
   },
   methods: {
+    /**
+     * 切换tab页
+     * @param {number} name - tab索引
+     */
     switchTab(name) {
       this.$store.dispatch("tabbar/setTabIndex", name);
       uni.switchTab({

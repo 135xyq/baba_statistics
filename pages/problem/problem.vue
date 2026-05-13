@@ -69,6 +69,10 @@
 </template>
 
 <script>
+/**
+ * 做题记录页面
+ * 展示日历选择、做题记录列表、正确率统计图表
+ */
 import { formateDate, formateDateHMS } from "@/utils/formateDate.js";
 import formateTime from "@/utils/formateDate.js";
 import { problemDelete, problemGetDay, problemGetMonth, problemGetRoundChart } from '@/api/problem';
@@ -208,7 +212,7 @@ export default {
      */
     onAddRecord() {
       uni.navigateTo({
-        url: "/pages/problem-add/problem-add?date=" + this.date,
+        url: "/other/problem-add/problem-add?date=" + this.date,
       });
     },
     /**
@@ -241,7 +245,7 @@ export default {
      */
     onEdit(item) {
       uni.navigateTo({
-        url: "/pages/problem-add/problem-add?data=" + JSON.stringify(item),
+        url: "/other/problem-add/problem-add?data=" + JSON.stringify(item),
       });
     },
     /**

@@ -1,44 +1,22 @@
 <template>
   <view class="container">
     <!-- 未登录显示微信登录 -->
-    <view
-      class="wx-login"
-      v-if="!isLogin"
-    >
+    <view class="wx-login" v-if="!isLogin">
       <view class="login-container">
-        <image
-          :src="userInfo.avatar"
-          class="unlogin-user-avatar"
-        />
-        <button
-          :disabled="isLoginLoading"
-          type="primary"
-          @click="wxLogin"
-          class="login-button"
-        >
+        <image :src="userInfo.avatar" class="unlogin-user-avatar" />
+        <button :disabled="isLoginLoading" type="primary" @click="wxLogin" class="login-button">
           微信登录
         </button>
       </view>
     </view>
 
     <!-- 登录完成 -->
-    <view
-      class="wx-logined"
-      v-if="isLogin"
-    >
+    <view class="wx-logined" v-if="isLogin">
       <!-- 头部个人信息 -->
       <view class="header">
         <view class="user-info">
-          <view
-            class="user-info-avatar"
-            @click="onPreviewImage(userInfo.avatar)"
-          >
-            <u-avatar
-              :src="userInfo.avatar"
-              class="user-info-avatar__img"
-              size="75"
-              @click="onPreviewImage(userInfo.avatar)"
-            />
+          <view class="user-info-avatar" @click="onPreviewImage(userInfo.avatar)">
+            <u-avatar :src="userInfo.avatar" class="user-info-avatar__img" size="75" @click="onPreviewImage(userInfo.avatar)" />
           </view>
           <view class="user-info-content">
             <view class="user-info-name">{{ userInfo.nickName }}</view>
@@ -54,15 +32,8 @@
           </view>
         </view>
         <view class="set">
-          <view
-            class="set-set"
-            @click="onHandleGoPage('/subPackages/set/set')"
-          >
-            <u-icon
-              name="setting-fill"
-              size="25"
-              color="#4a90e2"
-            />
+          <view class="set-set" @click="onHandleGoPage('/other/set/set')">
+            <u-icon name="setting-fill" size="25" color="#4a90e2" />
           </view>
         </view>
       </view>
@@ -70,66 +41,33 @@
       <!-- 功能区域 -->
       <view class="content">
         <!-- 数据统计模块 -->
-        <view
-          class="menu-section"
-          v-if="showDataStatistics.length > 0"
-        >
+        <view class="menu-section" v-if="showDataStatistics.length > 0">
           <view class="section-title">数据统计</view>
           <view class="menu-grid">
-            <view
-              class="menu-item"
-              v-for="item in showDataStatistics"
-              :key="item.name"
-              @click="onHandleGoToPage(item)"
-            >
-              <image
-                :src="item.icon"
-                class="menu-item__icon"
-              />
+            <view class="menu-item" v-for="item in showDataStatistics" :key="item.name" @click="onHandleGoToPage(item)">
+              <image :src="item.icon" class="menu-item__icon" />
               <text class="menu-item__text">{{ item.name }}</text>
             </view>
           </view>
         </view>
 
         <!-- 社交功能模块 -->
-        <view
-          class="menu-section"
-          v-if="showSocialize.length > 0"
-        >
+        <view class="menu-section" v-if="showSocialize.length > 0">
           <view class="section-title">社交功能</view>
           <view class="menu-grid">
-            <view
-              class="menu-item"
-              v-for="item in showSocialize"
-              :key="item.name"
-              @click="onHandleGoToPage(item)"
-            >
-              <image
-                :src="item.icon"
-                class="menu-item__icon"
-              />
+            <view class="menu-item" v-for="item in showSocialize" :key="item.name" @click="onHandleGoToPage(item)">
+              <image :src="item.icon" class="menu-item__icon" />
               <text class="menu-item__text">{{ item.name }}</text>
             </view>
           </view>
         </view>
 
         <!-- 相册模块 -->
-        <view
-          class="menu-section"
-          v-if="showPhoto.length > 0"
-        >
+        <view class="menu-section" v-if="showPhoto.length > 0">
           <view class="section-title">相册管理</view>
           <view class="menu-grid">
-            <view
-              class="menu-item"
-              v-for="item in showPhoto"
-              :key="item.name"
-              @click="onHandleGoToPage(item)"
-            >
-              <image
-                :src="item.icon"
-                class="menu-item__icon"
-              />
+            <view class="menu-item" v-for="item in showPhoto" :key="item.name" @click="onHandleGoToPage(item)">
+              <image :src="item.icon" class="menu-item__icon" />
               <text class="menu-item__text">{{ item.name }}</text>
             </view>
           </view>
@@ -139,55 +77,22 @@
         <view class="menu-section">
           <view class="section-title">其他功能</view>
           <view class="menu-grid">
-            <view
-              class="menu-item"
-              v-for="item in showTool"
-              :key="item.name"
-              @click="onHandleGoToPage(item)"
-            >
-              <image
-                :src="item.icon"
-                class="menu-item__icon"
-              />
+            <view class="menu-item" v-for="item in showTool" :key="item.name" @click="onHandleGoToPage(item)">
+              <image :src="item.icon" class="menu-item__icon" />
               <text class="menu-item__text">{{ item.name }}</text>
             </view>
-            <view
-              class="menu-item"
-              v-if="userInfo.roleLevel === 0"
-              @click="onHandleGoPage('/subPackages/role/role')"
-            >
-              <image
-                src="@/static/img/mine/权限管理.png"
-                class="menu-item__icon"
-              />
+            <view class="menu-item" v-if="userInfo.roleLevel === 0" @click="onHandleGoPage('/other/role/role')">
+              <image src="@/static/img/mine/权限管理.png" class="menu-item__icon" />
               <text class="menu-item__text">权限管理</text>
             </view>
-            <view
-              class="menu-item"
-              v-if="personArr.length > 0 && userInfo.roleLevel === 0"
-            >
-              <picker
-                @change="onUserChange"
-                mode="selector"
-                range-key="nickName"
-                :value="index"
-                :range="personArr"
-              >
-                <image
-                  src="@/static/img/mine/切换账号.png"
-                  class="menu-item__icon"
-                />
+            <view class="menu-item" v-if="personArr.length > 0 && userInfo.roleLevel === 0">
+              <picker @change="onUserChange" mode="selector" range-key="nickName" :value="index" :range="personArr">
+                <image src="@/static/img/mine/切换账号.png" class="menu-item__icon" />
               </picker>
               <text class="menu-item__text">切换账号</text>
             </view>
-            <view
-              class="menu-item"
-              @click="logout"
-            >
-              <image
-                src="@/static/img/mine/退出登录.png"
-                class="menu-item__icon"
-              />
+            <view class="menu-item" @click="logout">
+              <image src="@/static/img/mine/退出登录.png" class="menu-item__icon" />
               <text class="menu-item__text">退出登录</text>
             </view>
           </view>
@@ -214,14 +119,16 @@
 <script>
 import avatarUrl from "@/static/img/default_avatar.jpg";
 import { userGetInfo, userGetList, userLogin, userLoginCode } from "@/api/user";
+import { navigateToSubPage, navigateTo, buildQueryString } from "@/utils/navigator.js";
+
 export default {
   data() {
     return {
-      // 唯一标识
+      /** 用户唯一标识 */
       openId: "",
-      // 用户是否登录
+      /** 用户是否登录 */
       isLogin: false,
-      // 用户信息
+      /** 用户信息 */
       userInfo: {
         avatar: avatarUrl,
         nickName: "",
@@ -229,139 +136,126 @@ export default {
         roleId: "",
         roleName: "",
         functionList: [],
-        gender: 0, // 添加性别字段：0-未知，1-男，2-女
+        gender: 0,
       },
-      // 用户列表
+      /** 用户列表（管理员切换账号用） */
       personArr: [],
+      /** 用户列表选择索引 */
       index: 0,
-      // 总结时间选择
+      /** 总结时间选择列数据 */
       summarizeTimeColumns: [[], []],
-      // 总结时间选择器是否显示
+      /** 总结时间选择器是否显示 */
       summarizeTimePickerShow: false,
-      // 小程序信息
+      /** 小程序信息 */
       appInfo: {
         appid: "",
         secret: "",
       },
-      // 数据统计
+      /** 数据统计菜单配置 */
       dataStatistics: [
         {
           name: "拉屎分析",
           icon: require("@/static/img/mine/趋势.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/趋势.png',
-          pagePath: "/pages/thing-month-chart/thing-month-chart",
+          pagePath: "/other/thing-month-chart/thing-month-chart",
           key: "thing-month-chart",
           isGoPage: true,
         },
         {
           name: "拉屎记录",
           icon: require("@/static/img/mine/日历.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/日历.png',
-          pagePath: "/pages/thing-history/thing-history",
+          pagePath: "/other/thing-history/thing-history",
           key: "thing-history",
           isGoPage: true,
         },
         {
           name: "体重记录",
           icon: require("@/static/img/mine/weight.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/weight.png',
-          pagePath: "/subPackages/weight-history/weight-history",
+          pagePath: "/other/weight-history/weight-history",
           key: "weight-history",
           isGoPage: true,
         },
         {
           name: "体重分析",
           icon: require("@/static/img/mine/身高体重分布.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/身高体重分布.png',
-          pagePath: "/subPackages/weight-chart/weight-chart",
+          pagePath: "/other/weight-chart/weight-chart",
           key: "weight-chart",
           isGoPage: true,
         },
         {
           name: "做题分析",
           icon: require("@/static/img/mine/数据分析.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/数据分析.png',
-          pagePath: "/pages/problemMonthChart/problemMonthChart",
+          pagePath: "/other/problemMonthChart/problemMonthChart",
           key: "problemMonthChart",
           isGoPage: true,
         },
       ],
-      // 社交
+      /** 社交功能菜单配置 */
       socialize: [
         {
           name: "位置共享",
           icon: require("@/static/img/mine/地图.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/地图.png',
-          pagePath: "/subPackages/map/map",
+          pagePath: "/other/map/map",
           key: "map",
           isGoPage: true,
         },
         {
           name: "想说的话",
           icon: require("@/static/img/mine/想说的话.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/想说的话.png',
-          pagePath: "/subPackages/want-say/want-say",
+          pagePath: "/other/want-say/want-say",
           key: "want-say",
           isGoPage: true,
         },
       ],
-      // 相册
+      /** 相册菜单配置 */
       photo: [
         {
           name: "照片墙",
           icon: require("@/static/img/mine/照片墙.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/照片墙.png',
-          pagePath: "/subPackages/photo-wall/photo-wall",
+          pagePath: "/other/photo-wall/photo-wall",
           key: "photo-wall",
           isGoPage: true,
         },
         {
           name: "图库",
           icon: require("@/static/img/mine/图库.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/图库.png',
-          pagePath: "/subPackages/photo-album/photo-album",
+          pagePath: "/other/photo-album/photo-album",
           key: "photo-album",
           isGoPage: true,
         },
       ],
-      // 工具
+      /** 工具菜单配置 */
       tool: [
         {
           name: "计时器",
           icon: require("@/static/img/mine/计时器.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/计时器.png',
-          pagePath: "/pages/timeCount/timeCount",
+          pagePath: "/other/timeCount/timeCount",
           key: "timeCount",
           isGoPage: true,
         },
         {
           name: "角色管理",
           icon: require("@/static/img/mine/角色管理.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/计时器.png',
-          pagePath: "/subPackages/user-role-set/user-role-set",
+          pagePath: "/other/user-role-set/user-role-set",
           key: "role",
           isGoPage: true,
         },
         {
           name: "通知管理",
           icon: require("@/static/img/mine/通知栏.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/通知栏.png',
-          pagePath: "/subPackages/noticePage/noticePage",
+          pagePath: "/other/noticePage/noticePage",
           key: "noticePage",
           isGoPage: true,
         },
         {
           name: "幸运转盘",
           icon: require("@/static/img/mine/转盘.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/转盘.png',
-          pagePath: "/subPackages/lucky/lucky",
+          pagePath: "/other/lucky/lucky",
           key: "lucky",
           isGoPage: true,
         },
         {
           name: "年月总结",
           icon: require("@/static/img/mine/总结.png"),
-          // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/总结.png',
           pagePath: "",
           key: "summarize",
           isGoPage: false,
@@ -371,48 +265,60 @@ export default {
         {
           name: "拼豆图纸",
           icon: require("@/static/img/mine/蜡笔.png"),
-          pagePath: "/subPackages/perler-beads/perler-beads",
+          pagePath: "/other/perler-beads/perler-beads",
           key: "perlerBeads",
           isGoPage: true,
         },
       ],
-      // 是否正在登录加载中
+      /** 是否正在登录加载中 */
       isLoginLoading: false,
     };
   },
   computed: {
-    // 要展示的数据统计
+    /** 根据用户权限过滤要展示的数据统计菜单 */
     showDataStatistics() {
       return this.dataStatistics.filter((item) => this.userInfo?.functionList?.includes(item.key));
     },
-    // 要展示的社交
+    /** 根据用户权限过滤要展示的社交功能菜单 */
     showSocialize() {
       return this.socialize.filter((item) => this.userInfo?.functionList?.includes(item.key));
     },
-    // 要展示的相册
+    /** 根据用户权限过滤要展示的相册菜单 */
     showPhoto() {
       return this.photo.filter((item) => this.userInfo?.functionList?.includes(item.key));
     },
-    // 要展示的工具
+    /** 根据用户权限过滤要展示的工具菜单 */
     showTool() {
       return this.tool.filter((item) => this.userInfo?.functionList?.includes(item.key));
     },
   },
   created() {
-    // 初始化总结时间选择的选择时间
-    const date = new Date();
-    const currentYear = date.getFullYear();
-    for (let i = 2024; i <= currentYear; i++) {
-      this.summarizeTimeColumns[0][i - 2024] = String(i);
-    }
-
-    for (let i = 0; i < 12; i++) {
-      this.summarizeTimeColumns[1][i] = String(i + 1);
-    }
-    this.summarizeTimeColumns[1].unshift("全部");
+    this.initSummarizeTimeColumns();
   },
   onShow() {
     if (this.$store.state.userInfo?.userInfo?.openid) {
+      this.initUserInfo();
+      this.getUserList();
+    }
+  },
+  methods: {
+    /**
+     * 初始化总结时间选择列数据
+     */
+    initSummarizeTimeColumns() {
+      const currentYear = new Date().getFullYear();
+      for (let i = 2024; i <= currentYear; i++) {
+        this.summarizeTimeColumns[0][i - 2024] = String(i);
+      }
+      for (let i = 0; i < 12; i++) {
+        this.summarizeTimeColumns[1][i] = String(i + 1);
+      }
+      this.summarizeTimeColumns[1].unshift("全部");
+    },
+    /**
+     * 从store初始化用户信息到组件状态
+     */
+    initUserInfo() {
       const state = this.$store.state.userInfo?.userInfo;
       this.isLogin = true;
       this.openId = state.openid;
@@ -422,156 +328,112 @@ export default {
       this.userInfo.roleName = state.roleName;
       this.userInfo.functionList = state.functionList;
       this.userInfo.gender = state.gender;
-
-      this.getUserList();
-    }
-  },
-  methods: {
-    // 获取code
+    },
+    /**
+     * 获取微信登录code
+     * @returns {Promise} 返回包含code的Promise
+     */
     getCode() {
       return new Promise((resolve, reject) => {
         uni.login({
           provider: "weixin",
-          success: (e) => {
-            resolve(e);
-          },
-          fail: (err) => {
-            reject(new Error("获取code失败"));
-          },
+          success: (e) => resolve(e),
+          fail: (err) => reject(new Error("获取code失败")),
         });
       });
     },
     /**
-     * 微信登录
-     * @returns {Promise<void>}
+     * 微信登录流程
      */
     async wxLogin() {
       this.isLoginLoading = true;
-      uni.showLoading({
-        title: "登录中...",
-      });
-      const { code } = await this.getCode();
-      userLoginCode({
-        code: code,
-        needOpenid: false,
-      })
-        .then((res) => {
-          uni.hideLoading();
-          this.isLoginLoading = false;
-          this.openId = res.openid;
-          uni.showModal({
-            title: "温馨提示",
-            content: "授权微信登录后才能正常使用小程序功能",
-            success: (res) => {
-              //如果用户点击了确定按钮
-              if (res.confirm) {
-                uni.showLoading({
-                  title: "登录中...",
-                });
-                uni.getUserProfile({
-                  desc: "获取你的昵称、头像",
-                  success: (res) => {
-                    res.rawData = JSON.parse(res.rawData); //将字符串转为对象
-                    userLogin({
-                      ...res.userInfo,
-                      openid: this.openId,
-                      roleId: "683519c1eef9cbdc977b35b7",
-                    })
-                      .then(() => {
-                        uni.showToast({
-                          title: "登录成功",
-                          icon: "success",
-                          duration: 2000,
-                        });
-                        // 获取用户信息
-                        userGetInfo({ openid: this.openId }).then((res) => {
-                          this.$store.dispatch("userInfo/updateUserInfo", res);
-                          // 修改登录状态
-                          this.isLogin = true;
-                          // 获取用户信息
-                          this.userInfo.nickName = this.$store.state.userInfo.userInfo.nickName;
-                          this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
-                          this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
-                          this.userInfo.roleLevel = this.$store.state.userInfo.userInfo.roleLevel;
-                          this.userInfo.roleName = this.$store.state.userInfo.userInfo.roleName;
-                          this.userInfo.functionList = this.$store.state.userInfo.userInfo.functionList;
-                          this.userInfo.gender = this.$store.state.userInfo.userInfo.gender || 0; // 添加性别
-                          // 获取用户列表
-                          this.getUserList();
-                          uni.switchTab({
-                            url: "/pages/index/index",
-                          });
-                          this.$store.dispatch("tabbar/setTabIndex", 0);
-                        });
-                      })
-                      .catch(() => {
-                        //拒绝授权
-                        uni.showToast({
-                          title: "登陆失败",
-                          icon: "error",
-                          duration: 2000,
-                        });
-                      })
-                      .finally(() => {
-                        uni.hideLoading();
-                      });
-                  },
-                  fail: (res) => {
-                    uni.hideLoading();
-                    //拒绝授权
-                    uni.showToast({
-                      title: "拒绝授权",
-                      icon: "error",
-                      duration: 2000,
-                    });
-                  },
-                });
-              } else if (res.cancel) {
-                //如果用户点击了取消按钮
-                uni.showToast({
-                  title: "您拒绝了授权",
-                  icon: "error",
-                  duration: 2000,
-                });
-              }
-            },
-          });
-        })
-        .catch((rej) => {
-          uni.hideLoading();
-          this.isLoginLoading = false;
+      uni.showLoading({ title: "登录中..." });
+
+      try {
+        const { code } = await this.getCode();
+        const res = await userLoginCode({ code, needOpenid: false });
+        uni.hideLoading();
+        this.isLoginLoading = false;
+        this.openId = res.openid;
+
+        uni.showModal({
+          title: "温馨提示",
+          content: "授权微信登录后才能正常使用小程序功能",
+          success: (modalRes) => {
+            if (modalRes.confirm) {
+              this.handleUserAuth();
+            } else {
+              uni.showToast({ title: "您拒绝了授权", icon: "error", duration: 2000 });
+            }
+          },
         });
+      } catch (err) {
+        uni.hideLoading();
+        this.isLoginLoading = false;
+      }
     },
     /**
-     * 预览头像
-     * @param {Object} data
+     * 处理用户授权获取信息
+     */
+    handleUserAuth() {
+      uni.showLoading({ title: "登录中..." });
+      uni.getUserProfile({
+        desc: "获取你的昵称、头像",
+        success: (res) => {
+          res.rawData = JSON.parse(res.rawData);
+          userLogin({
+            ...res.userInfo,
+            openid: this.openId,
+            roleId: "683519c1eef9cbdc977b35b7",
+            needOpenid: false
+          })
+            .then(() => {
+              uni.showToast({ title: "登录成功", icon: "success", duration: 2000 });
+              return userGetInfo({ openid: this.openId });
+            })
+            .then((res) => {
+              this.$store.dispatch("userInfo/updateUserInfo", res);
+              this.isLogin = true;
+              this.initUserInfo();
+              this.getUserList();
+              uni.switchTab({ url: "/pages/index/index" });
+              this.$store.dispatch("tabbar/setTabIndex", 0);
+            })
+            .catch((e) => {
+              uni.showToast({ title: "登陆失败", icon: "error", duration: 2000 });
+            })
+            .finally(() => {
+              uni.hideLoading();
+            });
+        },
+        fail: () => {
+          uni.hideLoading();
+          uni.showToast({ title: "拒绝授权", icon: "error", duration: 2000 });
+        },
+      });
+    },
+    /**
+     * 预览头像大图
+     * @param {string} data - 图片地址
      */
     onPreviewImage(data) {
       if (data) {
-        uni.previewImage({
-          current: data,
-          urls: [data],
-        });
+        uni.previewImage({ current: data, urls: [data] });
       }
     },
     /**
      * 前往指定页面
-     * @param path
+     * @param {string} path - 页面路径
      */
     onHandleGoPage(path) {
-      uni.navigateTo({
-        url: path,
-      });
+      uni.navigateTo({ url: path });
     },
-
     /**
-     * 获取用户列表
+     * 获取用户列表（管理员功能）
      */
     getUserList() {
       if (this.userInfo.roleLevel === 0) {
-        userGetList({
-          type: "list",
-        }).then((res) => {
+        userGetList({ type: "list" }).then((res) => {
           this.personArr = res;
         });
       } else {
@@ -579,21 +441,13 @@ export default {
       }
     },
     /**
-     * 切换用户
-     * @param val
+     * 切换用户账号
+     * @param {Object} val - 选择器返回值
      */
     onUserChange(val) {
       const index = val.detail.value;
       this.$store.dispatch("userInfo/updateUserInfo", this.personArr[index]);
-      // 获取用户信息
-      this.userInfo.nickName = this.$store.state.userInfo.userInfo.nickName;
-      this.userInfo.avatar = this.$store.state.userInfo.userInfo.avatarUrl;
-      this.userInfo.openid = this.$store.state.userInfo.userInfo.openid;
-      this.userInfo.roleLevel = this.$store.state.userInfo.userInfo.roleLevel;
-      this.userInfo.gender = this.$store.state.userInfo.userInfo.gender || 0;
-      this.userInfo.roleName = this.$store.state.userInfo.userInfo.roleName;
-      this.userInfo.functionList = this.$store.state.userInfo.userInfo.functionList;
-
+      this.initUserInfo();
       this.getUserList();
     },
     /**
@@ -606,8 +460,6 @@ export default {
         success: (res) => {
           if (res.confirm) {
             this.$store.dispatch("userInfo/clearUserInfo");
-          
-
             this.isLogin = false;
             this.userInfo = {
               avatar: avatarUrl,
@@ -616,61 +468,46 @@ export default {
               roleId: "",
               roleName: "",
               functionList: [],
-              gender: 0, // 添加性别字段：0-未知，1-男，2-女
-            }; //用户信息
-
+              gender: 0,
+            };
             this.$store.dispatch("tabbar/setTabIndex", 2);
             this.$store.dispatch("tabbar/setTabNumber", 3);
-
             this.$forceUpdate();
-          } else if (res.cancel) {
           }
         },
       });
     },
     /**
-     * 前往指定页面
-     * @param pageSet 页面信息
+     * 根据菜单配置前往指定页面
+     * @param {Object} pageSet - 页面配置信息
      */
     onHandleGoToPage(pageSet) {
       if (pageSet.isGoPage) {
-        uni.navigateTo({
-          url: pageSet.pagePath,
-        });
+        uni.navigateTo({ url: pageSet.pagePath });
       }
       if (pageSet.isHandler) {
         pageSet.onClick();
       }
     },
     /**
-     * 总结时间选择确认
-     * @param {Object} e
+     * 总结时间选择确认回调
+     * @param {Object} e - 选择器返回值
      */
     onSummarizeTimePickerConfirm(e) {
-      // 要传递给总结页面的参数
       let date = {};
       let type = "year";
 
       const [year, month] = e.value;
       if (month === "全部") {
-        date = {
-          year: year,
-        };
+        date = { year };
         type = "year";
       } else {
-        date = {
-          year: year,
-          month: month,
-        };
+        date = { year, month };
         type = "month";
       }
 
       this.summarizeTimePickerShow = false;
-
-      // 前往总结页
-      uni.navigateTo({
-        url: `/subPackages/summarize/summarize?type=${type}&date=${JSON.stringify(date)}`,
-      });
+      navigateToSubPage('summarize', { type, date: JSON.stringify(date) });
     },
   },
 };
