@@ -84,20 +84,6 @@
       }
     },
     {
-      "path": "pages/want-say/want-say",
-      "style": {
-        "navigationBarTitleText": "悄悄话",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/want-say-add/want-say-add",
-      "style": {
-        "navigationBarTitleText": "想对你说",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
       "path": "pages/chat/chat",
       "style": {
         "navigationBarTitleText": "聊天",
@@ -108,13 +94,6 @@
       "path": "pages/chat-detail/chat-detail",
       "style": {
         "navigationBarTitleText": "聊天",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/perler-beads/perler-beads",
-      "style": {
-        "navigationBarTitleText": "拼豆图纸生成",
         "enablePullDownRefresh": false
       }
     }
@@ -222,7 +201,28 @@
             "navigationBarTitleText": "角色管理",
             "enablePullDownRefresh": false
           }
-        }
+        },
+        {
+          "path": "perler-beads/perler-beads",
+          "style": {
+            "navigationBarTitleText": "拼豆图纸生成",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+      "path": "want-say/want-say",
+      "style": {
+        "navigationBarTitleText": "悄悄话",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "want-say-add/want-say-add",
+      "style": {
+        "navigationBarTitleText": "想对你说",
+        "enablePullDownRefresh": false
+      }
+    }
       ]
     }
   ],

@@ -11,7 +11,6 @@
 
 <script>
 import formateDate from "@/utils/formateDate.js";
-import amap from "@/common/amap-wx.130.js";
 import { mapAdd, mapList } from "@/api/map";
 export default {
   data() {

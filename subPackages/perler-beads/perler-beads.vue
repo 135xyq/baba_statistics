@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import beadColors from './bead-colors.json';
+import beadColors from 'subPackages/perler-beads/bead-colors.json';
 
 export default {
   data() {

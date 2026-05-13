@@ -300,7 +300,7 @@ export default {
           name: "想说的话",
           icon: require("@/static/img/mine/想说的话.png"),
           // icon: 'https://mp-47222cf8-47ac-4463-a5d0-2a8b8cb4b608.cdn.bspapp.com/system/想说的话.png',
-          pagePath: "/pages/want-say/want-say",
+          pagePath: "/subPackages/want-say/want-say",
           key: "want-say",
           isGoPage: true,
         },
@@ -371,7 +371,7 @@ export default {
         {
           name: "拼豆图纸",
           icon: require("@/static/img/mine/蜡笔.png"),
-          pagePath: "/pages/perler-beads/perler-beads",
+          pagePath: "/subPackages/perler-beads/perler-beads",
           key: "perlerBeads",
           isGoPage: true,
         },
